@@ -4,8 +4,6 @@
 #include "pDockToolBarManager.h"
 #include "pDockToolBar.h"
 
-#include <QTimer>
-
 /*!
 	\details Create a new pMainWindow object
 	\param parent The parent widget
@@ -14,12 +12,15 @@
 pMainWindow::pMainWindow( QWidget* parent, Qt::WindowFlags windowFlags )
 	: QMainWindow( parent, windowFlags )
 {
+	mShown = false;
 	mSettings = 0;
 	mMenuBar = 0;
 	mDockToolBarManager = 0;
 	
 #if not defined( Q_OS_MAC )
 	setMenuBar( menuBar() );
+#else
+	menuBar();
 #endif
 }
 
@@ -51,10 +52,8 @@ void pMainWindow::showEvent( QShowEvent* event )
 {
 	QMainWindow::showEvent( event );
 	
-	static bool shown = false;
-	
-	if ( !shown ) {
-		shown = true;
+	if ( !mShown ) {
+		mShown = true;
 		restoreState();
 	}
 }

@@ -56,7 +56,7 @@ void pKeySequenceEdit::keyReleaseEvent( QKeyEvent* event )
 	\param event The QKeyEvent to check
 	\return The QString shortcut generate from the QKeyEvent
 */
-QString pKeySequenceEdit::keySequence( QKeyEvent* event )
+QString pKeySequenceEdit::keySequence( QKeyEvent* event ) const
 {
 	// is key pressed or key released ?
 	const bool keyPressed = event->type() == QEvent::KeyPress;

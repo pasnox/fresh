@@ -61,7 +61,8 @@ HEADERS	*= src/core/FreshExport.h \
 	src/gui/pIconManager.h \
 	src/gui/pPathListEditor.h \
 	src/gui/pStringListEditor.h \
-	src/gui/pFileListEditor.h
+	src/gui/pFileListEditor.h \
+	src/core/FileSystemUtils.h
 
 SOURCES	*= src/core/pGetOpt.cpp \
 	src/core/pSettings.cpp \
@@ -83,4 +84,5 @@ SOURCES	*= src/core/pGetOpt.cpp \
 	src/gui/pIconManager.cpp \
 	src/gui/pPathListEditor.cpp \
 	src/gui/pStringListEditor.cpp \
-	src/gui/pFileListEditor.cpp
+	src/gui/pFileListEditor.cpp \
+	src/core/FileSystemUtils.cpp

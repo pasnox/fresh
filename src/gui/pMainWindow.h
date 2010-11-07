@@ -40,6 +40,7 @@ public:
 	pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
 
 protected:
+	bool mShown;
 	mutable pSettings* mSettings;
 	mutable pActionsNodeMenuBar* mMenuBar;
 	mutable pDockToolBarManager* mDockToolBarManager;

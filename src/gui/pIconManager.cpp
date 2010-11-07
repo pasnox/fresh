@@ -1,32 +1,13 @@
 #include "pIconManager.h"
+#include "core/FileSystemUtils.h"
 
-#include <QApplication>
+#include <QPixmapCache>
 #include <QDir>
 
 namespace pIconManager {
-	QIconCache mIconCache( 200 );
-	FileNameCache mFileNameCache;
+	pIconManager::QIconCache mIconCache( 200 );
+	pIconManager::FileNameCache mFileNameCache;
 };
-
-QString findFile( QDir& dir, const QString& fileName )
-{
-	foreach ( const QFileInfo& fi, dir.entryInfoList( QStringList( fileName ), QDir::Files | QDir::CaseSensitive ) ) {
-		if ( fi.fileName() == fileName ) {
-			return fi.canonicalFilePath();
-		}
-	}
-	
-	foreach ( const QFileInfo& fi, dir.entryInfoList( QDir::AllDirs ) ) {
-		dir.setPath( fi.canonicalFilePath() );
-		const QString fn = findFile( dir, fileName );
-		
-		if ( !fn.isNull() ) {
-			return fn;
-		}
-	}
-	
-	return QString::null;
-}
 
 QString pIconManager::filePath( const QString& fileName, const QString& prefix )
 {
@@ -44,7 +25,7 @@ QString pIconManager::filePath( const QString& fileName, const QString& prefix )
 	}
 	
 	QDir dir( path );
-	fn = findFile( dir, fileName );
+	fn = FileSystemUtils::findFile( dir, fileName );
 	mFileNameCache[ pair ] = fn;
 	
 	return fn;

@@ -10,19 +10,10 @@
 
 #include "core/FreshExport.h"
 
-#include <QPixmapCache>
 #include <QCache>
 #include <QIcon>
 #include <QPair>
 #include <QMap>
-
-/*!
-	\details A typedef for icons caching
-*/
-typedef QCache<QString, QIcon> QIconCache;
-
-typedef QPair<QString, QString> FileNamePair;
-typedef QMap<FileNamePair, QString> FileNameCache;
 
 /*!
 	\brief A cache class for fileNames, icons and pixmaps.
@@ -31,6 +22,13 @@ typedef QMap<FileNamePair, QString> FileNameCache;
 */
 namespace pIconManager
 {
+	/*!
+		\details A typedef for icons caching
+	*/
+	typedef QCache<QString, QIcon> QIconCache;
+	typedef QPair<QString, QString> FileNamePair;
+	typedef QMap<FileNamePair, QString> FileNameCache;
+	
 	// return the filepath of the icon named fileName in prefix folder ( check is done recursively )
 	FRESH_EXPORT QString filePath( const QString& fileName, const QString& prefix = QLatin1String( ":/" ) );
 	// return the QPixmap of the pixmap named fileName in prefix folder ( check is done recursively )

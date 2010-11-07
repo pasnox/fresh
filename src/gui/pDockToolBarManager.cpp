@@ -25,8 +25,7 @@ pDockToolBarManager::pDockToolBarManager( pMainWindow* window )
 bool pDockToolBarManager::eventFilter( QObject* object, QEvent* event )
 {
 	switch ( event->type() ) {
-		case QEvent::ChildPolished:
-		{
+		case QEvent::ChildPolished: {
 			QChildEvent* ce = static_cast<QChildEvent*>( event );
 			QDockWidget* dock = qobject_cast<QDockWidget*>( ce->child() );
 			
@@ -36,8 +35,7 @@ bool pDockToolBarManager::eventFilter( QObject* object, QEvent* event )
 			
 			break;
 		}
-		case QEvent::ChildRemoved:
-		{
+		case QEvent::ChildRemoved: {
 			QChildEvent* ce = static_cast<QChildEvent*>( event );
 			QDockWidget* dock = qobject_cast<QDockWidget*>( ce->child() );
 			
@@ -98,7 +96,7 @@ pDockToolBar* pDockToolBarManager::dockToolBar( Qt::DockWidgetArea area ) const
 pDockToolBar* pDockToolBarManager::dockToolBar( QDockWidget* dockWidget ) const
 {
 	foreach ( pDockToolBar* dockToolBar, mDockToolBars ) {
-		if ( dockToolBar->docks().contains( dockWidget ) ) {
+		if ( dockToolBar->hasDockWidget( dockWidget ) ) {
 			return dockToolBar;
 		}
 	}
@@ -116,6 +114,7 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::TopToolBarArea ]->toggleViewAction()->setText( tr( "Top toolbar visible" ) );
 	mDockToolBars[ Qt::TopToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarTopExclusiveAction" );
 	mMainWindow->addToolBar( Qt::TopToolBarArea, mDockToolBars[ Qt::TopToolBarArea ] );
+	
 	// Qt::BottomToolBarArea
 	mDockToolBars[ Qt::BottomToolBarArea ] = new pDockToolBar( this, Qt::Horizontal );
 	mDockToolBars[ Qt::BottomToolBarArea ]->setObjectName( "pDockToolBarBottom" );
@@ -124,6 +123,7 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::BottomToolBarArea ]->toggleViewAction()->setText( tr( "Bottom toolbar visible" ) );
 	mDockToolBars[ Qt::BottomToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarBottomExclusiveAction" );
 	mMainWindow->addToolBar( Qt::BottomToolBarArea, mDockToolBars[ Qt::BottomToolBarArea ] );
+	
 	// Qt::LeftToolBarArea
 	mDockToolBars[ Qt::LeftToolBarArea ] = new pDockToolBar( this, Qt::Vertical );
 	mDockToolBars[ Qt::LeftToolBarArea ]->setObjectName( "pDockToolBarLeft" );
@@ -132,6 +132,7 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::LeftToolBarArea ]->toggleViewAction()->setText( tr( "Left toolbar visible" ) );
 	mDockToolBars[ Qt::LeftToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarLeftExclusiveAction" );
 	mMainWindow->addToolBar( Qt::LeftToolBarArea, mDockToolBars[ Qt::LeftToolBarArea ] );
+	
 	// Qt::RightToolBarArea
 	mDockToolBars[ Qt::RightToolBarArea ] = new pDockToolBar( this, Qt::Vertical );
 	mDockToolBars[ Qt::RightToolBarArea ]->setObjectName( "pDockToolBarRight" );
@@ -183,19 +184,14 @@ Qt::ToolBarArea pDockToolBarManager::dockWidgetAreaToToolBarArea( Qt::DockWidget
 	switch ( area ) {
 		case Qt::LeftDockWidgetArea:
 			return Qt::LeftToolBarArea;
-			break;
 		case Qt::RightDockWidgetArea:
 			return Qt::RightToolBarArea;
-			break;
 		case Qt::TopDockWidgetArea:
 			return Qt::TopToolBarArea;
-			break;
 		case Qt::BottomDockWidgetArea:
 			return Qt::BottomToolBarArea;
-			break;
 		default:
 			return Qt::BottomToolBarArea;
-			break;
 	}
 }
 
@@ -209,19 +205,14 @@ Qt::DockWidgetArea pDockToolBarManager::toolBarAreaToDockWidgetArea( Qt::ToolBar
 	switch ( area ) {
 		case Qt::LeftToolBarArea:
 			return Qt::LeftDockWidgetArea;
-			break;
 		case Qt::RightToolBarArea:
 			return Qt::RightDockWidgetArea;
-			break;
 		case Qt::TopToolBarArea:
 			return Qt::TopDockWidgetArea;
-			break;
 		case Qt::BottomToolBarArea:
 			return Qt::BottomDockWidgetArea;
-			break;
 		default:
 			return Qt::BottomDockWidgetArea;
-			break;
 	}
 }
 
@@ -235,17 +226,13 @@ QBoxLayout::Direction pDockToolBarManager::toolBarAreaToBoxLayoutDirection( Qt::
 	switch ( area ) {
 		case Qt::LeftToolBarArea:
 			return QBoxLayout::BottomToTop;
-			break;
 		case Qt::RightToolBarArea:
 			return QBoxLayout::TopToBottom;
-			break;
 		case Qt::TopToolBarArea:
 		case Qt::BottomToolBarArea:
 			return QBoxLayout::LeftToRight;
-			break;
 		default:
 			return QBoxLayout::LeftToRight;
-			break;
 	}
 }
 
@@ -360,8 +347,7 @@ void pDockToolBarManager::dockWidget_visibilityChanged( bool visible )
 	QDockWidget* dockWidget = qobject_cast<QDockWidget*>( sender() );
 	pDockToolBar* dockToolBar = this->dockToolBar( dockWidget );
 	
-	if ( mIsRestoring )
-	{
+	if ( mIsRestoring ) {
 		return;
 	}
 	
@@ -369,4 +355,3 @@ void pDockToolBarManager::dockWidget_visibilityChanged( bool visible )
 		dockToolBar->setDockVisible( dockWidget, visible );
 	}
 }
-

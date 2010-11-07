@@ -11,7 +11,6 @@
 #include "core/FreshExport.h"
 
 #include <QHash>
-#include <QSet>
 #include <QBoxLayout>
 #include <QDockWidget>
 

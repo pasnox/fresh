@@ -25,12 +25,12 @@ public:
 	pKeySequenceEdit( const QString& contents, QWidget* parent = 0 );
 
 protected:
-	bool mFinished;
+	mutable bool mFinished;
 	
 	virtual void keyPressEvent( QKeyEvent* event );
 	virtual void keyReleaseEvent( QKeyEvent* event );
 	
-	QString keySequence( QKeyEvent* event );
+	QString keySequence( QKeyEvent* event ) const;
 };
 
 #endif // PKEYSEQUENCEEDIT_H
