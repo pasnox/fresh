@@ -72,28 +72,28 @@ MainWindow::MainWindow( QWidget* parent )
 	dwStringListEditor->setObjectName( "DockStringListEditor" );
 	dwStringListEditor->toggleViewAction()->setObjectName( "DockStringListEditorViewAction" );
 	dwStringListEditor->setWidget( new pStringListEditor( tr( "Edit strings" ), this ) );
-	dockToolBar( Qt::LeftToolBarArea )->addDock( dwStringListEditor, tr( "String List Editor" ), QIcon( ":/fresh/country-flags/fr.png" ) );
+	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwStringListEditor, tr( "String List Editor" ), QIcon( scaledPixmap( ":/fresh/country-flags/fr.png", QSize( 96, 96 ) ) ) );
 	
 	// file list editor
 	QDockWidget* dwFileListEditor = new QDockWidget( this );
 	dwFileListEditor->setObjectName( "DockFileListEditor" );
 	dwFileListEditor->toggleViewAction()->setObjectName( "DockFileListEditorViewAction" );
 	dwFileListEditor->setWidget( new pFileListEditor( tr( "Edit files" ), ".", "*.png", this ) );
-	dockToolBar( Qt::LeftToolBarArea )->addDock( dwFileListEditor, tr( "File List Editor" ), QIcon( ":/fresh/country-flags/gb.png" ) );
+	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwFileListEditor, tr( "File List Editor" ), QIcon( scaledPixmap( ":/fresh/country-flags/gb.png", QSize( 96, 96 ) ) ) );
 	
 	// path list editor
 	QDockWidget* dwPathListEditor = new QDockWidget( this );
 	dwPathListEditor->setObjectName( "DockPathListEditor" );
 	dwPathListEditor->toggleViewAction()->setObjectName( "DockPathListEditorViewAction" );
 	dwPathListEditor->setWidget( new pPathListEditor( tr( "Edit paths" ), ".", this ) );
-	dockToolBar( Qt::LeftToolBarArea )->addDock( dwPathListEditor, tr( "Path List Editor" ), QIcon( ":/fresh/country-flags/us.png" ) );
+	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwPathListEditor, tr( "Path List Editor" ), QIcon( scaledPixmap( ":/fresh/country-flags/us.png", QSize( 96, 96 ) ) ) );
 	
-	for ( int i = 0; i < 10; i++ ) {
+	/*for ( int i = 0; i < 10; i++ ) {
 		QDockWidget* dw = new QDockWidget( this );
 		dw->setObjectName( QString( "Dock%1" ).arg( i ) );
 		dw->toggleViewAction()->setObjectName( QString( "DockViewAction%1" ).arg( i ) );
-		dockToolBar( Qt::LeftToolBarArea )->addDock( dw, QString( "Dock %1" ).arg( i ), QIcon( ":/fresh/country-flags/ad.png" ) );
-	}
+		dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dw, QString( "Dock %1" ).arg( i ), QIcon( scaledPixmap( ":/fresh/country-flags/ad.png", QSize( 96, 96 ) ) ) );
+	}*/
 	
 	mMenuBar->addAction( "file/edit/undo", "undo" );
 	mMenuBar->addAction( "file/edit/redo", "redo" );
@@ -119,6 +119,30 @@ MainWindow::MainWindow( QWidget* parent )
 
 MainWindow::~MainWindow()
 {
+}
+
+QPixmap MainWindow::scaledPixmap( const QString& filePath, const QSize& size ) const
+{
+	const QString key = QString( "%1-%2-%3" ).arg( filePath ).arg( size.width() ).arg( size.height() );
+	QPixmap pixmap;
+	
+	if ( !QPixmapCache::find( key, pixmap ) ) {
+		if ( pixmap.load( filePath ) ) {
+			
+			if ( size != QSize() ) {
+				pixmap = pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+			}
+			
+			if ( !QPixmapCache::insert( key, pixmap ) ) {
+				qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << filePath;
+			}
+		}
+		else {
+			qWarning() << Q_FUNC_INFO << "Pixmap not exists" << filePath;
+		}
+	}
+	
+	return pixmap;
 }
 
 void MainWindow::pbAddAction_clicked()

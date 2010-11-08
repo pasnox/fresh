@@ -24,6 +24,8 @@ protected:
 	pActionsNodeModel* mActionsModel;
 	pActionsNodeMenuBar* mMenuBar;
 	QTreeView* tvActions;
+	
+	QPixmap scaledPixmap( const QString& filePath, const QSize& size = QSize() ) const;
 
 protected slots:
 	void pbAddAction_clicked();

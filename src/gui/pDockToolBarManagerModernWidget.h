@@ -1,6 +1,8 @@
 #ifndef PDOCKTOOLBARMANAGERMODERNWIDGET_H
 #define PDOCKTOOLBARMANAGERMODERNWIDGET_H
 
+#include "core/FreshExport.h"
+
 #include <QToolBar>
 
 class QScrollArea;
@@ -8,7 +10,7 @@ class QBoxLayout;
 
 class pDockToolBar;
 
-class pDockToolBarManagerModernWidget : public QToolBar
+class FRESH_EXPORT pDockToolBarManagerModernWidget : public QToolBar
 {
 	Q_OBJECT
 	

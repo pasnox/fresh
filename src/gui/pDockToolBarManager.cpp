@@ -315,7 +315,7 @@ void pDockToolBarManager::restoreState( pDockToolBar* dockToolBar )
 				QDockWidget* dockWidget = mMainWindow->findChild<QDockWidget*>( dockName );
 				
 				if ( dockWidget ) {
-					dockToolBar->addDock( dockWidget );
+					dockToolBar->addDockWidget( dockWidget );
 				}
 			}
 			
@@ -343,7 +343,7 @@ void pDockToolBarManager::saveState( pDockToolBar* dockToolBar )
 	foreach ( pDockToolBar* dockToolBar, dockToolBars ) {
 		QStringList docksName;
 		
-		foreach ( QDockWidget* dockWidget, dockToolBar->docks( pDockToolBar::InsertedOrder ) ) {
+		foreach ( QDockWidget* dockWidget, dockToolBar->dockWidgets( pDockToolBar::InsertedOrder ) ) {
 			docksName << dockWidget->objectName();
 		}
 		
@@ -366,7 +366,7 @@ void pDockToolBarManager::dockWidget_dockLocationChanged( Qt::DockWidgetArea are
 	
 	foreach ( pDockToolBar* dockToolBar, mDockToolBars ) {
 		if ( dockToolBar != currentDockToolBar ) {
-			dockToolBar->removeDock( dockWidget );
+			dockToolBar->removeDockWidget( dockWidget );
 		}
 	}
 	
@@ -375,7 +375,7 @@ void pDockToolBarManager::dockWidget_dockLocationChanged( Qt::DockWidgetArea are
 	}
 	
 	if ( currentDockToolBar ) {
-		currentDockToolBar->addDock( dockWidget );
+		currentDockToolBar->addDockWidget( dockWidget );
 	}
 }
 

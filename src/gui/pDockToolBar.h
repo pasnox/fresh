@@ -17,7 +17,6 @@
 #include <QMetaType>
 
 class QDockWidget;
-class QFrame;
 
 class pToolButton;
 class pDockToolBarManager;
@@ -44,22 +43,16 @@ public:
 	virtual bool event( QEvent* event );
 	virtual bool eventFilter( QObject* object, QEvent* event );
 
-	QAction* addAction( QAction* action = 0, bool insert = true );
-	void addActions( QList<QAction*> actions, bool insert = true );
-
-	void addDock( QDockWidget* dock, const QString& title = QString(), const QIcon& icon = QIcon() );
-	void removeDock( QDockWidget* dock );
+	void addDockWidget( QDockWidget* dockWidget, const QString& title = QString(), const QIcon& icon = QIcon() );
+	void removeDockWidget( QDockWidget* dockWidget );
 
 	bool exclusive() const;
 	void setExclusive( bool exclusive );
 	
-	bool textAlwaysVisible() const;
-	void setTextAlwaysVisible( bool visible );
+	void setDockVisible( QDockWidget* dockWidget, bool visible );
 	
-	void setDockVisible( QDockWidget* dock, bool visible );
-	
-	QList<QDockWidget*> docks( pDockToolBar::DockWidgetsOrder order = pDockToolBar::HashedOrder ) const;
-	QDockWidget* dock( pToolButton* button ) const;
+	QList<QDockWidget*> dockWidgets( pDockToolBar::DockWidgetsOrder order = pDockToolBar::HashedOrder ) const;
+	QDockWidget* dockWidget( pToolButton* button ) const;
 	bool hasDockWidget( QDockWidget* dockWidget ) const;
 	
 	QList<pToolButton*> buttons() const;
@@ -71,10 +64,9 @@ public:
 
 private:
 	pDockToolBarManager* mManager;
-	bool mTextAlwaysVisible;
-	QFrame* mFrame;
+	QWidget* mWidget;
 	QBoxLayout* mLayout;
-	QAction* aDockFrame;
+	QAction* aWidget;
 	QAction* aToggleExclusive;
 	QHash<QDockWidget*, pToolButton*> mDockWidgets;
 	
@@ -84,7 +76,6 @@ private:
 private slots:
 	void internal_checkToolBarVisibility();
 	void internal_checkButtonExclusivity( QDockWidget* dockWidget = 0 );
-	void internal_checkButtonText( pToolButton* button );
 	void internal_updateButtonsState();
 	void internal_orientationChanged( Qt::Orientation orientation );
 	void internal_buttonClicked( bool checked );
