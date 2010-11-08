@@ -5,25 +5,10 @@
 
 #include <QButtonGroup>
 #include <QFrame>
-#include <QBoxLayout>
 #include <QEvent>
 #include <QDockWidget>
 #include <QAction>
 #include <QKeyEvent>
-
-class pDockToolBarFrame : public QFrame
-{
-public:
-	pDockToolBarFrame( QWidget* parent = 0 )
-		: QFrame( parent )
-	{
-	}
-	
-	virtual QSize minimumSizeHint() const
-	{
-		return QSize();
-	}
-};
 
 /*!
 	\details Create a new object
@@ -41,7 +26,8 @@ pDockToolBar::pDockToolBar( pDockToolBarManager* manager, Qt::Orientation orient
 	aToggleExclusive->setCheckable( true );
 	aToggleExclusive->setChecked( true );
 	// create button frame
-	mFrame = new pDockToolBarFrame;
+	mFrame = new QFrame( this );
+	mFrame->setMinimumSize( QSize( 1, 1 ) );
 	// create buttons layout
 	mLayout = new QBoxLayout( QBoxLayout::LeftToRight, mFrame );
 	mLayout->setMargin( 0 );
@@ -59,11 +45,6 @@ pDockToolBar::pDockToolBar( pDockToolBarManager* manager, Qt::Orientation orient
 	
 	toggleViewAction()->setEnabled( false );
 	toggleViewAction()->setVisible( false );
-	
-	// change font
-	QFont font( this->font() );
-	font.setPixelSize( 11 );
-	setFont( font );
 }
 
 bool pDockToolBar::event( QEvent* event )
@@ -78,12 +59,14 @@ bool pDockToolBar::event( QEvent* event )
 bool pDockToolBar::eventFilter( QObject* object, QEvent* event )
 {
 	const QEvent::Type type = event->type();
-	QDockWidget* dock = qobject_cast<QDockWidget*>( object );
+	QDockWidget* dockWidget = qobject_cast<QDockWidget*>( object );
 	
-	if ( dock ) {
+	if ( dockWidget ) {
 		if ( type == QEvent::KeyPress ) {
-			if ( static_cast<QKeyEvent*>( event )->key() == Qt::Key_Escape ) {
-				dock->hide();
+			const QKeyEvent* ke = static_cast<QKeyEvent*>( event );
+			
+			if ( ke->key() == Qt::Key_Escape && ke->modifiers() == Qt::NoModifier ) {
+				dockWidget->hide();
 			}
 		}
 	}
@@ -157,24 +140,13 @@ void pDockToolBar::addDock( QDockWidget* dockWidget, const QString& title, const
 	}
 
 	// create button
-	const Qt::ToolBarArea tbAreaCurrent = mManager->mainWindow()->toolBarArea( this );
+	const Qt::ToolBarArea tbAreaCurrent = mManager->toolBarArea( this );
 	const Qt::DockWidgetArea dwAreaCurrent = mManager->toolBarAreaToDockWidgetArea( tbAreaCurrent );
 	const QBoxLayout::Direction blDirection = mManager->toolBarAreaToBoxLayoutDirection( tbAreaCurrent );
-	pToolButton* button = new pToolButton( this, blDirection );
-	
-	button->setFont( font() );
-	button->setIconSize( iconSize() );
-	button->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
-	button->setDefaultAction( dockWidget->toggleViewAction() );
-	button->setUserData( QVariant::fromValue( dockWidget ) );
-	
-	mDockWidgets[ dockWidget ] = button;
-	
-	dockWidget->installEventFilter( this );
-	mLayout->addWidget( button, 0, Qt::AlignCenter );
+	pToolButton* button = addButton( dockWidget, blDirection );
 	
 	if ( mManager->mainWindow()->dockWidgetArea( dockWidget ) != dwAreaCurrent ) {
-		mManager->mainWindow()->addDockWidget( dwAreaCurrent, dockWidget, orientation() );
+		mManager->mainWindow()->addDockWidget( dwAreaCurrent, dockWidget );
 	}
 
 	internal_checkButtonExclusivity( dockWidget );
@@ -358,6 +330,50 @@ QAction* pDockToolBar::toggleExclusiveAction() const
 	return aToggleExclusive;
 }
 
+void pDockToolBar::setButtonMode( pToolButton* button )
+{
+	button->setFont( font() );
+	
+	switch ( mManager->mode() ) {
+		case pDockToolBarManager::Classic: {
+			const Qt::ToolBarArea tbAreaCurrent = mManager->toolBarArea( this );
+			const QBoxLayout::Direction blDirection = mManager->toolBarAreaToBoxLayoutDirection( tbAreaCurrent );
+			
+			button->setIconSize( iconSize() );
+			button->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+			button->setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Fixed ) );
+			button->setDirection( blDirection );
+			break;
+		}
+		case pDockToolBarManager::Modern: {
+			button->setIconSize( iconSize() *2 );
+			button->setToolButtonStyle( Qt::ToolButtonIconOnly );
+			button->setDirection( QBoxLayout::LeftToRight );
+			button->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+			break;
+		}
+		default:
+			break;
+	}
+}
+
+pToolButton* pDockToolBar::addButton( QDockWidget* dockWidget, QBoxLayout::Direction direction )
+{
+	pToolButton* button = new pToolButton( this, direction );
+	
+	button->setDefaultAction( dockWidget->toggleViewAction() );
+	button->setUserData( QVariant::fromValue( dockWidget ) );
+	
+	mDockWidgets[ dockWidget ] = button;
+	
+	dockWidget->installEventFilter( this );
+	mLayout->addWidget( button, 0, Qt::AlignCenter );
+	
+	setButtonMode( button );
+	
+	return button;
+}
+
 void pDockToolBar::internal_checkToolBarVisibility()
 {
 	// count toolbar actions, if 1 it s dockframe
@@ -414,10 +430,16 @@ void pDockToolBar::internal_checkButtonText( pToolButton* button )
 	}
 }
 
+void pDockToolBar::internal_updateButtonsState()
+{
+	foreach ( pToolButton* bt, findChildren<pToolButton*>() ) {
+		setButtonMode( bt );
+	}
+}
+
 void pDockToolBar::internal_orientationChanged( Qt::Orientation orientation )
 {
-	switch ( orientation )
-	{
+	switch ( orientation ) {
 		case Qt::Horizontal:
 			mLayout->setDirection( QBoxLayout::LeftToRight );
 			break;
@@ -426,10 +448,7 @@ void pDockToolBar::internal_orientationChanged( Qt::Orientation orientation )
 			break;
 	}
 	
-	foreach ( QDockWidget* dock, mDockWidgets.keys() ) {
-		const Qt::DockWidgetArea dwArea = mManager->mainWindow()->dockWidgetArea( dock );
-		mManager->mainWindow()->addDockWidget( dwArea, dock, orientation );
-	}
+	internal_updateButtonsState();
 }
 
 void pDockToolBar::internal_buttonClicked( bool checked )

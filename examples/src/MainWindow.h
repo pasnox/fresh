@@ -30,6 +30,8 @@ protected slots:
 	void pbRemoveAction_clicked();
 	void pbEditTextNode_clicked();
 	void pbEditShortcuts_clicked();
+	void dockToolBarManagerClassic();
+	void dockToolBarManagerModern();
 };
 
 #endif // MAINWINDOW_H

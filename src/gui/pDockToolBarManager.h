@@ -17,6 +17,7 @@
 class pMainWindow;
 class pDockToolBar;
 class pSettings;
+class pDockToolBarManagerModernWidget;
 
 /*!
 	\brief This class manage a set of pDockToolBar ( left, top, right and bottom ) of a QMainWindow
@@ -29,6 +30,13 @@ class FRESH_EXPORT pDockToolBarManager : public QObject
 	friend class pDockToolBar;
 
 public:
+	enum Mode {
+		Invalid = -1,
+		Classic,
+		Modern
+		
+	};
+	
 	pDockToolBarManager( pMainWindow* window );
 	
 	virtual bool eventFilter( QObject* object, QEvent* event );
@@ -36,7 +44,11 @@ public:
 	bool isRestoring() const;
 	void setRestoring( bool restoring );
 	
+	pDockToolBarManager::Mode mode() const;
+	void setMode( pDockToolBarManager::Mode mode );
+	
 	pMainWindow* mainWindow() const;
+	Qt::ToolBarArea toolBarArea( pDockToolBar* toolBar ) const;
 	QList<pDockToolBar*> dockToolBars() const;
 	pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
 	pDockToolBar* dockToolBar( Qt::DockWidgetArea area ) const;
@@ -49,6 +61,8 @@ public:
 protected:
 	pMainWindow* mMainWindow;
 	QHash<Qt::ToolBarArea, pDockToolBar*> mDockToolBars;
+	pDockToolBarManager::Mode mMode;
+	QWeakPointer<pDockToolBarManagerModernWidget> mModernWidget;
 	bool mIsRestoring;
 	
 	virtual void initializeToolBars();

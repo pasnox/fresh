@@ -13,11 +13,11 @@
 #include <QToolBar>
 #include <QIcon>
 #include <QHash>
+#include <QBoxLayout>
 #include <QMetaType>
 
 class QDockWidget;
 class QFrame;
-class QBoxLayout;
 
 class pToolButton;
 class pDockToolBarManager;
@@ -30,6 +30,8 @@ class pMainWindow;
 class FRESH_EXPORT pDockToolBar : public QToolBar
 {
 	Q_OBJECT
+	friend class pDockToolBarManager;
+	friend class pDockToolBarManagerModernWidget;
 
 public:
 	enum DockWidgetsOrder {
@@ -61,7 +63,7 @@ public:
 	bool hasDockWidget( QDockWidget* dockWidget ) const;
 	
 	QList<pToolButton*> buttons() const;
-	pToolButton* button( QDockWidget* dock ) const;
+	pToolButton* button( QDockWidget* dockWidget ) const;
 
 	int count() const;
 	
@@ -75,11 +77,15 @@ private:
 	QAction* aDockFrame;
 	QAction* aToggleExclusive;
 	QHash<QDockWidget*, pToolButton*> mDockWidgets;
+	
+	void setButtonMode( pToolButton* button );
+	pToolButton* addButton( QDockWidget* dockWidget, QBoxLayout::Direction direction );
 
 private slots:
 	void internal_checkToolBarVisibility();
 	void internal_checkButtonExclusivity( QDockWidget* dockWidget = 0 );
 	void internal_checkButtonText( pToolButton* button );
+	void internal_updateButtonsState();
 	void internal_orientationChanged( Qt::Orientation orientation );
 	void internal_buttonClicked( bool checked );
 };

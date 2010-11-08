@@ -12,41 +12,43 @@ pToolButton::pToolButton( QWidget* parent, QBoxLayout::Direction direction )
 	: QToolButton( parent )
 {
 	mMenuDown = false;
-
+	
 	setDirection( direction );
 }
 
-void pToolButton::paintEvent( QPaintEvent* event )
+QSize pToolButton::size( Qt::Orientation orientation ) const
 {
-	Q_UNUSED( event );
-	// calcul angle rotation
-	const QSize size = QToolButton::sizeHint();
-	int rotation = 0;
-	QPoint pos = QPoint();
+	QSize size = QToolButton::size();
+	Qt::Orientation buttonOrientation = Qt::Horizontal;
 	
 	switch ( mDirection ) {
 		case QBoxLayout::TopToBottom:
-			rotation = 90;
-			pos = QPoint( 0, -size.height() );
-			break;
 		case QBoxLayout::BottomToTop:
-			rotation = -90;
-			pos = QPoint( -size.width(), 0 );
+			buttonOrientation = Qt::Vertical;
 			break;
 		default:
 			break;
 	}
 	
-	// get style options
+	if ( buttonOrientation != orientation ) {
+		size.transpose();
+	}
+	
+	return size;
+}
+
+void pToolButton::paintEvent( QPaintEvent* event )
+{
+	Q_UNUSED( event );
+	
+	QPainter painter( this );
+	QTransform transform;
+	
 	QStyleOptionToolButton option;
 	initStyleOption( &option );
-
-	// fix backport bugs :|
+	
+	// fix some properties due to rotation not handled by Qt
 	switch ( cursorArea() ) {
-		case pToolButton::caArrow:
-		case pToolButton::caButton:
-		case pToolButton::caArrowClicked:
-			break;
 		case pToolButton::caButtonClicked:
 			option.activeSubControls |= QStyle::SC_ToolButton;
 			
@@ -56,90 +58,28 @@ void pToolButton::paintEvent( QPaintEvent* event )
 			}
 			
 			break;
-		case pToolButton::caNone:
 		default:
 			break;
 	}
 	
-	// force to do horizontal paint
-	option.rect.setSize( size );
-	option.rect.moveTopLeft( pos );
+	switch ( mDirection ) {
+		case QBoxLayout::TopToBottom:
+			option.rect.setSize( size( Qt::Horizontal ) );
+			transform.rotate( 90 );
+			transform.translate( 0, -option.rect.height() );
+			break;
+		case QBoxLayout::BottomToTop:
+			option.rect.setSize( size( Qt::Horizontal ) );
+			transform.rotate( -90 );
+			transform.translate( -option.rect.width(), 0 );
+			break;
+		default:
+			break;
+	}
 	
-	// don't paint icon and text as it's not working for all rotations
-	option.icon = QIcon();
-	option.text = QString::null;
+	painter.setTransform( transform );
 	
-	// calcule rects
-	const int margin = 2;
-	const int spacing = 1;
-	const int effect = isDown() || isChecked() ? spacing : 0;
-	QRect iconRect;
-	QRect textRect;
-
-	QPainter painter( this );
-	painter.rotate( rotation );
-	
-	// draw button
 	style()->drawComplexControl( QStyle::CC_ToolButton, &option, &painter, this );
-	
-	// draw icon
-	if ( !icon().isNull() ) {
-		const QIcon::State state = isChecked() ? QIcon::On : QIcon::Off;
-		QIcon::Mode mode = isEnabled() ? QIcon::Normal : QIcon::Disabled;
-		
-		if ( isEnabled() ) {
-			if ( hasFocus() ) {
-				mode = QIcon::Selected;
-			}
-			
-			if ( isDown() ) {
-				mode = QIcon::Active;
-			}
-		}
-		
-		iconRect = QRect( pos, iconSize() +QSize( margin *2, margin *2 ) );
-		
-		if ( iconRect.width() > size.width() ) {
-			iconRect.setWidth( size.width() );
-		}
-		
-		if ( iconRect.height() > size.height() ) {
-			iconRect.setHeight( size.height() );
-		}
-		
-		iconRect = iconRect.adjusted( margin, margin, margin, -margin );
-		iconRect.moveCenter( QPoint( iconRect.center().x(), pos.y() +( size.height() /2 ) -1 ) );
-		iconRect = iconRect.adjusted( effect, effect, effect, effect );
-		
-		icon().paint( &painter, iconRect, Qt::AlignCenter, mode, state );
-	}
-	
-	// draw text
-	if ( !text().isEmpty() ) {
-		const QPalette::ColorRole role = QPalette::ButtonText;
-		QPalette::ColorGroup group = isEnabled() ? QPalette::Normal : QPalette::Disabled;
-		
-		if ( isEnabled() ) {
-			if ( isActiveWindow() && hasFocus() ) {
-				group = QPalette::Active;
-			}
-			else if ( !isActiveWindow() ) {
-				group = QPalette::Inactive;
-			}
-		}
-		
-		textRect = QRect( pos, size ).adjusted( iconRect.width() +margin, margin, -margin, -margin );
-		textRect.moveCenter( QPoint( textRect.center().x(), pos.y() +( size.height() /2 ) ) );
-		textRect = textRect.adjusted( effect, effect, effect, effect );
-		
-		const int flags = style()->visualAlignment( layoutDirection(), Qt::AlignCenter );
-		const QString text = this->text();
-		
-		painter.setPen( palette().color( group, role ) );
-		painter.drawText( textRect, flags, text );
-	}
-	
-	painter.rotate( -rotation );
 }
 
 void pToolButton::mousePressEvent( QMouseEvent* event )
@@ -219,7 +159,7 @@ pToolButton::CursorArea pToolButton::cursorArea( const QPoint& _pos ) const
 		initStyleOption( &opt );
 	
 		// force to do horizontal calcul
-		opt.rect.setSize( QToolButton::sizeHint() );
+		opt.rect.setSize( size( Qt::Horizontal ) );
 
 		// get arraow bounding rectangle
 		QSize size = style()->subControlRect( QStyle::CC_ToolButton, &opt, QStyle::SC_ToolButtonMenu, this ).size();

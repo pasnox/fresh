@@ -1,4 +1,5 @@
 #include "pDockToolBarManager.h"
+#include "pDockToolBarManagerModernWidget.h"
 #include "pMainWindow.h"
 #include "pDockToolBar.h"
 #include "core/pSettings.h"
@@ -16,9 +17,11 @@ pDockToolBarManager::pDockToolBarManager( pMainWindow* window )
 	: QObject( window )
 {
 	Q_ASSERT( window );
+	mMode = pDockToolBarManager::Invalid;
 	mMainWindow = window;
 	mIsRestoring = false;
 	initializeToolBars();
+	setMode( pDockToolBarManager::Modern );
 	mMainWindow->installEventFilter( this );
 }
 
@@ -62,12 +65,56 @@ void pDockToolBarManager::setRestoring( bool restoring )
 	mIsRestoring = restoring;
 }
 
+pDockToolBarManager::Mode pDockToolBarManager::mode() const
+{
+	return mMode;
+}
+
+void pDockToolBarManager::setMode( pDockToolBarManager::Mode mode )
+{
+	if ( mode == mMode ) {
+		return;
+	}
+	
+	mMode = mode;
+	
+	switch ( mMode ) {
+		case pDockToolBarManager::Classic:
+			mMainWindow->addToolBar( Qt::TopToolBarArea, mDockToolBars[ Qt::TopToolBarArea ] );
+			mMainWindow->addToolBar( Qt::BottomToolBarArea, mDockToolBars[ Qt::BottomToolBarArea ] );
+			mMainWindow->addToolBar( Qt::LeftToolBarArea, mDockToolBars[ Qt::LeftToolBarArea ] );
+			mMainWindow->addToolBar( Qt::RightToolBarArea, mDockToolBars[ Qt::RightToolBarArea ] );
+			mDockToolBars[ Qt::TopToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
+			mDockToolBars[ Qt::BottomToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
+			mDockToolBars[ Qt::LeftToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
+			mDockToolBars[ Qt::RightToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
+			mModernWidget.data()->setVisible( false );
+			break;
+		case pDockToolBarManager::Modern: {
+			mModernWidget.data()->setToolBars( mDockToolBars.values() );
+			mModernWidget.data()->setVisible( true );
+			break;
+		}
+		default:
+			break;
+	}
+	
+	foreach ( pDockToolBar* toolBar, mDockToolBars ) {
+		toolBar->internal_updateButtonsState();
+	}
+}
+
 /*!
 	\details Return the associated pMainWindow
 */
 pMainWindow* pDockToolBarManager::mainWindow() const
 {
 	return mMainWindow;
+}
+
+Qt::ToolBarArea pDockToolBarManager::toolBarArea( pDockToolBar* toolBar ) const
+{
+	return mDockToolBars.key( toolBar );
 }
 
 /*!
@@ -113,7 +160,6 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::TopToolBarArea ]->toggleViewAction()->setObjectName( "pDockToolBarTopViewAction" );
 	mDockToolBars[ Qt::TopToolBarArea ]->toggleViewAction()->setText( tr( "Top toolbar visible" ) );
 	mDockToolBars[ Qt::TopToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarTopExclusiveAction" );
-	mMainWindow->addToolBar( Qt::TopToolBarArea, mDockToolBars[ Qt::TopToolBarArea ] );
 	
 	// Qt::BottomToolBarArea
 	mDockToolBars[ Qt::BottomToolBarArea ] = new pDockToolBar( this, Qt::Horizontal );
@@ -122,7 +168,6 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::BottomToolBarArea ]->toggleViewAction()->setObjectName( "pDockToolBarBottomViewAction" );
 	mDockToolBars[ Qt::BottomToolBarArea ]->toggleViewAction()->setText( tr( "Bottom toolbar visible" ) );
 	mDockToolBars[ Qt::BottomToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarBottomExclusiveAction" );
-	mMainWindow->addToolBar( Qt::BottomToolBarArea, mDockToolBars[ Qt::BottomToolBarArea ] );
 	
 	// Qt::LeftToolBarArea
 	mDockToolBars[ Qt::LeftToolBarArea ] = new pDockToolBar( this, Qt::Vertical );
@@ -131,7 +176,6 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::LeftToolBarArea ]->toggleViewAction()->setObjectName( "pDockToolBarLeftViewAction" );
 	mDockToolBars[ Qt::LeftToolBarArea ]->toggleViewAction()->setText( tr( "Left toolbar visible" ) );
 	mDockToolBars[ Qt::LeftToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarLeftExclusiveAction" );
-	mMainWindow->addToolBar( Qt::LeftToolBarArea, mDockToolBars[ Qt::LeftToolBarArea ] );
 	
 	// Qt::RightToolBarArea
 	mDockToolBars[ Qt::RightToolBarArea ] = new pDockToolBar( this, Qt::Vertical );
@@ -140,11 +184,15 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::RightToolBarArea ]->toggleViewAction()->setObjectName( "pDockToolBarRightViewAction" );
 	mDockToolBars[ Qt::RightToolBarArea ]->toggleViewAction()->setText( tr( "Right toolbar visible" ) );
 	mDockToolBars[ Qt::RightToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarRightExclusiveAction" );
-	mMainWindow->addToolBar( Qt::RightToolBarArea, mDockToolBars[ Qt::RightToolBarArea ] );
 	
 	foreach ( pDockToolBar* dockToolBar, mDockToolBars ) {
-		dockToolBar->hide();
+		dockToolBar->setVisible( false );
 	}
+	
+	// modern widget manager
+	mModernWidget = new pDockToolBarManagerModernWidget( mMainWindow );
+	mMainWindow->addToolBar( Qt::LeftToolBarArea, mModernWidget.data() );
+	mModernWidget.data()->setVisible( false );
 }
 
 void pDockToolBarManager::trackDockWidget( QDockWidget* dockWidget )
@@ -246,7 +294,7 @@ void pDockToolBarManager::restoreState( pDockToolBar* dockToolBar )
 	QStringList areas;
 	
 	if ( dockToolBar ) {
-		areas << QString::number( mMainWindow->toolBarArea( dockToolBar ) );
+		areas << QString::number( mDockToolBars.key( dockToolBar ) );
 	}
 	else {
 		settings->beginGroup( "MainWindow/Docks" );
@@ -300,7 +348,7 @@ void pDockToolBarManager::saveState( pDockToolBar* dockToolBar )
 		}
 		
 		// write datas
-		const int area = mMainWindow->toolBarArea( dockToolBar );
+		const int area = mDockToolBars.key( dockToolBar );
 		settings->setValue( QString( "MainWindow/Docks/%1/Exclusive" ).arg( area ), dockToolBar->exclusive() );
 		settings->setValue( QString( "MainWindow/Docks/%1/Widgets" ).arg( area ), docksName );
 	}
@@ -322,8 +370,7 @@ void pDockToolBarManager::dockWidget_dockLocationChanged( Qt::DockWidgetArea are
 		}
 	}
 	
-	if ( mIsRestoring )
-	{
+	if ( mIsRestoring ) {
 		return;
 	}
 	

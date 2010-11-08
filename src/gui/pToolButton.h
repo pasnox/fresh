@@ -51,6 +51,7 @@ protected:
 	virtual void mouseMoveEvent( QMouseEvent* event );
 	virtual void mouseReleaseEvent( QMouseEvent* event );
 
+	QSize size( Qt::Orientation orientation ) const;
 	pToolButton::CursorArea cursorArea( const QPoint& pos = QPoint() ) const;
 
 	QMenu* hasMenu() const;

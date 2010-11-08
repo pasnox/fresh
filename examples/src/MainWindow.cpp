@@ -12,7 +12,7 @@
 
 #include <modeltest.h>
 
-#include <QDebug>
+#include <QtGui>
 
 MainWindow::MainWindow( QWidget* parent )
 	: pMainWindow( parent )
@@ -21,8 +21,18 @@ MainWindow::MainWindow( QWidget* parent )
 	QVBoxLayout* hl = new QVBoxLayout( centralWidget );
 	
 	mActionsModel = new pActionsNodeModel( this );
-	mMenuBar = new pActionsNodeMenuBar( this );
+	mMenuBar = menuBar();
 	mMenuBar->setModel( mActionsModel );
+	
+	QAction* aClassic = mMenuBar->addAction( "view/mode/aShowClassic", tr( "Classic Mode" ) );
+	aClassic->setCheckable( true );
+	
+	QAction* aModern = mMenuBar->addAction( "view/mode/aShowModern", tr( "Modern Mode" ) );
+	aModern->setCheckable( true );
+	
+	QActionGroup* agDockToolBarManagerMode = new QActionGroup( this );
+	agDockToolBarManagerMode->addAction( aClassic );
+	agDockToolBarManagerMode->addAction( aModern );
 	
 	tvActions = new QTreeView( this );
 	tvActions->setModel( mActionsModel );
@@ -46,6 +56,8 @@ MainWindow::MainWindow( QWidget* parent )
 	setCentralWidget( centralWidget );
 	
 	// connections
+	connect( aClassic, SIGNAL( triggered() ), this, SLOT( dockToolBarManagerClassic() ) );
+	connect( aModern, SIGNAL( triggered() ), this, SLOT( dockToolBarManagerModern() ) );
 	connect( pbAddAction, SIGNAL( clicked() ), this, SLOT( pbAddAction_clicked() ) );
 	connect( pbRemoveAction, SIGNAL( clicked() ), this, SLOT( pbRemoveAction_clicked() ) );
 	connect( pbEditTextNode, SIGNAL( clicked() ), this, SLOT( pbEditTextNode_clicked() ) );
@@ -76,12 +88,12 @@ MainWindow::MainWindow( QWidget* parent )
 	dwPathListEditor->setWidget( new pPathListEditor( tr( "Edit paths" ), ".", this ) );
 	dockToolBar( Qt::LeftToolBarArea )->addDock( dwPathListEditor, tr( "Path List Editor" ), QIcon( ":/fresh/country-flags/us.png" ) );
 	
-	/*for ( int i = 0; i < count; i++ ) {
+	for ( int i = 0; i < 10; i++ ) {
 		QDockWidget* dw = new QDockWidget( this );
 		dw->setObjectName( QString( "Dock%1" ).arg( i ) );
 		dw->toggleViewAction()->setObjectName( QString( "DockViewAction%1" ).arg( i ) );
 		dockToolBar( Qt::LeftToolBarArea )->addDock( dw, QString( "Dock %1" ).arg( i ), QIcon( ":/fresh/country-flags/ad.png" ) );
-	}*/
+	}
 	
 	mMenuBar->addAction( "file/edit/undo", "undo" );
 	mMenuBar->addAction( "file/edit/redo", "redo" );
@@ -175,4 +187,14 @@ void MainWindow::pbEditShortcuts_clicked()
 {
 	pActionsNodeShortcutEditor dlg( mActionsModel, this );
 	dlg.exec();
+}
+
+void MainWindow::dockToolBarManagerClassic()
+{
+	dockToolBarManager()->setMode( pDockToolBarManager::Classic );
+}
+
+void MainWindow::dockToolBarManagerModern()
+{
+	dockToolBarManager()->setMode( pDockToolBarManager::Modern );
 }
