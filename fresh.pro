@@ -63,7 +63,9 @@ HEADERS	*= src/core/FreshExport.h \
 	src/gui/pStringListEditor.h \
 	src/gui/pFileListEditor.h \
 	src/core/FileSystemUtils.h \
-	src/gui/pDockToolBarManagerModernWidget.h
+	src/gui/pDockToolBarManagerModernWidget.h \
+	src/gui/pColorButton.h \
+	src/gui/pDrawingUtils.h
 
 SOURCES	*= src/core/pGetOpt.cpp \
 	src/core/pSettings.cpp \
@@ -87,4 +89,6 @@ SOURCES	*= src/core/pGetOpt.cpp \
 	src/gui/pStringListEditor.cpp \
 	src/gui/pFileListEditor.cpp \
 	src/core/FileSystemUtils.cpp \
-	src/gui/pDockToolBarManagerModernWidget.cpp
+	src/gui/pDockToolBarManagerModernWidget.cpp \
+	src/gui/pColorButton.cpp \
+	src/gui/pDrawingUtils.cpp

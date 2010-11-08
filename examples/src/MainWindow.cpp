@@ -9,6 +9,7 @@
 #include <gui/pStringListEditor.h>
 #include <gui/pFileListEditor.h>
 #include <gui/pPathListEditor.h>
+#include <gui/pColorButton.h>
 
 #include <modeltest.h>
 
@@ -87,6 +88,19 @@ MainWindow::MainWindow( QWidget* parent )
 	dwPathListEditor->toggleViewAction()->setObjectName( "DockPathListEditorViewAction" );
 	dwPathListEditor->setWidget( new pPathListEditor( tr( "Edit paths" ), ".", this ) );
 	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwPathListEditor, tr( "Path List Editor" ), QIcon( scaledPixmap( ":/fresh/country-flags/us.png", QSize( 96, 96 ) ) ) );
+	
+	// custom widgets
+	QDockWidget* dwWidgets = new QDockWidget( this );
+	dwWidgets->setObjectName( "dwWidgets" );
+	dwWidgets->toggleViewAction()->setObjectName( "dwWidgetsViewAction" );
+	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwWidgets, tr( "Testing widgets" ), QIcon( scaledPixmap( ":/fresh/country-flags/es.png", QSize( 96, 96 ) ) ) );
+	
+	QWidget* dwWidgetsContents = new QWidget( this );
+	QGridLayout* dwWidgetsContentsLayout = new QGridLayout( dwWidgetsContents );
+	dwWidgets->setWidget( dwWidgetsContents );
+	
+	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
+	dwWidgetsContentsLayout->addWidget( colorButton, 0, 0 );
 	
 	/*for ( int i = 0; i < 10; i++ ) {
 		QDockWidget* dw = new QDockWidget( this );
