@@ -1,8 +1,8 @@
 #include "pActionsNodeShortcutEditor.h"
 #include "ui_pActionsNodeShortcutEditor.h"
 #include "pActionsNodeModel.h"
-#include "pRecursiveSortFilterProxyModel.h"
-#include "pKeySequenceEdit.h"
+#include "gui/models/pRecursiveSortFilterProxyModel.h"
+#include "gui/pKeySequenceEdit.h"
 
 #include <QSortFilterProxyModel>
 #include <QPushButton>

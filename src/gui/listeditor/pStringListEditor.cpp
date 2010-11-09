@@ -1,5 +1,5 @@
 #include "pStringListEditor.h"
-#include "pIconManager.h"
+#include "gui/pIconManager.h"
 
 #include <QToolBar>
 #include <QAction>

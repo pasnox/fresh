@@ -1,5 +1,5 @@
 #include "pPathListEditor.h"
-#include "pIconManager.h"
+#include "gui/pIconManager.h"
 
 #include <QAction>
 #include <QFileDialog>

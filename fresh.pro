@@ -23,9 +23,9 @@ setTemporaryDirectories( $$FRESH_BUILD_PATH )
 isEqual( FRESH_BUILD_MODE, debug ):CONFIG	*= console
 
 # some library infos
-QMAKE_TARGET_COMPANY	= "The MkS Team"
+QMAKE_TARGET_COMPANY	= "The Fresh Team"
 QMAKE_TARGET_PRODUCT	= "Fresh Framework"
-QMAKE_TARGET_DESCRIPTION	= "Crossplatform Qt Extension Framework"
+QMAKE_TARGET_DESCRIPTION	= "Qt Extension Framework"
 QMAKE_TARGET_COPYRIGHT	= "(C) 2005 - 2010 Filipe AZEVEDO and $$QMAKE_TARGET_COMPANY"
 
 # make library exportable
@@ -38,57 +38,59 @@ INCLUDEPATH	*= ./src
 RESOURCES	*= resources/fresh.qrc
 
 FORMS	*=  \
-	src/gui/pActionsNodeShortcutEditor.ui
+	src/gui/actionmanager/pActionsNodeShortcutEditor.ui
 
-HEADERS	*= src/core/FreshExport.h \
+HEADERS	*=  \
+	src/core/FreshExport.h \
+	src/core/pFileSystemUtils.h \
 	src/core/pGetOpt.h \
+	src/core/pGroupPath.h \
 	src/core/pSettings.h \
 	src/core/pSingleton.h \
-	src/core/pVersion.h \
 	src/core/pTranslationManager.h \
-	src/core/pGroupPath.h \
-	src/gui/pToolButton.h \
-	src/gui/pKeySequenceEdit.h \
-	src/gui/pDockToolBar.h \
-	src/gui/pDockToolBarManager.h \
-	src/gui/pMainWindow.h \
-	src/gui/pActionsNode.h \
-	src/gui/pActionsNodeModel.h \
-	src/gui/pActionsNodeMenuBar.h \
-	src/gui/pActionsNodeShortcutEditor.h \
-	src/gui/pRecursiveSortFilterProxyModel.h \
-	src/gui/pLineEdit.h \
-	src/gui/pIconManager.h \
-	src/gui/pPathListEditor.h \
-	src/gui/pStringListEditor.h \
-	src/gui/pFileListEditor.h \
-	src/core/FileSystemUtils.h \
-	src/gui/pDockToolBarManagerModernWidget.h \
+	src/core/pVersion.h \
 	src/gui/pColorButton.h \
-	src/gui/pDrawingUtils.h
+	src/gui/pDrawingUtils.h \
+	src/gui/pIconManager.h \
+	src/gui/pKeySequenceEdit.h \
+	src/gui/pLineEdit.h \
+	src/gui/pMainWindow.h \
+	src/gui/pToolButton.h \
+	src/gui/actionmanager/pActionsNode.h \
+	src/gui/actionmanager/pActionsNodeMenuBar.h \
+	src/gui/actionmanager/pActionsNodeModel.h \
+	src/gui/actionmanager/pActionsNodeShortcutEditor.h \
+	src/gui/dockmanager/pDockToolBar.h \
+	src/gui/dockmanager/pDockToolBarManager.h \
+	src/gui/dockmanager/pDockToolBarManagerModernWidget.h \
+	src/gui/listeditor/pFileListEditor.h \
+	src/gui/listeditor/pPathListEditor.h \
+	src/gui/listeditor/pStringListEditor.h \
+	src/gui/models/pRecursiveSortFilterProxyModel.h
 
-SOURCES	*= src/core/pGetOpt.cpp \
+SOURCES	*=  \
+	src/core/pFileSystemUtils.cpp \
+	src/core/pGetOpt.cpp \
+	src/core/pGroupPath.cpp \
 	src/core/pSettings.cpp \
 	src/core/pSingleton.cpp \
-	src/core/pVersion.cpp \
 	src/core/pTranslationManager.cpp \
-	src/core/pGroupPath.cpp \
-	src/gui/pToolButton.cpp \
-	src/gui/pKeySequenceEdit.cpp \
-	src/gui/pDockToolBar.cpp \
-	src/gui/pDockToolBarManager.cpp \
-	src/gui/pMainWindow.cpp \
-	src/gui/pActionsNode.cpp \
-	src/gui/pActionsNodeModel.cpp \
-	src/gui/pActionsNodeMenuBar.cpp \
-	src/gui/pActionsNodeShortcutEditor.cpp \
-	src/gui/pRecursiveSortFilterProxyModel.cpp \
-	src/gui/pLineEdit.cpp \
-	src/gui/pIconManager.cpp \
-	src/gui/pPathListEditor.cpp \
-	src/gui/pStringListEditor.cpp \
-	src/gui/pFileListEditor.cpp \
-	src/core/FileSystemUtils.cpp \
-	src/gui/pDockToolBarManagerModernWidget.cpp \
+	src/core/pVersion.cpp \
 	src/gui/pColorButton.cpp \
-	src/gui/pDrawingUtils.cpp
+	src/gui/pDrawingUtils.cpp \
+	src/gui/pIconManager.cpp \
+	src/gui/pKeySequenceEdit.cpp \
+	src/gui/pLineEdit.cpp \
+	src/gui/pMainWindow.cpp \
+	src/gui/pToolButton.cpp \
+	src/gui/actionmanager/pActionsNode.cpp \
+	src/gui/actionmanager/pActionsNodeMenuBar.cpp \
+	src/gui/actionmanager/pActionsNodeModel.cpp \
+	src/gui/actionmanager/pActionsNodeShortcutEditor.cpp \
+	src/gui/dockmanager/pDockToolBar.cpp \
+	src/gui/dockmanager/pDockToolBarManager.cpp \
+	src/gui/dockmanager/pDockToolBarManagerModernWidget.cpp \
+	src/gui/listeditor/pFileListEditor.cpp \
+	src/gui/listeditor/pPathListEditor.cpp \
+	src/gui/listeditor/pStringListEditor.cpp \
+	src/gui/models/pRecursiveSortFilterProxyModel.cpp

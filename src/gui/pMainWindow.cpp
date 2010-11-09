@@ -1,8 +1,8 @@
 #include "pMainWindow.h"
 #include "core/pSettings.h"
-#include "pActionsNodeMenuBar.h"
-#include "pDockToolBarManager.h"
-#include "pDockToolBar.h"
+#include "actionmanager/pActionsNodeMenuBar.h"
+#include "dockmanager/pDockToolBarManager.h"
+#include "dockmanager/pDockToolBar.h"
 
 /*!
 	\details Create a new pMainWindow object

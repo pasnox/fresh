@@ -1,6 +1,6 @@
 #include "pDockToolBarManager.h"
 #include "pDockToolBarManagerModernWidget.h"
-#include "pMainWindow.h"
+#include "gui/pMainWindow.h"
 #include "pDockToolBar.h"
 #include "core/pSettings.h"
 

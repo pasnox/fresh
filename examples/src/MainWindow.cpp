@@ -1,15 +1,15 @@
 #include "MainWindow.h"
 
-#include <core/pSettings.h>
-#include <gui/pDockToolBarManager.h>
-#include <gui/pDockToolBar.h>
-#include <gui/pActionsNodeModel.h>
-#include <gui/pActionsNodeShortcutEditor.h>
-#include <gui/pActionsNodeMenuBar.h>
-#include <gui/pStringListEditor.h>
-#include <gui/pFileListEditor.h>
-#include <gui/pPathListEditor.h>
-#include <gui/pColorButton.h>
+#include <Core/pSettings>
+#include <Gui/pDockToolBarManager>
+#include <Gui/pDockToolBar>
+#include <Gui/pActionsNodeModel>
+#include <Gui/pActionsNodeShortcutEditor>
+#include <Gui/pActionsNodeMenuBar>
+#include <Gui/pStringListEditor>
+#include <Gui/pFileListEditor>
+#include <Gui/pPathListEditor>
+#include <Gui/pColorButton>
 
 #include <modeltest.h>
 

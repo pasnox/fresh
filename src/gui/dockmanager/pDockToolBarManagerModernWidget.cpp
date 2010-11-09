@@ -1,7 +1,7 @@
 #include "pDockToolBarManagerModernWidget.h"
 
 #include "pDockToolBar.h"
-#include "pToolButton.h"
+#include "gui/pToolButton.h"
 
 #include <QScrollArea>
 #include <QSplitter>

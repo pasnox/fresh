@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <gui/pMainWindow.h>
+#include <Gui/pMainWindow>
 
 #include <QtGui>
 

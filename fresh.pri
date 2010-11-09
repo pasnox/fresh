@@ -4,7 +4,7 @@
 include( functions.pri )
 
 # include path
-INCLUDEPATH	*= $${PWD}/src
+INCLUDEPATH	*= $${PWD}/include $${PWD}/src
 
 # dependency
 PRE_TARGETDEPS	*= $${PWD}

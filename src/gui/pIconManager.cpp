@@ -1,5 +1,5 @@
 #include "pIconManager.h"
-#include "core/FileSystemUtils.h"
+#include "core/pFileSystemUtils.h"
 
 #include <QPixmapCache>
 #include <QDir>
@@ -25,7 +25,7 @@ QString pIconManager::filePath( const QString& fileName, const QString& prefix )
 	}
 	
 	QDir dir( path );
-	fn = FileSystemUtils::findFile( dir, fileName );
+	fn = pFileSystemUtils::findFile( dir, fileName );
 	mFileNameCache[ pair ] = fn;
 	
 	return fn;
