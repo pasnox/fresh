@@ -38,7 +38,11 @@ isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG	*= console
 FRESH_LIBRARY_PATH	= ..
 include( ../fresh.pri )
 
-include (../../QtSolutions/modeltest-0.2/modeltest.pri )
+exists( ../../QtSolutions/modeltest-0.2/modeltest.pri ) {
+	message( "Using QtSolution ModelTest." )
+	DEFINES	*= QT_MODELTEST
+	include (../../QtSolutions/modeltest-0.2/modeltest.pri )
+}
 
 RESOURCES	+= ../resources/fresh.qrc
 

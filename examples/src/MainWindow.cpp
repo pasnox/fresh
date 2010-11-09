@@ -11,7 +11,9 @@
 #include <Gui/pPathListEditor>
 #include <Gui/pColorButton>
 
+#if defined( QT_MODELTEST )
 #include <modeltest.h>
+#endif
 
 #include <QtGui>
 
@@ -65,8 +67,9 @@ MainWindow::MainWindow( QWidget* parent )
 	connect( pbEditShortcuts, SIGNAL( clicked() ), this, SLOT( pbEditShortcuts_clicked() ) );
 	
 	// **********************
-	
+#if defined( QT_MODELTEST )
 	new ModelTest( mActionsModel, this );
+#endif
 	
 	// string list editor
 	QDockWidget* dwStringListEditor = new QDockWidget( this );
