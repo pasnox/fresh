@@ -4,7 +4,6 @@
 #include <QEvent>
 #include <QActionEvent>
 #include <QToolButton>
-#include <QDebug>
 
 pActionsNodeMenuBar::pActionsNodeMenuBar( QWidget* parent )
 	: QMenuBar( parent )
@@ -52,6 +51,11 @@ QAction* pActionsNodeMenuBar::addAction( const QString& path, const QString& tex
 	return mModel ? mModel->addAction( path, text, icon ) : 0;
 }
 
+pActionsNode pActionsNodeMenuBar::addMenu( const QString& path )
+{
+	return mModel ? mModel->addPath( path ) : pActionsNode();
+}
+
 bool pActionsNodeMenuBar::removeAction( const QString& path )
 {
 	return mModel ? mModel->removeAction( path ) : false;
@@ -60,6 +64,11 @@ bool pActionsNodeMenuBar::removeAction( const QString& path )
 bool pActionsNodeMenuBar::removeAction( QAction* action )
 {
 	return mModel ? mModel->removeAction( action ) : false;
+}
+
+bool pActionsNodeMenuBar::removeMenu( const QString& path )
+{
+	return mModel ? mModel->removePath( path ) : false;
 }
 
 QMenu* pActionsNodeMenuBar::menu( const QString& _path ) const
@@ -109,8 +118,6 @@ void pActionsNodeMenuBar::model_nodeInserted( const pActionsNode& node )
 {
 	QMenu* parentMenu = mMenus.value( node.path().section( '/', 0, -2 ) );
 	
-	//qWarning() << "*** nodeInserted" << node.text() << node.path();
-	
 	switch ( node.type() ) {
 		case pActionsNode::Action: {
 			parentMenu->addAction( node.action() );
@@ -126,7 +133,7 @@ void pActionsNodeMenuBar::model_nodeInserted( const pActionsNode& node )
 				parentMenu->addMenu( menu );
 			}
 			else {
-				addMenu( menu );
+				QMenuBar::addMenu( menu );
 			}
 			
 			model_nodeChanged( node );

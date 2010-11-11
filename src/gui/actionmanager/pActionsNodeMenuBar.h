@@ -21,9 +21,11 @@ public:
 	
 	bool addAction( const QString& path, QAction* action );
 	QAction* addAction( const QString& path, const QString& text, const QIcon& icon = QIcon() );
+	pActionsNode addMenu( const QString& path );
 	
 	bool removeAction( const QString& path );
 	bool removeAction( QAction* action );
+	bool removeMenu( const QString& path );
 	
 	QMenu* menu( const QString& path ) const;
 	QString menuPath( QMenu* menu ) const;

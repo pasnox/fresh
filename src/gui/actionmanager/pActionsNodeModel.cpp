@@ -1,7 +1,6 @@
 #include "pActionsNodeModel.h"
 
 #include <QDir>
-#include <QDebug>
 
 int pActionsNodeModel::mColumnCount = 3;
 
@@ -272,6 +271,21 @@ QModelIndex pActionsNodeModel::actionToIndex( QAction* action ) const
 	return pathToIndex( action ? action->objectName() : QString::null );
 }
 
+void pActionsNodeModel::clear()
+{
+	const int count = mRootNode.d->children.count();
+	
+	if ( count == 0 ) {
+		return;
+	}
+	
+	beginRemoveRows( QModelIndex(), 0, count -1 );
+	mRootNode.d->children.clear();
+	endRemoveRows();
+	
+	emit nodesCleared();
+}
+
 bool pActionsNodeModel::addAction( const QString& _path, QAction* action )
 {
 	Q_ASSERT( action );
@@ -319,12 +333,28 @@ QAction* pActionsNodeModel::addAction( const QString& path, const QString& text,
 	return action;
 }
 
-bool pActionsNodeModel::removeAction( const QString& _path )
+pActionsNode pActionsNodeModel::addPath( const QString& path )
+{
+	pActionsNode* node = createCompletePathNode( path );
+	return node ? *node : pActionsNode();
+}
+
+bool pActionsNodeModel::removeAction( const QString& _path, bool removeEmptyPath )
+{
+	return removePath( _path, removeEmptyPath );
+}
+
+bool pActionsNodeModel::removeAction( QAction* action, bool removeEmptyPath )
+{
+	return removeAction( action->objectName(), removeEmptyPath );
+}
+
+bool pActionsNodeModel::removePath( const QString& _path, bool removeEmptyPath )
 {
 	const QString path = fixedPath( _path );
-	const pActionsNode* node = mNodes.value( path );
+	pActionsNode* node = mNodes.value( path );
 	
-	if ( !node || node->d->type != pActionsNode::Action ) {
+	if ( !node ) {
 		return false;
 	}
 	
@@ -333,20 +363,17 @@ bool pActionsNodeModel::removeAction( const QString& _path )
 	const pActionsNode tmpNode = *node;
 	
 	beginRemoveRows( nodeToIndex( *parentNode ), row, row );
-	mNodes.remove( node->d->path );
 	parentNode->d->children.removeAt( row );
+	//delete node;
 	endRemoveRows();
 	
 	emit nodeRemoved( tmpNode );
 	
-	removeCompleteEmptyPathNode( parentNode );
+	if ( removeEmptyPath ) {
+		removeCompleteEmptyPathNode( parentNode );
+	}
 	
 	return true;
-}
-
-bool pActionsNodeModel::removeAction( QAction* action )
-{
-	return removeAction( action->objectName() );
 }
 
 bool pActionsNodeModel::isValid( const QModelIndex& index ) const
@@ -439,7 +466,6 @@ void pActionsNodeModel::removeCompleteEmptyPathNode( pActionsNode* node )
 		const pActionsNode tmpNode = *node;
 		
 		beginRemoveRows( nodeToIndex( *parentNode ), row, row );
-		mNodes.remove( node->d->path );
 		parentNode->d->children.removeAt( row );
 		endRemoveRows();
 		

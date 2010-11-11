@@ -29,6 +29,7 @@ public:
 	pActionsNode();
 	pActionsNode( const pActionsNode& other );
 	pActionsNode( pActionsNode::Type type, const QString& path );
+	virtual ~pActionsNode();
 	
 	bool operator==( const pActionsNode& other ) const;
 	bool operator!=( const pActionsNode& other ) const;
@@ -54,42 +55,19 @@ public:
 	
 	static pActionsNode pathNode( const QString& path, const QString& text = QString::null, const QIcon& icon = QIcon() );
 	static pActionsNode actionNode( const QString& path, QAction* action );
+	
+	static int created;
+	static int deleted;
 
-protected:
+public:
 	class Data : public QSharedData
 	{
 	public:
-		Data()
-		{
-			type = pActionsNode::Invalid;
-			model = 0;
-			parent = 0;
-		}
+		Data();
+		virtual ~Data();
 		
-		~Data()
-		{
-			if ( action.data() ) {
-				action.data()->deleteLater();
-			}
-		}
-		
-		bool operator==( const pActionsNode::Data& other ) const
-		{
-			return type == other.type
-				&& path == other.path
-				&& action == other.action
-				&& icon.cacheKey() == other.icon.cacheKey()
-				&& text == other.text
-				
-				&& model == other.model
-				&& parent == other.parent
-				&& children == other.children;
-		}
-		
-		bool operator!=( const pActionsNode::Data& other ) const
-		{
-			return !operator==( other );
-		}
+		bool operator==( const pActionsNode::Data& other ) const;
+		bool operator!=( const pActionsNode::Data& other ) const;
 		
 		pActionsNode::Type type;
 		QString path;
@@ -100,6 +78,9 @@ protected:
 		pActionsNodeModel* model;
 		pActionsNode* parent;
 		QList<pActionsNode> children;
+		
+		static int created1;
+		static int deleted1;
 	};
 	
 	QExplicitlySharedDataPointer<pActionsNode::Data> d;

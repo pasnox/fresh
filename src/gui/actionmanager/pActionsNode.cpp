@@ -6,21 +6,79 @@ uint qHash( const pActionsNode& node )
 	return qHash( node.path() );
 }
 
+// pActionsNode::Data
+
+int pActionsNode::Data::created1 = 0;
+int pActionsNode::Data::deleted1 = 0;
+
+pActionsNode::Data::Data()
+{
+	created1++;
+	type = pActionsNode::Invalid;
+	model = 0;
+	parent = 0;
+}
+
+pActionsNode::Data::~Data()
+{
+	deleted1++;
+//qWarning( "*" );
+	if ( model ) {
+	//qWarning( "***" );
+		/*delete*/ model->mNodes.take( path );
+	}
+	
+	if ( action.data() ) {
+		action.data()->deleteLater();
+	}
+}
+
+bool pActionsNode::Data::operator==( const pActionsNode::Data& other ) const
+{
+	return type == other.type
+		&& path == other.path
+		&& action == other.action
+		&& icon.cacheKey() == other.icon.cacheKey()
+		&& text == other.text
+		
+		&& model == other.model
+		&& parent == other.parent
+		&& children == other.children;
+}
+
+bool pActionsNode::Data::operator!=( const pActionsNode::Data& other ) const
+{
+	return !operator==( other );
+}
+
+// pActionsNode
+
+int pActionsNode::created = 0;
+int pActionsNode::deleted = 0;
+
 pActionsNode::pActionsNode()
 {
+	created++;
 	d = new pActionsNode::Data;
 }
 
 pActionsNode::pActionsNode( const pActionsNode& other )
 {
+	created++;
 	d = other.d;
 }
 
 pActionsNode::pActionsNode( pActionsNode::Type type, const QString& path )
 {
+	created++;
 	d = new pActionsNode::Data;
 	d->type = type;
 	d->path = path;
+}
+
+pActionsNode::~pActionsNode()
+{
+	deleted++;
 }
 
 bool pActionsNode::operator==( const pActionsNode& other ) const

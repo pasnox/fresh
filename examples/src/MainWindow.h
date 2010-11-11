@@ -17,21 +17,23 @@ public:
 	virtual ~MainWindow();
 
 protected:
-	QPushButton* pbAddAction;
-	QPushButton* pbRemoveAction;
-	QPushButton* pbEditTextNode;
-	QPushButton* pbEditShortcuts;
-	pActionsNodeModel* mActionsModel;
-	pActionsNodeMenuBar* mMenuBar;
+	QTabWidget* twPages;
+	QPlainTextEdit* pteLog;
 	QTreeView* tvActions;
+	pActionsNodeModel* mActionsModel;
 	
 	QPixmap scaledPixmap( const QString& filePath, const QSize& size = QSize() ) const;
+	
+	void initializeGui();
+	void initializeMenuBar();
+	QPlainTextEdit* initializePlainTextEdit();
+	QTreeView* initializeActionsTreeView();
 
 protected slots:
-	void pbAddAction_clicked();
-	void pbRemoveAction_clicked();
-	void pbEditTextNode_clicked();
-	void pbEditShortcuts_clicked();
+	void aAddAction_triggered();
+	void aRemoveAction_triggered();
+	void aEditTextNode_triggered();
+	void aEditShortcuts_triggered();
 	void dockToolBarManagerClassic();
 	void dockToolBarManagerModern();
 };

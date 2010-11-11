@@ -22,12 +22,10 @@ public:
 	void setMenu( QMenu* menu );
 	
 	bool isSearchButtonVisible() const;
-	bool isPromptVisible() const;
 	QString promptText() const;
 
 public slots:
 	void setSearchButtonVisible( bool visible );
-	void setPromptVisible( bool visible );
 	void setPromptText( const QString& prompt );
 	
 	void clickSearchButton();
@@ -39,15 +37,11 @@ protected:
 	int mSpacing;
 	QToolButton* tbSearch;
 	QToolButton* tbClear;
-	bool mPromptVisible;
 	QString mPromptText;
 	QTimer* mTimer;
 	
 	virtual void paintEvent( QPaintEvent* event );
 	virtual void resizeEvent( QResizeEvent* event );
-	virtual void focusInEvent( QFocusEvent* event );
-	virtual void focusOutEvent( QFocusEvent* event );
-	virtual void changeEvent( QEvent* event );
 	
 	void init();
 	void setClearButtonVisible( bool visible );

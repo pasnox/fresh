@@ -43,11 +43,15 @@ public:
 	QModelIndex pathToIndex( const QString& path ) const;
 	QModelIndex actionToIndex( QAction* action ) const;
 	
+	void clear();
+	
 	bool addAction( const QString& path, QAction* action );
 	QAction* addAction( const QString& path, const QString& text, const QIcon& icon = QIcon() );
+	pActionsNode addPath( const QString& path );
 	
-	bool removeAction( const QString& path );
-	bool removeAction( QAction* action );
+	bool removeAction( const QString& path, bool removeEmptyPath = false );
+	bool removeAction( QAction* action, bool removeEmptyPath = false );
+	bool removePath( const QString& path, bool removeEmptyPath = false );
 
 protected:
 	static int mColumnCount;
@@ -68,6 +72,7 @@ signals:
 	void nodeInserted( const pActionsNode& node );
 	void nodeChanged( const pActionsNode& node );
 	void nodeRemoved( const pActionsNode& node );
+	void nodesCleared();
 };
 
 #endif // PACTIONSNODEMODEL_H

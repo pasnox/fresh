@@ -1,7 +1,8 @@
 #include <QApplication>
 #include <QDebug>
 
-#include <core/pSettings.h>
+#include <Core/pSettings>
+#include <Gui/pActionsNode>
 
 #include "MainWindow.h"
 
@@ -23,5 +24,13 @@ int main( int argc, char** argv )
 	QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 
 	// start application
-	return app.exec();
+	const int result = app.exec();
+	
+	qWarning() << "Created" << pActionsNode::created;
+	qWarning() << "Deleted" << pActionsNode::deleted;
+	
+	qWarning() << "Created1" << pActionsNode::Data::created1;
+	qWarning() << "Deleted1" << pActionsNode::Data::deleted1;
+	
+	return result;
 }

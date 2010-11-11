@@ -37,11 +37,6 @@ bool pLineEdit::isSearchButtonVisible() const
 	return tbSearch->isVisible();
 }
 
-bool pLineEdit::isPromptVisible() const
-{
-	return mPromptVisible;
-}
-
 QString pLineEdit::promptText() const
 {
 	return mPromptText;
@@ -68,12 +63,6 @@ void pLineEdit::setSearchButtonVisible( bool visible )
 	setTextMargins( left, top, right, bottom );
 }
 
-void pLineEdit::setPromptVisible( bool visible )
-{
-	mPromptVisible = visible;
-	update();
-}
-
 void pLineEdit::setPromptText( const QString& prompt )
 {
 	mPromptText = prompt;
@@ -94,7 +83,7 @@ void pLineEdit::paintEvent( QPaintEvent* event )
 {
 	QLineEdit::paintEvent( event );
 	
-	if ( mPromptVisible && !mPromptText.isEmpty() && text().isEmpty() ) {
+	if ( !mPromptText.isEmpty() && text().isEmpty() && isEnabled() ) {
 		QStyleOptionFrameV3 option;
 		initStyleOption( &option );
 		
@@ -126,35 +115,6 @@ void pLineEdit::resizeEvent( QResizeEvent* event )
 	tbClear->move( width() -mMargin -3, 0 );
 }
 
-void pLineEdit::focusInEvent( QFocusEvent* event )
-{
-	QLineEdit::focusInEvent( event );
-
-	if ( mPromptVisible ) {
-		setPromptVisible( false );
-	}
-}
-
-void pLineEdit::focusOutEvent( QFocusEvent* event )
-{
-	QLineEdit::focusOutEvent( event );
-
-	if ( text().isEmpty() ) {
-		setPromptVisible( true );
-	}
-}
-
-void pLineEdit::changeEvent( QEvent* event )
-{
-	QLineEdit::changeEvent( event );
-	
-	if ( text().isEmpty() && event->type() == QEvent::EnabledChange ) {
-		if ( !isEnabled() ) {
-			setPromptVisible( true );
-		}
-	}
-}
-
 void pLineEdit::init()
 {
 	mMargin = sizeHint().height() -2;
@@ -178,7 +138,6 @@ void pLineEdit::init()
 	setSearchButtonVisible( true );
 	setClearButtonVisible( false );
 	setPromptText( "Search..." );
-	setPromptVisible( true );
 	
 	mTimer = new QTimer( this );
 	mTimer->setInterval( mTimeOut );
