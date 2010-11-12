@@ -29,7 +29,6 @@ public:
 	pActionsNode();
 	pActionsNode( const pActionsNode& other );
 	pActionsNode( pActionsNode::Type type, const QString& path );
-	virtual ~pActionsNode();
 	
 	bool operator==( const pActionsNode& other ) const;
 	bool operator!=( const pActionsNode& other ) const;
@@ -55,11 +54,8 @@ public:
 	
 	static pActionsNode pathNode( const QString& path, const QString& text = QString::null, const QIcon& icon = QIcon() );
 	static pActionsNode actionNode( const QString& path, QAction* action );
-	
-	static int created;
-	static int deleted;
 
-public:
+protected:
 	class Data : public QSharedData
 	{
 	public:
@@ -78,9 +74,6 @@ public:
 		pActionsNodeModel* model;
 		pActionsNode* parent;
 		QList<pActionsNode> children;
-		
-		static int created1;
-		static int deleted1;
 	};
 	
 	QExplicitlySharedDataPointer<pActionsNode::Data> d;

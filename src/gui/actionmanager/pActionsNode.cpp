@@ -8,12 +8,8 @@ uint qHash( const pActionsNode& node )
 
 // pActionsNode::Data
 
-int pActionsNode::Data::created1 = 0;
-int pActionsNode::Data::deleted1 = 0;
-
 pActionsNode::Data::Data()
 {
-	created1++;
 	type = pActionsNode::Invalid;
 	model = 0;
 	parent = 0;
@@ -21,11 +17,8 @@ pActionsNode::Data::Data()
 
 pActionsNode::Data::~Data()
 {
-	deleted1++;
-//qWarning( "*" );
 	if ( model ) {
-	//qWarning( "***" );
-		/*delete*/ model->mNodes.take( path );
+		model->mNodes.remove( path );
 	}
 	
 	if ( action.data() ) {
@@ -53,32 +46,21 @@ bool pActionsNode::Data::operator!=( const pActionsNode::Data& other ) const
 
 // pActionsNode
 
-int pActionsNode::created = 0;
-int pActionsNode::deleted = 0;
-
 pActionsNode::pActionsNode()
 {
-	created++;
 	d = new pActionsNode::Data;
 }
 
 pActionsNode::pActionsNode( const pActionsNode& other )
 {
-	created++;
 	d = other.d;
 }
 
 pActionsNode::pActionsNode( pActionsNode::Type type, const QString& path )
 {
-	created++;
 	d = new pActionsNode::Data;
 	d->type = type;
 	d->path = path;
-}
-
-pActionsNode::~pActionsNode()
-{
-	deleted++;
 }
 
 bool pActionsNode::operator==( const pActionsNode& other ) const

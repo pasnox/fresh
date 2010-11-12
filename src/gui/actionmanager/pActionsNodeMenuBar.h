@@ -44,6 +44,7 @@ protected slots:
 	void model_nodeInserted( const pActionsNode& node );
 	void model_nodeChanged( const pActionsNode& node );
 	void model_nodeRemoved( const pActionsNode& node );
+	void model_nodesCleared();
 };
 
 #endif // PACTIONSNODEMENUBAR_H

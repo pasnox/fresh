@@ -22,7 +22,6 @@ MainWindow::MainWindow( QWidget* parent )
 	: pMainWindow( parent )
 {
 	initializeGui();
-	mActionsModel->clear();
 }
 
 MainWindow::~MainWindow()

@@ -13,7 +13,9 @@ pActionsNodeMenuBar::pActionsNodeMenuBar( QWidget* parent )
 
 pActionsNodeMenuBar::~pActionsNodeMenuBar()
 {
-	qDeleteAll( mMenus );
+	if ( mModel ) {
+		mModel->clear();
+	}
 }
 
 void pActionsNodeMenuBar::setModel( pActionsNodeModel* model )
@@ -22,6 +24,7 @@ void pActionsNodeMenuBar::setModel( pActionsNodeModel* model )
 		disconnect( mModel, SIGNAL( nodeInserted( const pActionsNode& ) ), this, SLOT( model_nodeInserted( const pActionsNode& ) ) );
 		disconnect( mModel, SIGNAL( nodeChanged( const pActionsNode& ) ), this, SLOT( model_nodeChanged( const pActionsNode& ) ) );
 		disconnect( mModel, SIGNAL( nodeRemoved( const pActionsNode& ) ), this, SLOT( model_nodeRemoved( const pActionsNode& ) ) );
+		disconnect( mModel, SIGNAL( nodesCleared() ), this, SLOT( model_nodesCleared() ) );
 		mModel = 0;
 		sync();
 	}
@@ -32,6 +35,7 @@ void pActionsNodeMenuBar::setModel( pActionsNodeModel* model )
 		connect( mModel, SIGNAL( nodeInserted( const pActionsNode& ) ), this, SLOT( model_nodeInserted( const pActionsNode& ) ) );
 		connect( mModel, SIGNAL( nodeChanged( const pActionsNode& ) ), this, SLOT( model_nodeChanged( const pActionsNode& ) ) );
 		connect( mModel, SIGNAL( nodeRemoved( const pActionsNode& ) ), this, SLOT( model_nodeRemoved( const pActionsNode& ) ) );
+		connect( mModel, SIGNAL( nodesCleared() ), this, SLOT( model_nodesCleared() ) );
 		sync();
 	}
 }
@@ -171,4 +175,10 @@ void pActionsNodeMenuBar::model_nodeRemoved( const pActionsNode& node )
 		QMenu* parentMenu = mMenus.value( node.path().section( '/', 0, -2 ) );
 		parentMenu->removeAction( node.action() );
 	}
+}
+
+void pActionsNodeMenuBar::model_nodesCleared()
+{
+	qDeleteAll( mMenus );
+	mMenus.clear();
 }

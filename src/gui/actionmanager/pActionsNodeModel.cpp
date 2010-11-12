@@ -352,7 +352,7 @@ bool pActionsNodeModel::removeAction( QAction* action, bool removeEmptyPath )
 bool pActionsNodeModel::removePath( const QString& _path, bool removeEmptyPath )
 {
 	const QString path = fixedPath( _path );
-	pActionsNode* node = mNodes.value( path );
+	const pActionsNode* node = mNodes.value( path );
 	
 	if ( !node ) {
 		return false;
@@ -364,7 +364,6 @@ bool pActionsNodeModel::removePath( const QString& _path, bool removeEmptyPath )
 	
 	beginRemoveRows( nodeToIndex( *parentNode ), row, row );
 	parentNode->d->children.removeAt( row );
-	//delete node;
 	endRemoveRows();
 	
 	emit nodeRemoved( tmpNode );
