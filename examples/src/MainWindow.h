@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <Gui/pMainWindow>
+#include <Gui/pDockToolBarManager>
 
 #include <QtGui>
 
@@ -22,18 +23,21 @@ protected:
 	QTreeView* tvActions;
 	pActionsNodeModel* mActionsModel;
 	
-	QPixmap scaledPixmap( const QString& filePath, const QSize& size = QSize() ) const;
-	
 	void initializeGui();
 	void initializeMenuBar();
 	QPlainTextEdit* initializePlainTextEdit();
 	QTreeView* initializeActionsTreeView();
+	
+	void versionsTests();
+	void createListEditors();
+	void createCustomWidgets();
 
 protected slots:
 	void aAddAction_triggered();
 	void aRemoveAction_triggered();
 	void aEditTextNode_triggered();
 	void aEditShortcuts_triggered();
+	void dockToolBarManagerModeChanged( pDockToolBarManager::Mode mode );
 	void dockToolBarManagerClassic();
 	void dockToolBarManagerModern();
 };

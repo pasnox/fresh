@@ -21,3 +21,27 @@ QPixmap pDrawingUtils::filledPixmap( const QColor& color, const QSize& size )
 	
 	return pixmap;
 }
+
+QPixmap pDrawingUtils::scaledPixmap( const QString& filePath, const QSize& size )
+{
+	const QString key = QString( "%1-%2-%3" ).arg( filePath ).arg( size.width() ).arg( size.height() );
+	QPixmap pixmap;
+	
+	if ( !QPixmapCache::find( key, pixmap ) ) {
+		if ( pixmap.load( filePath ) ) {
+			
+			if ( size != QSize() ) {
+				pixmap = pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+			}
+			
+			if ( !QPixmapCache::insert( key, pixmap ) ) {
+				qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << filePath;
+			}
+		}
+		else {
+			qWarning() << Q_FUNC_INFO << "Pixmap not exists" << filePath;
+		}
+	}
+	
+	return pixmap;
+}

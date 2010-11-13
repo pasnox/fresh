@@ -2,7 +2,6 @@
 
 #include <Core/pSettings>
 #include <Core/pVersion>
-#include <Gui/pDockToolBarManager>
 #include <Gui/pDockToolBar>
 #include <Gui/pActionsNodeModel>
 #include <Gui/pActionsNodeShortcutEditor>
@@ -11,6 +10,7 @@
 #include <Gui/pFileListEditor>
 #include <Gui/pPathListEditor>
 #include <Gui/pColorButton>
+#include <Gui/pDrawingUtils>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -28,111 +28,20 @@ MainWindow::~MainWindow()
 {
 }
 
-QPixmap MainWindow::scaledPixmap( const QString& filePath, const QSize& size ) const
-{
-	const QString key = QString( "%1-%2-%3" ).arg( filePath ).arg( size.width() ).arg( size.height() );
-	QPixmap pixmap;
-	
-	if ( !QPixmapCache::find( key, pixmap ) ) {
-		if ( pixmap.load( filePath ) ) {
-			
-			if ( size != QSize() ) {
-				pixmap = pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-			}
-			
-			if ( !QPixmapCache::insert( key, pixmap ) ) {
-				qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << filePath;
-			}
-		}
-		else {
-			qWarning() << Q_FUNC_INFO << "Pixmap not exists" << filePath;
-		}
-	}
-	
-	return pixmap;
-}
-
 void MainWindow::initializeGui()
 {
 	twPages = new QTabWidget( this );
 	setCentralWidget( twPages );
 	
+	// initialize gui
 	initializeMenuBar();
 	pteLog = initializePlainTextEdit();
 	tvActions = initializeActionsTreeView();
+	versionsTests();
+	createListEditors();
+	createCustomWidgets();
 	
-	menuBar()->addAction( "mFile/mSession/aRestore", tr( "restore" ) );
-	
-	
-	
-	return;
-	
-	// **********************
-
-	
-	// list editor dock
-	/*QDockWidget* dwListEditor = new QDockWidget( this );
-	QTabWidget* twListEditors = new QTabWidget( dwListEditor );
-	dwListEditor->setObjectName( "DockListEditor" );
-	dwListEditor->setWidget( twListEditors );
-	dwListEditor->toggleViewAction()->setObjectName( "DockListEditorViewAction" );
-	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwListEditor, tr( "List Editor" ), QIcon( scaledPixmap( ":/fresh/country-flags/fr.png", QSize( 96, 96 ) ) ) );
-	
-	twListEditors->addTab( new pStringListEditor( QString::null, this ), tr( "Edit strings" ) );
-	twListEditors->addTab( new pPathListEditor( QString::null, ".", this ), tr( "Edit paths" ) );
-	twListEditors->addTab( new pFileListEditor( QString::null, ".", "*.png", this ), tr( "Edit files" ) );
-	
-	// custom widgets
-	QDockWidget* dwWidgets = new QDockWidget( this );
-	dwWidgets->setObjectName( "dwWidgets" );
-	dwWidgets->toggleViewAction()->setObjectName( "dwWidgetsViewAction" );
-	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwWidgets, tr( "Testing widgets" ), QIcon( scaledPixmap( ":/fresh/country-flags/es.png", QSize( 96, 96 ) ) ) );
-	
-	QWidget* dwWidgetsContents = new QWidget( this );
-	QGridLayout* dwWidgetsContentsLayout = new QGridLayout( dwWidgetsContents );
-	dwWidgets->setWidget( dwWidgetsContents );
-	
-	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
-	dwWidgetsContentsLayout->addWidget( colorButton, 0, 0 );
-	
-	const pVersion v1( "1.5.4" );
-	const pVersion v2( "1.5.4a" );
-	QLabel* lVersion = new QLabel( dwWidgetsContents );
-	lVersion->setText( QString(
-		"%1 > %2: %3\n"
-		"%4 < %5: %6\n"
-		"%7 >= %8: %9\n"
-		"%10 <= %11: %12\n"
-		"%13 == %14: %15\n"
-		"%16 != %17: %18"
-		)
-		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 > v2 )
-		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 < v2 )
-		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 >= v2 )
-		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 <= v2 )
-		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 == v2 )
-		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 != v2 )
-	);
-	dwWidgetsContentsLayout->addWidget( lVersion, 0, 1 );
-	
-	QLabel* lVersion2 = new QLabel( dwWidgetsContents );
-	lVersion2->setText( QString(
-		"%1 > %2: %3\n"
-		"%4 < %5: %6\n"
-		"%7 >= %8: %9\n"
-		"%10 <= %11: %12\n"
-		"%13 == %14: %15\n"
-		"%16 != %17: %18"
-		)
-		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 > v1 )
-		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 < v1 )
-		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 >= v1 )
-		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 <= v1 )
-		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 == v1 )
-		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 != v1 )
-	);
-	dwWidgetsContentsLayout->addWidget( lVersion2, 0, 2 );*/
-	
+	// create fake dock widget for testing
 	/*for ( int i = 0; i < 10; i++ ) {
 		QDockWidget* dw = new QDockWidget( this );
 		dw->setObjectName( QString( "Dock%1" ).arg( i ) );
@@ -140,26 +49,14 @@ void MainWindow::initializeGui()
 		dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dw, QString( "Dock %1" ).arg( i ), QIcon( scaledPixmap( ":/fresh/country-flags/ad.png", QSize( 96, 96 ) ) ) );
 	}*/
 	
-	/*mMenuBar->addAction( "file/edit/undo", "undo" );
-	mMenuBar->addAction( "file/edit/redo", "redo" );
-	mMenuBar->addAction( "move/again", "again" );
-	
-	foreach ( pDockToolBar* dockToolBar, dockToolBarManager()->dockToolBars() ) {
-		QAction* action;
-		
-		action = dockToolBar->toggleViewAction();
-		mMenuBar->addAction( QString( "view/docksToolBars/%1" ).arg( action->objectName() ), action );
-		
-		action = dockToolBar->toggleExclusiveAction();
-		mMenuBar->addAction( QString( "view/docksToolBars/%1" ).arg( action->objectName() ), action );
-	}
-	
+	// list dock widgets in the menu
 	foreach ( QDockWidget* dockWidget, findChildren<QDockWidget*>() ) {
+		//dockWidget->setAttribute( Qt::WA_DeleteOnClose );
 		QAction* action = dockWidget->toggleViewAction();
-		mMenuBar->addAction( QString( "view/docks/%1" ).arg( action->objectName() ), action );
+		menuBar()->addAction( QString( "mView/mDockWidgets/%1" ).arg( action->objectName() ), action );
 		pActionsNode node = mActionsModel->actionToNode( action );
 		node.setDefaultShortcut( QKeySequence( QString( "Ctrl+%1" ).arg( QChar( qMax( 32, qrand() % 127 ) ) ) ) );
-	}*/
+	}
 }
 
 void MainWindow::initializeMenuBar()
@@ -177,6 +74,8 @@ void MainWindow::initializeMenuBar()
 	menuBar()->addMenu( "mEdit" ).setText( tr( "&Edit" ) );
 	menuBar()->addMenu( "mView" ).setText( tr( "&View" ) );
 	menuBar()->addMenu( "mView/mMode" ).setText( tr( "&Mode" ) );
+	menuBar()->addMenu( "mView/mDockToolBarManager" ).setText( tr( "&Dock ToolBar Manager" ) );
+	menuBar()->addMenu( "mView/mDockWidgets" ).setText( tr( "Dock &Widgets" ) );
 	
 	// create actions
 	QAction* aQuit = menuBar()->addAction( "mFile/aQuit", tr( "&Quit" ) );
@@ -192,8 +91,20 @@ void MainWindow::initializeMenuBar()
 	agDockToolBarManagerMode->addAction( aClassic );
 	agDockToolBarManagerMode->addAction( aModern );
 	
+	// add dock toolbar manager actions
+	foreach ( pDockToolBar* dockToolBar, dockToolBarManager()->dockToolBars() ) {
+		QAction* action;
+		
+		action = dockToolBar->toggleViewAction();
+		menuBar()->addAction( QString( "mView/mDockToolBarManager/%1" ).arg( action->objectName() ), action );
+		
+		action = dockToolBar->toggleExclusiveAction();
+		menuBar()->addAction( QString( "mView/mDockToolBarManager/%1" ).arg( action->objectName() ), action );
+	}
+	
 	// connections
 	connect( aQuit, SIGNAL( triggered() ), this, SLOT( close() ) );
+	connect( dockToolBarManager(), SIGNAL( modeChanged( pDockToolBarManager::Mode ) ), this, SLOT( dockToolBarManagerModeChanged( pDockToolBarManager::Mode ) ) );
 	connect( aClassic, SIGNAL( triggered() ), this, SLOT( dockToolBarManagerClassic() ) );
 	connect( aModern, SIGNAL( triggered() ), this, SLOT( dockToolBarManagerModern() ) );
 }
@@ -227,6 +138,76 @@ QTreeView* MainWindow::initializeActionsTreeView()
 	twPages->addTab( tv, tr( "Actions" ) );
 	
 	return tv;
+}
+
+void MainWindow::versionsTests()
+{
+	const pVersion v1( "1.5.4" );
+	const pVersion v2( "1.5.4a" );
+	const QString test1 = QString(
+			"%1\t>\t%2:\t%3\n"
+		"%4\t<\t%5:\t%6\n"
+		"%7\t>=\t%8:\t%9\n"
+		"%10\t<=\t%11:\t%12\n"
+		"%13\t==\t%14:\t%15\n"
+		"%16\t!=\t%17:\t%18"
+		)
+		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 > v2 )
+		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 < v2 )
+		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 >= v2 )
+		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 <= v2 )
+		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 == v2 )
+		.arg( v1.toString() ).arg( v2.toString() ).arg( v1 != v2 )
+		;
+	const QString test2 = QString(
+			"%1\t>\t%2:\t%3\n"
+			"%4\t<\t%5:\t%6\n"
+			"%7\t>=\t%8:\t%9\n"
+			"%10\t<=\t%11:\t%12\n"
+			"%13\t==\t%14:\t%15\n"
+			"%16\t!=\t%17:\t%18"
+		)
+		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 > v1 )
+		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 < v1 )
+		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 >= v1 )
+		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 <= v1 )
+		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 == v1 )
+		.arg( v1.toString() ).arg( v1.toString() ).arg( v1 != v1 )
+		;
+	
+	pteLog->appendPlainText( tr( "Testing versions %1 & %2:\n" ).arg( v1.toString() ).arg( v2.toString() ) );
+	pteLog->appendPlainText( tr( "Test 1:\n%1\n" ).arg( test1 ) );
+	pteLog->appendPlainText( tr( "Test 2:\n%1\n" ).arg( test2 ) );
+}
+
+void MainWindow::createListEditors()
+{
+	// list editor dock
+	QDockWidget* dwListEditor = new QDockWidget( this );
+	QTabWidget* twListEditors = new QTabWidget( dwListEditor );
+	dwListEditor->setObjectName( "DockListEditor" );
+	dwListEditor->setWidget( twListEditors );
+	dwListEditor->toggleViewAction()->setObjectName( "DockListEditorViewAction" );
+	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwListEditor, tr( "List Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/fr.png", QSize( 96, 96 ) ) ) );
+	
+	twListEditors->addTab( new pStringListEditor( QString::null, this ), tr( "Edit strings" ) );
+	twListEditors->addTab( new pPathListEditor( QString::null, ".", this ), tr( "Edit paths" ) );
+	twListEditors->addTab( new pFileListEditor( QString::null, ".", "*.png", this ), tr( "Edit files" ) );
+}
+
+void MainWindow::createCustomWidgets()
+{
+	QDockWidget* dwWidgets = new QDockWidget( this );
+	dwWidgets->setObjectName( "dwWidgets" );
+	dwWidgets->toggleViewAction()->setObjectName( "dwWidgetsViewAction" );
+	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwWidgets, tr( "Custom Widgets" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/es.png", QSize( 96, 96 ) ) ) );
+	
+	QWidget* dwWidgetsContents = new QWidget( this );
+	QGridLayout* dwWidgetsContentsLayout = new QGridLayout( dwWidgetsContents );
+	dwWidgets->setWidget( dwWidgetsContents );
+	
+	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
+	dwWidgetsContentsLayout->addWidget( colorButton, 0, 0 );
 }
 
 void MainWindow::aAddAction_triggered()
@@ -295,6 +276,20 @@ void MainWindow::aEditShortcuts_triggered()
 {
 	pActionsNodeShortcutEditor dlg( mActionsModel, this );
 	dlg.exec();
+}
+
+void MainWindow::dockToolBarManagerModeChanged( pDockToolBarManager::Mode mode )
+{
+	switch ( mode ) {
+		case pDockToolBarManager::Classic:
+			menuBar()->action( "mView/mMode/aShowClassic" )->trigger();
+			break;
+		case pDockToolBarManager::Modern:
+			menuBar()->action( "mView/mMode/aShowModern" )->trigger();
+			break;
+		default:
+			break;
+	}
 }
 
 void MainWindow::dockToolBarManagerClassic()

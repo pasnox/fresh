@@ -21,12 +21,12 @@ pActionsNodeMenuBar::~pActionsNodeMenuBar()
 void pActionsNodeMenuBar::setModel( pActionsNodeModel* model )
 {
 	if ( mModel ) {
+		mModel->clear();
 		disconnect( mModel, SIGNAL( nodeInserted( const pActionsNode& ) ), this, SLOT( model_nodeInserted( const pActionsNode& ) ) );
 		disconnect( mModel, SIGNAL( nodeChanged( const pActionsNode& ) ), this, SLOT( model_nodeChanged( const pActionsNode& ) ) );
 		disconnect( mModel, SIGNAL( nodeRemoved( const pActionsNode& ) ), this, SLOT( model_nodeRemoved( const pActionsNode& ) ) );
 		disconnect( mModel, SIGNAL( nodesCleared() ), this, SLOT( model_nodesCleared() ) );
 		mModel = 0;
-		sync();
 	}
 	
 	mModel = model;

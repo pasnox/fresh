@@ -21,7 +21,6 @@ pDockToolBarManager::pDockToolBarManager( pMainWindow* window )
 	mMainWindow = window;
 	mIsRestoring = false;
 	initializeToolBars();
-	setMode( pDockToolBarManager::Modern );
 	mMainWindow->installEventFilter( this );
 }
 
@@ -88,20 +87,31 @@ void pDockToolBarManager::setMode( pDockToolBarManager::Mode mode )
 			mDockToolBars[ Qt::BottomToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
 			mDockToolBars[ Qt::LeftToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
 			mDockToolBars[ Qt::RightToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
-			mModernWidget.data()->setVisible( false );
 			break;
 		case pDockToolBarManager::Modern: {
 			mModernWidget.data()->setToolBars( mDockToolBars.values() );
-			mModernWidget.data()->setVisible( true );
 			break;
 		}
 		default:
 			break;
 	}
 	
+	mModernWidget.data()->setVisible( mMode == pDockToolBarManager::Modern );
+	bool visible = false;
+	
 	foreach ( pDockToolBar* toolBar, mDockToolBars ) {
 		toolBar->internal_updateButtonsState();
+		toolBar->setVisible( false );
+		
+		if ( toolBar->count() > 0 ) {
+			visible = true;
+			toolBar->setVisible( true );
+		}
 	}
+	
+	mModernWidget.data()->setVisible( visible && mMode == pDockToolBarManager::Modern );
+	
+	emit modeChanged( mMode );
 }
 
 /*!
@@ -185,14 +195,66 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::RightToolBarArea ]->toggleViewAction()->setText( tr( "Right toolbar visible" ) );
 	mDockToolBars[ Qt::RightToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarRightExclusiveAction" );
 	
-	foreach ( pDockToolBar* dockToolBar, mDockToolBars ) {
-		dockToolBar->setVisible( false );
-	}
-	
 	// modern widget manager
 	mModernWidget = new pDockToolBarManagerModernWidget( mMainWindow );
 	mMainWindow->addToolBar( Qt::LeftToolBarArea, mModernWidget.data() );
-	mModernWidget.data()->setVisible( false );
+}
+
+void pDockToolBarManager::checkForUnManagedDockWidgets()
+{
+	if ( !mMainWindow ) {
+		return;
+	}
+	
+	foreach ( QDockWidget* dockWidget, mMainWindow->findChildren<QDockWidget*>() ) {
+		bool hasDockWidget = false;
+		
+		foreach ( pDockToolBar* toolBar, mDockToolBars ) {
+			if ( toolBar->hasDockWidget( dockWidget ) ) {
+				hasDockWidget = true;
+				break;
+			}
+		}
+		
+		if ( hasDockWidget ) {
+			continue;
+		}
+		
+		dockToolBar( mMainWindow->dockWidgetArea( dockWidget ) )->addDockWidget( dockWidget );
+	}
+}
+
+void pDockToolBarManager::setToolBarVisible( pDockToolBar* tb, bool visible )
+{
+	if ( !mDockToolBars.values().contains( tb ) ) {
+		return;
+	}
+	
+	if ( visible ) {
+		if ( mMode == pDockToolBarManager::Modern && visible ) {
+			if ( !mModernWidget.data()->isVisible() ) {
+				mModernWidget.data()->setVisible( true );
+			}
+		}
+		
+		tb->setVisible( true );
+	}
+	else {
+		tb->setVisible( false );
+		
+		if ( mMode == pDockToolBarManager::Modern ) {
+			bool visible = false;
+			
+			foreach ( pDockToolBar* toolBar, mDockToolBars ) {
+				if ( toolBar->isVisible() ) {
+					visible = true;
+					break;
+				}
+			}
+			
+			mModernWidget.data()->setVisible( visible );
+		}
+	}
 }
 
 void pDockToolBarManager::trackDockWidget( QDockWidget* dockWidget )
@@ -322,6 +384,9 @@ void pDockToolBarManager::restoreState( pDockToolBar* dockToolBar )
 			dockToolBar->setExclusive( settings->value( QString( "MainWindow/Docks/%1/Exclusive" ).arg( area ), isExclusive ).toBool() );
 		}
 	}
+	
+	checkForUnManagedDockWidgets();
+	setMode( pDockToolBarManager::Mode( settings->value( "MainWindow/Docks/Mode", pDockToolBarManager::Modern ).toInt() ) );
 }
 
 /*!
@@ -352,6 +417,8 @@ void pDockToolBarManager::saveState( pDockToolBar* dockToolBar )
 		settings->setValue( QString( "MainWindow/Docks/%1/Exclusive" ).arg( area ), dockToolBar->exclusive() );
 		settings->setValue( QString( "MainWindow/Docks/%1/Widgets" ).arg( area ), docksName );
 	}
+	
+	settings->setValue( "MainWindow/Docks/Mode", mMode );
 }
 
 void pDockToolBarManager::dockWidget_allowedAreasChanged( Qt::DockWidgetAreas allowedAreas )

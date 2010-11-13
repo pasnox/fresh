@@ -8,12 +8,16 @@
 #include <QGroupBox>
 #include <QBoxLayout>
 #include <QScrollBar>
+#include <QAction>
 
 pDockToolBarManagerModernWidget::pDockToolBarManagerModernWidget( QWidget* parent )
 	: QToolBar( parent )
 {
 	setObjectName( "pDockToolBarManagerModernWidget" );
 	setWindowTitle( tr( "Modern dock toolbar manager" ) );
+	
+	toggleViewAction()->setEnabled( false );
+	toggleViewAction()->setVisible( false );
 	
 	mContent = new QWidget( this );
 	mContent->setSizePolicy( QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum ) );

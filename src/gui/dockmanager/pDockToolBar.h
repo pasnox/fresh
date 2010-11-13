@@ -81,6 +81,4 @@ private slots:
 	void internal_buttonClicked( bool checked );
 };
 
-Q_DECLARE_METATYPE( QDockWidget* )
-
 #endif // PDOCKTOOLBAR_H

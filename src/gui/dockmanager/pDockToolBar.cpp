@@ -296,14 +296,11 @@ pToolButton* pDockToolBar::addButton( QDockWidget* dockWidget, QBoxLayout::Direc
 
 void pDockToolBar::internal_checkToolBarVisibility()
 {
-	// count toolbar actions, if 1 it s dockframe
-	int count = actions().count();
-	
-	if ( !isVisible() && ( count > 1 || ( count == 1 && this->count() ) ) ) {
-		show();
+	if ( !isVisible() && count() ) {
+		mManager->setToolBarVisible( this, true );
 	}
-	else if ( isVisible() && ( count == 1 && !this->count() ) ) {
-		hide();
+	else if ( isVisible() && !this->count() ) {
+		mManager->setToolBarVisible( this, false );
 	}
 }
 

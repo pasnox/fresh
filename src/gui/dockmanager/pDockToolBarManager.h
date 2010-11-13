@@ -66,6 +66,8 @@ protected:
 	bool mIsRestoring;
 	
 	virtual void initializeToolBars();
+	virtual void checkForUnManagedDockWidgets();
+	virtual void setToolBarVisible( pDockToolBar* tb, bool visible );
 	virtual void trackDockWidget( QDockWidget* dock );
 	virtual void untrackDockWidget( QDockWidget* dock );
 
@@ -79,6 +81,9 @@ protected slots:
 	void dockWidget_featuresChanged( QDockWidget::DockWidgetFeatures features );
 	void dockWidget_topLevelChanged( bool topLevel );
 	void dockWidget_visibilityChanged( bool visible );
+
+signals:
+	void modeChanged( pDockToolBarManager::Mode mode );
 };
 
 #endif // PDOCKTOOLBARMANAGER_H

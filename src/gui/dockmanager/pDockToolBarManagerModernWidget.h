@@ -13,6 +13,7 @@ class pDockToolBar;
 class FRESH_EXPORT pDockToolBarManagerModernWidget : public QToolBar
 {
 	Q_OBJECT
+	friend class pDockToolBarManager;
 	
 public:
 	pDockToolBarManagerModernWidget( QWidget* parent = 0 );
