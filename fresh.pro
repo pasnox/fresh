@@ -70,7 +70,9 @@ HEADERS	*=  \
 	src/gui/models/pRecursiveSortFilterProxyModel.h \
 	src/gui/pTranslationDialog.h \
 	src/gui/queuedmessage/pQueuedMessageToolBar.h \
-	src/gui/queuedmessage/pQueuedMessageWidget.h
+	src/gui/queuedmessage/pQueuedMessageWidget.h \
+	src/gui/stylemanager/pStylesActionGroup.h \
+	src/gui/stylemanager/pStylesToolButton.h
 
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
@@ -100,4 +102,6 @@ SOURCES	*=  \
 	src/gui/models/pRecursiveSortFilterProxyModel.cpp \
 	src/gui/pTranslationDialog.cpp \
 	src/gui/queuedmessage/pQueuedMessageToolBar.cpp \
-	src/gui/queuedmessage/pQueuedMessageWidget.cpp
+	src/gui/queuedmessage/pQueuedMessageWidget.cpp \
+	src/gui/stylemanager/pStylesActionGroup.cpp \
+	src/gui/stylemanager/pStylesToolButton.cpp
