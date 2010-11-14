@@ -45,11 +45,6 @@ QString pStylesToolButton::applicationStyle() const
 	return mActions->applicationStyle();
 }
 
-QStringList pStylesToolButton::availableStyles() const
-{
-	return mActions->availableStyles();
-}
-
 void pStylesToolButton::setCheckableActions( bool checkable )
 {
 	mActions->setCheckable( checkable );

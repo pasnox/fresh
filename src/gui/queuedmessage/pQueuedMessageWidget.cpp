@@ -18,7 +18,7 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	mDefaultTimeout = 0;
 	mDefaultPixmap = pIconManager::pixmap( "info.png", ":/fresh/icons" );
 	mDefaultBackground = QBrush( QColor( 250, 230, 147 ) );
-	mDefaultForeground = QBrush( QColor( 255, 0, 0 ) );
+	mDefaultForeground = QBrush( QColor( 0, 0, 0 ) );
 	
 	// pixmap
 	lPixmap = new QLabel( this );
@@ -30,7 +30,6 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	lMessage->setAlignment( Qt::AlignVCenter | Qt::AlignLeft );
 	lMessage->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	lMessage->setWordWrap( true );
-	//lMessage->setAutoFillBackground( true );
 	
 	// button
 	dbbButtons = new QDialogButtonBox( this );

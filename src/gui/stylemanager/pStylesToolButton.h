@@ -24,7 +24,6 @@ public:
 	
 	QString systemStyle() const;
 	QString applicationStyle() const;
-	QStringList availableStyles() const;
 
 public slots:
 	void setCheckableActions( bool checkable );

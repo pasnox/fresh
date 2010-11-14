@@ -37,59 +37,21 @@ QAction* pStylesActionGroup::applicationAction() const
 	return mActions.value( applicationStyle().toLower() );
 }
 
+QString pStylesActionGroup::systemStyle() const
+{
+	return mSystemStyle;
+}
+
+QString pStylesActionGroup::applicationStyle() const
+{
+	return QApplication::style()->objectName();
+}
+
 void pStylesActionGroup::installInMenuBar( pActionsNodeMenuBar* menuBar, const QString& path )
 {
 	foreach ( QAction* action, mActions ) {
 		menuBar->addAction( QString( "%1/%2" ).arg( path ).arg( action->objectName() ), action );
 	}
-}
-
-QStringList pStylesActionGroup::availableStyles()
-{
-	return QStyleFactory::keys();
-}
-
-QString pStylesActionGroup::systemStyle()
-{
-	const QStringList styles = availableStyles();
-	QString style;
-	
-#if defined( Q_OS_WIN )
-	const QStringList possibleStyles = QStringList()
-		<< "WindowsVista"
-		<< "WindowsXP"
-		<< "Windows";
-	
-	for ( int i = possibleStyles.count() -1; i > -1; i-- ) {
-		if ( styles.contains( possibleStyles.at( i ), Qt::CaseInsensitive ) ) {
-			style = possibleStyles.at( i );
-			break;
-		}
-	}
-#elif defined( Q_OS_MAC )
-	style = "Macintosh (aqua)";
-#else
-	const QString desktop = qgetenv( "DESKTOP_SESSION" ).toLower();
-	const QString version = qgetenv( QString( "%1_SESSION_VERSION" ).arg( desktop.toUpper() ).toLocal8Bit() );
-	
-	if ( desktop == "kde" /*&& version == "4"*/ ) {
-		style = "Oxygen";
-	}
-	else if ( desktop == "gnome" || desktop == "xfce" ) {
-		style = styles.contains( "GTK+", Qt::CaseInsensitive ) ? "GTK+" : "Cleanlooks";
-	}
-#endif
-	
-	if ( styles.contains( style, Qt::CaseInsensitive ) ) {
-		return style;
-	}
-	
-	return applicationStyle();
-}
-
-QString pStylesActionGroup::applicationStyle()
-{
-	return QApplication::style()->objectName();
 }
 
 void pStylesActionGroup::setCheckable( bool checkable )
@@ -112,6 +74,7 @@ void pStylesActionGroup::setCurrentStyle( const QString& style )
 
 void pStylesActionGroup::init( const QString& textFormat )
 {
+	mSystemStyle = QApplication::style()->objectName();
 	mCheckable = true;
 	mTextFormat = textFormat;
 	
@@ -128,7 +91,7 @@ void pStylesActionGroup::updateActions()
 	mActions.clear();
 	
 	// Add style actions
-	const QStringList styles = availableStyles();
+	const QStringList styles = QStyleFactory::keys();
 	const QStringList::const_iterator cend = styles.constEnd();
 	
 	// Make sure ObjectName  is unique in case toolbar solution is used.
@@ -136,13 +99,18 @@ void pStylesActionGroup::updateActions()
 	
 	// Create styles. Set style name string as action data.
 	for ( QStringList::const_iterator it = styles.constBegin(); it !=  cend ;++it ) {
-		QAction* action = new QAction( mTextFormat.arg( *it ), this );
+		QAction* action = new QAction( this );
 		QString objName = objNamePrefix;
 		objName += ( *it ).toLower().replace( ' ', '_' );
-		//objName += objNamePostfix;
+		QString text = mTextFormat.arg( *it );
+		
+		if ( QString::compare( ( *it ), mSystemStyle, Qt::CaseInsensitive ) == 0 ) {
+			text.append( tr( "(System)" ).prepend( " " ) );
+		}
 		
 		action->setObjectName( objName );
 		action->setData( ( *it ).toLower() );
+		action->setText( text );
 		action->setCheckable( true );
 		action->setChecked( ( *it ).toLower() == curStyle );
 		

@@ -23,17 +23,17 @@ public:
 	QAction* systemAction() const;
 	QAction* applicationAction() const;
 	
-	void installInMenuBar( pActionsNodeMenuBar* menuBar, const QString& path );
+	QString systemStyle() const;
+	QString applicationStyle() const;
 	
-	static QString systemStyle();
-	static QString applicationStyle();
-	static QStringList availableStyles();
+	void installInMenuBar( pActionsNodeMenuBar* menuBar, const QString& path );
 
 public slots:
 	void setCheckable( bool checkable );
 	void setCurrentStyle( const QString& style );
 
 protected:
+	QString mSystemStyle;
 	bool mCheckable;
 	QString mTextFormat;
 	QHash<QString, QAction*> mActions;
