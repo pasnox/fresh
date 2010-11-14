@@ -4,7 +4,7 @@
 #include "core/FreshExport.h"
 
 #include <QActionGroup>
-#include <QHash>
+#include <QMap>
 
 class pActionsNodeMenuBar;
 
@@ -36,7 +36,7 @@ protected:
 	QString mSystemStyle;
 	bool mCheckable;
 	QString mTextFormat;
-	QHash<QString, QAction*> mActions;
+	QMap<QString, QAction*> mActions;
 	
 	void init( const QString& textFormat );
 	void updateActions();

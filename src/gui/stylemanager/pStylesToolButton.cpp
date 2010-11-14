@@ -61,7 +61,7 @@ void pStylesToolButton::init( const QString& textFormat )
 	mMenu = new QMenu( this );
 	
 	mActions->updateActions();
-	mMenu->addActions( mActions->actions() );
+	mMenu->addActions( mActions->mActions.values() );
 	
 	setMenu( mMenu );
 	setText( mActions->systemAction()->text() );
