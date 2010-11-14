@@ -9,6 +9,7 @@
 class pActionsNodeModel;
 class pActionsNodeMenuBar;
 class pQueuedMessage;
+class pStylesActionGroup;
 
 class MainWindow : public pMainWindow
 {
@@ -18,11 +19,16 @@ public:
 	MainWindow( QWidget* parent = 0 );
 	virtual ~MainWindow();
 
+public slots:
+	virtual void saveState();
+	virtual void restoreState();
+
 protected:
 	QTabWidget* twPages;
 	QPlainTextEdit* pteLog;
 	QTreeView* tvActions;
 	pActionsNodeModel* mActionsModel;
+	pStylesActionGroup* agStyles;
 	
 	void initializeGui();
 	void initializeMenuBar();
@@ -43,6 +49,7 @@ protected slots:
 	void dockToolBarManagerModern();
 	void addQueuedMessage();
 	void queuedMessageToolBarButtonClicked( QDialogButtonBox::StandardButton button, const pQueuedMessage& message );
+	void setCurrentStyle( const QString& style );
 };
 
 #endif // MAINWINDOW_H

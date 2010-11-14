@@ -14,6 +14,8 @@
 #include <Gui/pToolButton>
 #include <Gui/pIconManager>
 #include <Gui/pQueuedMessageToolBar>
+#include <Gui/pStylesActionGroup>
+#include <Gui/pStylesToolButton>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -29,6 +31,20 @@ MainWindow::MainWindow( QWidget* parent )
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::saveState()
+{
+	pMainWindow::saveState();
+	
+	settings()->setValue( "MainWindow/Style", agStyles->currentStyle() );
+}
+
+void MainWindow::restoreState()
+{
+	pMainWindow::restoreState();
+	
+	agStyles->setCurrentStyle( settings()->value( "MainWindow/Style" ).toString() );
 }
 
 void MainWindow::initializeGui()
@@ -76,6 +92,7 @@ void MainWindow::initializeMenuBar()
 	menuBar()->addMenu( "mFile" ).setText( tr( "&File" ) );
 	menuBar()->addMenu( "mEdit" ).setText( tr( "&Edit" ) );
 	menuBar()->addMenu( "mView" ).setText( tr( "&View" ) );
+	menuBar()->addMenu( "mView/mStyle" ).setText( tr( "&Style" ) );
 	menuBar()->addMenu( "mView/mMode" ).setText( tr( "&Mode" ) );
 	menuBar()->addMenu( "mView/mDockToolBarManager" ).setText( tr( "&Dock ToolBar Manager" ) );
 	menuBar()->addMenu( "mView/mDockWidgets" ).setText( tr( "Dock &Widgets" ) );
@@ -88,6 +105,10 @@ void MainWindow::initializeMenuBar()
 	
 	QAction* aModern = menuBar()->addAction( "mView/mMode/aShowModern", tr( "Modern" ) );
 	aModern->setCheckable( true );
+	
+	// style actions
+	agStyles = new pStylesActionGroup( this );
+	agStyles->installInMenuBar( menuBar(), "mView/mStyle" );
 	
 	// action group
 	QActionGroup* agDockToolBarManagerMode = new QActionGroup( this );
@@ -107,6 +128,7 @@ void MainWindow::initializeMenuBar()
 	
 	// connections
 	connect( aQuit, SIGNAL( triggered() ), this, SLOT( close() ) );
+	connect( agStyles, SIGNAL( styleSelected( const QString& ) ), this, SLOT( setCurrentStyle( const QString& ) ) );
 	connect( dockToolBarManager(), SIGNAL( modeChanged( pDockToolBarManager::Mode ) ), this, SLOT( dockToolBarManagerModeChanged( pDockToolBarManager::Mode ) ) );
 	connect( aClassic, SIGNAL( triggered() ), this, SLOT( dockToolBarManagerClassic() ) );
 	connect( aModern, SIGNAL( triggered() ), this, SLOT( dockToolBarManagerModern() ) );
@@ -226,8 +248,13 @@ void MainWindow::createCustomWidgets()
 	toolButton2->setDirection( QBoxLayout::TopToBottom );
 	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2 );
 	
+	pStylesToolButton* stylesButton = new pStylesToolButton( dwWidgetsContents );
+	stylesButton->setCheckableActions( false );
+	dwWidgetsContentsLayout->addWidget( stylesButton, 1, 0 );
+	connect( stylesButton, SIGNAL( styleSelected( const QString& ) ), agStyles, SLOT( setCurrentStyle( const QString& ) ) );
+	
 	QPushButton* pbQueuedMessage = new QPushButton( tr( "Add queued message" ) );
-	dwWidgetsContentsLayout->addWidget( pbQueuedMessage, 1, 0, 1, 3 );
+	dwWidgetsContentsLayout->addWidget( pbQueuedMessage, 1, 1, 1, 2 );
 	connect( pbQueuedMessage, SIGNAL( clicked() ), this, SLOT( addQueuedMessage() ) );
 }
 
@@ -334,7 +361,7 @@ void MainWindow::addQueuedMessage()
 		msg.buttons[ QDialogButtonBox::Ok ] = QString::null;
 		msg.buttons[ QDialogButtonBox::Yes ] = tr( "Show QMessageBox" );
 		msg.object = this;
-		msg.slot = "queuedMessageToolBarButtonClicked"; //SLOT( queuedMessageToolBarButtonClicked( QDialogButtonBox::StandardButton, const pQueuedMessage& ) );
+		msg.slot = "queuedMessageToolBarButtonClicked";
 		
 		queuedMessageToolBar()->appendMessage( msg );
 	}
@@ -349,4 +376,9 @@ void MainWindow::queuedMessageToolBarButtonClicked( QDialogButtonBox::StandardBu
 		default:
 			break;
 	}
+}
+
+void MainWindow::setCurrentStyle( const QString& style )
+{
+	QApplication::setStyle( style );
 }
