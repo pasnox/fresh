@@ -14,7 +14,7 @@ public:
 	pQueuedMessageToolBar( QWidget* parent = 0 );
 	virtual ~pQueuedMessageToolBar();
 	
-	pQueuedMessageWidget* messageWidget() const;
+	pQueuedMessageWidget* queuedMessageWidget() const;
 	
 	pQueuedMessage appendMessage( const QString& message, int milliSeconds = -1 );
 

@@ -32,7 +32,7 @@ pQueuedMessageToolBar::~pQueuedMessageToolBar()
 {
 }
 
-pQueuedMessageWidget* pQueuedMessageToolBar::messageWidget() const
+pQueuedMessageWidget* pQueuedMessageToolBar::queuedMessageWidget() const
 {
 	return mQueuedWidget;
 }
@@ -44,7 +44,7 @@ void pQueuedMessageToolBar::paintEvent( QPaintEvent* event )
 		return;
 	}
 	
-	const QBrush brush = mQueuedWidget->palette().brush( mQueuedWidget->backgroundRole() );
+	const QBrush brush = mQueuedWidget->currentMessageBackground();
 	QPainter painter( this );
 	painter.setPen( brush.color().darker( 150 ) );
 	painter.setBrush( brush );

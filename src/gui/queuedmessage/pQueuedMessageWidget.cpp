@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QStyle>
 #include <QPushButton>
+#include <QPainter>
 
 /*!
 	\details Create a new pQueuedMessageWidget object
@@ -17,7 +18,7 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	mDefaultTimeout = 0;
 	mDefaultPixmap = pIconManager::pixmap( "info.png", ":/fresh/icons" );
 	mDefaultBackground = QBrush( QColor( 250, 230, 147 ) );
-	mDefaultForeground = QBrush( QColor( 0, 0, 0 ) );
+	mDefaultForeground = QBrush( QColor( 255, 0, 0 ) );
 	
 	// pixmap
 	lPixmap = new QLabel( this );
@@ -29,7 +30,7 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	lMessage->setAlignment( Qt::AlignVCenter | Qt::AlignLeft );
 	lMessage->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	lMessage->setWordWrap( true );
-	lMessage->setAutoFillBackground( true );
+	//lMessage->setAutoFillBackground( true );
 	
 	// button
 	dbbButtons = new QDialogButtonBox( this );
@@ -46,8 +47,6 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	QFont font = this->font();
 	font.setPointSize( 9 );
 	setFont( font );
-	
-	setAutoFillBackground( true );
 	
 	// connections
 	connect( dbbButtons, SIGNAL( clicked( QAbstractButton* ) ), this, SLOT( buttonClicked( QAbstractButton* ) ) );
@@ -161,6 +160,37 @@ void pQueuedMessageWidget::clear()
 	emit cleared();
 }
 
+QPixmap pQueuedMessageWidget::currentMessagePixmap() const
+{
+	const pQueuedMessage msg = currentMessage();
+	return msg.pixmap.isNull() ? mDefaultPixmap : msg.pixmap;
+}
+
+QBrush pQueuedMessageWidget::currentMessageBackground() const
+{
+	const pQueuedMessage msg = currentMessage();
+	return msg.background == QBrush( Qt::NoBrush ) ? mDefaultBackground : msg.background;
+}
+
+QBrush pQueuedMessageWidget::currentMessageForeground() const
+{
+	const pQueuedMessage msg = currentMessage();
+	return msg.foreground == QBrush( Qt::NoBrush ) ? mDefaultForeground : msg.foreground;
+}
+
+void pQueuedMessageWidget::paintEvent( QPaintEvent* event )
+{
+	if ( pendingMessageCount() == 0 ) {
+		QWidget::paintEvent( event );
+		return;
+	}
+	
+	QPainter painter( this );
+	painter.setPen( Qt::NoPen );
+	painter.setBrush( currentMessageBackground() );
+	painter.drawRect( rect() );
+}
+
 void pQueuedMessageWidget::buttonClicked( QAbstractButton* button )
 {
 	const pQueuedMessage msg = currentMessage();
@@ -182,20 +212,13 @@ void pQueuedMessageWidget::showMessage()
 	// get message
 	pQueuedMessage msg = currentMessage();
 	
-	// update palettes
-	const QBrush invalidBrush( Qt::NoBrush );
-	QPalette pal;
-	
-	pal = lMessage->palette();
-	pal.setBrush( lMessage->foregroundRole(), msg.foreground == invalidBrush ? mDefaultForeground : msg.foreground );
+	// update palette
+	QPalette pal = lMessage->palette();
+	pal.setBrush( lMessage->foregroundRole(), currentMessageForeground() );
 	lMessage->setPalette( pal );
 	
-	pal = palette();
-	pal.setBrush( backgroundRole(), msg.background == invalidBrush ? mDefaultBackground : msg.background );
-	setPalette( pal );
-	
 	// format widget
-	lPixmap->setPixmap( msg.pixmap.isNull() ? mDefaultPixmap : msg.pixmap );
+	lPixmap->setPixmap( currentMessagePixmap() );
 	lMessage->setText( msg.message );
 	lMessage->setToolTip( msg.message );
 	lMessage->setWhatsThis( msg.message );

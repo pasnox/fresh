@@ -74,6 +74,7 @@ struct FRESH_EXPORT pQueuedMessage
 class FRESH_EXPORT pQueuedMessageWidget : public QWidget
 {
 	Q_OBJECT
+	friend class pQueuedMessageToolBar;
 	
 public:
 	pQueuedMessageWidget( QWidget* parent = 0 );
@@ -105,6 +106,12 @@ protected:
 	QLabel* lMessage;
 	QDialogButtonBox* dbbButtons;
 	QList<pQueuedMessage> mMessages;
+	
+	QPixmap currentMessagePixmap() const;
+	QBrush currentMessageBackground() const;
+	QBrush currentMessageForeground() const;
+	
+	void paintEvent( QPaintEvent* event );
 
 protected slots:
 	void buttonClicked( QAbstractButton* button );
