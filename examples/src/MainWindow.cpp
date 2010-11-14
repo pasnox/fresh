@@ -11,6 +11,9 @@
 #include <Gui/pPathListEditor>
 #include <Gui/pColorButton>
 #include <Gui/pDrawingUtils>
+#include <Gui/pToolButton>
+#include <Gui/pIconManager>
+#include <Gui/pQueuedMessageToolBar>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -208,6 +211,24 @@ void MainWindow::createCustomWidgets()
 	
 	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
 	dwWidgetsContentsLayout->addWidget( colorButton, 0, 0 );
+	
+	pToolButton* toolButton1 = new pToolButton( dwWidgetsContents );
+	toolButton1->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+	toolButton1->setText( tr( "Bottom To Top" ) );
+	toolButton1->setIcon( pIconManager::icon( "pt.png" ) );
+	toolButton1->setDirection( QBoxLayout::BottomToTop );
+	dwWidgetsContentsLayout->addWidget( toolButton1, 0, 1 );
+	
+	pToolButton* toolButton2 = new pToolButton( dwWidgetsContents );
+	toolButton2->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
+	toolButton2->setText( tr( "Top To Bottom" ) );
+	toolButton2->setIcon( pIconManager::icon( "br.png" ) );
+	toolButton2->setDirection( QBoxLayout::TopToBottom );
+	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2 );
+	
+	QPushButton* pbQueuedMessage = new QPushButton( tr( "Add queued message" ) );
+	dwWidgetsContentsLayout->addWidget( pbQueuedMessage, 1, 0, 1, 3 );
+	connect( pbQueuedMessage, SIGNAL( clicked() ), this, SLOT( addQueuedMessage() ) );
 }
 
 void MainWindow::aAddAction_triggered()
@@ -300,4 +321,32 @@ void MainWindow::dockToolBarManagerClassic()
 void MainWindow::dockToolBarManagerModern()
 {
 	dockToolBarManager()->setMode( pDockToolBarManager::Modern );
+}
+
+void MainWindow::addQueuedMessage()
+{
+	bool ok;
+	const QString message = QInputDialog::getText( this, tr( "Add a queued message" ), tr( "Enter the message to show:" ), QLineEdit::Normal, tr( "This is the default message" ), &ok );
+	
+	if ( ok && !message.isEmpty() ) {
+		pQueuedMessage msg;
+		msg.message = message;
+		msg.buttons[ QDialogButtonBox::Ok ] = QString::null;
+		msg.buttons[ QDialogButtonBox::Yes ] = tr( "Show QMessageBox" );
+		msg.object = this;
+		msg.slot = "queuedMessageToolBarButtonClicked"; //SLOT( queuedMessageToolBarButtonClicked( QDialogButtonBox::StandardButton, const pQueuedMessage& ) );
+		
+		queuedMessageToolBar()->appendMessage( msg );
+	}
+}
+
+void MainWindow::queuedMessageToolBarButtonClicked( QDialogButtonBox::StandardButton button, const pQueuedMessage& message )
+{
+	switch ( button ) {
+		case QDialogButtonBox::Yes:
+			QMessageBox::information( this, QString::null, message.message );
+			break;
+		default:
+			break;
+	}
 }

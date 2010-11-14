@@ -38,7 +38,8 @@ INCLUDEPATH	*= ./src
 RESOURCES	*= resources/fresh.qrc
 
 FORMS	*=  \
-	src/gui/actionmanager/pActionsNodeShortcutEditor.ui
+	src/gui/actionmanager/pActionsNodeShortcutEditor.ui \
+	src/gui/pTranslationDialog.ui
 
 HEADERS	*=  \
 	src/core/FreshExport.h \
@@ -66,7 +67,10 @@ HEADERS	*=  \
 	src/gui/listeditor/pFileListEditor.h \
 	src/gui/listeditor/pPathListEditor.h \
 	src/gui/listeditor/pStringListEditor.h \
-	src/gui/models/pRecursiveSortFilterProxyModel.h
+	src/gui/models/pRecursiveSortFilterProxyModel.h \
+	src/gui/pTranslationDialog.h \
+	src/gui/queuedmessage/pQueuedMessageToolBar.h \
+	src/gui/queuedmessage/pQueuedMessageWidget.h
 
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
@@ -93,4 +97,7 @@ SOURCES	*=  \
 	src/gui/listeditor/pFileListEditor.cpp \
 	src/gui/listeditor/pPathListEditor.cpp \
 	src/gui/listeditor/pStringListEditor.cpp \
-	src/gui/models/pRecursiveSortFilterProxyModel.cpp
+	src/gui/models/pRecursiveSortFilterProxyModel.cpp \
+	src/gui/pTranslationDialog.cpp \
+	src/gui/queuedmessage/pQueuedMessageToolBar.cpp \
+	src/gui/queuedmessage/pQueuedMessageWidget.cpp

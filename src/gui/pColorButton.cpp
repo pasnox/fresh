@@ -18,7 +18,7 @@ pColorButton::pColorButton( const QColor& color, QWidget* parent )
 void pColorButton::init( const QColor& color )
 {
 	connect( this, SIGNAL( clicked() ), this, SLOT( _q_clicked() ) );
-	setIconSize( QSize( 32, 32 ) );
+	setIconSize( QSize( 16, 16 ) );
 	setColor( color );
 }
 

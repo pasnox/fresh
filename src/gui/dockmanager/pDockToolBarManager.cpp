@@ -87,6 +87,11 @@ void pDockToolBarManager::setMode( pDockToolBarManager::Mode mode )
 			mDockToolBars[ Qt::BottomToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
 			mDockToolBars[ Qt::LeftToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
 			mDockToolBars[ Qt::RightToolBarArea ]->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum );
+			
+			if ( !mMainWindow->toolBarBreak( mDockToolBars[ Qt::TopToolBarArea ] ) ) {
+				mMainWindow->insertToolBarBreak( mDockToolBars[ Qt::TopToolBarArea ] );
+			}
+			
 			break;
 		case pDockToolBarManager::Modern: {
 			mModernWidget.data()->setToolBars( mDockToolBars.values() );

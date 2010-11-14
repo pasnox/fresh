@@ -1,6 +1,7 @@
 #include "pMainWindow.h"
 #include "core/pSettings.h"
 #include "actionmanager/pActionsNodeMenuBar.h"
+#include "queuedmessage/pQueuedMessageToolBar.h"
 #include "dockmanager/pDockToolBarManager.h"
 #include "dockmanager/pDockToolBar.h"
 
@@ -15,6 +16,7 @@ pMainWindow::pMainWindow( QWidget* parent, Qt::WindowFlags windowFlags )
 	mShown = false;
 	mSettings = 0;
 	mMenuBar = 0;
+	mQueuedMessageToolBar = 0;
 	mDockToolBarManager = 0;
 	
 #if not defined( Q_OS_MAC )
@@ -22,6 +24,8 @@ pMainWindow::pMainWindow( QWidget* parent, Qt::WindowFlags windowFlags )
 #else
 	menuBar();
 #endif
+
+	queuedMessageToolBar();
 }
 
 pMainWindow::~pMainWindow()
@@ -92,6 +96,18 @@ pActionsNodeMenuBar* pMainWindow::menuBar() const
 	return mMenuBar;
 }
 
+pQueuedMessageToolBar* pMainWindow::queuedMessageToolBar() const
+{
+	if ( !mQueuedMessageToolBar ) {
+		pMainWindow* mw = const_cast<pMainWindow*>( this );
+		mQueuedMessageToolBar = new pQueuedMessageToolBar( mw );
+		mw->addToolBar( Qt::TopToolBarArea, mQueuedMessageToolBar );
+		mQueuedMessageToolBar->setVisible( false );
+	}
+	
+	return mQueuedMessageToolBar;
+}
+
 /*!
 	\details Return the pDockToolBarManager object
 */
@@ -136,6 +152,7 @@ void pMainWindow::restoreState()
 	if ( settings() ) {
 		dockToolBarManager()->setRestoring( true );
 		settings()->restoreState( this );
+		queuedMessageToolBar()->setVisible( false );
 		dockToolBarManager()->setRestoring( false );
 		dockToolBarManager()->restoreState();
 	}

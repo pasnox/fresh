@@ -12,10 +12,11 @@
 
 #include <QMainWindow>
 
+class pSettings;
 class pActionsNodeMenuBar;
+class pQueuedMessageToolBar;
 class pDockToolBarManager;
 class pDockToolBar;
-class pSettings;
 
 /*!
 	\brief An extended QMainWindow.
@@ -36,6 +37,7 @@ public:
 	
 	virtual pSettings* settings() const;
 	virtual pActionsNodeMenuBar* menuBar() const;
+	virtual pQueuedMessageToolBar* queuedMessageToolBar() const;
 	virtual pDockToolBarManager* dockToolBarManager() const;
 	pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
 
@@ -43,6 +45,7 @@ protected:
 	bool mShown;
 	mutable pSettings* mSettings;
 	mutable pActionsNodeMenuBar* mMenuBar;
+	mutable pQueuedMessageToolBar* mQueuedMessageToolBar;
 	mutable pDockToolBarManager* mDockToolBarManager;
 
 	virtual void showEvent( QShowEvent* event );

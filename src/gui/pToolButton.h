@@ -21,14 +21,6 @@ class FRESH_EXPORT pToolButton : public QToolButton
 	Q_OBJECT
 
 public:
-	enum CursorArea {
-		caNone = 0,
-		caArrow,
-		caButton,
-		caArrowClicked,
-		caButtonClicked
-	};
-
 	pToolButton( QWidget* parent, QBoxLayout::Direction direction = QBoxLayout::LeftToRight );
 
 	virtual QSize minimumSizeHint() const;
@@ -45,6 +37,14 @@ protected:
 	QBoxLayout::Direction mDirection;
 	bool mMenuDown;
 	QVariant mUserData;
+	
+	enum CursorArea {
+		caNone = 0,
+		caArrow,
+		caButton,
+		caArrowClicked,
+		caButtonClicked
+	};
 	
 	virtual void paintEvent( QPaintEvent* event );
 	virtual void mousePressEvent( QMouseEvent* event );

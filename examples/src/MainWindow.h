@@ -8,6 +8,7 @@
 
 class pActionsNodeModel;
 class pActionsNodeMenuBar;
+class pQueuedMessage;
 
 class MainWindow : public pMainWindow
 {
@@ -40,6 +41,8 @@ protected slots:
 	void dockToolBarManagerModeChanged( pDockToolBarManager::Mode mode );
 	void dockToolBarManagerClassic();
 	void dockToolBarManagerModern();
+	void addQueuedMessage();
+	void queuedMessageToolBarButtonClicked( QDialogButtonBox::StandardButton button, const pQueuedMessage& message );
 };
 
 #endif // MAINWINDOW_H

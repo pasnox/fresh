@@ -7,4 +7,6 @@ XUPProjectSettings {
 TEMPLATE	= subdirs
 CONFIG	*= ordered
 
-SUBDIRS	*= fresh.pro examples/examples.pro
+SUBDIRS	*= \
+	fresh.pro \
+	examples/examples.pro
