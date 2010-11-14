@@ -66,12 +66,12 @@ void pToolButton::paintEvent( QPaintEvent* event )
 		case QBoxLayout::TopToBottom:
 			option.rect.setSize( size( Qt::Horizontal ) );
 			transform.rotate( 90 );
-			transform.translate( 0, -option.rect.height() );
+			transform.translate( 0, -option.rect.height() +1 );
 			break;
 		case QBoxLayout::BottomToTop:
 			option.rect.setSize( size( Qt::Horizontal ) );
 			transform.rotate( -90 );
-			transform.translate( -option.rect.width(), 0 );
+			transform.translate( -option.rect.width() +1, 0 );
 			break;
 		default:
 			break;
