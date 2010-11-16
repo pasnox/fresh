@@ -72,7 +72,8 @@ HEADERS	*=  \
 	src/gui/queuedmessage/pQueuedMessageToolBar.h \
 	src/gui/queuedmessage/pQueuedMessageWidget.h \
 	src/gui/stylemanager/pStylesActionGroup.h \
-	src/gui/stylemanager/pStylesToolButton.h
+	src/gui/stylemanager/pStylesToolButton.h \
+	src/gui/pFileDialog.h
 
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
@@ -104,4 +105,5 @@ SOURCES	*=  \
 	src/gui/queuedmessage/pQueuedMessageToolBar.cpp \
 	src/gui/queuedmessage/pQueuedMessageWidget.cpp \
 	src/gui/stylemanager/pStylesActionGroup.cpp \
-	src/gui/stylemanager/pStylesToolButton.cpp
+	src/gui/stylemanager/pStylesToolButton.cpp \
+	src/gui/pFileDialog.cpp

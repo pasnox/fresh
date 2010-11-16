@@ -16,6 +16,7 @@
 #include <Gui/pQueuedMessageToolBar>
 #include <Gui/pStylesActionGroup>
 #include <Gui/pStylesToolButton>
+#include <Gui/pFileDialog>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -202,7 +203,7 @@ void MainWindow::versionsTests()
 	
 	pteLog->appendPlainText( tr( "Testing versions %1 & %2:\n" ).arg( v1.toString() ).arg( v2.toString() ) );
 	pteLog->appendPlainText( tr( "Test 1:\n%1\n" ).arg( test1 ) );
-	pteLog->appendPlainText( tr( "Test 2:\n%1\n" ).arg( test2 ) );
+	pteLog->appendPlainText( tr( "Test 2:\n%1" ).arg( test2 ) );
 }
 
 void MainWindow::createListEditors()
@@ -248,14 +249,23 @@ void MainWindow::createCustomWidgets()
 	toolButton2->setDirection( QBoxLayout::TopToBottom );
 	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2 );
 	
-	pStylesToolButton* stylesButton = new pStylesToolButton( dwWidgetsContents );
-	stylesButton->setCheckableActions( false );
-	dwWidgetsContentsLayout->addWidget( stylesButton, 1, 0 );
-	connect( stylesButton, SIGNAL( styleSelected( const QString& ) ), agStyles, SLOT( setCurrentStyle( const QString& ) ) );
+	QPushButton* pbOpenFile = new QPushButton( tr( "Get open file names" ), this );
+	dwWidgetsContentsLayout->addWidget( pbOpenFile, 7, 0, 1, 3 );
+	connect( pbOpenFile, SIGNAL( clicked() ), this, SLOT( openFileDialog() ) );
+	
+	QPushButton* pbOpenDirectory = new QPushButton( tr( "Get open directory name" ), this );
+	dwWidgetsContentsLayout->addWidget( pbOpenDirectory, 8, 0, 1, 3 );
+	connect( pbOpenDirectory, SIGNAL( clicked() ), this, SLOT( openDirectoryDialog() ) );
 	
 	QPushButton* pbQueuedMessage = new QPushButton( tr( "Add queued message" ) );
-	dwWidgetsContentsLayout->addWidget( pbQueuedMessage, 1, 1, 1, 2 );
+	dwWidgetsContentsLayout->addWidget( pbQueuedMessage, 9, 0, 1, 3 );
 	connect( pbQueuedMessage, SIGNAL( clicked() ), this, SLOT( addQueuedMessage() ) );
+	
+	pStylesToolButton* stylesButton = new pStylesToolButton( dwWidgetsContents );
+	stylesButton->setSizePolicy( pbQueuedMessage->sizePolicy() );
+	stylesButton->setCheckableActions( false );
+	dwWidgetsContentsLayout->addWidget( stylesButton, 10, 0, 1, 3 );
+	connect( stylesButton, SIGNAL( styleSelected( const QString& ) ), agStyles, SLOT( setCurrentStyle( const QString& ) ) );
 }
 
 void MainWindow::aAddAction_triggered()
@@ -381,4 +391,102 @@ void MainWindow::queuedMessageToolBarButtonClicked( QDialogButtonBox::StandardBu
 void MainWindow::setCurrentStyle( const QString& style )
 {
 	QApplication::setStyle( style );
+}
+
+void MainWindow::openFileDialog()
+{
+	const QString caption;
+	const QString dir;
+	const QString filter;
+	const bool enabledTextCodec = true;
+	const bool enabledOpenReadOnly = true;
+	const QString selectedFilter;
+	const QFileDialog::Options options = 0;
+	const pFileDialogResult result = pFileDialog::getOpenFileNames( this, caption, dir, filter, enabledTextCodec,
+		enabledOpenReadOnly, selectedFilter, options );
+	
+	pteLog->appendPlainText( QString::null );
+	
+	if ( result.isEmpty() ) {
+		pteLog->appendPlainText( tr( "You canceled the open file dialog" ) );
+	}
+	else {
+		QStringList texts;
+		
+		texts << tr( "You accepted the open file dialog" );
+		
+		foreach ( const int& type, result.keys() ) {
+			switch ( type ) {
+				case pFileDialog::TextCodec:
+					texts << tr( "TextCodec: %1" ).arg( result[ type ].toString() );
+					break;
+				case pFileDialog::OpenReadOnly:
+					texts << tr( "OpenReadOnly: %1" ).arg( result[ type ].toString() );
+					break;
+				case pFileDialog::Directory:
+					texts << tr( "Directory: %1" ).arg( result[ type ].toString() );
+					break;
+				case pFileDialog::FileName:
+					texts << tr( "FileName: %1" ).arg( result[ type ].toString() );
+					break;
+				case pFileDialog::FileNames:
+					texts << tr( "FileNames: %1" ).arg( result[ type ].toStringList().join( ", " ) );
+					break;
+				case pFileDialog::SelectedFilter:
+					texts << tr( "SelectedFilter: %1" ).arg( result[ type ].toString() );
+					break;
+			}
+		}
+		
+		pteLog->appendPlainText( texts.join( "\n" ) );
+	}
+}
+
+void MainWindow::openDirectoryDialog()
+{
+	const QString caption;
+	const QString dir;
+	const QString filter;
+	const bool enabledTextCodec = true;
+	const bool enabledOpenReadOnly = true;
+	const QString selectedFilter;
+	const QFileDialog::Options options = 0;
+	const pFileDialogResult result = pFileDialog::getExistingDirectory( this, caption, dir, enabledTextCodec,
+		enabledOpenReadOnly, options | QFileDialog::ShowDirsOnly );
+	
+	pteLog->appendPlainText( QString::null );
+	
+	if ( result.isEmpty() ) {
+		pteLog->appendPlainText( tr( "You canceled the open directory dialog" ) );
+	}
+	else {
+		QStringList texts;
+		
+		texts << tr( "You accepted the open directory dialog" );
+		
+		foreach ( const int& type, result.keys() ) {
+			switch ( type ) {
+				case pFileDialog::TextCodec:
+					texts << tr( "TextCodec: %1" ).arg( result[ type ].toString() );
+					break;
+				case pFileDialog::OpenReadOnly:
+					texts << tr( "OpenReadOnly: %1" ).arg( result[ type ].toString() );
+					break;
+				case pFileDialog::Directory:
+					texts << tr( "Directory: %1" ).arg( result[ type ].toString() );
+					break;
+				case pFileDialog::FileName:
+					texts << tr( "FileName: %1" ).arg( result[ type ].toString() );
+					break;
+				case pFileDialog::FileNames:
+					texts << tr( "FileNames: %1" ).arg( result[ type ].toStringList().join( ", " ) );
+					break;
+				case pFileDialog::SelectedFilter:
+					texts << tr( "SelectedFilter: %1" ).arg( result[ type ].toString() );
+					break;
+			}
+		}
+		
+		pteLog->appendPlainText( texts.join( "\n" ) );
+	}
 }

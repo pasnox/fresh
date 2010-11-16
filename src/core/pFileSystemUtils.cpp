@@ -1,5 +1,8 @@
 #include "pFileSystemUtils.h"
 
+#include <QMap>
+#include <QTextCodec>
+
 QString pFileSystemUtils::findFile( QDir& dir, const QString& fileName, bool recursive )
 {
 	foreach ( const QFileInfo& fi, dir.entryInfoList( QStringList( fileName ), QDir::Files | QDir::CaseSensitive ) ) {
@@ -20,4 +23,16 @@ QString pFileSystemUtils::findFile( QDir& dir, const QString& fileName, bool rec
 	}
 
 	return QString::null;
+}
+
+QStringList pFileSystemUtils::textCodecs()
+{
+	QMap<QString, QString> codecs;
+	
+	foreach ( const QByteArray& codec, QTextCodec::availableCodecs() ) {
+		const QString entry = QString::fromAscii( codec );
+		codecs[ entry.toLower() ] = entry;
+	}
+	
+	return codecs.values();
 }

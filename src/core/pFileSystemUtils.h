@@ -8,6 +8,7 @@
 namespace pFileSystemUtils
 {
 	FRESH_EXPORT QString findFile( QDir& dir, const QString& fileName, bool recursive = true );
+	FRESH_EXPORT QStringList textCodecs();
 };
 
 #endif // PFILESYSTEMUTILS_H

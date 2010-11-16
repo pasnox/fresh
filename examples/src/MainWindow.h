@@ -50,6 +50,8 @@ protected slots:
 	void addQueuedMessage();
 	void queuedMessageToolBarButtonClicked( QDialogButtonBox::StandardButton button, const pQueuedMessage& message );
 	void setCurrentStyle( const QString& style );
+	void openFileDialog();
+	void openDirectoryDialog();
 };
 
 #endif // MAINWINDOW_H
