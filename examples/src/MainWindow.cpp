@@ -17,6 +17,7 @@
 #include <Gui/pStylesActionGroup>
 #include <Gui/pStylesToolButton>
 #include <Gui/pFileDialog>
+#include <Gui/pTreeComboBox>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -266,6 +267,10 @@ void MainWindow::createCustomWidgets()
 	stylesButton->setCheckableActions( false );
 	dwWidgetsContentsLayout->addWidget( stylesButton, 10, 0, 1, 3 );
 	connect( stylesButton, SIGNAL( styleSelected( const QString& ) ), agStyles, SLOT( setCurrentStyle( const QString& ) ) );
+	
+	pTreeComboBox* tcbActions = new pTreeComboBox( this );
+	tcbActions->setModel( mActionsModel );
+	dwWidgetsContentsLayout->addWidget( tcbActions, 11, 0, 1, 3 );
 }
 
 void MainWindow::aAddAction_triggered()
