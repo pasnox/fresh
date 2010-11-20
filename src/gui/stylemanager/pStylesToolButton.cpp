@@ -67,6 +67,6 @@ void pStylesToolButton::init( const QString& textFormat )
 	setText( mActions->systemAction()->text() );
 	setPopupMode( QToolButton::MenuButtonPopup );
 	
-	connect( this, SIGNAL( clicked() ), mActions->systemAction(), SLOT( toggle() ) );
+	connect( this, SIGNAL( clicked() ), mActions->systemAction(), SLOT( trigger() ) );
 	connect( mActions, SIGNAL( styleSelected(const QString& ) ), this, SIGNAL( styleSelected(const QString& ) ) );
 }
