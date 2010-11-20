@@ -18,12 +18,70 @@
 #include <Gui/pStylesToolButton>
 #include <Gui/pFileDialog>
 #include <Gui/pTreeComboBox>
+#include <Gui/pConsole>
+#include <Gui/pConsoleCommand>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
 #endif
 
 #include <QtGui>
+
+class ConsoleCommands : public pConsoleCommand
+{
+public:
+	ConsoleCommands()
+		: pConsoleCommand( QStringList() << "ls" << "echo" << "quit" )
+	{
+		setUsage( "ls", pConsole::tr( "Execute 'dir' on windows, else 'ls' command and return output.\nExample: ls -C /" ) );
+		setUsage( "echo", pConsole::tr( "Simple echo command, print back the arguments.\nExample: echo \"hi all friends\"" ) );
+		setUsage( "quit", pConsole::tr( "Quit the application.\nExample: quit" ) );
+	}
+	
+	virtual QString interpret( const QString& command, int* exitCode ) const
+	{
+		int ec = pConsoleCommand::NotFound;
+		QString output = pConsoleCommand::interpret( command, &ec );
+		QStringList parts = parseCommand( command );
+		const QString cmd = parts.isEmpty() ? QString::null : parts.takeFirst();
+		
+		if ( ec != pConsoleCommand::NotFound ) {
+			// nothing to do
+		}
+		else if ( cmd == "ls" ) {
+#if defined ( Q_OS_WIN )
+			const QString cmd = QString( "dir %1" ).arg( pConsoleCommand::quotedStringList( parts ).join( " " ) ).trimmed();
+#else
+			const QString cmd = QString( "ls %1" ).arg( pConsoleCommand::quotedStringList( parts ).join( " " ) ).trimmed();
+#endif
+			
+			QProcess process;
+			process.setProcessChannelMode( QProcess::MergedChannels );
+			process.start( cmd );
+			process.waitForStarted();
+			process.waitForFinished();
+			
+			output = QString::fromLocal8Bit( process.readAll().trimmed() );
+			ec = process.exitCode();
+		}
+		else if ( cmd == "echo" ) {
+			output = parts.isEmpty() ? pConsole::tr( "No argument given" ) : parts.join( "\n" );
+			ec = parts.isEmpty() ? pConsoleCommand::Error : pConsoleCommand::Success;
+		}
+		else if ( cmd == "quit" ) {
+			output = pConsole::tr( "Quitting the application..." );
+			ec = pConsoleCommand::Success;
+			
+			QTimer::singleShot( 1000, qApp, SLOT( quit() ) );
+		}
+		
+		if ( exitCode ) {
+			*exitCode = ec;
+		}
+		
+		return output;
+	}
+};
 
 MainWindow::MainWindow( QWidget* parent )
 	: pMainWindow( parent )
@@ -58,6 +116,7 @@ void MainWindow::initializeGui()
 	initializeMenuBar();
 	pteLog = initializePlainTextEdit();
 	tvActions = initializeActionsTreeView();
+	cShell = initializeConsole();
 	versionsTests();
 	createListEditors();
 	createCustomWidgets();
@@ -165,6 +224,21 @@ QTreeView* MainWindow::initializeActionsTreeView()
 	twPages->addTab( tv, tr( "Actions" ) );
 	
 	return tv;
+}
+
+pConsole* MainWindow::initializeConsole()
+{
+	pConsole* shell = new pConsole( this );
+	ConsoleCommands* commands = new ConsoleCommands;
+	shell->addAvailableCommand( commands );
+	
+	QDockWidget* dwConsole = new QDockWidget( this );
+	dwConsole->setObjectName( "Console" );
+	dwConsole->setWidget( shell );
+	dwConsole->toggleViewAction()->setObjectName( "ConsoleViewAction" );
+	dockToolBar( Qt::BottomToolBarArea )->addDockWidget( dwConsole, tr( "Shell" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/ro.png", QSize( 96, 96 ) ) ) );
+	
+	return shell;
 }
 
 void MainWindow::versionsTests()

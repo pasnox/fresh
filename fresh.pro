@@ -74,7 +74,9 @@ HEADERS	*=  \
 	src/gui/stylemanager/pStylesActionGroup.h \
 	src/gui/stylemanager/pStylesToolButton.h \
 	src/gui/pFileDialog.h \
-	src/gui/pTreeComboBox.h
+	src/gui/pTreeComboBox.h \
+	src/gui/consolemanager/pConsole.h \
+	src/gui/consolemanager/pConsoleCommand.h
 
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
@@ -108,4 +110,6 @@ SOURCES	*=  \
 	src/gui/stylemanager/pStylesActionGroup.cpp \
 	src/gui/stylemanager/pStylesToolButton.cpp \
 	src/gui/pFileDialog.cpp \
-	src/gui/pTreeComboBox.cpp
+	src/gui/pTreeComboBox.cpp \
+	src/gui/consolemanager/pConsole.cpp \
+	src/gui/consolemanager/pConsoleCommand.cpp

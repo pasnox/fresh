@@ -47,8 +47,6 @@ public:
 	void setCurrentIndex( const QModelIndex& index );
 	
 	void expandAll();
-	
-	int count() const;
 
 protected slots:
 	void internal_activated( const QModelIndex& index );

@@ -10,6 +10,7 @@ class pActionsNodeModel;
 class pActionsNodeMenuBar;
 class pQueuedMessage;
 class pStylesActionGroup;
+class pConsole;
 
 class MainWindow : public pMainWindow
 {
@@ -28,12 +29,14 @@ protected:
 	QPlainTextEdit* pteLog;
 	QTreeView* tvActions;
 	pActionsNodeModel* mActionsModel;
+	pConsole* cShell;
 	pStylesActionGroup* agStyles;
 	
 	void initializeGui();
 	void initializeMenuBar();
 	QPlainTextEdit* initializePlainTextEdit();
 	QTreeView* initializeActionsTreeView();
+	pConsole* initializeConsole();
 	
 	void versionsTests();
 	void createListEditors();

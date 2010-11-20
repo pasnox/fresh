@@ -1,36 +1,18 @@
 #include "pTreeComboBox.h"
 
-#include <QVBoxLayout>
-#include <QTreeView>
-#include <QAbstractItemModel>
-#include <QComboBox>
-#include <QHeaderView>
-#include <QStyleOptionComboBox>
-#include <QStylePainter>
-#include <QMouseEvent>
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QStatusBar>
+#include <QFrame>
+#include <QVBoxLayout>
 #include <QSizeGrip>
-#include <QDebug>
+#include <QTreeView>
+#include <QKeyEvent>
 #include <QToolTip>
+#include <QStylePainter>
 #include <QStack>
+#include <QHeaderView>
 #include <QInputContext>
 #include <QScrollBar>
-
-int recursiveCount( const QModelIndex& it )
-{
-	int j = 0;
-	if ( !it.parent().isValid() )
-		j++;
-	for ( int i = 0; i < it.model()->rowCount( it ); i++ )
-	{
-		j++;
-		if ( it.model()->hasChildren( it.child( i, 0 ) ) )
-			j += recursiveCount( it.child( i, 0 ) );
-	}
-	return j;
-}
 
 //Windows and KDE allows menus to cover the taskbar, while GNOME and Mac don't
 QRect popupGeometry(int screen)
@@ -161,14 +143,6 @@ QSize pTreeComboBox::sizeHint() const
 	
 	size = style()->sizeFromContents( QStyle::CT_ComboBox, &option, size, this );
     return size.expandedTo( QApplication::globalStrut() );
-}
-
-/*!
-	\details Return the number of row in the model
-*/
-int pTreeComboBox::count() const
-{
-	return mModel ? recursiveCount( mModel.data()->index( 0, 0 ) ) : 0;
 }
 
 /*!
