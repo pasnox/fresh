@@ -16,7 +16,7 @@ pToolButton::pToolButton( QWidget* parent, QBoxLayout::Direction direction )
 	setDirection( direction );
 }
 
-QSize pToolButton::size( Qt::Orientation orientation ) const
+QSize pToolButton::internalSize( Qt::Orientation orientation ) const
 {
 	QSize size = QToolButton::size();
 	Qt::Orientation buttonOrientation = Qt::Horizontal;
@@ -64,12 +64,12 @@ void pToolButton::paintEvent( QPaintEvent* event )
 	
 	switch ( mDirection ) {
 		case QBoxLayout::TopToBottom:
-			option.rect.setSize( size( Qt::Horizontal ) );
+			option.rect.setSize( internalSize( Qt::Horizontal ) );
 			transform.rotate( 90 );
 			transform.translate( 0, -option.rect.height() +1 );
 			break;
 		case QBoxLayout::BottomToTop:
-			option.rect.setSize( size( Qt::Horizontal ) );
+			option.rect.setSize( internalSize( Qt::Horizontal ) );
 			transform.rotate( -90 );
 			transform.translate( -option.rect.width() +1, 0 );
 			break;
@@ -159,7 +159,7 @@ pToolButton::CursorArea pToolButton::cursorArea( const QPoint& _pos ) const
 		initStyleOption( &opt );
 	
 		// force to do horizontal calcul
-		opt.rect.setSize( size( Qt::Horizontal ) );
+		opt.rect.setSize( internalSize( Qt::Horizontal ) );
 
 		// get arraow bounding rectangle
 		QSize size = style()->subControlRect( QStyle::CC_ToolButton, &opt, QStyle::SC_ToolButtonMenu, this ).size();

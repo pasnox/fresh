@@ -45,3 +45,27 @@ QPixmap pDrawingUtils::scaledPixmap( const QString& filePath, const QSize& size 
 	
 	return pixmap;
 }
+
+FRESH_EXPORT QPixmap pDrawingUtils::scaledPixmap( const QPixmap& _pixmap, const QString& _key, const QSize& size )
+{
+	const QString key = QString( "%1-%2-%3" ).arg( _key ).arg( size.width() ).arg( size.height() );
+	QPixmap pixmap;
+	
+	if ( !QPixmapCache::find( key, pixmap ) ) {
+		if ( !_pixmap.isNull() ) {
+			
+			if ( size != QSize() ) {
+				pixmap = _pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+			}
+			
+			if ( !QPixmapCache::insert( key, pixmap ) ) {
+				qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << key;
+			}
+		}
+		else {
+			qWarning() << Q_FUNC_INFO << "Pixmap not exists" << key;
+		}
+	}
+	
+	return pixmap;
+}

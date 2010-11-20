@@ -19,6 +19,7 @@ class QStyleOptionToolButton;
 class FRESH_EXPORT pToolButton : public QToolButton
 {
 	Q_OBJECT
+	friend class pDockWidgetTitleBar;
 
 public:
 	pToolButton( QWidget* parent, QBoxLayout::Direction direction = QBoxLayout::LeftToRight );
@@ -51,7 +52,7 @@ protected:
 	virtual void mouseMoveEvent( QMouseEvent* event );
 	virtual void mouseReleaseEvent( QMouseEvent* event );
 
-	QSize size( Qt::Orientation orientation ) const;
+	QSize internalSize( Qt::Orientation orientation ) const;
 	pToolButton::CursorArea cursorArea( const QPoint& pos = QPoint() ) const;
 
 	QMenu* hasMenu() const;

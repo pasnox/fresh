@@ -76,7 +76,9 @@ HEADERS	*=  \
 	src/gui/pFileDialog.h \
 	src/gui/pTreeComboBox.h \
 	src/gui/consolemanager/pConsole.h \
-	src/gui/consolemanager/pConsoleCommand.h
+	src/gui/consolemanager/pConsoleCommand.h \
+	src/gui/dockwidget/pDockWidget.h \
+	src/gui/dockwidget/pDockWidgetTitleBar.h
 
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
@@ -112,4 +114,6 @@ SOURCES	*=  \
 	src/gui/pFileDialog.cpp \
 	src/gui/pTreeComboBox.cpp \
 	src/gui/consolemanager/pConsole.cpp \
-	src/gui/consolemanager/pConsoleCommand.cpp
+	src/gui/consolemanager/pConsoleCommand.cpp \
+	src/gui/dockwidget/pDockWidget.cpp \
+	src/gui/dockwidget/pDockWidgetTitleBar.cpp

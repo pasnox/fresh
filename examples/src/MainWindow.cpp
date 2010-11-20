@@ -20,6 +20,7 @@
 #include <Gui/pTreeComboBox>
 #include <Gui/pConsole>
 #include <Gui/pConsoleCommand>
+#include <Gui/pDockWidget>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -232,11 +233,11 @@ pConsole* MainWindow::initializeConsole()
 	ConsoleCommands* commands = new ConsoleCommands;
 	shell->addAvailableCommand( commands );
 	
-	QDockWidget* dwConsole = new QDockWidget( this );
+	pDockWidget* dwConsole = new pDockWidget( this );
 	dwConsole->setObjectName( "Console" );
 	dwConsole->setWidget( shell );
 	dwConsole->toggleViewAction()->setObjectName( "ConsoleViewAction" );
-	dockToolBar( Qt::BottomToolBarArea )->addDockWidget( dwConsole, tr( "Shell" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/ro.png", QSize( 96, 96 ) ) ) );
+	dockToolBar( Qt::BottomToolBarArea )->addDockWidget( dwConsole, tr( "Shell - List Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/ro.png", QSize( 96, 96 ) ) ) );
 	
 	return shell;
 }
@@ -284,7 +285,7 @@ void MainWindow::versionsTests()
 void MainWindow::createListEditors()
 {
 	// list editor dock
-	QDockWidget* dwListEditor = new QDockWidget( this );
+	pDockWidget* dwListEditor = new pDockWidget( this );
 	QTabWidget* twListEditors = new QTabWidget( dwListEditor );
 	dwListEditor->setObjectName( "DockListEditor" );
 	dwListEditor->setWidget( twListEditors );
@@ -298,7 +299,7 @@ void MainWindow::createListEditors()
 
 void MainWindow::createCustomWidgets()
 {
-	QDockWidget* dwWidgets = new QDockWidget( this );
+	pDockWidget* dwWidgets = new pDockWidget( this );
 	dwWidgets->setObjectName( "dwWidgets" );
 	dwWidgets->toggleViewAction()->setObjectName( "dwWidgetsViewAction" );
 	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwWidgets, tr( "Custom Widgets" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/es.png", QSize( 96, 96 ) ) ) );
