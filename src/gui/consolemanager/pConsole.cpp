@@ -7,14 +7,103 @@
 
 #include <QDebug>
 
+class pInternalCommands : public pConsoleCommand
+{
+public:
+	pInternalCommands( pConsole* console )
+		: pConsoleCommand( QStringList() << "clear" << "cls" << "reset" << "help" )
+	{
+		Q_ASSERT( console );
+		mConsole = console;
+		
+		setHelp( "clear", pConsole::tr( "Clear the screen" ) );
+		setHelp( "cls", pConsole::tr( "An alias for clear command" ) );
+		setHelp( "reset", pConsole::tr( "Reset the console" ) );
+		setHelp( "help", pConsole::tr( "List available commands" ) );
+	}
+	
+	virtual QString interpret( const QString& command, int* exitCode ) const
+	{
+		int ec = pConsoleCommand::NotFound;
+		QString output = pConsoleCommand::interpret( command, &ec );
+		QStringList parts = parseCommand( command );
+		const QString cmd = parts.isEmpty() ? QString::null : parts.takeFirst();
+		
+		if ( ec != pConsoleCommand::NotFound ) {
+			// nothing to do
+		}
+		else if ( cmd == "clear" || cmd == "cls" ) {
+			mConsole->clear();
+			output = QString::null;
+			ec = pConsoleCommand::Success;
+		}
+		else if ( cmd == "reset" ) {
+			mConsole->reset();
+			output = QString::null;
+			ec = pConsoleCommand::Success;
+		}
+		else if ( cmd == "help" ) {
+			const pConsoleCommand::List commands = pConsoleCommand::List() << const_cast<pInternalCommands*>( this ) << mConsole->availableCommands();
+			QStringList help;
+			bool stop = false;
+			
+			foreach ( const pConsoleCommand* command, commands ) {
+				foreach ( const QString& cmd, command->commands() ) {
+					if ( parts.isEmpty() || parts.last() == cmd ) {
+						help << QString( "%1\t\t%2" ).arg( cmd ).arg( command->usage( cmd ) );
+						
+						if ( !parts.isEmpty() ) {
+							stop = true;
+							break;
+						}
+					}
+				}
+				
+				if ( stop ) {
+					break;
+				}
+			}
+			
+			if ( parts.isEmpty() ) {
+				help.prepend( pConsole::tr( "Available commands:\n" ) );
+			}
+			
+			output = help.join( "\n" );
+			ec = pConsoleCommand::Success;
+		}
+		
+		if ( exitCode ) {
+			*exitCode = ec;
+		}
+		
+		return output;
+	}
+
+protected:
+	pConsole* mConsole;
+};
+
 pConsole::pConsole( QWidget* parent )
 	: QPlainTextEdit( parent )
 {
+	mInternalCommands = new pInternalCommands( this );
+	mNoPromptCommands << "cls" << "clear" << "reset";
+	
 	reset();
+}
+
+pConsole::pConsole( const QString& promptText, QWidget* parent )
+	: QPlainTextEdit( parent )
+{
+	mInternalCommands = new pInternalCommands( this );
+	mNoPromptCommands << "cls" << "clear" << "reset";
+	
+	reset( promptText );
 }
 
 pConsole::~pConsole()
 {
+	delete mInternalCommands;
 	qDeleteAll( mAvailableCommands );
 	mAvailableCommands.clear();
 }
@@ -66,18 +155,6 @@ void pConsole::setColor( pConsole::ColorType type, const QColor& color )
 
 void pConsole::executeCommand( const QString& command, bool writeCommand, bool showPrompt )
 {
-	const QStringList clearCommands = QStringList() << "clear" << "cls";
-	
-	if ( clearCommands.contains( command.trimmed(), Qt::CaseInsensitive ) ) {
-		clear();
-		
-		if ( showPrompt ) {
-			displayPrompt();
-		}
-		
-		return;
-	}
-	
 	// write command to execute
 	if ( writeCommand ) {
 		if ( !currentCommand().isEmpty() ) {
@@ -88,7 +165,7 @@ void pConsole::executeCommand( const QString& command, bool writeCommand, bool s
 	}
 	
 	// execute command
-	int exitCode;
+	int exitCode = pConsoleCommand::NotFound;
 	QString output = interpretCommand( command, &exitCode );
 	
 	// write output in different colors if needed
@@ -106,7 +183,7 @@ void pConsole::executeCommand( const QString& command, bool writeCommand, bool s
 	useColor( pConsole::Command );
 	
 	// display the prompt again if needed
-	if ( showPrompt ) {
+	if ( showPrompt && !mNoPromptCommands.contains( command ) ) {
 		displayPrompt();
 	}
 }
@@ -151,15 +228,16 @@ bool pConsole::loadScript( const QString& fileName )
 void pConsole::clear()
 {
 	QPlainTextEdit::clear();
+	displayPrompt();
 }
 
-void pConsole::reset()
+void pConsole::reset( const QString& promptText )
 {
-	clear();
+	QPlainTextEdit::clear();
 	
 	setTextInteractionFlags( Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard | Qt::TextEditable );
 	setUndoRedoEnabled( false );
-	setTabStopWidth( 30 );
+	setTabStopWidth( 40 );
 	
 	QFont font = QFont( "Bitstream Vera Sans Mono" );
 	font.setPixelSize( 11 );
@@ -178,9 +256,16 @@ void pConsole::reset()
 	mRecordedScript.clear();
 	mTypedCommand.clear();
 	
+	QString prompt = promptText.isEmpty() ? mPrompt : promptText;
+	
+	if ( prompt.isEmpty() ) {
+		prompt = "@:/> ";
+	}
+	
 	setHistory( QStringList() );
 	setPromptVisible( true );
-	setPrompt( "@:/> " );
+	appendPlainText( tr( "Press 'Tab' key to list or auto complete commands." ) );
+	setPrompt( prompt );
 }
 
 pConsoleCommand::List pConsole::availableCommands() const
@@ -387,7 +472,9 @@ void pConsole::mouseReleaseEvent( QMouseEvent* event )
 
 bool pConsole::isCommandComplete( const QString& command )
 {
-	foreach ( const pConsoleCommand* cmd, mAvailableCommands ) {
+	const pConsoleCommand::List commands = pConsoleCommand::List() << mInternalCommands << mAvailableCommands;
+	
+	foreach ( const pConsoleCommand* cmd, commands ) {
 		if ( cmd->isComplete( command ) ) {
 			return true;
 		}
@@ -396,15 +483,16 @@ bool pConsole::isCommandComplete( const QString& command )
 	return false;
 }
 
-QString pConsole::interpretCommand( const QString& command, int* result )
+QString pConsole::interpretCommand( const QString& command, int* exitCode )
 {
+	const pConsoleCommand::List commands = pConsoleCommand::List() << mInternalCommands << mAvailableCommands;
 	QString output;
 	bool foundCommand = false;
 	
-	foreach ( const pConsoleCommand* cmd, mAvailableCommands ) {
+	foreach ( const pConsoleCommand* cmd, commands ) {
 		if ( cmd->isComplete( command ) ) {
 			foundCommand = true;
-			output = cmd->interpret( command, result );
+			output = cmd->interpret( command, exitCode );
 			break;
 		}
 	}
@@ -414,7 +502,7 @@ QString pConsole::interpretCommand( const QString& command, int* result )
 	}
 	
 	// add the command to the recordedScript list
-	if ( result && !*result ) {
+	if ( exitCode && *exitCode == pConsoleCommand::Success ) {
 		mRecordedScript << command;
 	}
 	
@@ -423,7 +511,7 @@ QString pConsole::interpretCommand( const QString& command, int* result )
 	mHistoryIndex = mHistory.count();
 	
 	// emit command executed
-	emit commandExecuted( command, *result );
+	emit commandExecuted( command, exitCode ? *exitCode : pConsoleCommand::NoExitCode );
 	
 	// return output
 	return output;
@@ -431,22 +519,15 @@ QString pConsole::interpretCommand( const QString& command, int* result )
 
 QStringList pConsole::autoCompleteCommand( const QString& command )
 {
+	const pConsoleCommand::List commands = pConsoleCommand::List() << mInternalCommands << mAvailableCommands;
 	QStringList result;
 	
-	foreach ( const pConsoleCommand* cmd, mAvailableCommands ) {
+	foreach ( const pConsoleCommand* cmd, commands ) {
 		const QStringList list = cmd->autoCompleteList( command );
 		
 		if ( !list.isEmpty() ) {
 			result << list;
 		}
-	}
-	
-	if ( command == "c" || command == "cl" || command.isEmpty() ) {
-		result << "cls" << "clear";
-	}
-	
-	if ( command.startsWith( "cle" ) ) {
-		result << "clear";
 	}
 	
 	return result;

@@ -10,6 +10,7 @@
 class FRESH_EXPORT pConsole : public QPlainTextEdit
 {
 	Q_OBJECT
+	friend class pInternalCommands;
 
 public:
 	enum ColorType {
@@ -20,6 +21,7 @@ public:
 	};
 
 	pConsole( QWidget* parent = 0 );
+	pConsole( const QString& promptText, QWidget* parent = 0 );
 	virtual ~pConsole();
 
 	QString prompt() const;
@@ -40,7 +42,7 @@ public:
 	bool loadScript( const QString& fileName );
 
 	void clear();
-	void reset();
+	void reset( const QString& promptText = QString::null );
 
 	pConsoleCommand::List availableCommands() const;
 	void setAvailableCommands( const pConsoleCommand::List& commands );
@@ -57,13 +59,15 @@ protected:
 	QHash<ColorType, QColor> mColors;
 	QStringList mRecordedScript;
 	pConsoleCommand::List mAvailableCommands;
+	pConsoleCommand* mInternalCommands;
+	QSet<QString> mNoPromptCommands;
 
 	virtual void keyPressEvent( QKeyEvent* event );
 	virtual void mousePressEvent( QMouseEvent* event );
 	virtual void mouseReleaseEvent( QMouseEvent* event );
 
 	virtual bool isCommandComplete( const QString& command );
-	virtual QString interpretCommand( const QString& command, int* result );
+	virtual QString interpretCommand( const QString& command, int* exitCode );
 	virtual QStringList autoCompleteCommand( const QString& command );
 
 	bool replaceCommand( const QString& command );
@@ -75,7 +79,7 @@ protected:
 	bool showHistoryItem( int index );
 
 signals:
-	void commandExecuted( const QString& command, int result );
+	void commandExecuted( const QString& command, int exitCode );
 };
 
 #endif // PCONSOLE_H

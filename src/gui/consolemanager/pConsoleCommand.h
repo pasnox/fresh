@@ -10,7 +10,8 @@ class FRESH_EXPORT pConsoleCommand
 {
 public:
 	enum ExitCode {
-		NotFound = -1,
+		NotFound = -2,
+		NoExitCode = -1,
 		Success = 0,
 		Error = 1
 	};
@@ -28,10 +29,11 @@ public:
 	QStringList commands() const;
 	QStringList autoCompleteList( const QString& command ) const;
 	
-	virtual QString usage( const QString& command ) const;
-	void setUsage( const QString& command, const QString& usage );
+	virtual QString help( const QString& command ) const;
+	void setHelp( const QString& command, const QString& help );
 
 	virtual bool isComplete( const QString& command ) const;
+	virtual QString usage( const QString& command ) const;
 	virtual QString interpret( const QString& command, int* exitCode ) const;
 	
 	static QStringList quotedStringList( const QStringList& list );
@@ -39,7 +41,7 @@ public:
 
 protected:
 	QStringList mCommands;
-	QHash<QString, QString> mUsages;
+	QHash<QString, QString> mHelps;
 };
 
 #endif // PCONSOLECOMMAND_H

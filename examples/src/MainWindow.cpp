@@ -33,9 +33,9 @@ public:
 	ConsoleCommands()
 		: pConsoleCommand( QStringList() << "ls" << "echo" << "quit" )
 	{
-		setUsage( "ls", pConsole::tr( "Execute 'dir' on windows, else 'ls' command and return output.\nExample: ls -C /" ) );
-		setUsage( "echo", pConsole::tr( "Simple echo command, print back the arguments.\nExample: echo \"hi all friends\"" ) );
-		setUsage( "quit", pConsole::tr( "Quit the application.\nExample: quit" ) );
+		setHelp( "ls", pConsole::tr( "Execute 'dir' on windows else 'ls' command" ) );
+		setHelp( "echo", pConsole::tr( "Simple echo command" ) );
+		setHelp( "quit", pConsole::tr( "Quit the application" ) );
 	}
 	
 	virtual QString interpret( const QString& command, int* exitCode ) const
@@ -228,7 +228,7 @@ QTreeView* MainWindow::initializeActionsTreeView()
 
 pConsole* MainWindow::initializeConsole()
 {
-	pConsole* shell = new pConsole( this );
+	pConsole* shell = new pConsole( "Shell:/> ", this );
 	ConsoleCommands* commands = new ConsoleCommands;
 	shell->addAvailableCommand( commands );
 	

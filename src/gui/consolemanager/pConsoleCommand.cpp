@@ -52,24 +52,29 @@ QStringList pConsoleCommand::autoCompleteList( const QString& command ) const
 	return result;
 }
 
-QString pConsoleCommand::usage( const QString& command ) const
+QString pConsoleCommand::help( const QString& command ) const
 {
 	const QString cmd = parseCommand( command ).value( 0 );
-	return mUsages.value( cmd, pConsole::tr( "No help available" ) );
+	return mHelps.value( cmd, pConsole::tr( "No help available" ) );
 }
 
-void pConsoleCommand::setUsage( const QString& command, const QString& usage )
+void pConsoleCommand::setHelp( const QString& command, const QString& help )
 {
 	const QString cmd = parseCommand( command ).value( 0 );
 	
 	if ( !cmd.isEmpty() ) {
-		mUsages[ cmd ] = usage;
+		mHelps[ cmd ] = help;
 	}
 }
 
 bool pConsoleCommand::isComplete( const QString& command ) const
 {
 	return mCommands.contains( parseCommand( command ).value( 0 ) );
+}
+
+QString pConsoleCommand::usage( const QString& command ) const
+{
+	return help( command );
 }
 
 QString pConsoleCommand::interpret( const QString& command, int* exitCode ) const
