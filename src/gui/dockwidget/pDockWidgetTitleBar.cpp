@@ -55,157 +55,17 @@ QSize pDockWidgetTitleBar::windowIconSize() const
 	return mDock->windowIcon().isNull() ? QSize() : QSize( size, size );
 }
 
-/*!
-    Initialize \a option with the values from this QToolButton. This method
-    is useful for subclasses when they need a QStyleOptionToolButton, but don't want
-    to fill in all the information themselves.
-
-    \sa QStyleOption::initFrom()
-*/
-void pDockWidgetTitleBar::initStyleOptionToolButton( QToolButton* button, QStyleOptionToolButton* option ) const
-{
-    if ( !button || !option ) {
-        return;
-	}
-	
-    option->initFrom( button );
-    bool forceNoText = false;
-    option->iconSize = button->iconSize();
-	
-    if ( button->parentWidget() ) {
-        if ( QToolBar* toolBar = qobject_cast<QToolBar*>( button->parentWidget() ) ) {
-            option->iconSize = toolBar->iconSize();
-        }
-    }
-	
-    if ( !forceNoText ) {
-        option->text = button->text();
-	}
-	
-    option->icon = button->icon();
-    option->arrowType = button->arrowType();
-	
-    if ( button->isDown() ) {
-        option->state |= QStyle::State_Sunken;
-	}
-	
-    if ( button->isChecked() ) {
-        option->state |= QStyle::State_On;
-	}
-	
-    if ( button->autoRaise() ) {
-        option->state |= QStyle::State_AutoRaise;
-	}
-	
-    if ( !button->isChecked() && !button->isDown() ) {
-        option->state |= QStyle::State_Raised;
-	}
-
-    option->subControls = QStyle::SC_ToolButton;
-    option->activeSubControls = QStyle::SC_None;
-
-    option->features = QStyleOptionToolButton::None;
-	
-    if ( button->popupMode() == QToolButton::MenuButtonPopup ) {
-        option->subControls |= QStyle::SC_ToolButtonMenu;
-        option->features |= QStyleOptionToolButton::MenuButtonPopup;
-    }
-	
-    if ( option->state & QStyle::State_MouseOver ) {
-		QStyle::SubControls subControls = option->subControls;
-		option->subControls = QStyle::SC_All;
-		QStyle::SubControl hoverControl = button->style()->hitTestComplexControl( QStyle::CC_ToolButton, option, button->mapFromGlobal( QCursor::pos() ), button );
-        option->activeSubControls = hoverControl; // was d->hoverControl();
-		option->subControls = subControls;
-    }
-	
-    if ( button->menu() && button->menu()->isVisible() ) { // was d->menuButtonDown
-        option->state |= QStyle::State_Sunken;
-        option->activeSubControls |= QStyle::SC_ToolButtonMenu;
-    }
-	
-    if ( button->isDown() ) {
-        option->state |= QStyle::State_Sunken;
-        option->activeSubControls |= QStyle::SC_ToolButton;
-    }
-	
-    if ( button->arrowType() != Qt::NoArrow ) {
-        option->features |= QStyleOptionToolButton::Arrow;
-	}
-	
-    if ( button->popupMode() == QToolButton::DelayedPopup ) {
-        option->features |= QStyleOptionToolButton::PopupDelay;
-	}
-	
-#ifndef QT_NO_MENU
-    if ( button->menu() ) {
-        option->features |= QStyleOptionToolButton::HasMenu;
-	}
-#endif
-	
-    if ( button->toolButtonStyle() == Qt::ToolButtonFollowStyle ) {
-        option->toolButtonStyle = Qt::ToolButtonStyle( style()->styleHint( QStyle::SH_ToolButtonStyle, option, button ) );
-    }
-	else {
-        option->toolButtonStyle = button->toolButtonStyle();
-	}
-	
-    if ( option->toolButtonStyle == Qt::ToolButtonTextBesideIcon ) {
-        // If the action is not prioritized, remove the text label to save space
-        if ( button->defaultAction() && button->defaultAction()->priority() < QAction::NormalPriority ) {
-            option->toolButtonStyle = Qt::ToolButtonIconOnly;
-		}
-    }
-	
-    if ( button->icon().isNull() && button->arrowType() == Qt::NoArrow && !forceNoText ) {
-        if ( !button->text().isEmpty() ) {
-            option->toolButtonStyle = Qt::ToolButtonTextOnly;
-		}
-        else if ( option->toolButtonStyle != Qt::ToolButtonTextOnly ) {
-            option->toolButtonStyle = Qt::ToolButtonIconOnly;
-		}
-    }
-	else {
-        if ( button->text().isEmpty() && option->toolButtonStyle != Qt::ToolButtonIconOnly ) {
-            option->toolButtonStyle = Qt::ToolButtonIconOnly;
-		}
-    }
-	
-    option->pos = button->pos();
-    option->font = button->font();
-}
-
 bool pDockWidgetTitleBar::eventFilter( QObject* object, QEvent* event )
 {
 	pToolButton* button = qobject_cast<pToolButton*>( object );
 	
 	if ( button && event->type() == QEvent::Paint ) {
-		QPainter painter( button );
-		QTransform transform;
-		
 		QStyleOptionToolButton option;
-		initStyleOptionToolButton( button, &option );
-		option.state &= ~QStyle::State_On;
+		button->initStyleOption( &option );
 		option.icon = QIcon();
 		
-		switch ( button->direction() ) {
-			case QBoxLayout::TopToBottom:
-				option.rect.setSize( button->internalSize( Qt::Horizontal ) );
-				transform.rotate( 90 );
-				transform.translate( 0, -option.rect.height() +1 );
-				break;
-			case QBoxLayout::BottomToTop:
-				option.rect.setSize( button->internalSize( Qt::Horizontal ) );
-				transform.rotate( -90 );
-				transform.translate( -option.rect.width() +1, 0 );
-				break;
-			default:
-				break;
-		}
-		
-		painter.setTransform( transform );
-		
-		button->style()->drawComplexControl( QStyle::CC_ToolButton, &option, &painter, mDock );
+		button->paint( &option );
+		QPainter painter( button );
 		button->icon().paint( &painter, button->rect(), Qt::AlignCenter, QIcon::Normal, QIcon::Off );
 		
 		event->accept();

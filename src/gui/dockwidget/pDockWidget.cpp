@@ -1,8 +1,8 @@
 #include "pDockWidget.h"
 #include "pDockWidgetTitleBar.h"
-//#include "gui/actionmanager/pActionsNodeModel.h"
 
 #include <QPainter>
+#include <QStyle>
 
 /*!
 	\brief Create a new pDockWidget instance
@@ -37,7 +37,7 @@ void pDockWidget::paintEvent( QPaintEvent* event )
 {
 	QDockWidget::paintEvent(  event );
 	
-	if ( isFloating() ) {
+	if ( isFloating() && style()->objectName().compare( "Oxygen", Qt::CaseInsensitive ) != 0 ) {
 		QRect rect = this->rect().adjusted( 0, 0, -1, -1 );
 		
 		QPainter painter( this );

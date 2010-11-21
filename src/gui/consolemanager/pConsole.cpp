@@ -16,10 +16,10 @@ public:
 		Q_ASSERT( console );
 		mConsole = console;
 		
-		setHelp( "clear", pConsole::tr( "Clear the screen" ) );
-		setHelp( "cls", pConsole::tr( "An alias for clear command" ) );
-		setHelp( "reset", pConsole::tr( "Reset the console" ) );
-		setHelp( "help", pConsole::tr( "List available commands" ) );
+		setDescription( "clear", pConsole::tr( "Clear the screen" ) );
+		setDescription( "cls", pConsole::tr( "An alias for clear command" ) );
+		setDescription( "reset", pConsole::tr( "Reset the console" ) );
+		setDescription( "help", pConsole::tr( "List available commands" ) );
 	}
 	
 	virtual QString interpret( const QString& command, int* exitCode ) const
@@ -50,7 +50,7 @@ public:
 			foreach ( const pConsoleCommand* command, commands ) {
 				foreach ( const QString& cmd, command->commands() ) {
 					if ( parts.isEmpty() || parts.last() == cmd ) {
-						help << QString( "%1\t\t%2" ).arg( cmd ).arg( command->usage( cmd ) );
+						help << QString( "%1\t\t%2" ).arg( cmd ).arg( command->description( cmd ) );
 						
 						if ( !parts.isEmpty() ) {
 							stop = true;

@@ -40,7 +40,6 @@ protected:
 	virtual bool eventFilter( QObject* object, QEvent* event );
 	virtual void paintEvent( QPaintEvent* event );
 	QSize windowIconSize() const;
-	void initStyleOptionToolButton( QToolButton* button, QStyleOptionToolButton* option ) const;
 	void updateStyleChange();
 
 protected slots:

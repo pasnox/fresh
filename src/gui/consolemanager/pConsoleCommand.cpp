@@ -52,18 +52,18 @@ QStringList pConsoleCommand::autoCompleteList( const QString& command ) const
 	return result;
 }
 
-QString pConsoleCommand::help( const QString& command ) const
+QString pConsoleCommand::description( const QString& command ) const
 {
 	const QString cmd = parseCommand( command ).value( 0 );
-	return mHelps.value( cmd, pConsole::tr( "No help available" ) );
+	return mDescriptions.value( cmd, pConsole::tr( "No description available" ) );
 }
 
-void pConsoleCommand::setHelp( const QString& command, const QString& help )
+void pConsoleCommand::setDescription( const QString& command, const QString& description )
 {
 	const QString cmd = parseCommand( command ).value( 0 );
 	
 	if ( !cmd.isEmpty() ) {
-		mHelps[ cmd ] = help;
+		mDescriptions[ cmd ] = description;
 	}
 }
 
@@ -74,7 +74,7 @@ bool pConsoleCommand::isComplete( const QString& command ) const
 
 QString pConsoleCommand::usage( const QString& command ) const
 {
-	return help( command );
+	return description( command );
 }
 
 QString pConsoleCommand::interpret( const QString& command, int* exitCode ) const
@@ -102,7 +102,7 @@ QStringList pConsoleCommand::quotedStringList( const QStringList& list )
 	
 	foreach ( QString string, list ) {
 		if ( string.contains( " " ) && !string.startsWith( '"' ) && !string.endsWith( '"' ) ) {
-			string.prepend( '"' ).append( '"' );
+			string.replace( "\"", "\\\"" ).prepend( '"' ).append( '"' );
 		}
 		
 		entries << string;

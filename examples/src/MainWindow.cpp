@@ -31,12 +31,16 @@
 class ConsoleCommands : public pConsoleCommand
 {
 public:
-	ConsoleCommands()
-		: pConsoleCommand( QStringList() << "ls" << "echo" << "quit" )
+	ConsoleCommands( MainWindow* window )
+		: pConsoleCommand( QStringList() << "ls" << "echo" << "quit" << "style" )
 	{
-		setHelp( "ls", pConsole::tr( "Execute 'dir' on windows else 'ls' command" ) );
-		setHelp( "echo", pConsole::tr( "Simple echo command" ) );
-		setHelp( "quit", pConsole::tr( "Quit the application" ) );
+		Q_ASSERT( window );
+		mMainWindow = window;
+		
+		setDescription( "ls", pConsole::tr( "Execute 'dir' on windows else 'ls' command" ) );
+		setDescription( "echo", pConsole::tr( "Simple echo command" ) );
+		setDescription( "quit", pConsole::tr( "Quit the application" ) );
+		setDescription( "style", pConsole::tr( "Change the application style" ) );
 	}
 	
 	virtual QString interpret( const QString& command, int* exitCode ) const
@@ -75,6 +79,25 @@ public:
 			
 			QTimer::singleShot( 1000, qApp, SLOT( quit() ) );
 		}
+		else if ( cmd == "style" ) {
+			if ( parts.count() != 1 ) {
+				output = pConsole::tr( "%1 take only 1 parameter, %2 given" ).arg( cmd ).arg( parts.count() );
+				ec = pConsoleCommand::Error;
+			}
+			else if ( parts.last() == "list" ) {
+				output = pConsole::tr( "Available styles:\n%1" ).arg( QStyleFactory::keys().join( "\n" ) );
+				ec = pConsoleCommand::Success;
+			}
+			else {
+				const bool styleExists = QStyleFactory::keys().contains( parts.last(), Qt::CaseInsensitive );
+				output = styleExists ? pConsole::tr( "Setting style to %1..." ).arg( parts.last() ) : pConsole::tr( "This style does not exists" );
+				ec = styleExists ? pConsoleCommand::Success : pConsoleCommand::Error;
+				
+				if ( styleExists == 1 ) {
+					mMainWindow->setCurrentStyle( parts.last() );
+				}
+			}
+		}
 		
 		if ( exitCode ) {
 			*exitCode = ec;
@@ -82,6 +105,29 @@ public:
 		
 		return output;
 	}
+	
+	virtual QString usage( const QString& command ) const
+	{
+		QStringList parts = parseCommand( command );
+		const QString cmd = parts.isEmpty() ? QString::null : parts.takeFirst();
+		
+		if ( cmd == "style" ) {
+			QStringList usage;
+			
+			usage << QString( "Usage: %1 [list | STYLE]" ).arg( cmd );
+			usage << description( cmd );
+			usage << QString::null;
+			usage << pConsole::tr( "%1 list\t\tShow the available styles" ).arg( cmd );
+			usage << pConsole::tr( "%1 STYLE\t\tChange the application style to STYLE" ).arg( cmd );
+			
+			return usage.join( "\n" );
+		}
+		
+		return pConsoleCommand::usage( command );
+	}
+
+protected:
+	MainWindow* mMainWindow;
 };
 
 MainWindow::MainWindow( QWidget* parent )
@@ -230,7 +276,7 @@ QTreeView* MainWindow::initializeActionsTreeView()
 pConsole* MainWindow::initializeConsole()
 {
 	pConsole* shell = new pConsole( "Shell:/> ", this );
-	ConsoleCommands* commands = new ConsoleCommands;
+	ConsoleCommands* commands = new ConsoleCommands( this );
 	shell->addAvailableCommand( commands );
 	
 	pDockWidget* dwConsole = new pDockWidget( this );

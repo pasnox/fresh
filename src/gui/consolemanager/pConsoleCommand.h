@@ -29,8 +29,8 @@ public:
 	QStringList commands() const;
 	QStringList autoCompleteList( const QString& command ) const;
 	
-	virtual QString help( const QString& command ) const;
-	void setHelp( const QString& command, const QString& help );
+	virtual QString description( const QString& command ) const;
+	void setDescription( const QString& command, const QString& description );
 
 	virtual bool isComplete( const QString& command ) const;
 	virtual QString usage( const QString& command ) const;
@@ -41,7 +41,7 @@ public:
 
 protected:
 	QStringList mCommands;
-	QHash<QString, QString> mHelps;
+	QHash<QString, QString> mDescriptions;
 };
 
 #endif // PCONSOLECOMMAND_H

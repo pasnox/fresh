@@ -52,6 +52,7 @@ protected:
 	virtual void mouseMoveEvent( QMouseEvent* event );
 	virtual void mouseReleaseEvent( QMouseEvent* event );
 
+	void paint( QStyleOptionToolButton* option );
 	QSize internalSize( Qt::Orientation orientation ) const;
 	pToolButton::CursorArea cursorArea( const QPoint& pos = QPoint() ) const;
 

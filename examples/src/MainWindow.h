@@ -15,6 +15,7 @@ class pConsole;
 class MainWindow : public pMainWindow
 {
 	Q_OBJECT
+	friend class ConsoleCommands;
 	
 public:
 	MainWindow( QWidget* parent = 0 );

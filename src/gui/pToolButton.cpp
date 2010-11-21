@@ -37,24 +37,21 @@ QSize pToolButton::internalSize( Qt::Orientation orientation ) const
 	return size;
 }
 
-void pToolButton::paintEvent( QPaintEvent* event )
+void pToolButton::paint( QStyleOptionToolButton* option )
 {
-	Q_UNUSED( event );
+	Q_ASSERT( option );
 	
 	QPainter painter( this );
 	QTransform transform;
 	
-	QStyleOptionToolButton option;
-	initStyleOption( &option );
-	
 	// fix some properties due to rotation not handled by Qt
 	switch ( cursorArea() ) {
 		case pToolButton::caButtonClicked:
-			option.activeSubControls |= QStyle::SC_ToolButton;
+			option->activeSubControls |= QStyle::SC_ToolButton;
 			
 			if ( popupMode() == QToolButton::MenuButtonPopup ) {
-				option.state |= QStyle::State_MouseOver;
-				option.activeSubControls |= QStyle::SC_ToolButtonMenu;
+				option->state |= QStyle::State_MouseOver;
+				option->activeSubControls |= QStyle::SC_ToolButtonMenu;
 			}
 			
 			break;
@@ -64,14 +61,14 @@ void pToolButton::paintEvent( QPaintEvent* event )
 	
 	switch ( mDirection ) {
 		case QBoxLayout::TopToBottom:
-			option.rect.setSize( internalSize( Qt::Horizontal ) );
+			option->rect.setSize( internalSize( Qt::Horizontal ) );
 			transform.rotate( 90 );
-			transform.translate( 0, -option.rect.height() +1 );
+			transform.translate( 0, -option->rect.height() +1 );
 			break;
 		case QBoxLayout::BottomToTop:
-			option.rect.setSize( internalSize( Qt::Horizontal ) );
+			option->rect.setSize( internalSize( Qt::Horizontal ) );
 			transform.rotate( -90 );
-			transform.translate( -option.rect.width() +1, 0 );
+			transform.translate( -option->rect.width() +1, 0 );
 			break;
 		default:
 			break;
@@ -79,7 +76,17 @@ void pToolButton::paintEvent( QPaintEvent* event )
 	
 	painter.setTransform( transform );
 	
-	style()->drawComplexControl( QStyle::CC_ToolButton, &option, &painter, this );
+	style()->drawComplexControl( QStyle::CC_ToolButton, option, &painter, this );
+}
+
+void pToolButton::paintEvent( QPaintEvent* event )
+{
+	Q_UNUSED( event );
+	
+	QStyleOptionToolButton option;
+	initStyleOption( &option );
+	
+	paint( &option );
 }
 
 void pToolButton::mousePressEvent( QMouseEvent* event )
