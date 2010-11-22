@@ -33,43 +33,45 @@ public:
 			// nothing to do
 		}
 		else if ( cmd == "clear" || cmd == "cls" ) {
-			mConsole->clear();
-			output = QString::null;
-			ec = pConsoleCommand::Success;
+			ec = parts.isEmpty() ? pConsoleCommand::Success : pConsoleCommand::Error;
+			output = parts.isEmpty() ? QString::null : pConsole::tr( "%1 take no parameter" ).arg( cmd );
+			
+			if ( parts.isEmpty() ) {
+				mConsole->clear();
+			}
 		}
 		else if ( cmd == "reset" ) {
-			mConsole->reset();
-			output = QString::null;
-			ec = pConsoleCommand::Success;
+			ec = parts.isEmpty() ? pConsoleCommand::Success : pConsoleCommand::Error;
+			output = parts.isEmpty() ? QString::null : pConsole::tr( "%1 take no parameter" ).arg( cmd );
+			
+			if ( parts.isEmpty() ) {
+				mConsole->reset();
+			}
 		}
 		else if ( cmd == "help" ) {
-			const pConsoleCommand::List commands = pConsoleCommand::List() << const_cast<pInternalCommands*>( this ) << mConsole->availableCommands();
-			QStringList help;
-			bool stop = false;
+			ec = parts.isEmpty() ? pConsoleCommand::Success : pConsoleCommand::Error;
+			output = parts.isEmpty() ? QString::null : pConsole::tr( "%1 take no parameter" ).arg( cmd );
 			
-			foreach ( const pConsoleCommand* command, commands ) {
-				foreach ( const QString& cmd, command->commands() ) {
-					if ( parts.isEmpty() || parts.last() == cmd ) {
-						help << QString( "%1\t\t%2" ).arg( cmd ).arg( command->description( cmd ) );
-						
-						if ( !parts.isEmpty() ) {
-							stop = true;
-							break;
-						}
+			if ( parts.isEmpty() ) {
+				const pConsoleCommand::List commands = pConsoleCommand::List() << const_cast<pInternalCommands*>( this ) << mConsole->availableCommands();
+				QStringList help;
+				
+				foreach ( const pConsoleCommand* command, commands ) {
+					foreach ( const QString& cmd, command->commands() ) {
+							help << QString( "%1\t\t%2" ).arg( cmd ).arg( command->description( cmd ) );
 					}
 				}
 				
-				if ( stop ) {
-					break;
+				if ( help.isEmpty() ) {
+					help << pConsole::tr( "No help available" );
 				}
+				else {
+					help.prepend( pConsole::tr( "Available commands:" ).append( "\n" ) );
+					help << pConsole::tr( "For specific command details, type: <command> -h/--help" ).prepend( "\n" );
+				}
+				
+				output = help.join( "\n" );
 			}
-			
-			if ( parts.isEmpty() ) {
-				help.prepend( pConsole::tr( "Available commands:\n" ) );
-			}
-			
-			output = help.join( "\n" );
-			ec = pConsoleCommand::Success;
 		}
 		
 		if ( exitCode ) {
@@ -329,9 +331,9 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 	switch ( event->key() ) {
 		case Qt::Key_Enter:
 		case Qt::Key_Return: {
-			const QString command = currentCommand();
+			const QString command = currentCommand().trimmed();
 			
-			/*if ( isCommandComplete( command ) )*/ {
+			if ( !command.isEmpty() /*&& isCommandComplete( command )*/ ) {
 				executeCommand( command, false );
 			}
 			

@@ -81,7 +81,7 @@ QString pConsoleCommand::interpret( const QString& command, int* exitCode ) cons
 {
 	const QStringList parts = parseCommand( command );
 	
-	if ( parts.value( 1 ).compare( "help", Qt::CaseInsensitive ) == 0 ) {
+	if ( parts.value( 1 ).compare( "-h", Qt::CaseInsensitive ) == 0 || parts.value( 1 ).compare( "--help", Qt::CaseInsensitive ) == 0 ) {
 		if ( exitCode ) {
 			*exitCode = pConsoleCommand::Success;
 		}
