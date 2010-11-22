@@ -5,8 +5,6 @@
 #include <QClipboard>
 #include <QFile>
 
-#include <QDebug>
-
 class pInternalCommands : public pConsoleCommand
 {
 public:
@@ -155,8 +153,10 @@ void pConsole::setColor( pConsole::ColorType type, const QColor& color )
 	mColors[ type ] = color;
 }
 
-void pConsole::executeCommand( const QString& command, bool writeCommand, bool showPrompt )
+void pConsole::executeCommand( const QString& _command, bool writeCommand, bool showPrompt )
 {
+	const QString command = _command.trimmed();
+	
 	// write command to execute
 	if ( writeCommand ) {
 		if ( !currentCommand().isEmpty() ) {
@@ -266,7 +266,7 @@ void pConsole::reset( const QString& promptText )
 	
 	setHistory( QStringList() );
 	setPromptVisible( true );
-	appendPlainText( tr( "Press 'Tab' key to list or auto complete commands." ) );
+	appendPlainText( tr( "Press 'Tab' key to list or auto complete commands, type help for commands help." ) );
 	setPrompt( prompt );
 }
 
@@ -301,7 +301,7 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 		return;
 	}
 	
-	// filter out paste
+	// filter out paste action
 	if ( event->matches( QKeySequence::Paste ) ) {
 		QString command = QApplication::clipboard()->text()
 			.replace( "\r\n", "\n" )
@@ -335,22 +335,28 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 	}
 	
 	// some needed infos
-	int relativePos = textCursor().position() -textCursor().block().position();
+	QTextCursor cursor = textCursor();
+	int start = cursor.selectionStart();
+	int end = cursor.selectionEnd();
+	int promptStart = cursor.block().position() +mPrompt.length();
 	int historyId = mHistoryIndex;
 	bool processEvent = true;
+	
+	if ( start > end ) {
+		qSwap( start, end );
+	}
 	
 	// case
 	switch ( event->key() ) {
 		case Qt::Key_Enter:
 		case Qt::Key_Return: {
-			const QString command = currentCommand().trimmed();
+			const QString command = currentCommand();
 			
-			if ( !command.isEmpty() /*&& isCommandComplete( command )*/ ) {
+			if ( event->modifiers() == Qt::NoModifier && !command.isEmpty() /*&& isCommandComplete( command )*/ ) {
 				executeCommand( command, false );
 			}
 			
 			return;
-			break;
 		}
 		case Qt::Key_Escape: {
 			// stopCommand();
@@ -358,10 +364,28 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 			return;
 			break;
 		}
-		case Qt::Key_Left:
-		case Qt::Key_Backspace: {
-			if ( relativePos <= mPrompt.length() ) {
+		case Qt::Key_Left: {
+			if ( cursor.position() <= promptStart ) {
 				return;
+			}
+			
+			break;
+		}
+		case Qt::Key_Backspace: {
+			/*if ( event->modifiers() == Qt::NoModifier )*/ {
+				if ( ( cursor.position() <= promptStart && !cursor.hasSelection() )
+					|| ( cursor.hasSelection() && start < promptStart ) ) {
+					return;
+				}
+			}
+			
+			break;
+		}
+		case Qt::Key_Delete: {
+			/*if ( event->modifiers() == Qt::NoModifier )*/ {
+				if ( cursor.hasSelection() && start < promptStart ) {
+					return;
+				}
 			}
 			
 			break;
@@ -382,11 +406,13 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 			break;
 		}
 		case Qt::Key_Home: {
-			processEvent = false;
-			QTextCursor cursor = textCursor();
-			
-			cursor.setPosition( cursor.block().position() +mPrompt.length() );
-			setTextCursor( cursor );
+			if ( event->modifiers() == Qt::NoModifier ) {
+				processEvent = false;
+				QTextCursor cursor = textCursor();
+				
+				cursor.setPosition( cursor.block().position() +mPrompt.length() );
+				setTextCursor( cursor );
+			}
 			
 			break;
 		}
@@ -427,18 +453,35 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 			}
 			
 			return;
-			break;
 		}
 		default:
 			break;
 	}
 	
 	if ( processEvent ) {
-		if ( textCursor().hasSelection() && event->modifiers() == Qt::NoModifier ) {
-			focusCommand();
+		if ( cursor.hasSelection() && event->modifiers() == Qt::NoModifier ) {
+			const QChar c( event->text().isEmpty() ? QChar() : event->text().at( 0 ) );
+			
+			if ( c.isPrint() ) {
+				focusCommand();
+			}
 		}
 		
 		QPlainTextEdit::keyPressEvent( event );
+		
+		// trunc the selection to remove the prompt
+		if ( textCursor().hasSelection() && event->key() == Qt::Key_Home && event->modifiers() == Qt::ShiftModifier ) {
+			QTextCursor cursor = textCursor();
+			int start = cursor.selectionStart();
+			int end = cursor.selectionEnd();
+			
+			start = cursor.block().position() +mPrompt.length();
+			
+			cursor.setPosition( end, QTextCursor::MoveAnchor );
+			cursor.setPosition( start, QTextCursor::KeepAnchor );
+			
+			setTextCursor( cursor );
+		}
 		
 		mTypedCommand = currentCommand();
 	}
@@ -465,7 +508,9 @@ void pConsole::mousePressEvent( QMouseEvent* event )
 	int length = mPrompt.length();
 	int column = cursor.columnNumber() < length ? length : cursor.columnNumber();
 	
-	mPromptPosition = QPoint( column, cursor.blockNumber() );
+	if ( event->buttons() == Qt::LeftButton ) {
+		mPromptPosition = QPoint( column, cursor.blockNumber() );
+	}
 	
 	setPromptVisible( false );
 	
@@ -476,12 +521,23 @@ void pConsole::mouseReleaseEvent( QMouseEvent* event )
 {
 	QPlainTextEdit::mouseReleaseEvent( event );
 	
-	if ( textCursor().hasSelection() ) {
+	if ( event->button() == Qt::LeftButton && textCursor().hasSelection() ) {
 		copy();
 	}
 	
 	focusCommand();
 	setPromptVisible( true );
+}
+
+void pConsole::contextMenuEvent( QContextMenuEvent* event )
+{
+	// fake release event to reposition the cursor as it's not triggered when requesting context menu
+	QMouseEvent me( QEvent::MouseButtonRelease, QPoint(), Qt::NoButton, Qt::NoButton, Qt::NoModifier );
+	QApplication::sendEvent( viewport(), &me );
+	
+	QPlainTextEdit::contextMenuEvent( event );
+	
+	
 }
 
 bool pConsole::isCommandComplete( const QString& command )
@@ -577,7 +633,7 @@ QString pConsole::currentCommand() const
 		return QString::null;
 	}
 	
-	return block.text().mid( mPrompt.length() );
+	return block.text().mid( mPrompt.length() ).trimmed();
 }
 
 void pConsole::focusCommand()
