@@ -303,19 +303,31 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 	
 	// filter out paste
 	if ( event->matches( QKeySequence::Paste ) ) {
-		QString command = QApplication::clipboard()->text().replace( "\r\n", "\n" );
-		
-		command.replace( "\r", "\n" );
+		QString command = QApplication::clipboard()->text()
+			.replace( "\r\n", "\n" )
+			.replace( "\r", "\n" );
 		
 		while ( command.contains( "\n\n" ) ) {
 			command.replace( "\n\n", "\n" );
 		}
 		
-		QStringList commands = command.split( "\n" );
+		const QStringList commands = command.split( "\n" );
 		
-		foreach ( const QString& cmd, commands ) {
-			/*if ( isCommandComplete( cmd ) )*/ {
-				executeCommand( cmd, true );
+		switch ( commands.count() ) {
+			case 0:
+				break;
+			case 1:
+				insertPlainText( commands.first().trimmed() );
+				break;
+			default: {
+				foreach ( QString command, commands ) {
+					command = command.trimmed();
+					
+					if ( !command.isEmpty() /*&& isCommandComplete( command )*/ ) {
+						executeCommand( command, true );
+					}
+				}
+				break;
 			}
 		}
 		
