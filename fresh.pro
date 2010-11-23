@@ -39,7 +39,9 @@ RESOURCES	*= resources/fresh.qrc
 
 FORMS	*=  \
 	src/gui/actionmanager/pActionsNodeShortcutEditor.ui \
-	src/gui/pTranslationDialog.ui
+	src/gui/pTranslationDialog.ui \
+	src/gui/environmentvariablemanager/pEnvironmentVariableEditor.ui \
+	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.ui
 
 HEADERS	*=  \
 	src/core/FreshExport.h \
@@ -78,7 +80,11 @@ HEADERS	*=  \
 	src/gui/consolemanager/pConsole.h \
 	src/gui/consolemanager/pConsoleCommand.h \
 	src/gui/dockwidget/pDockWidget.h \
-	src/gui/dockwidget/pDockWidgetTitleBar.h
+	src/gui/dockwidget/pDockWidgetTitleBar.h \
+	src/gui/environmentvariablemanager/pEnvironmentVariableEditor.h \
+	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.h \
+	src/gui/environmentvariablemanager/pEnvironmentVariablesManager.h \
+	src/gui/environmentvariablemanager/pEnvironmentVariablesModel.h
 
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
@@ -116,4 +122,8 @@ SOURCES	*=  \
 	src/gui/consolemanager/pConsole.cpp \
 	src/gui/consolemanager/pConsoleCommand.cpp \
 	src/gui/dockwidget/pDockWidget.cpp \
-	src/gui/dockwidget/pDockWidgetTitleBar.cpp
+	src/gui/dockwidget/pDockWidgetTitleBar.cpp \
+	src/gui/environmentvariablemanager/pEnvironmentVariableEditor.cpp \
+	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp \
+	src/gui/environmentvariablemanager/pEnvironmentVariablesManager.cpp \
+	src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp

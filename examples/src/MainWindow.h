@@ -33,13 +33,13 @@ protected:
 	pConsole* cShell;
 	pStylesActionGroup* agStyles;
 	
-	void initializeGui();
-	void initializeMenuBar();
-	QPlainTextEdit* initializePlainTextEdit();
-	QTreeView* initializeActionsTreeView();
-	pConsole* initializeConsole();
-	
-	void versionsTests();
+	void createGui();
+	void createMenuBar();
+	void createPlainTextEdit();
+	void createActionsTreeView();
+	void createConsole();
+	void createEnvironmentVariablesEditor();
+	void createVersionsTests();
 	void createListEditors();
 	void createCustomWidgets();
 

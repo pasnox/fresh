@@ -21,6 +21,7 @@
 #include <Gui/pConsole>
 #include <Gui/pConsoleCommand>
 #include <Gui/pDockWidget>
+#include <Gui/pEnvironmentVariablesEditor>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -133,7 +134,7 @@ protected:
 MainWindow::MainWindow( QWidget* parent )
 	: pMainWindow( parent )
 {
-	initializeGui();
+	createGui();
 }
 
 MainWindow::~MainWindow()
@@ -154,18 +155,19 @@ void MainWindow::restoreState()
 	agStyles->setCurrentStyle( settings()->value( "MainWindow/Style" ).toString() );
 }
 
-void MainWindow::initializeGui()
+void MainWindow::createGui()
 {
 	twPages = new QTabWidget( this );
 	setCentralWidget( twPages );
 	
 	// initialize gui
-	initializeMenuBar();
-	pteLog = initializePlainTextEdit();
-	tvActions = initializeActionsTreeView();
-	cShell = initializeConsole();
-	versionsTests();
+	createMenuBar();
+	createPlainTextEdit();
+	createActionsTreeView();
+	createConsole();
+	createVersionsTests();
 	createListEditors();
+	createEnvironmentVariablesEditor();
 	createCustomWidgets();
 	
 	// create fake dock widget for testing
@@ -186,7 +188,7 @@ void MainWindow::initializeGui()
 	}
 }
 
-void MainWindow::initializeMenuBar()
+void MainWindow::createMenuBar()
 {
 	// set menu bar model
 	mActionsModel = new pActionsNodeModel( this );
@@ -242,19 +244,18 @@ void MainWindow::initializeMenuBar()
 	connect( aModern, SIGNAL( triggered() ), this, SLOT( dockToolBarManagerModern() ) );
 }
 
-QPlainTextEdit* MainWindow::initializePlainTextEdit()
+void MainWindow::createPlainTextEdit()
 {
-	QPlainTextEdit* pte = new QPlainTextEdit( this );
-	pte->setReadOnly( true );
-	pte->setTabStopWidth( 40 );
-	twPages->addTab( pte, tr( "Log" ) );
-	return pte;
+	pteLog = new QPlainTextEdit( this );
+	pteLog->setReadOnly( true );
+	pteLog->setTabStopWidth( 40 );
+	twPages->addTab( pteLog, tr( "Log" ) );
 }
 
-QTreeView* MainWindow::initializeActionsTreeView()
+void MainWindow::createActionsTreeView()
 {
-	QTreeView* tv = new QTreeView( this );
-	tv->setModel( menuBar()->model() );
+	tvActions = new QTreeView( this );
+	tvActions->setModel( menuBar()->model() );
 	
 	menuBar()->addMenu( "mEdit/mActions" ).setText( tr( "&Actions" ) );
 	
@@ -268,27 +269,34 @@ QTreeView* MainWindow::initializeActionsTreeView()
 	connect( aEditTextNode, SIGNAL( triggered() ), this, SLOT( aEditTextNode_triggered() ) );
 	connect( aEditShortcuts, SIGNAL( triggered() ), this, SLOT( aEditShortcuts_triggered() ) );
 	
-	twPages->addTab( tv, tr( "Actions" ) );
-	
-	return tv;
+	twPages->addTab( tvActions, tr( "Actions" ) );
 }
 
-pConsole* MainWindow::initializeConsole()
+void MainWindow::createConsole()
 {
-	pConsole* shell = new pConsole( "Shell:/> ", this );
+	cShell = new pConsole( "Shell:/> ", this );
 	ConsoleCommands* commands = new ConsoleCommands( this );
-	shell->addAvailableCommand( commands );
+	cShell->addAvailableCommand( commands );
 	
-	pDockWidget* dwConsole = new pDockWidget( this );
-	dwConsole->setObjectName( "Console" );
-	dwConsole->setWidget( shell );
-	dwConsole->toggleViewAction()->setObjectName( "ConsoleViewAction" );
-	dockToolBar( Qt::BottomToolBarArea )->addDockWidget( dwConsole, tr( "Shell - List Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/ro.png", QSize( 96, 96 ) ) ) );
-	
-	return shell;
+	pDockWidget* dwShell = new pDockWidget( this );
+	dwShell->setObjectName( "Shell" );
+	dwShell->setWidget( cShell );
+	dwShell->toggleViewAction()->setObjectName( "ShellViewAction" );
+	dockToolBar( Qt::BottomToolBarArea )->addDockWidget( dwShell, tr( "Shell" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/ro.png", QSize( 96, 96 ) ) ) );
 }
 
-void MainWindow::versionsTests()
+void MainWindow::createEnvironmentVariablesEditor()
+{
+	pEnvironmentVariablesEditor* editor = new pEnvironmentVariablesEditor( this );
+	
+	pDockWidget* dwEnvironmentVariablesEditor = new pDockWidget( this );
+	dwEnvironmentVariablesEditor->setObjectName( "EnvironmentVariablesEditor" );
+	dwEnvironmentVariablesEditor->setWidget( editor );
+	dwEnvironmentVariablesEditor->toggleViewAction()->setObjectName( "EnvironmentVariablesEditorViewAction" );
+	dockToolBar( Qt::TopToolBarArea )->addDockWidget( dwEnvironmentVariablesEditor, tr( "Environment Variables Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/it.png", QSize( 96, 96 ) ) ) );
+}
+
+void MainWindow::createVersionsTests()
 {
 	const pVersion v1( "1.5.4" );
 	const pVersion v2( "1.5.4a" );

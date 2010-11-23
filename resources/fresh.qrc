@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/fresh">
+    <file>icons/restore.png</file>
+    <file>icons/reload.png</file>
     <file alias="icons/edit-clear-rtl.png">icons/edit-clear-locationbar-rtl.png</file>
     <file>icons/add.png</file>
     <file>icons/apply.png</file>
