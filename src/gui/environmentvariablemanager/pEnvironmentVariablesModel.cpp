@@ -7,18 +7,16 @@ pEnvironmentVariablesModel::pEnvironmentVariablesModel( QObject* parent )
 	: QAbstractItemModel( parent )
 {
 	mRowCount = 0;
-	Q_UNUSED( QT_TR_NOOP( "true" ) );
-	Q_UNUSED( QT_TR_NOOP( "false" ) );
 }
 
 int pEnvironmentVariablesModel::columnCount( const QModelIndex& parent ) const
 {
-	return parent.isValid() ? 0 : 3;
+	return parent.isValid() ? 0 : 2;
 }
 
 QVariant pEnvironmentVariablesModel::data( const QModelIndex& index, int role ) const
 {
-	if ( !index.isValid() || index.row() < 0 || index.row() >= mRowCount || index.column() < 0 || index.column() >= 3 ) {
+	if ( !index.isValid() || index.row() < 0 || index.row() >= mRowCount || index.column() < 0 || index.column() >= 2 ) {
 		return QVariant();
 	}
 
@@ -28,10 +26,8 @@ QVariant pEnvironmentVariablesModel::data( const QModelIndex& index, int role ) 
 		case Qt::DisplayRole: {
 			switch ( index.column() ) {
 				case 0:
-					return variable->enabled ? tr( "Enabled" ) : tr( "Disabled" );
-				case 1:
 					return variable->name;
-				case 2:
+				case 1:
 					return variable->value;
 			}
 		}
@@ -39,7 +35,7 @@ QVariant pEnvironmentVariablesModel::data( const QModelIndex& index, int role ) 
 			const QStringList entries = QStringList()
 				<< tr( "Name: %1" ).arg( variable->name )
 				<< tr( "Value: %1" ).arg( variable->value )
-				<< tr( "Enabled: %1" ).arg( tr( QVariant( variable->enabled ).toString().toLocal8Bit().constData() ) );
+				<< tr( "Enabled: %1" ).arg( variable->enabled ? tr( "true" ) : tr( "false" ) );
 			return entries.join( "\n" );
 		}
 		case Qt::FontRole: {
@@ -61,7 +57,7 @@ QVariant pEnvironmentVariablesModel::data( const QModelIndex& index, int role ) 
 
 QModelIndex pEnvironmentVariablesModel::index( int row, int column, const QModelIndex& parent ) const
 {
-	if ( parent.isValid() || column < 0 || column >= 3 || row < 0 || row >= mRowCount ) {
+	if ( parent.isValid() || column < 0 || column >= 2 || row < 0 || row >= mRowCount ) {
 		return QModelIndex();
 	}
 
@@ -82,7 +78,7 @@ int pEnvironmentVariablesModel::rowCount( const QModelIndex& parent ) const
 
 QVariant pEnvironmentVariablesModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
-	if ( orientation == Qt::Vertical || section < 0 || section >= 3 ) {
+	if ( orientation == Qt::Vertical || section < 0 || section >= 2 ) {
 		return QAbstractItemModel::headerData( section, orientation, role );
 	}
 
@@ -90,10 +86,8 @@ QVariant pEnvironmentVariablesModel::headerData( int section, Qt::Orientation or
 		case Qt::DisplayRole: {
 			switch ( section ) {
 				case 0:
-					return tr( "State" );
-				case 1:
 					return tr( "Name" );
-				case 2:
+				case 1:
 					return tr( "Value" );
 			}
 		}
@@ -111,7 +105,7 @@ Qt::ItemFlags pEnvironmentVariablesModel::flags( const QModelIndex& index ) cons
 {
 	Qt::ItemFlags flags = QAbstractItemModel::flags( index );
 
-	if ( !index.isValid() || index.row() < 0 || index.row() >= mRowCount || index.column() < 0 || index.column() >= 3 ) {
+	if ( !index.isValid() || index.row() < 0 || index.row() >= mRowCount || index.column() < 0 || index.column() >= 2 ) {
 		return flags;
 	}
 
@@ -133,7 +127,7 @@ bool pEnvironmentVariablesModel::setData( const QModelIndex& index, const QVaria
 	switch ( role ) {
 		case Qt::CheckStateRole: {
 			variable->enabled = value.toInt() == Qt::Checked;
-			emit dataChanged( index, index.sibling( index.row(), 2 ) );
+			emit dataChanged( index, index.sibling( index.row(), 1 ) );
 		}
 	}
 
@@ -142,7 +136,7 @@ bool pEnvironmentVariablesModel::setData( const QModelIndex& index, const QVaria
 
 QModelIndex pEnvironmentVariablesModel::index( const QString& name, int column ) const
 {
-	if ( !mVariables.contains( name ) || column < 0 || column >= 3 ) {
+	if ( !mVariables.contains( name ) || column < 0 || column >= 2 ) {
 		return QModelIndex();
 	}
 
@@ -154,7 +148,7 @@ pEnvironmentVariablesModel::Variable pEnvironmentVariablesModel::variable( const
 {
 	pEnvironmentVariablesModel::Variable variable;
 
-	if ( index.isValid() && index.row() >= 0 && index.row() < mRowCount && index.column() >= 0 && index.column() < 3 ) {
+	if ( index.isValid() && index.row() >= 0 && index.row() < mRowCount && index.column() >= 0 && index.column() < 2 ) {
 		variable = *static_cast<pEnvironmentVariablesModel::Variable*>( index.internalPointer() );
 	}
 
@@ -303,7 +297,7 @@ void pEnvironmentVariablesModel::setVariable( const QString& name, const pEnviro
 	
 	if ( hasVariable ) {
 		const QModelIndex index = this->index( variable.name, 0 );
-		emit dataChanged( index, index.sibling( index.row(), 2 ) );
+		emit dataChanged( index, index.sibling( index.row(), 1 ) );
 	}
 
 	if ( !hasVariable ) {
