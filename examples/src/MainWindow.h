@@ -11,6 +11,7 @@ class pActionsNodeMenuBar;
 class pQueuedMessage;
 class pStylesActionGroup;
 class pConsole;
+class pEnvironmentVariablesEditor;
 
 class MainWindow : public pMainWindow
 {
@@ -32,6 +33,7 @@ protected:
 	pActionsNodeModel* mActionsModel;
 	pConsole* cShell;
 	pStylesActionGroup* agStyles;
+	pEnvironmentVariablesEditor* eveVariables;
 	
 	void createGui();
 	void createMenuBar();

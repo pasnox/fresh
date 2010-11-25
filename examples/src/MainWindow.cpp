@@ -22,6 +22,7 @@
 #include <Gui/pConsoleCommand>
 #include <Gui/pDockWidget>
 #include <Gui/pEnvironmentVariablesEditor>
+#include <Gui/pEnvironmentVariablesManager>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -146,6 +147,10 @@ void MainWindow::saveState()
 	pMainWindow::saveState();
 	
 	settings()->setValue( "MainWindow/Style", agStyles->currentStyle() );
+	
+	pEnvironmentVariablesManager evm;
+	evm.setVariables( eveVariables->variables() );
+	evm.save();
 }
 
 void MainWindow::restoreState()
@@ -153,6 +158,13 @@ void MainWindow::restoreState()
 	pMainWindow::restoreState();
 	
 	agStyles->setCurrentStyle( settings()->value( "MainWindow/Style" ).toString() );
+	
+	pEnvironmentVariablesModel::Variables variables;
+	pEnvironmentVariablesManager evm;
+	evm.load();
+	variables = evm.variables();
+	evm.mergeNewVariables( variables );
+	eveVariables->setVariables( variables, true );
 }
 
 void MainWindow::createGui()
@@ -287,11 +299,11 @@ void MainWindow::createConsole()
 
 void MainWindow::createEnvironmentVariablesEditor()
 {
-	pEnvironmentVariablesEditor* editor = new pEnvironmentVariablesEditor( this );
+	eveVariables = new pEnvironmentVariablesEditor( this );
 	
 	pDockWidget* dwEnvironmentVariablesEditor = new pDockWidget( this );
 	dwEnvironmentVariablesEditor->setObjectName( "EnvironmentVariablesEditor" );
-	dwEnvironmentVariablesEditor->setWidget( editor );
+	dwEnvironmentVariablesEditor->setWidget( eveVariables );
 	dwEnvironmentVariablesEditor->toggleViewAction()->setObjectName( "EnvironmentVariablesEditorViewAction" );
 	dockToolBar( Qt::TopToolBarArea )->addDockWidget( dwEnvironmentVariablesEditor, tr( "Environment Variables Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/it.png", QSize( 96, 96 ) ) ) );
 }
@@ -362,44 +374,44 @@ void MainWindow::createCustomWidgets()
 	QGridLayout* dwWidgetsContentsLayout = new QGridLayout( dwWidgetsContents );
 	dwWidgets->setWidget( dwWidgetsContents );
 	
-	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
-	dwWidgetsContentsLayout->addWidget( colorButton, 0, 0 );
+	QPushButton* pbOpenFile = new QPushButton( tr( "Get open file names" ), this );
+	dwWidgetsContentsLayout->addWidget( pbOpenFile, 0, 0 );
+	connect( pbOpenFile, SIGNAL( clicked() ), this, SLOT( openFileDialog() ) );
+	
+	QPushButton* pbOpenDirectory = new QPushButton( tr( "Get open directory name" ), this );
+	dwWidgetsContentsLayout->addWidget( pbOpenDirectory, 1, 0 );
+	connect( pbOpenDirectory, SIGNAL( clicked() ), this, SLOT( openDirectoryDialog() ) );
+	
+	QPushButton* pbQueuedMessage = new QPushButton( tr( "Add queued message" ) );
+	dwWidgetsContentsLayout->addWidget( pbQueuedMessage, 2, 0 );
+	connect( pbQueuedMessage, SIGNAL( clicked() ), this, SLOT( addQueuedMessage() ) );
+	
+	pStylesToolButton* stylesButton = new pStylesToolButton( dwWidgetsContents );
+	stylesButton->setSizePolicy( pbQueuedMessage->sizePolicy() );
+	stylesButton->setCheckableActions( false );
+	dwWidgetsContentsLayout->addWidget( stylesButton, 3, 0 );
+	connect( stylesButton, SIGNAL( styleSelected( const QString& ) ), agStyles, SLOT( setCurrentStyle( const QString& ) ) );
+	
+	pTreeComboBox* tcbActions = new pTreeComboBox( this );
+	tcbActions->setModel( mActionsModel );
+	dwWidgetsContentsLayout->addWidget( tcbActions, 4, 0 );
 	
 	pToolButton* toolButton1 = new pToolButton( dwWidgetsContents );
 	toolButton1->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
 	toolButton1->setText( tr( "Bottom To Top" ) );
 	toolButton1->setIcon( pIconManager::icon( "pt.png" ) );
 	toolButton1->setDirection( QBoxLayout::BottomToTop );
-	dwWidgetsContentsLayout->addWidget( toolButton1, 0, 1 );
+	dwWidgetsContentsLayout->addWidget( toolButton1, 0, 1, 5, 1 );
 	
 	pToolButton* toolButton2 = new pToolButton( dwWidgetsContents );
 	toolButton2->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
 	toolButton2->setText( tr( "Top To Bottom" ) );
 	toolButton2->setIcon( pIconManager::icon( "br.png" ) );
 	toolButton2->setDirection( QBoxLayout::TopToBottom );
-	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2 );
+	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2, 5, 1 );
 	
-	QPushButton* pbOpenFile = new QPushButton( tr( "Get open file names" ), this );
-	dwWidgetsContentsLayout->addWidget( pbOpenFile, 7, 0, 1, 3 );
-	connect( pbOpenFile, SIGNAL( clicked() ), this, SLOT( openFileDialog() ) );
-	
-	QPushButton* pbOpenDirectory = new QPushButton( tr( "Get open directory name" ), this );
-	dwWidgetsContentsLayout->addWidget( pbOpenDirectory, 8, 0, 1, 3 );
-	connect( pbOpenDirectory, SIGNAL( clicked() ), this, SLOT( openDirectoryDialog() ) );
-	
-	QPushButton* pbQueuedMessage = new QPushButton( tr( "Add queued message" ) );
-	dwWidgetsContentsLayout->addWidget( pbQueuedMessage, 9, 0, 1, 3 );
-	connect( pbQueuedMessage, SIGNAL( clicked() ), this, SLOT( addQueuedMessage() ) );
-	
-	pStylesToolButton* stylesButton = new pStylesToolButton( dwWidgetsContents );
-	stylesButton->setSizePolicy( pbQueuedMessage->sizePolicy() );
-	stylesButton->setCheckableActions( false );
-	dwWidgetsContentsLayout->addWidget( stylesButton, 10, 0, 1, 3 );
-	connect( stylesButton, SIGNAL( styleSelected( const QString& ) ), agStyles, SLOT( setCurrentStyle( const QString& ) ) );
-	
-	pTreeComboBox* tcbActions = new pTreeComboBox( this );
-	tcbActions->setModel( mActionsModel );
-	dwWidgetsContentsLayout->addWidget( tcbActions, 11, 0, 1, 3 );
+	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
+	dwWidgetsContentsLayout->addWidget( colorButton, 5, 0 );
 }
 
 void MainWindow::aAddAction_triggered()
