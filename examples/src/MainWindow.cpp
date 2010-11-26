@@ -23,6 +23,7 @@
 #include <Gui/pDockWidget>
 #include <Gui/pEnvironmentVariablesEditor>
 #include <Gui/pEnvironmentVariablesManager>
+#include <Gui/pUpdateChecker>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -151,6 +152,9 @@ void MainWindow::saveState()
 	pEnvironmentVariablesManager evm;
 	evm.setVariables( eveVariables->variables() );
 	evm.save();
+	
+	settings()->setValue( "UpdateChecker/Last Updated" , ucMkS->lastUpdated() );
+	settings()->setValue( "UpdateChecker/Last Checked" , ucMkS->lastChecked() );
 }
 
 void MainWindow::restoreState()
@@ -165,6 +169,9 @@ void MainWindow::restoreState()
 	variables = evm.variables();
 	evm.mergeNewVariables( variables );
 	eveVariables->setVariables( variables, true );
+	
+	ucMkS->setLastUpdated( settings()->value( "UpdateChecker/Last Updated" ).toDateTime() );
+	ucMkS->setLastChecked( settings()->value( "UpdateChecker/Last Checked" ).toDateTime() );
 }
 
 void MainWindow::createGui()
@@ -181,6 +188,9 @@ void MainWindow::createGui()
 	createListEditors();
 	createEnvironmentVariablesEditor();
 	createCustomWidgets();
+	createUpdateChecker();
+	
+	QTimer::singleShot( 3000, ucMkS, SLOT( silentCheck() ) );
 	
 	// create fake dock widget for testing
 	/*for ( int i = 0; i < 10; i++ ) {
@@ -412,6 +422,18 @@ void MainWindow::createCustomWidgets()
 	
 	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
 	dwWidgetsContentsLayout->addWidget( colorButton, 5, 0 );
+}
+
+void MainWindow::createUpdateChecker()
+{
+	ucMkS = new pUpdateChecker( this );
+	ucMkS->setDownloadsFeedUrl( QUrl( "http://code.google.com/feeds/p/monkeystudio/downloads/basic" ) );
+	ucMkS->setVersion( "1.6.0.0" );
+	ucMkS->setVersionString( "1.6.0.0" );
+	ucMkS->setVersionDiscoveryPattern( ".*mks_([0-9\\.]+).*" );
+	
+	menuBar()->addMenu( "mHelp" ).setText( tr( "&Help" ) );
+	menuBar()->addAction( "mHelp/aUpdateChecker", ucMkS->menuAction() );
 }
 
 void MainWindow::aAddAction_triggered()

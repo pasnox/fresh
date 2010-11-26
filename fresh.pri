@@ -12,6 +12,7 @@ PRE_TARGETDEPS	*= $${PWD}
 # library integration
 contains( TEMPLATE, .*app ) {
 	FRESH_TARGET	= fresh
+	QT	*= xml network
 	LIBS	*= -L$${FRESH_LIBRARY_PATH}
 	LIBS	*= -l$$targetForMode( $${FRESH_TARGET} )
 }

@@ -12,6 +12,7 @@ class pQueuedMessage;
 class pStylesActionGroup;
 class pConsole;
 class pEnvironmentVariablesEditor;
+class pUpdateChecker;
 
 class MainWindow : public pMainWindow
 {
@@ -34,6 +35,7 @@ protected:
 	pConsole* cShell;
 	pStylesActionGroup* agStyles;
 	pEnvironmentVariablesEditor* eveVariables;
+	pUpdateChecker* ucMkS;
 	
 	void createGui();
 	void createMenuBar();
@@ -44,6 +46,7 @@ protected:
 	void createVersionsTests();
 	void createListEditors();
 	void createCustomWidgets();
+	void createUpdateChecker();
 
 protected slots:
 	void aAddAction_triggered();

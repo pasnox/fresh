@@ -9,7 +9,7 @@ FRESH_BUILD_PATH	= build
 TEMPLATE	= lib
 CONFIG	-= debug_and_release release debug warn_off warn_on
 CONFIG	*= qt staticlib warn_on thread x11 windows $$FRESH_BUILD_MODE
-#QT	*= xml sql
+QT	*= xml network
 
 # Mac universal build from 10.3 to up to 10.5
 mac {
@@ -41,7 +41,8 @@ FORMS	*=  \
 	src/gui/actionmanager/pActionsNodeShortcutEditor.ui \
 	src/gui/pTranslationDialog.ui \
 	src/gui/environmentvariablemanager/pEnvironmentVariableEditor.ui \
-	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.ui
+	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.ui \
+	src/gui/gc-updatechecker/pUpdateCheckerDialog.ui
 
 HEADERS	*=  \
 	src/core/FreshExport.h \
@@ -84,7 +85,9 @@ HEADERS	*=  \
 	src/gui/environmentvariablemanager/pEnvironmentVariableEditor.h \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.h \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesManager.h \
-	src/gui/environmentvariablemanager/pEnvironmentVariablesModel.h
+	src/gui/environmentvariablemanager/pEnvironmentVariablesModel.h \
+	src/gui/gc-updatechecker/pUpdateChecker.h \
+	src/gui/gc-updatechecker/pUpdateCheckerDialog.h
 
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
@@ -126,4 +129,6 @@ SOURCES	*=  \
 	src/gui/environmentvariablemanager/pEnvironmentVariableEditor.cpp \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesManager.cpp \
-	src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp
+	src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp \
+	src/gui/gc-updatechecker/pUpdateChecker.cpp \
+	src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp
