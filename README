@@ -1,0 +1,14 @@
+Fresh is a library extending the Qt library by adding new classes/widgets.
+It's developped by Filipe AZEVEDO (Nox P@sNox, pasnox@gmail.com)
+
+Licensed in LGPL v3.
+
+Building fresh and the example projects:
+========================================
+
+qmake ./subdirs.pro && make
+
+Building fresh project:
+=======================
+
+qmake ./fresh.pro && make
