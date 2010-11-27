@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/fresh">
+    <file>icons/paypal.png</file>
     <file>icons/gc-update-checker.png</file>
     <file>icons/restore.png</file>
     <file>icons/reload.png</file>

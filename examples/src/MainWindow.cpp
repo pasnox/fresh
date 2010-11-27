@@ -2,6 +2,7 @@
 
 #include <Core/pSettings>
 #include <Core/pVersion>
+#include <Core/pNetworkAccessManager>
 #include <Gui/pDockToolBar>
 #include <Gui/pActionsNodeModel>
 #include <Gui/pActionsNodeShortcutEditor>
@@ -24,6 +25,7 @@
 #include <Gui/pEnvironmentVariablesEditor>
 #include <Gui/pEnvironmentVariablesManager>
 #include <Gui/pUpdateChecker>
+#include <Gui/pPaypalButton>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -176,6 +178,8 @@ void MainWindow::restoreState()
 
 void MainWindow::createGui()
 {
+	pNetworkAccessManager::instance()->setCacheDirectory( qApp->applicationDirPath().append( "/tmp" ) );
+	
 	twPages = new QTabWidget( this );
 	setCentralWidget( twPages );
 	
@@ -406,22 +410,29 @@ void MainWindow::createCustomWidgets()
 	tcbActions->setModel( mActionsModel );
 	dwWidgetsContentsLayout->addWidget( tcbActions, 4, 0 );
 	
+	pPaypalButton* paypal = new pPaypalButton( this );
+	paypal->setBusinessId( "5R924WYXJ6BAW" );
+	paypal->setItemName( "QWBFS Manager" );
+	paypal->setItemId( "QWBFS-DONATION" );
+	paypal->setCurrencyCode( "EUR" );
+	dwWidgetsContentsLayout->addWidget( paypal, 5, 0 );
+	
 	pToolButton* toolButton1 = new pToolButton( dwWidgetsContents );
 	toolButton1->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
 	toolButton1->setText( tr( "Bottom To Top" ) );
 	toolButton1->setIcon( pIconManager::icon( "pt.png" ) );
 	toolButton1->setDirection( QBoxLayout::BottomToTop );
-	dwWidgetsContentsLayout->addWidget( toolButton1, 0, 1, 5, 1 );
+	dwWidgetsContentsLayout->addWidget( toolButton1, 0, 1, 6, 1 );
 	
 	pToolButton* toolButton2 = new pToolButton( dwWidgetsContents );
 	toolButton2->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
 	toolButton2->setText( tr( "Top To Bottom" ) );
 	toolButton2->setIcon( pIconManager::icon( "br.png" ) );
 	toolButton2->setDirection( QBoxLayout::TopToBottom );
-	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2, 5, 1 );
+	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2, 6, 1 );
 	
 	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
-	dwWidgetsContentsLayout->addWidget( colorButton, 5, 0 );
+	dwWidgetsContentsLayout->addWidget( colorButton, 6, 0 );
 }
 
 void MainWindow::createUpdateChecker()

@@ -87,7 +87,9 @@ HEADERS	*=  \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesManager.h \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesModel.h \
 	src/gui/gc-updatechecker/pUpdateChecker.h \
-	src/gui/gc-updatechecker/pUpdateCheckerDialog.h
+	src/gui/gc-updatechecker/pUpdateCheckerDialog.h \
+	src/gui/pPaypalButton.h \
+	src/core/pNetworkAccessManager.h
 
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
@@ -131,4 +133,6 @@ SOURCES	*=  \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesManager.cpp \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp \
 	src/gui/gc-updatechecker/pUpdateChecker.cpp \
-	src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp
+	src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp \
+	src/gui/pPaypalButton.cpp \
+	src/core/pNetworkAccessManager.cpp
