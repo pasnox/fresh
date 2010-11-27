@@ -39,7 +39,8 @@ public:
 
 protected:
 	QNetworkDiskCache* mCache;
-	
+
+protected slots:
 	void _q_finished( QNetworkReply* reply );
 
 signals:

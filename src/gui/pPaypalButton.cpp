@@ -5,10 +5,12 @@
 #include <QEvent>
 #include <QDesktopServices>
 #include <QLocale>
+#include <QStyleOptionButton>
+#include <QPainter>
 #include <QDebug>
 
 pPaypalButton::pPaypalButton( QWidget* parent )
-	: QLabel( parent )
+	: QPushButton( parent )
 {
 	setCursor( Qt::PointingHandCursor );
 	setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum ) );
@@ -16,9 +18,11 @@ pPaypalButton::pPaypalButton( QWidget* parent )
 	mQueryItems[ "path" ] = "https://www.paypal.com/cgi-bin/webscr";
 	mQueryItems[ "cmd" ] = "_donations";
 	mQueryItems[ "bn" ] = QUrl::fromPercentEncoding( "PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" );
+	mAutoOpenUrl = true;
 	
 	localeChanged();
 	
+	connect( this, SIGNAL( clicked() ), this, SLOT( _q_clicked() ) );
 	connect( pNetworkAccessManager::instance(), SIGNAL( cached( const QUrl& ) ), this, SLOT( networkAccessManager_cached( const QUrl& ) ) );
 	connect( pNetworkAccessManager::instance(), SIGNAL( error( const QUrl&, const QString& ) ), this, SLOT( networkAccessManager_error( const QUrl&, const QString& ) ) );
 	connect( pNetworkAccessManager::instance(), SIGNAL( cacheCleared() ), this, SLOT( networkAccessManager_cacheCleared() ) );
@@ -28,12 +32,20 @@ pPaypalButton::~pPaypalButton()
 {
 }
 
+QSize pPaypalButton::minimumSizeHint() const
+{
+	return sizeHint();
+}
+
+QSize pPaypalButton::sizeHint() const
+{
+	return mPixmap.isNull() ? QPushButton::sizeHint() : mPixmap.size() +QSize( 1, 1 );
+}
+
 bool pPaypalButton::event( QEvent* event )
 {
 	switch ( event->type() ) {
 		case QEvent::Show:
-			localeChanged();
-			break;
 		case QEvent::LocaleChange:
 			localeChanged();
 			break;
@@ -41,14 +53,26 @@ bool pPaypalButton::event( QEvent* event )
 			break;
 	}
 	
-	return QLabel::event( event );
+	return QPushButton::event( event );
 }
 
-void pPaypalButton::mousePressEvent( QMouseEvent* event )
+void pPaypalButton::paintEvent( QPaintEvent* event )
 {
-	QLabel::mousePressEvent( event );
-	
-	QDesktopServices::openUrl( url() );
+	if ( mPixmap.isNull() ) {
+		QPushButton::paintEvent( event );
+	}
+	else {
+		QPainter painter( this );
+		
+		QStyleOptionButton option;
+		initStyleOption( &option );
+		option.rect = option.rect.adjusted( 0, 0, -1, -1 );
+		option.iconSize = size();
+		option.icon = mPixmap;
+		option.text.clear();
+		
+		style()->drawControl( QStyle::CE_PushButtonLabel, &option, &painter, this );
+	}
 }
 
 QUrl pPaypalButton::pixmapUrl( const QString& locale )
@@ -106,6 +130,16 @@ void pPaypalButton::setCurrencyCode( const QString& value )
 	mQueryItems[ "currency_code" ] = value;
 }
 
+bool pPaypalButton::autoOpenUrl() const
+{
+	return mAutoOpenUrl;
+}
+
+void pPaypalButton::setAutoOpenUrl( bool open )
+{
+	mAutoOpenUrl = open;
+}
+
 QPixmap pPaypalButton::pixmap( const QUrl& url ) const
 {
 	QPixmap pixmap = pNetworkAccessManager::instance()->cachedPixmap( url );
@@ -156,10 +190,17 @@ void pPaypalButton::updatePixmap()
 	}
 }
 
+void pPaypalButton::_q_clicked()
+{
+	if ( mAutoOpenUrl ) {
+		QDesktopServices::openUrl( url() );
+	}
+}
+
 void pPaypalButton::networkAccessManager_cached( const QUrl& url )
 {
-	const QPixmap pixmap = this->pixmap( url );
-	setPixmap( pixmap );
+	mPixmap = this->pixmap( url );
+	update();
 }
 
 void pPaypalButton::networkAccessManager_error( const QUrl& url, const QString& message )
