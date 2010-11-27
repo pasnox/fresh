@@ -46,7 +46,7 @@ public:
 
 protected:
 	pUpdateChecker* mUpdateChecker;
-	QMap<pUpdateItem::Type, QString> mDatas;
+	QHash<pUpdateItem::Type, QString> mDatas;
 };
 
 class FRESH_EXPORT pUpdateCheckerDialog : public QDialog, public Ui::pUpdateCheckerDialog

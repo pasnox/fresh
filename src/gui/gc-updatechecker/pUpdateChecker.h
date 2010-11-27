@@ -25,6 +25,15 @@ public:
 	QString versionString() const;
 	QString versionDiscoveryPattern() const;
 
+public slots:
+	void setLastUpdated( const QDateTime& dateTime );
+	void setLastChecked( const QDateTime& dateTime );
+	void setDownloadsFeedUrl( const QUrl& url );
+	void setVersion( const QString& version );
+	void setVersionString( const QString& versionString );
+	void setVersionDiscoveryPattern( const QString& pattern );
+	void silentCheck();
+
 protected:
 	QAction* mAction;
 	QDateTime mLastUpdated;
@@ -37,15 +46,6 @@ protected:
 	
 	virtual bool eventFilter( QObject* object, QEvent* event );
 	virtual void localeChanged();
-
-public slots:
-	void setLastUpdated( const QDateTime& dateTime );
-	void setLastChecked( const QDateTime& dateTime );
-	void setDownloadsFeedUrl( const QUrl& url );
-	void setVersion( const QString& version );
-	void setVersionString( const QString& versionString );
-	void setVersionDiscoveryPattern( const QString& pattern );
-	void silentCheck();
 	
 protected slots:
 	void checkForUpdate_triggered( bool show = true );
