@@ -30,6 +30,8 @@ public:
 	QStringList translationsPaths() const;
 	QStringList systemTranslationsPaths() const;
 	bool isFakeCLocaleEnabled() const;
+	
+	static pTranslationManager* instance();
 
 public slots:
 	void reloadTranslations();

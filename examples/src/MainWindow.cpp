@@ -370,7 +370,7 @@ void MainWindow::createListEditors()
 	dwListEditor->setObjectName( "DockListEditor" );
 	dwListEditor->setWidget( twListEditors );
 	dwListEditor->toggleViewAction()->setObjectName( "DockListEditorViewAction" );
-	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwListEditor, tr( "List Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/fr.png", QSize( 96, 96 ) ) ) );
+	dockToolBar( Qt::RightToolBarArea )->addDockWidget( dwListEditor, tr( "List Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/fr.png", QSize( 96, 96 ) ) ) );
 	
 	twListEditors->addTab( new pStringListEditor( QString::null, this ), tr( "Edit strings" ) );
 	twListEditors->addTab( new pPathListEditor( QString::null, ".", this ), tr( "Edit paths" ) );

@@ -45,9 +45,9 @@ QSize pPaypalButton::sizeHint() const
 bool pPaypalButton::event( QEvent* event )
 {
 	switch ( event->type() ) {
-		case QEvent::Show:
 		case QEvent::LocaleChange:
 			localeChanged();
+			updatePixmap();
 			break;
 		default:
 			break;
@@ -77,7 +77,18 @@ void pPaypalButton::paintEvent( QPaintEvent* event )
 
 QUrl pPaypalButton::pixmapUrl( const QString& locale )
 {
-	return QUrl( QString( "https://www.paypal.com/%1/i/btn/btn_donate_LG.gif" ).arg( locale ) );
+	return QUrl( QString( PAYPAL_MASK ).arg( locale ) );
+}
+
+void pPaypalButton::updatePixmap()
+{
+	const QUrl url = pixmapUrl( locale().name() );
+	
+	networkAccessManager_cached( url );
+	
+	if ( !pNetworkAccessManager::instance()->hasCacheData( url ) ) {
+		pNetworkAccessManager::instance()->get( QNetworkRequest( url ) );
+	}
 }
 
 QString pPaypalButton::actionPost() const
@@ -175,19 +186,6 @@ void pPaypalButton::localeChanged()
 	
 	setText( tr( "Donation" ) );
 	setToolTip( tr( "Make a donation via Paypal" ) );
-	
-	updatePixmap();
-}
-
-void pPaypalButton::updatePixmap()
-{
-	const QUrl url = pixmapUrl( locale().name() );
-	
-	networkAccessManager_cached( url );
-	
-	if ( !pNetworkAccessManager::instance()->hasCacheData( url ) ) {
-		pNetworkAccessManager::instance()->get( QNetworkRequest( url ) );
-	}
 }
 
 void pPaypalButton::_q_clicked()
@@ -199,13 +197,17 @@ void pPaypalButton::_q_clicked()
 
 void pPaypalButton::networkAccessManager_cached( const QUrl& url )
 {
-	mPixmap = this->pixmap( url );
-	update();
+	if ( url.toString().startsWith( PAYPAL_DOMAIN, Qt::CaseInsensitive ) ) {
+		mPixmap = this->pixmap( url );
+		updateGeometry();
+	}
 }
 
 void pPaypalButton::networkAccessManager_error( const QUrl& url, const QString& message )
 {
-	qWarning() << message << url;
+	if ( url.toString().startsWith( PAYPAL_DOMAIN, Qt::CaseInsensitive ) ) {
+		qWarning() << message << url;
+	}
 }
 
 void pPaypalButton::networkAccessManager_cacheCleared()

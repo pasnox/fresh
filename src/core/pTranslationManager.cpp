@@ -6,6 +6,8 @@
 #include <QLibraryInfo>
 #include <QDebug>
 
+Q_GLOBAL_STATIC( pTranslationManager, translationManagerInstance );
+
 uint qHash( const QLocale& locale )
 {
 	return qHash( locale.name() );
@@ -225,4 +227,9 @@ void pTranslationManager::setFakeCLocaleEnabled( bool enabled )
 bool pTranslationManager::isFakeCLocaleEnabled() const
 {
 	return mFakeCLocaleEnabled;
+}
+
+pTranslationManager* pTranslationManager::instance()
+{
+	return translationManagerInstance();
 }

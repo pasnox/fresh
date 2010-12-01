@@ -3,7 +3,7 @@
 # include functions file
 include( functions.pri )
 
-FRESH_BUILD_MODE	= debug
+FRESH_BUILD_MODE	= release
 FRESH_BUILD_PATH	= build
 
 TEMPLATE	= lib

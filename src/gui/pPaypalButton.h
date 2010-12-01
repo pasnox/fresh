@@ -5,6 +5,9 @@
 #include <QUrl>
 #include <QHash>
 
+#define PAYPAL_DOMAIN "https://www.paypal.com"
+#define PAYPAL_MASK "https://www.paypal.com/%1/i/btn/btn_donate_LG.gif"
+
 class pPaypalButton : public QPushButton
 {
 	Q_OBJECT
@@ -31,6 +34,7 @@ public:
 	static QUrl pixmapUrl( const QString& locale );
 
 public slots:
+	void updatePixmap();
 	void setActionPost( const QString& value );
 	void setBusinessId( const QString& value );
 	void setItemName( const QString& value );
@@ -46,7 +50,6 @@ protected:
 	virtual void paintEvent( QPaintEvent* event );
 	
 	void localeChanged();
-	void updatePixmap();
 
 protected slots:
 	void _q_clicked();
