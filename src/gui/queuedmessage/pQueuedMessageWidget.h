@@ -79,10 +79,13 @@ class FRESH_EXPORT pQueuedMessageWidget : public QWidget
 public:
 	pQueuedMessageWidget( QWidget* parent = 0 );
 	
+	virtual QSize sizeHint() const;
+	
 	int defaultTimeout() const;
 	QPixmap defaultPixmap() const;
 	QBrush defaultBackground() const;
 	QBrush defaultForeground() const;
+	void currentMessageInformations( QPixmap* pixmap, QBrush* background, QBrush* foreground ) const;
 	
 	int pendingMessageCount() const;
 	pQueuedMessage currentMessage() const;

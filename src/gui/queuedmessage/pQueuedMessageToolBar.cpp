@@ -3,6 +3,7 @@
 #include <QAction>
 #include <QPainter>
 #include <QLayout>
+#include <QDebug>
 
 /*!
 	\details Create a new pQueuedMessageToolBar object

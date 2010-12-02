@@ -7,6 +7,7 @@
 #include <QStyle>
 #include <QPushButton>
 #include <QPainter>
+#include <QDebug>
 
 /*!
 	\details Create a new pQueuedMessageWidget object
@@ -28,12 +29,14 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	// message
 	lMessage = new QLabel( this );
 	lMessage->setAlignment( Qt::AlignVCenter | Qt::AlignLeft );
-	lMessage->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
+	lMessage->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred ) );
 	lMessage->setWordWrap( true );
 	
 	// button
 	dbbButtons = new QDialogButtonBox( this );
 	dbbButtons->setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Preferred ) );
+	
+	setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	
 	// layout
 	QHBoxLayout* hbl = new QHBoxLayout( this );
@@ -49,6 +52,11 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	
 	// connections
 	connect( dbbButtons, SIGNAL( clicked( QAbstractButton* ) ), this, SLOT( buttonClicked( QAbstractButton* ) ) );
+}
+
+QSize pQueuedMessageWidget::sizeHint() const
+{
+	return QWidget::minimumSizeHint();
 }
 
 int pQueuedMessageWidget::defaultTimeout() const
@@ -69,6 +77,21 @@ QBrush pQueuedMessageWidget::defaultBackground() const
 QBrush pQueuedMessageWidget::defaultForeground() const
 {
 	return mDefaultForeground;
+}
+
+void pQueuedMessageWidget::currentMessageInformations( QPixmap* pixmap, QBrush* background, QBrush* foreground ) const
+{
+	if ( pixmap ) {
+		*pixmap = currentMessagePixmap();
+	}
+	
+	if ( background ) {
+		*background = currentMessageBackground();
+	}
+	
+	if ( foreground ) {
+		*foreground = currentMessageForeground();
+	}
 }
 
 /*!
