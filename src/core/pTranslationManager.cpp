@@ -92,7 +92,12 @@ void pTranslationManager::reloadTranslations()
 			continue;
 		}
 		
-		fileName.remove( ".qm", Qt::CaseInsensitive ).replace( ".", "_" );
+		fileName
+			.remove( ".qm", Qt::CaseInsensitive )
+			.replace( ".", "_" )
+			.replace( "-", "_" )
+			;
+		
 		const int count = fileName.count( "_" );
 		bool added = false;
 		bool foundValidLocale = false;
