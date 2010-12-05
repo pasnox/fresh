@@ -267,7 +267,7 @@ void pDockToolBarManager::trackDockWidget( QDockWidget* dockWidget )
 	Q_ASSERT( dockWidget );
 	
 	if ( dockWidget->objectName().isEmpty() ) {
-		qFatal( qPrintable( QString( "%1: Can't handle dock with no object name" ).arg( Q_FUNC_INFO ) ) );
+		qFatal( "%s", qPrintable( QString( "%1: Can't handle dock with no object name" ).arg( Q_FUNC_INFO ) ) );
 		return;
 	}
 	

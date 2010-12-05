@@ -40,7 +40,7 @@ QString pSettings::Properties::settingsFilePath() const
 	switch ( type ) {
 		case pSettings::Invalid:
 			Q_ASSERT( 0 );
-			qFatal( qPrintable( QString( "%1: Invalid call" ).arg( Q_FUNC_INFO ) ) );
+			qFatal( "%s", qPrintable( QString( "%1: Invalid call" ).arg( Q_FUNC_INFO ) ) );
 			break;
 		case pSettings::Normal:
 			fn = QString( "%1/%2-%3.ini" )
