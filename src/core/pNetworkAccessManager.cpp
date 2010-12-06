@@ -47,6 +47,11 @@ void pNetworkAccessManager::_q_finished( QNetworkReply* reply )
 {
 	mPendingRequests.remove( reply->request().url() );
 	
+	if ( reply->operation() == QNetworkAccessManager::CustomOperation && reply->request().url().isEmpty() ) {
+		reply->deleteLater();
+		return;
+	}
+	
 	if ( reply->error() == QNetworkReply::NoError ) {
 		emit cached( reply->url() );
 	}
@@ -143,6 +148,8 @@ QPixmap pNetworkAccessManager::cachedPixmap( const QUrl& url ) const
 			else {
 				qWarning() << Q_FUNC_INFO << "Can't load pixmap to cache" << key;
 			}
+			
+			delete data;
 		}
 	}
 	
