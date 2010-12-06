@@ -19,6 +19,7 @@ pNetworkAccessManager* pNetworkAccessManager::instance()
 pNetworkAccessManager::pNetworkAccessManager( QObject* parent )
 	: QNetworkAccessManager( parent )
 {
+	mMaxRetryPerUrl = 5;
 	mCache = new QNetworkDiskCache( this );
 	setCache( mCache );
 	
@@ -29,8 +30,23 @@ pNetworkAccessManager::~pNetworkAccessManager()
 {
 }
 
+QNetworkReply* pNetworkAccessManager::createRequest( Operation op, const QNetworkRequest& req, QIODevice* outgoingData )
+{
+	if ( mPendingRequests.contains( req.url() ) || mRetryRequests[ req.url() ] >= 5 ) {
+		QNetworkReply* reply = QNetworkAccessManager::createRequest( QNetworkAccessManager::CustomOperation, QNetworkRequest(), outgoingData );
+		return reply;
+	}
+	
+	mPendingRequests << req.url();
+	mRetryRequests[ req.url() ]++;
+	
+	return QNetworkAccessManager::createRequest( op, req, outgoingData );
+}
+
 void pNetworkAccessManager::_q_finished( QNetworkReply* reply )
 {
+	mPendingRequests.remove( reply->request().url() );
+	
 	if ( reply->error() == QNetworkReply::NoError ) {
 		emit cached( reply->url() );
 	}
@@ -59,6 +75,16 @@ qint64 pNetworkAccessManager::maximumCacheSize() const
 	return mCache->maximumCacheSize();
 }
 
+void pNetworkAccessManager::setMaxRetryPerUrl( int max )
+{
+	mMaxRetryPerUrl = max;
+}
+
+int pNetworkAccessManager::maxRetryPerUrl() const
+{
+	return mMaxRetryPerUrl;
+}
+
 qint64 pNetworkAccessManager::cacheSize() const
 {
 	return mCache->cacheSize();
@@ -66,6 +92,7 @@ qint64 pNetworkAccessManager::cacheSize() const
 
 void pNetworkAccessManager::clearCache()
 {
+	mRetryRequests.clear();
 	mCache->clear();
 	emit cacheCleared();
 }

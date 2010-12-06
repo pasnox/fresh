@@ -3,6 +3,7 @@
 
 #include <QNetworkAccessManager>
 #include <QNetworkCacheMetaData>
+#include <QSet>
 #if defined( QT_GUI_LIB )
 #include <QPixmap>
 #endif
@@ -24,6 +25,9 @@ public:
 	void setMaximumCacheSize( qint64 size );
 	qint64 maximumCacheSize() const;
 	
+	void setMaxRetryPerUrl( int max );
+	int maxRetryPerUrl() const;
+	
 	qint64 cacheSize() const;
 	void clearCache();
 	
@@ -39,6 +43,11 @@ public:
 
 protected:
 	QNetworkDiskCache* mCache;
+	int mMaxRetryPerUrl;
+	QSet<QUrl> mPendingRequests;
+	QHash<QUrl, int> mRetryRequests;
+	
+	virtual QNetworkReply* createRequest( Operation op, const QNetworkRequest& req, QIODevice* outgoingData = 0 );
 
 protected slots:
 	void _q_finished( QNetworkReply* reply );

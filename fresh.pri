@@ -3,8 +3,14 @@
 # include functions file
 include( functions.pri )
 
+FRESH_SOURCES_PATHS	= $$getFolders( $$PWD/src )
+
 # include path
-INCLUDEPATH	*= $${PWD}/include $${PWD}/src
+INCLUDEPATH	*= $${PWD}/include \
+	$${PWD}/src
+
+# depend path
+DEPENDPATH	*= $${FRESH_SOURCES_PATHS}
 
 # dependency
 PRE_TARGETDEPS	*= $${PWD}
