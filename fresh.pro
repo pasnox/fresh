@@ -37,6 +37,25 @@ INCLUDEPATH	*= ./src
 
 RESOURCES	*= resources/fresh.qrc
 
+TRANSLATIONS	*= translations/fresh-ru_RU.ts \
+	translations/fresh-sl_SI.ts \
+	translations/fresh-pl_PL.ts \
+	translations/fresh-zh_CN.ts \
+	translations/fresh-he_IL.ts \
+	translations/fresh-da_DK.ts \
+	translations/fresh-sk_SK.ts \
+	translations/fresh-ja_JP.ts \
+	translations/fresh-uk_UA.ts \
+	translations/fresh-cs_CZ.ts \
+	translations/fresh-ca_ES.ts \
+	translations/fresh-ar_SA.ts \
+	translations/fresh-fr_FR.ts \
+	translations/fresh-zh_TW.ts \
+	translations/fresh-es_ES.ts \
+	translations/fresh-de_DE.ts \
+	translations/fresh-pt_PT.ts \
+	translations/fresh-sv_SE.ts
+
 FORMS	*=  \
 	src/gui/actionmanager/pActionsNodeShortcutEditor.ui \
 	src/gui/pTranslationDialog.ui \

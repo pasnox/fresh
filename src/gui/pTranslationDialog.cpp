@@ -43,7 +43,7 @@ QString pTranslationDialog::getLocale( pTranslationManager* translationManager, 
 void pTranslationDialog::on_tbLocate_clicked()
 {
 	QDialog dlg( this );
-	pPathListEditor editor( tr( "Choose folders containg your application translations" ), QApplication::applicationDirPath(), &dlg );
+	pPathListEditor editor( tr( "Choose folders containing your application translations" ), QApplication::applicationDirPath(), &dlg );
 	QDialogButtonBox buttons( &dlg );
 	QVBoxLayout vl( &dlg );
 	vl.addWidget( &editor );
