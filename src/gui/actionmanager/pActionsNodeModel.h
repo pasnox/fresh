@@ -12,7 +12,7 @@ class QAction;
 class pActionsNodeModel : public QAbstractItemModel
 {
 	Q_OBJECT
-	friend class pActionsNode;
+	friend class pActionsNode::Data;
 	friend class pActionsNodeMenuBar;
 	
 public:

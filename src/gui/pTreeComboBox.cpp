@@ -441,10 +441,11 @@ void pTreeComboBox::calculPopupGeometry()
 #endif
 
 #if defined( Q_WS_WIN ) && !defined( QT_NO_EFFECTS )
-    bool scrollDown = ( listRect.topLeft() == below );
+#warning Fix me ASAP
+    /*bool scrollDown = ( listRect.topLeft() == below );
     if ( QApplication::isEffectEnabled( Qt::UI_AnimateCombo ) 
         && !style->styleHint( QStyle::SH_ComboBox_Popup, &opt, this ) && !window()->testAttribute( Qt::WA_DontShowOnScreen ) )
-        qScrollEffect( container, scrollDown ? QEffects::DownScroll : QEffects::UpScroll, 150 );
+        qScrollEffect( container, scrollDown ? QEffects::DownScroll : QEffects::UpScroll, 150 );*/
 #endif
 
 // Don't disable updates on Mac OS X. Windows are displayed immediately on this platform,

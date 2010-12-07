@@ -11,6 +11,11 @@
 
 Q_GLOBAL_STATIC( pNetworkAccessManager, networkAccessManager );
 
+uint qHash( const QUrl& url )
+{
+	return qHash( url.toString() );
+}
+
 pNetworkAccessManager* pNetworkAccessManager::instance()
 {
 	return networkAccessManager();
@@ -33,7 +38,7 @@ pNetworkAccessManager::~pNetworkAccessManager()
 QNetworkReply* pNetworkAccessManager::createRequest( Operation op, const QNetworkRequest& req, QIODevice* outgoingData )
 {
 	if ( mPendingRequests.contains( req.url() ) || mRetryRequests[ req.url() ] >= 5 ) {
-		QNetworkReply* reply = QNetworkAccessManager::createRequest( QNetworkAccessManager::CustomOperation, QNetworkRequest(), outgoingData );
+		QNetworkReply* reply = QNetworkAccessManager::createRequest( QNetworkAccessManager::HeadOperation, QNetworkRequest(), outgoingData );
 		return reply;
 	}
 	
@@ -47,7 +52,7 @@ void pNetworkAccessManager::_q_finished( QNetworkReply* reply )
 {
 	mPendingRequests.remove( reply->request().url() );
 	
-	if ( reply->operation() == QNetworkAccessManager::CustomOperation && reply->request().url().isEmpty() ) {
+	if ( reply->operation() == QNetworkAccessManager::HeadOperation && reply->request().url().isEmpty() ) {
 		reply->deleteLater();
 		return;
 	}
