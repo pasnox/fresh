@@ -1,5 +1,8 @@
 # fresh project include file
 
+# is it really needed here ?
+DEFINES	*= FRESH_CORE_BUILD
+
 # include functions file
 include( functions.pri )
 
