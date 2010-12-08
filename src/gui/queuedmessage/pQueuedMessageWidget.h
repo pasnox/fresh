@@ -81,6 +81,7 @@ public:
 	
 	virtual QSize sizeHint() const;
 	
+	bool openExternalLinks() const;
 	int defaultTimeout() const;
 	QPixmap defaultPixmap() const;
 	QBrush defaultBackground() const;
@@ -92,6 +93,7 @@ public:
 	pQueuedMessage append( const QString& message, int milliSeconds = -1 );
 
 public slots:
+	void setOpenExternalLinks( bool open );
 	void setDefaultTimeout( int timeout );
 	void setDefaultPixmap( const QPixmap& pixmap );
 	void setDefaultBackground( const QBrush& brush );
@@ -127,6 +129,8 @@ signals:
 	void closed( const pQueuedMessage& message );
 	void cleared();
 	void finished();
+	void linkActivated( const QString& link );
+	void linkHovered( const QString& link );
 };
 
 #endif // PQUEUEDMESSAGEWIDGET_H

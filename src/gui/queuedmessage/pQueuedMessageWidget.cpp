@@ -31,6 +31,7 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	lMessage->setAlignment( Qt::AlignVCenter | Qt::AlignLeft );
 	lMessage->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred ) );
 	lMessage->setWordWrap( true );
+	lMessage->setOpenExternalLinks( true );
 	
 	// button
 	dbbButtons = new QDialogButtonBox( this );
@@ -51,12 +52,19 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	setFont( font );
 	
 	// connections
+	connect( lMessage, SIGNAL( linkActivated( const QString& ) ), this, SIGNAL( linkActivated( const QString& ) ) );
+	connect( lMessage, SIGNAL( linkHovered( const QString& ) ), this, SIGNAL( linkHovered( const QString& ) ) );
 	connect( dbbButtons, SIGNAL( clicked( QAbstractButton* ) ), this, SLOT( buttonClicked( QAbstractButton* ) ) );
 }
 
 QSize pQueuedMessageWidget::sizeHint() const
 {
 	return QWidget::minimumSizeHint();
+}
+
+bool pQueuedMessageWidget::openExternalLinks() const
+{
+	return lMessage->openExternalLinks();
 }
 
 int pQueuedMessageWidget::defaultTimeout() const
@@ -124,6 +132,11 @@ pQueuedMessage pQueuedMessageWidget::append( const QString& message, int milliSe
 	append( msg );
 	
 	return msg;
+}
+
+void pQueuedMessageWidget::setOpenExternalLinks( bool open )
+{
+	lMessage->setOpenExternalLinks( open );
 }
 
 void pQueuedMessageWidget::setDefaultTimeout( int timeout )
