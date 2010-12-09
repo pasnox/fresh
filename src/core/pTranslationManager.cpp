@@ -202,6 +202,7 @@ QLocale pTranslationManager::systemLocale() const
 void pTranslationManager::setCurrentLocale( const QLocale& locale )
 {
 	mCurrentLocale = locale;
+	QLocale::setDefault( locale );
 }
 
 QStringList pTranslationManager::translationsPaths() const

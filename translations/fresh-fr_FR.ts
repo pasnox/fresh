@@ -512,7 +512,7 @@ Generally lastest updates fix bugs and/or add new options/plugins/things.</sourc
     <message>
         <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="182"/>
         <source>You are using version &lt;b&gt;%1&lt;/b&gt; (%2).</source>
-        <translation>Vous utilisez la version &lt;b&gt;%1&lt;/b&gt;(%2).</translation>
+        <translation type="unfinished">Vous utilisez la version &lt;b&gt;%1&lt;/b&gt; (%2).</translation>
     </message>
     <message>
         <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="183"/>

@@ -12,15 +12,30 @@ pTranslationDialog::pTranslationDialog( pTranslationManager* translationManager,
 {
 	Q_ASSERT( translationManager );
 	mTranslationManager = translationManager;
+	mOriginalLocale = translationManager->currentLocale().name();
 	
 	ui = new Ui::pTranslationDialog;
 	ui->setupUi( this );
 	ui->tbReload->click();
+	localeChanged();
 }
 
 pTranslationDialog::~pTranslationDialog()
 {
 	delete ui;
+}
+
+bool pTranslationDialog::event( QEvent* event )
+{
+	switch ( event->type() ) {
+		case QEvent::LocaleChange:
+			localeChanged();
+			break;
+		default:
+			break;
+	}
+	
+	return QDialog::event( event );
 }
 
 QString pTranslationDialog::selectedLocale() const
@@ -38,6 +53,11 @@ QString pTranslationDialog::getLocale( pTranslationManager* translationManager, 
 	}
 	
 	return QString::null;
+}
+
+void pTranslationDialog::localeChanged()
+{
+	ui->retranslateUi( this );
 }
 
 void pTranslationDialog::on_tbLocate_clicked()
@@ -128,4 +148,24 @@ void pTranslationDialog::on_tbReload_clicked()
 	}
 	
 	ui->twLocales->setCurrentIndex( index );
+}
+
+void pTranslationDialog::on_twLocales_itemSelectionChanged()
+{
+	mTranslationManager->setCurrentLocale( selectedLocale() );
+	mTranslationManager->reloadTranslations();
+	setLocale( selectedLocale() );
+}
+
+void pTranslationDialog::reject()
+{
+	mTranslationManager->setCurrentLocale( mOriginalLocale );
+	mTranslationManager->reloadTranslations();
+	
+	QDialog::reject();
+}
+
+void pTranslationDialog::accept()
+{
+	QDialog::accept();
 }
