@@ -74,24 +74,12 @@ QString pSettings::Properties::settingsFilePath( const QString& name, const QStr
 		.arg( version ) );
 }
 
-/*!
-	\details Construct a new pSettings
-	\param parent The object parent
-	\param properties The properties used
-*/
 pSettings::pSettings( QObject* parent, const pSettings::Properties& properties )
 	: QSettings( properties.settingsFilePath(), QSettings::IniFormat, parent )
 {
 	mProperties = properties;
 }
 
-/*!
-	\details Construct a new pSettings
-	\param parent The object parent
-	\param name The settings name
-	\param version The settings version.
-	\param properties The properties used.
-*/
 pSettings::pSettings( QObject* parent, const QString& name, const QString& version, const pSettings::Properties& properties )
 	: QSettings( properties.settingsFilePath( name, version ), QSettings::IniFormat, parent )
 {
@@ -100,19 +88,12 @@ pSettings::pSettings( QObject* parent, const QString& name, const QString& versi
 	mProperties.type = properties.type;
 }
 
-/*!
-	\details Return the properties
-*/
 pSettings::Properties pSettings::properties() const
 {
 	return mProperties;
 }
 
 #if defined( QT_GUI_LIB )
-/*!
-	\details Restore a main winow state
-	\param window The main window to restore
-*/
 void pSettings::restoreState( QMainWindow* window )
 {
 	if ( window ) {
@@ -127,10 +108,6 @@ void pSettings::restoreState( QMainWindow* window )
 	}
 }
 
-/*!
-	\details Save a main winow state
-	\param window The main window to save
-*/
 void pSettings::saveState( QMainWindow* window )
 {
 	if ( window ) {
@@ -141,26 +118,15 @@ void pSettings::saveState( QMainWindow* window )
 }
 #endif
 
-/*!
-	\details A virtual member that you can reimplement for creating a default settings member
-*/
 void pSettings::setDefaultSettings()
 {
 }
 
-/*!
-	\details Initialize the default settings name and version
-	\param name The settings name
-	\param version The settings version
-*/
 void pSettings::setDefaultProperties( const pSettings::Properties& properties )
 {
 	mDefaultProperties = properties;
 }
 
-/*!
-	\details Return the default properties
-*/
 pSettings::Properties pSettings::defaultProperties()
 {
 	return mDefaultProperties;

@@ -3,10 +3,9 @@
 
 /*!
 	\file pSingleton.h
-	\date 2008-01-14T00:27:37
-	\author Filipe AZEVEDO aka Nox P\@sNox <pasnox@gmail.com>
-	\brief Singletonize your QObject class
-	\details thread safe
+	\brief Singletonize your QObject class.
+	\note This class is thread safe.
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -16,10 +15,6 @@
 #include <QMutexLocker>
 #include <QCoreApplication>
 
-/*!
-	\brief Internal hash of instances
-	\details This class contains unique instance pointer of singletonized classes
-*/
 template <class T>
 class FRESH_EXPORT pSingletonExpose
 {
@@ -29,8 +24,10 @@ protected:
 };
 
 /*!
+	\class pSingleton
 	\brief Singletonize your QObject class in a thread safe way.
-	\details When heriting this template, you self made your class singletonizable ( unique instance ) ( ie: call like youclass::instance() )
+	
+	When heriting this template, you self made your class singletonizable ( unique instance ) ( ie: call like youclass::instance() )
 */
 template <class T>
 class FRESH_EXPORT pSingleton : public pSingletonExpose<T>

@@ -36,6 +36,12 @@
 #ifndef PGETOPT_H
 #define PGETOPT_H
 
+/*!
+    \file pGetOpt.h
+    \brief A command line option parser.
+    \author froglogic GbR <contact@froglogic.com>, Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+*/
+
 #include "FreshExport.h"
 
 #include <QString>

@@ -2,17 +2,15 @@
 #define FRESH_EXPORT_H
 
 /*!
-	\file FreshExport.h
-	\date 2008-01-14T00:27:36
-	\author Filipe AZEVEDO aka Nox P\@sNox <pasnox@gmail.com>
-	\brief Export Symbol Macros
+    \file FreshExport.h
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include <qglobal.h>
 
-/*!
-	\def FRESH_EXPORT
-	\details This macro allow symbols to be exported/imported for Windows OS
+/*! 
+    \def FRESH_EXPORT
+    \details This macro allow symbols to be exported/imported for Windows OS
 */
 
 #if defined( FRESH_CORE_BUILD )
