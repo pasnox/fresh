@@ -6,9 +6,12 @@
 #include <QLibraryInfo>
 #include <QDebug>
 
-
-
 Q_GLOBAL_STATIC( pTranslationManager, translationManagerInstance );
+
+pTranslationManager* pTranslationManager::instance()
+{
+	return translationManagerInstance();
+}
 
 pTranslationManager::pTranslationManager( QObject* parent )
 	: QObject( parent )
@@ -230,9 +233,4 @@ void pTranslationManager::setFakeCLocaleEnabled( bool enabled )
 bool pTranslationManager::isFakeCLocaleEnabled() const
 {
 	return mFakeCLocaleEnabled;
-}
-
-pTranslationManager* pTranslationManager::instance()
-{
-	return translationManagerInstance();
 }

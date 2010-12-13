@@ -18,7 +18,8 @@ class QMainWindow;
 /*!
 	\class pSettings
 	\brief An extended QSettings class that handle ini files with different contexts.
-	\details This class is used for storing/retreiving data using ini files with different contexts (Auto, Normal, Portable).
+	
+	This class is used for storing/retreiving data using ini files with different contexts (Auto, Normal, Portable).
 */
 class FRESH_EXPORT pSettings : public QSettings
 {
