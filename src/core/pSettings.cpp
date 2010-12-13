@@ -35,22 +35,45 @@ QString pSettings::Properties::storageLocation() const
 
 QString pSettings::Properties::settingsFilePath() const
 {
+	pSettings::Type t = type;
 	QString fn;
 	
-	switch ( type ) {
-		case pSettings::Invalid:
+	if ( t == pSettings::Auto ) {
+#ifdef Q_OS_MAC
+		const QString path = QString( "%1/../Resources" ).arg( QCoreApplication::applicationDirPath() );
+#else
+		const QString path = QCoreApplication::applicationDirPath();
+#endif
+		const QFileInfo info( path );
+		
+		if ( info.isDir() && info.isWritable() ) {
+			t = pSettings::Portable;
+		}
+		else {
+			t = pSettings::Normal;
+		}
+	}
+	
+	switch ( t ) {
+		case pSettings::Invalid: {
 			Q_ASSERT( 0 );
 			qFatal( "%s", qPrintable( QString( "%1: Invalid call" ).arg( Q_FUNC_INFO ) ) );
 			break;
-		case pSettings::Normal:
+		}
+		case pSettings::Auto: {
+			Q_ASSERT( 0 );
+			return QString::null;
+		}
+		case pSettings::Normal: {
 			fn = QString( "%1/%2-%3.ini" )
 				.arg( storageLocation() )
 				.arg( name )
 				.arg( version );
 			break;
-		case pSettings::Portable:
+		}
+		case pSettings::Portable: {
 #ifdef Q_OS_MAC
-			fn = QString( "%1/../%2-%3.ini" )
+			fn = QString( "%1/../Resources/%2-%3.ini" )
 				.arg( QCoreApplication::applicationDirPath() )
 				.arg( name )
 				.arg( version );
@@ -61,6 +84,7 @@ QString pSettings::Properties::settingsFilePath() const
 				.arg( version );
 #endif
 			break;
+		}
 	}
 	
 	return QDir::cleanPath( fn );
