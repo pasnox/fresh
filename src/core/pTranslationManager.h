@@ -2,6 +2,9 @@
 #define PTRANSLATIONMANAGER_H
 
 #include "FreshExport.h"
+// for qHash( const QLocale& locale )
+#include "pFileSystemUtils.h" 
+using namespace pFileSystemUtils;
 
 #include <QObject>
 #include <QStringList>
@@ -59,7 +62,5 @@ protected:
 	bool addTranslator( const QString& filePath, const QLocale& locale );
 	void clearTranslators();
 };
-
-uint qHash( const QLocale& locale );
 
 #endif // PTRANSLATIONMANAGER_H

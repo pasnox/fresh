@@ -6,12 +6,9 @@
 #include <QLibraryInfo>
 #include <QDebug>
 
-Q_GLOBAL_STATIC( pTranslationManager, translationManagerInstance );
 
-uint qHash( const QLocale& locale )
-{
-	return qHash( locale.name() );
-}
+
+Q_GLOBAL_STATIC( pTranslationManager, translationManagerInstance );
 
 pTranslationManager::pTranslationManager( QObject* parent )
 	: QObject( parent )

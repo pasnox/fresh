@@ -2,6 +2,7 @@
 
 #include <QMap>
 #include <QTextCodec>
+#include <QLocale>
 
 QString pFileSystemUtils::findFile( QDir& dir, const QString& fileName, bool recursive )
 {
@@ -36,3 +37,15 @@ QStringList pFileSystemUtils::textCodecs()
 	
 	return codecs.values();
 }
+
+uint pFileSystemUtils::qHash( const QLocale& locale )
+{
+	return qHash( locale.name() );
+}
+
+#if QT_VERSION < 0x040700
+uint pFileSystemUtils::qHash( const QUrl& url )
+{
+	return qHash( url.toString() );
+}
+#endif

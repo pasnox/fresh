@@ -11,13 +11,6 @@
 
 Q_GLOBAL_STATIC( pNetworkAccessManager, networkAccessManager );
 
-#if QT_VERSION < 0x040700
-uint qHash( const QUrl& url )
-{
-	return qHash( url.toString() );
-}
-#endif
-
 pNetworkAccessManager* pNetworkAccessManager::instance()
 {
 	return networkAccessManager();
