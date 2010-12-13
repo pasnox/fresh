@@ -472,7 +472,7 @@ You can click on buttons to locate/reload the translations.</source>
         <translation type="obsolete">Choisissez les dossiers contenant les traductions de l&apos;application</translation>
     </message>
     <message>
-        <location filename="../src/gui/pTranslationDialog.cpp" line="46"/>
+        <location filename="../src/gui/pTranslationDialog.cpp" line="66"/>
         <source>Choose folders containing your application translations</source>
         <translation>Choisissez les dossiers contenant les traductions de l&apos;application</translation>
     </message>

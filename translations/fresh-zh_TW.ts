@@ -468,7 +468,7 @@ You can click on buttons to locate/reload the translations.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/pTranslationDialog.cpp" line="46"/>
+        <location filename="../src/gui/pTranslationDialog.cpp" line="66"/>
         <source>Choose folders containing your application translations</source>
         <translation type="unfinished"></translation>
     </message>
