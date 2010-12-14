@@ -15,7 +15,7 @@
 #include <QMap>
 
 /*!
-	\ingroup Core
+	\ingroup Gui
 	\namespace pIconManager
 	\brief A cache class for icons and pixmaps.
 	
