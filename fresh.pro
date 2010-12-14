@@ -67,9 +67,7 @@ HEADERS	*=  \
 	src/core/FreshExport.h \
 	src/core/pFileSystemUtils.h \
 	src/core/pGetOpt.h \
-	src/core/pGroupPath.h \
 	src/core/pSettings.h \
-	src/core/pSingleton.h \
 	src/core/pTranslationManager.h \
 	src/core/pVersion.h \
 	src/gui/pColorButton.h \
@@ -113,9 +111,7 @@ HEADERS	*=  \
 SOURCES	*=  \
 	src/core/pFileSystemUtils.cpp \
 	src/core/pGetOpt.cpp \
-	src/core/pGroupPath.cpp \
 	src/core/pSettings.cpp \
-	src/core/pSingleton.cpp \
 	src/core/pTranslationManager.cpp \
 	src/core/pVersion.cpp \
 	src/gui/pColorButton.cpp \
