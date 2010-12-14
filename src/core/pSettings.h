@@ -16,6 +16,7 @@ class QMainWindow;
 #endif
 
 /*!
+	\ingroup Core
 	\class pSettings
 	\brief An extended QSettings class that handle ini files with different contexts.
 	

@@ -3,7 +3,7 @@
 
 /*!
     \file pTranslationManager.h
-    \brief This class help in the process of translating and managing your application translations.
+    \brief Application translations maanager.
     \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
@@ -26,11 +26,13 @@ class QTranslator;
 typedef QList<QTranslator*> QTranslatorList;
 
 /*!
+	\ingroup Core
     \class pTranslationManager
-    \brief This class help in the process of translating and managing your application translations.
+    \brief Application translations maanager.
 
     With this class you can easily set the patterns of your translations and possible paths to locate them.
 	The manager can then reload the translations and list availables locales availables for your translations.
+	Changing your application language was never so easy !
 */
 class FRESH_EXPORT pTranslationManager : public QObject
 {

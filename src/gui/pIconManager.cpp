@@ -3,6 +3,7 @@
 
 #include <QPixmapCache>
 #include <QDir>
+#include <QDebug>
 
 namespace pIconManager {
 	pIconManager::QIconCache mIconCache( 200 );
@@ -38,7 +39,12 @@ QPixmap pIconManager::pixmap( const QString& fileName, const QString& prefix )
 	
 	if ( !QPixmapCache::find( fn, pixmap ) ) {
 		if ( pixmap.load( fn ) ) {
-			QPixmapCache::insert( fn, pixmap );
+			if ( !QPixmapCache::insert( fn, pixmap ) ) {
+				qWarning() << Q_FUNC_INFO << "Can't insert pixmap" << fn;
+			}
+		}
+		else {
+			qWarning() << Q_FUNC_INFO << "Can't load pixmap" << fn;
 		}
 	}
 	
@@ -47,23 +53,21 @@ QPixmap pIconManager::pixmap( const QString& fileName, const QString& prefix )
 
 QIcon pIconManager::icon( const QString& fileName, const QString& prefix )
 {
-	QIcon* icon = 0;
 	const QString fn = filePath( fileName, prefix );
+	QIcon icon;
 	
 	if ( mIconCache.contains( fn ) ) {
-		icon = mIconCache[ fn ];
+		icon = *mIconCache[ fn ];
 	}
 	else {
-		icon = new QIcon( pixmap( fileName, prefix ) );
+		const QPixmap pixmap = pIconManager::pixmap( fileName, prefix );
 		
-		if ( icon->isNull() ) {
-			delete icon;
-			icon = 0;
-		}
-		else {
-			mIconCache.insert( fn, icon );
+		if ( !pixmap.isNull() ) {
+			if ( !mIconCache.insert( fn, new QIcon( pixmap ) ) ) {
+				qWarning() << Q_FUNC_INFO << "Can't insert icon" << fn;
+			}
 		}
 	}
 	
-	return icon ? *icon : QIcon();
+	return icon;
 }

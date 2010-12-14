@@ -19,6 +19,7 @@
 class QNetworkDiskCache;
 
 /*!
+	\ingroup Core
     \class pNetworkAccessManager
     \brief A QNetworkAccessManager with disk cache and cache settings helpers.
 	

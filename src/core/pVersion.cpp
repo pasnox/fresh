@@ -21,7 +21,7 @@ pVersion::pVersion( const QString& version )
 	}
 }
 
-const QString& pVersion::toString() const
+QString pVersion::toString() const
 {
 	return mVersion;
 }

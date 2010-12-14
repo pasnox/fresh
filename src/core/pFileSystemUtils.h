@@ -16,6 +16,7 @@
 class QLocale;
 
 /*!
+	\ingroup Core
 	\namespace pFileSystemUtils
 	\brief Global place for IO functions.
 	

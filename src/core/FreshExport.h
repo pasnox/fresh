@@ -3,14 +3,15 @@
 
 /*!
     \file FreshExport.h
+    \brief This macro allow symbols to be exported/imported for Windows OS.
     \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include <qglobal.h>
 
-/*! 
+/*!
     \def FRESH_EXPORT
-    \details This macro allow symbols to be exported/imported for Windows OS
+    \brief This macro allow symbols to be exported/imported for Windows OS.
 */
 
 #if defined( FRESH_CORE_BUILD )

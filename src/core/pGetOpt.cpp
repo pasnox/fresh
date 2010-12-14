@@ -6,6 +6,7 @@
 #include <QDebug>
 
 /**
+	\ingroup Core
 	\class pGetOpt
 
 	\brief A command line option parser.
@@ -66,7 +67,7 @@
 	multi-letter name like \c --debug.
 	.
 
-	\author froglogic GbR <contact@froglogic.com>
+	\author froglogic GbR <contact@froglogic.com>, Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 
