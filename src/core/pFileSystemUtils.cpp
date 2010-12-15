@@ -1,6 +1,7 @@
 #include "pFileSystemUtils.h"
 
 #include <QMap>
+#include <QHash>
 #include <QTextCodec>
 #include <QLocale>
 
