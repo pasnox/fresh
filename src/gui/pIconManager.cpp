@@ -63,7 +63,9 @@ QIcon pIconManager::icon( const QString& fileName, const QString& prefix )
 		const QPixmap pixmap = pIconManager::pixmap( fileName, prefix );
 		
 		if ( !pixmap.isNull() ) {
-			if ( !mIconCache.insert( fn, new QIcon( pixmap ) ) ) {
+			icon.addPixmap( pixmap );
+			
+			if ( !mIconCache.insert( fn, new QIcon( icon ) ) ) {
 				qWarning() << Q_FUNC_INFO << "Can't insert icon" << fn;
 			}
 		}
