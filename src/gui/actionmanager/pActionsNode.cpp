@@ -102,7 +102,7 @@ QIcon pActionsNode::icon() const
 {
 	switch ( d->type ) {
 		case pActionsNode::Action:
-			return d->action ? d->action.data()->icon() : QIcon();
+			return d->action.data()->icon();
 		case pActionsNode::Path:
 			return d->icon;
 		default:
@@ -114,7 +114,7 @@ QString pActionsNode::text() const
 {
 	switch ( d->type ) {
 		case pActionsNode::Action:
-			return d->action ? d->action.data()->text() : QString::null;
+			return d->action.data()->text();
 		case pActionsNode::Path:
 			return d->text;
 		default:
