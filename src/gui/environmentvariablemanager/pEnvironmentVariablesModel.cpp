@@ -3,6 +3,13 @@
 #include <QFont>
 #include <QProcess>
 
+pEnvironmentVariablesModel::Variable::Variable( const QString& _name, const QString& _value, bool _enabled )
+{
+	name = _name;
+	value = _value;
+	enabled = _enabled;
+}
+
 pEnvironmentVariablesModel::pEnvironmentVariablesModel( QObject* parent )
 	: QAbstractItemModel( parent )
 {

@@ -9,6 +9,30 @@
 #include <QPainter>
 #include <QDebug>
 
+pQueuedMessage::pQueuedMessage()
+{
+	milliSeconds = -1;
+	background = QBrush( Qt::NoBrush );
+	foreground = QBrush( Qt::NoBrush );
+	slot = 0;
+}
+
+bool pQueuedMessage::operator==( const pQueuedMessage& other ) const
+{
+	return
+		message == other.message
+		&& milliSeconds == other.milliSeconds
+		&& ( pixmap.cacheKey() == other.pixmap.cacheKey() || ( pixmap.isNull() && other.pixmap.isNull() ) )
+		&& background == other.background
+		&& foreground == other.foreground
+		&& buttons == other.buttons
+		&& object == other.object
+		&& slot == other.slot
+		&& userData == other.userData
+		;
+}
+
+
 /*!
 	\details Create a new pQueuedMessageWidget object
 	\param parent The parent widget

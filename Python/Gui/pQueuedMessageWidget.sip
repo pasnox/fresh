@@ -1,25 +1,15 @@
-#ifndef PQUEUEDMESSAGEWIDGET_H
-#define PQUEUEDMESSAGEWIDGET_H
-
-#include "core/FreshExport.h"
-
-#include <QWidget>
-#include <QHash>
-#include <QDialogButtonBox>
-#include <QWeakPointer>
-#include <QVariant>
-
-class QLabel;
-class QDialogButtonBox;
-
 /*!
 	\brief The is the \c message structure used by the pQueuedMessageWidget class.
 	\details It allow to configure the message to show.
 	\details Each variable is directly accessible and mostly optionnal except \c message.
 	\details A default \c Ok button is added if \c buttons is empty.
 */
-struct FRESH_EXPORT pQueuedMessage
+struct pQueuedMessage
 {
+%TypeHeaderCode
+#include <../src/gui/queuedmessage/pQueuedMessageWidget.h>
+%End
+	
 	pQueuedMessage();
 	
 	bool operator==( const pQueuedMessage& other ) const;
@@ -37,7 +27,7 @@ struct FRESH_EXPORT pQueuedMessage
 	/*! \details A hash representing a StandardButton role, and it's optionnal text overridding the default StandardButton text */
 	QHash<QDialogButtonBox::StandardButton, QString> buttons; // StandardButton, Button Text ( null text for standard text )
 	/*! \details The object that is used to invoke \c Slot */
-	QWeakPointer<QObject> object;
+	//QWeakPointer<QObject> object;
 	/*!
 		\details If \c object is not null, it will invoke this \c slot, the slot must take 2 parameters :
 		\details QDialogButtonBox::StandardButton : The StandardButton clicked
@@ -52,11 +42,12 @@ struct FRESH_EXPORT pQueuedMessage
 	\brief A QMessageBox like Widget, that can show queued message.
 	\details The messages are queued until they are closed by user or elapsed time is timeout
 */
-class FRESH_EXPORT pQueuedMessageWidget : public QWidget
+class pQueuedMessageWidget : QWidget
 {
-	Q_OBJECT
-	friend class pQueuedMessageToolBar;
-	
+%TypeHeaderCode
+#include <../src/gui/queuedmessage/pQueuedMessageWidget.h>
+%End
+
 public:
 	pQueuedMessageWidget( QWidget* parent = 0 );
 	
@@ -84,18 +75,6 @@ public slots:
 	void clear();
 
 protected:
-	int mDefaultTimeout;
-	QPixmap mDefaultPixmap;
-	QBrush mDefaultBackground;
-	QBrush mDefaultForeground;
-	QLabel* lPixmap;
-	QLabel* lMessage;
-	QDialogButtonBox* dbbButtons;
-	QList<pQueuedMessage> mMessages;
-	
-	QPixmap currentMessagePixmap() const;
-	QBrush currentMessageBackground() const;
-	QBrush currentMessageForeground() const;
 	
 	void paintEvent( QPaintEvent* event );
 
@@ -113,5 +92,3 @@ signals:
 	void linkActivated( const QString& link );
 	void linkHovered( const QString& link );
 };
-
-#endif // PQUEUEDMESSAGEWIDGET_H

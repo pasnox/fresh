@@ -1,15 +1,11 @@
-#ifndef PENVIRONMENTVARIABLESMODEL_H
-#define PENVIRONMENTVARIABLESMODEL_H
-
-#include "core/FreshExport.h"
-
-#include <QAbstractItemModel>
-
-class FRESH_EXPORT pEnvironmentVariablesModel : public QAbstractItemModel
+class pEnvironmentVariablesModel : QAbstractItemModel
 {
-	Q_OBJECT
+%TypeHeaderCode
+#include <../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.h>
+%End
 
 public:
+ 
 	struct Variable {
 		Variable( const QString& _name = QString::null, const QString& _value = QString::null, bool _enabled = false );
 
@@ -56,14 +52,6 @@ public slots:
 	void resetVariablesToDefault();
 	void resetVariablesToSystem( bool setDefault );
 
-protected:
-	int mRowCount;
-	pEnvironmentVariablesModel::Variables mDefaultVariables;
-	pEnvironmentVariablesModel::Variables mVariables;
-	pEnvironmentVariablesModel::VariableList mOrder;
-
 signals:
 	void defaultVariablesChanged();
 };
-
-#endif // PENVIRONMENTVARIABLESMODEL_H
