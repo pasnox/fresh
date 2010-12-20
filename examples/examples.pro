@@ -34,15 +34,27 @@ setTarget( examples )
 setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )
 isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG	*= console
 
-# include functions file
-FRESH_LIBRARY_PATH	= ..
-include( ../fresh.pri )
+isEmpty(shared) {
+	# If using static fresh
+	FRESH_LIBRARY_PATH	= ../build
+	include( ../fresh.pri )
+	message("Using static fresh library. Run 'qmake shared=1' for use installed shared version")
+} else {
+	# If using shared fresh
+	INCLUDEPATH *= /usr/local/include/fresh
+	LIBS *= -L/usr/local/lib -lfresh
+	QT	*= xml network
+	message("Using shared fresh library")
+}
 
 exists( ../../QtSolutions/modeltest-0.2/modeltest.pri ) {
 	message( "Using QtSolution ModelTest." )
 	DEFINES	*= QT_MODELTEST
 	include (../../QtSolutions/modeltest-0.2/modeltest.pri )
 }
+
+INCLUDEPATH *= /usr/local/include/fresh
+LIBS *= -L/usr/local/lib -lfresh
 
 RESOURCES	+= ../resources/fresh.qrc
 
