@@ -1,0 +1,12 @@
+*.o
+*.a
+build
+*.pyc
+sip*.cpp
+sip*.h
+*.api
+*.exp
+*.sbf
+*.so
+Makefile
+
