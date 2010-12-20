@@ -8,5 +8,7 @@ sip*.h
 *.exp
 *.sbf
 *.so
+examples/*.ini
+examples/examples
 Makefile
 

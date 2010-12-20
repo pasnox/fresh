@@ -22,7 +22,7 @@ XUPProjectSettings {
 # include functions file
 include( ../functions.pri )
 
-EXAMPLES_BUILD_MODE	= debug
+EXAMPLES_BUILD_MODE	= release
 EXAMPLES_BUILD_PATH	= build
 
 TEMPLATE	= app
