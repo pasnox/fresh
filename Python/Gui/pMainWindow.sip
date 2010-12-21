@@ -15,7 +15,7 @@
 class pMainWindow : QMainWindow
 {
 %TypeHeaderCode
-#include <../src/gui/pMainWindow.h>
+#include <gui/pMainWindow.h>
 %End
 
 public:

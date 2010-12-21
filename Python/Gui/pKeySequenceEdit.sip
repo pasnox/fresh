@@ -13,7 +13,7 @@
 class pKeySequenceEdit : pLineEdit
 {
 %TypeHeaderCode
-#include <../src/gui/pKeySequenceEdit.h>
+#include <gui/pKeySequenceEdit.h>
 %End
 
 public:

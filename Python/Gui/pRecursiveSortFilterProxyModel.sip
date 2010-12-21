@@ -1,7 +1,7 @@
 class pRecursiveSortFilterProxyModel : QSortFilterProxyModel
 {
 %TypeHeaderCode
-#include <../src/gui/models/pRecursiveSortFilterProxyModel.h>
+#include <gui/models/pRecursiveSortFilterProxyModel.h>
 %End
 
 public:

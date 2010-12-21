@@ -12,7 +12,7 @@
 class pDockToolBar : QToolBar
 {
 %TypeHeaderCode
-#include <../src/gui/dockmanager/pDockToolBar.h>
+#include <gui/dockmanager/pDockToolBar.h>
 %End
 
 

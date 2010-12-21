@@ -12,7 +12,7 @@
 class pPathListEditor : pFileListEditor
 {
 %TypeHeaderCode
-#include <../src/gui/listeditor/pPathListEditor.h>
+#include <gui/listeditor/pPathListEditor.h>
 %End
 
 

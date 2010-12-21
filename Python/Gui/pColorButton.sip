@@ -1,7 +1,7 @@
 class pColorButton : QToolButton
 {
 %TypeHeaderCode
-#include <../src/gui/pColorButton.h>
+#include <gui/pColorButton.h>
 %End
 
 public:

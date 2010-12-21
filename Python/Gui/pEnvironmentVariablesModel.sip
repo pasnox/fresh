@@ -1,7 +1,7 @@
 class pEnvironmentVariablesModel : QAbstractItemModel
 {
 %TypeHeaderCode
-#include <../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.h>
+#include <gui/environmentvariablemanager/pEnvironmentVariablesModel.h>
 %End
 
 public:

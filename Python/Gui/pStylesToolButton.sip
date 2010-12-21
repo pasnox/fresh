@@ -1,7 +1,7 @@
 class pStylesToolButton : QToolButton
 {
 %TypeHeaderCode
-#include <../src/gui/stylemanager/pStylesToolButton.h>
+#include <gui/stylemanager/pStylesToolButton.h>
 %End
 
 public:

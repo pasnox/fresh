@@ -1,7 +1,7 @@
 class pEnvironmentVariableEditor : QDialog 
 {
 %TypeHeaderCode
-#include <../src/gui/environmentvariablemanager/pEnvironmentVariableEditor.h>
+#include <gui/environmentvariablemanager/pEnvironmentVariableEditor.h>
 %End
 public:
 	pEnvironmentVariableEditor( QWidget* parent = 0, const QString& name = QString::null, const QString& value = QString::null );

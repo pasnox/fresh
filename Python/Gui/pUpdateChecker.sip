@@ -1,7 +1,7 @@
 class pUpdateChecker : QObject
 {
 %TypeHeaderCode
-#include <../src/gui/gc-updatechecker/pUpdateChecker.h>
+#include <gui/gc-updatechecker/pUpdateChecker.h>
 %End
 
 public:

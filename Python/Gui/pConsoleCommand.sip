@@ -1,7 +1,7 @@
 class pConsoleCommand
 {
 %TypeHeaderCode
-#include <../src/gui/consolemanager/pConsoleCommand.h>
+#include <gui/consolemanager/pConsoleCommand.h>
 %End
 
 public:

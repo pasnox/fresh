@@ -5,7 +5,7 @@ namespace Ui {
 class pTranslationDialog : QDialog
 {
 %TypeHeaderCode
-#include <../src/gui/pTranslationDialog.h>
+#include <gui/pTranslationDialog.h>
 %End
 
 public:

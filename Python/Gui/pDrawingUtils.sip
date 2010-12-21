@@ -1,7 +1,7 @@
 namespace pDrawingUtils
 {
 %TypeHeaderCode
-#include <../src/gui/pDrawingUtils.h>
+#include <gui/pDrawingUtils.h>
 %End
 
 	QPixmap filledPixmap( const QColor& color, const QSize& size );

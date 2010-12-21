@@ -13,7 +13,7 @@
 class pActionsNodeMenuBar : QMenuBar
 {
 %TypeHeaderCode
-#include <../src/gui/actionmanager/pActionsNodeMenuBar.h>
+#include <gui/actionmanager/pActionsNodeMenuBar.h>
 %End
 	
 public:

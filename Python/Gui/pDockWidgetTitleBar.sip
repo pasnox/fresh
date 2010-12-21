@@ -5,7 +5,7 @@
 class pDockWidgetTitleBar : QToolBar
 {
 %TypeHeaderCode
-#include <../src/gui/dockwidget/pDockWidgetTitleBar.h>
+#include <gui/dockwidget/pDockWidgetTitleBar.h>
 %End
 
 public:

@@ -5,7 +5,7 @@
 class pDockWidget : QDockWidget
 {
 %TypeHeaderCode
-#include <../src/gui/dockwidget/pDockWidget.h>
+#include <gui/dockwidget/pDockWidget.h>
 %End
 
 public:

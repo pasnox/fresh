@@ -1,7 +1,7 @@
 class pEnvironmentVariablesEditor : QWidget
 {
 %TypeHeaderCode
-#include <../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.h>
+#include <gui/environmentvariablemanager/pEnvironmentVariablesEditor.h>
 %End
 
 public:

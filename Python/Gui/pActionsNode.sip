@@ -17,7 +17,7 @@
 class pActionsNode
 {
 %TypeHeaderCode
-#include <../src/gui/actionmanager/pActionsNode.h>
+#include <gui/actionmanager/pActionsNode.h>
 %End
 
 public:

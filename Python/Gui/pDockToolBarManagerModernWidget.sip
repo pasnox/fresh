@@ -1,7 +1,7 @@
 class pDockToolBarManagerModernWidget : QToolBar
 {
 %TypeHeaderCode
-#include <../src/gui/dockmanager/pDockToolBarManagerModernWidget.h>
+#include <gui/dockmanager/pDockToolBarManagerModernWidget.h>
 %End
 
 public:

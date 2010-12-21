@@ -1,7 +1,7 @@
 class pActionsNodeShortcutEditor : QDialog
 {
 %TypeHeaderCode
-#include <../src/gui/actionmanager/pActionsNodeShortcutEditor.h>
+#include <gui/actionmanager/pActionsNodeShortcutEditor.h>
 %End
 
 

@@ -3,7 +3,7 @@ typedef QMap<int, QVariant> pFileDialogResult;
 class pFileDialog : QFileDialog
 {
 %TypeHeaderCode
-#include <../src/gui/pFileDialog.h>
+#include <gui/pFileDialog.h>
 %End
 
 public:

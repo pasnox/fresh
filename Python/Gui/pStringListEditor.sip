@@ -12,7 +12,7 @@
 class pStringListEditor : QGroupBox
 {
 %TypeHeaderCode
-#include <../src/gui/listeditor/pStringListEditor.h>
+#include <gui/listeditor/pStringListEditor.h>
 %End
 
 	

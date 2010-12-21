@@ -1,7 +1,7 @@
 class pPaypalButton : QPushButton
 {
 %TypeHeaderCode
-#include <../src/gui/pPaypalButton.h>
+#include <gui/pPaypalButton.h>
 %End
 
 public:

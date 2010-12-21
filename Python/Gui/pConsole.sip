@@ -1,7 +1,7 @@
 class pConsole : QPlainTextEdit
 {
 %TypeHeaderCode
-#include <../src/gui/consolemanager/pConsole.h>
+#include <gui/consolemanager/pConsole.h>
 %End
 
 public:

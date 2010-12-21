@@ -1,7 +1,7 @@
 class pQueuedMessageToolBar : QToolBar
 {
 %TypeHeaderCode
-#include <../src/gui/queuedmessage/pQueuedMessageToolBar.h>
+#include <gui/queuedmessage/pQueuedMessageToolBar.h>
 %End
 
 public:

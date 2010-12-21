@@ -1,7 +1,7 @@
 class pStylesActionGroup : QActionGroup
 {
 %TypeHeaderCode
-#include <../src/gui/stylemanager/pStylesActionGroup.h>
+#include <gui/stylemanager/pStylesActionGroup.h>
 %End
 
 public:

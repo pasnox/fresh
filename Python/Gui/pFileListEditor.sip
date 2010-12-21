@@ -12,7 +12,7 @@
 class pFileListEditor : pStringListEditor
 {
 %TypeHeaderCode
-#include <../src/gui/listeditor/pFileListEditor.h>
+#include <gui/listeditor/pFileListEditor.h>
 %End
 
 public:

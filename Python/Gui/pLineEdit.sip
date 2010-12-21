@@ -2,7 +2,7 @@
 class pLineEdit : QLineEdit
 {
 %TypeHeaderCode
-#include <../src/gui/pLineEdit.h>
+#include <gui/pLineEdit.h>
 %End
 	
 public:

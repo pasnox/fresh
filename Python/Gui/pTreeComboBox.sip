@@ -1,7 +1,7 @@
 class pTreeComboBox : QWidget
 {
 %TypeHeaderCode
-#include <../src/gui/pTreeComboBox.h>
+#include <gui/pTreeComboBox.h>
 %End
 
 public:

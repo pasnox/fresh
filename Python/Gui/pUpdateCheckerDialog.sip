@@ -1,7 +1,7 @@
 class pUpdateItem
 {
 %TypeHeaderCode
-#include <../src/gui/gc-updatechecker/pUpdateCheckerDialog.h>
+#include <gui/gc-updatechecker/pUpdateCheckerDialog.h>
 %End
 
 public:
@@ -40,7 +40,7 @@ protected:
 class pUpdateCheckerDialog : QDialog
 {
 %TypeHeaderCode
-#include <../src/gui/gc-updatechecker/pUpdateCheckerDialog.h>
+#include <gui/gc-updatechecker/pUpdateCheckerDialog.h>
 %End
 
 public:

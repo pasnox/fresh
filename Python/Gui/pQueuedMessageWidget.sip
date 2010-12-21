@@ -7,7 +7,7 @@
 struct pQueuedMessage
 {
 %TypeHeaderCode
-#include <../src/gui/queuedmessage/pQueuedMessageWidget.h>
+#include <gui/queuedmessage/pQueuedMessageWidget.h>
 %End
 	
 	pQueuedMessage();
@@ -45,7 +45,7 @@ struct pQueuedMessage
 class pQueuedMessageWidget : QWidget
 {
 %TypeHeaderCode
-#include <../src/gui/queuedmessage/pQueuedMessageWidget.h>
+#include <gui/queuedmessage/pQueuedMessageWidget.h>
 %End
 
 public:

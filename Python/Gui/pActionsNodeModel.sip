@@ -16,7 +16,7 @@
 class pActionsNodeModel : QAbstractItemModel
 {
 %TypeHeaderCode
-#include <../src/gui/actionmanager/pActionsNodeModel.h>
+#include <gui/actionmanager/pActionsNodeModel.h>
 %End
 	
 public:

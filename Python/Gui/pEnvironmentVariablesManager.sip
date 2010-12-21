@@ -1,7 +1,7 @@
 class pEnvironmentVariablesManager : QObject
 {
 %TypeHeaderCode
-#include <../src/gui/environmentvariablemanager/pEnvironmentVariablesManager.h>
+#include <gui/environmentvariablemanager/pEnvironmentVariablesManager.h>
 %End
 
 public:

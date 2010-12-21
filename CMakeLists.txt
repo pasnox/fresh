@@ -49,4 +49,3 @@ if (BUILD_SHARED_LIBS)
 else (BUILD_SHARED_LIBS)
 	message("Building STATIC library. Use 'cmake -D BUILD_SHARED_LIBS=1' for build shared.")
 endif (BUILD_SHARED_LIBS)
-

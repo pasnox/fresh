@@ -15,7 +15,7 @@
 namespace pIconManager
 {
 %TypeHeaderCode
-#include <../src/gui/pIconManager.h>
+#include <gui/pIconManager.h>
 %End
 
 	/*!

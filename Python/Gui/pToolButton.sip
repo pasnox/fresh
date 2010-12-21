@@ -8,7 +8,7 @@
 class pToolButton : QToolButton
 {
 %TypeHeaderCode
-#include <../src/gui/pToolButton.h>
+#include <gui/pToolButton.h>
 %End
 
 public:

@@ -13,7 +13,7 @@
 class pDockToolBarManager : QObject
 {
 %TypeHeaderCode
-#include <../src/gui/dockmanager/pDockToolBarManager.h>
+#include <gui/dockmanager/pDockToolBarManager.h>
 %End
 
 public:
