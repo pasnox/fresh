@@ -6,15 +6,17 @@ PROJECT(pyfresh)
 set(CMAKE_MODULE_PATH 
 	${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
 
+find_package(PythonInterp REQUIRED)
+find_package(PythonLibrary REQUIRED)
+include(PythonMacros)
+
 find_package (Qt4 REQUIRED)
 set(QT_USE_QTXML true)
 set(QT_USE_QTNETWORK true)
 include (${QT_USE_FILE})
 
 find_package(PyQt4 REQUIRED)
-find_package(PythonInterp REQUIRED)
-find_package(PythonLibrary REQUIRED)
-include(PythonMacros)
+
 find_package(SIP REQUIRED)
 include(SIPMacros)
 
