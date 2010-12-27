@@ -4,20 +4,22 @@
 #include <QHash>
 #include <QTextCodec>
 #include <QLocale>
+#include <QDebug>
 
 QString pFileSystemUtils::findFile( QDir& dir, const QString& fileName, bool recursive )
 {
-	foreach ( const QFileInfo& fi, dir.entryInfoList( QStringList( fileName ), QDir::Files | QDir::CaseSensitive ) ) {
-		if ( fi.fileName() == fileName ) {
-			return fi.canonicalFilePath();
+	foreach ( const QFileInfo& fi, dir.entryInfoList( QStringList( fileName ) ) ) {
+		/*if ( fi.fileName() == fileName )*/ {
+			return QDir::cleanPath( fi.absoluteFilePath() );
 		}
 	}
 
 	if ( recursive ) {
-		foreach ( const QFileInfo& fi, dir.entryInfoList( QDir::AllDirs ) ) {
-			dir.setPath( fi.absoluteFilePath() );
+		foreach ( const QFileInfo& fi, dir.entryInfoList( QDir::AllDirs | QDir::NoDotAndDotDot ) ) {
+			dir.cd( fi.fileName() );
 			const QString fn = findFile( dir, fileName, true );
-
+			dir.cdUp();
+			
 			if ( !fn.isNull() ) {
 				return fn;
 			}
@@ -25,6 +27,38 @@ QString pFileSystemUtils::findFile( QDir& dir, const QString& fileName, bool rec
 	}
 
 	return QString::null;
+}
+
+QStringList pFileSystemUtils::findFiles( QDir& dir, const QStringList& filters, bool recursive )
+{
+	QStringList files;
+	
+	foreach ( const QFileInfo& fi, dir.entryInfoList( filters ) ) {
+		files << QDir::cleanPath( fi.absoluteFilePath() );
+	}
+
+	if ( recursive ) {
+		foreach ( const QFileInfo& fi, dir.entryInfoList( QDir::AllDirs | QDir::NoDotAndDotDot ) ) {
+			dir.cd( fi.fileName() );
+			files << findFiles( dir, filters, true );
+			dir.cdUp();
+		}
+	}
+	
+	return files;
+}
+
+bool pFileSystemUtils::isEmptyDirectory( const QString& path )
+{
+	return QFileInfo( path ).isDir()
+		? QDir( path ).entryList( QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot ).isEmpty()
+		: false
+		;
+}
+
+QStringList pFileSystemUtils::findFiles( QDir& dir, const QString& filter, bool recursive )
+{
+	return findFiles( dir, QStringList( filter ), recursive );
 }
 
 QStringList pFileSystemUtils::textCodecs()

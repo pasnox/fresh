@@ -33,6 +33,19 @@ namespace pFileSystemUtils
 	*/
 	FRESH_EXPORT QString findFile( QDir& dir, const QString& fileName, bool recursive = true );
 	/*!
+		\brief Look for files \a filters in \a dir, the search is done recursively according to \a recursive.
+		\param dir The start search directory.
+		\param filters The file name filters, ie: README*.txt.
+		\param recursive Tells if the scan of directories will recurse or not. The default is true.
+		\return The absolute file path of the found files or QStringList.
+	*/
+	FRESH_EXPORT QStringList findFiles( QDir& dir, const QStringList& filters, bool recursive = true );
+	FRESH_EXPORT QStringList findFiles( QDir& dir, const QString& filter, bool recursive = true );
+	/*!
+		Return true if the directory at \a path is totally empty else false.
+	*/
+	FRESH_EXPORT bool isEmptyDirectory( const QString& path );
+	/*!
 		\brief Return the available list of text codecs.
 		\return The codecs list.
 		\note The list is ascending sorted by codec name;

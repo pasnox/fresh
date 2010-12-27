@@ -256,7 +256,6 @@ void pConsole::reset( const QString& promptText )
 	mColors[ pConsole::Completion ] = Qt::green;
 	
 	mRecordedScript.clear();
-	mTypedCommand.clear();
 	
 	QString prompt = promptText.isEmpty() ? mPrompt : promptText;
 	
@@ -341,6 +340,7 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 	int promptStart = cursor.block().position() +mPrompt.length();
 	int historyId = mHistoryIndex;
 	bool processEvent = true;
+	QString typedCommand;
 	
 	if ( start > end ) {
 		qSwap( start, end );
@@ -483,7 +483,7 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 			setTextCursor( cursor );
 		}
 		
-		mTypedCommand = currentCommand();
+		typedCommand = currentCommand();
 	}
 	
 	if ( historyId != mHistoryIndex ) {
@@ -494,7 +494,7 @@ void pConsole::keyPressEvent( QKeyEvent* event )
 			else {
 				mHistoryIndex = mHistory.count();
 				
-				replaceCommand( mTypedCommand );
+				replaceCommand( typedCommand );
 			}
 		}
 	}
@@ -677,7 +677,6 @@ void pConsole::displayPrompt()
 	QTextBlock block = document()->lastBlock();
 	QTextCursor cursor( block );
 	
-	mTypedCommand.clear();
 	cursor.movePosition( QTextCursor::EndOfBlock, QTextCursor::MoveAnchor );
 	setTextCursor( cursor );
 	

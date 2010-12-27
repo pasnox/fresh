@@ -114,6 +114,8 @@ public:
 	QKeySequence shortcut() const;
 	/*!
 		Set the node shortcut, updating the QAction's shortcut if needed.
+		
+		The model take care that the shortcut is available and not already defined in another node.
 	*/
 	bool setShortcut( const QKeySequence& shortcut );
 	/*!
