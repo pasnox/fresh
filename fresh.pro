@@ -5,6 +5,7 @@ include( functions.pri )
 
 FRESH_BUILD_MODE	= release
 FRESH_BUILD_PATH	= build
+DESTDIR				= build
 
 TEMPLATE	= lib
 CONFIG	-= debug_and_release release debug warn_off warn_on
