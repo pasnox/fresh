@@ -1,14 +1,36 @@
 Fresh is a library extending the Qt library by adding new classes/widgets.
+Library has Python bindings
 It's developped by Filipe AZEVEDO (Nox P@sNox, pasnox@gmail.com)
 
 Licensed in LGPL v3.
 
-Building fresh and the example projects:
-========================================
+There are 2 build modes - qmake and cmake build system.
+QMake build system does not require Cmake
+Cmake build system supports installation and generation Python bindings.
 
-qmake ./subdirs.pro && make
+Building fresh library using qmake
+===================================================
+	qmake ./fresh.pro && make
 
-Building fresh project:
-=======================
+Building and installing library and Python bindings using cmake
+===============================================================
+	mkdir build
+	cd build
+	cmake ..
+	cmake all
+	cmake install
+The last command requires root privileges
 
-qmake ./fresh.pro && make
+Building and executing example C++ project
+==========================================
+You must build library at first
+	cd cpp-examples
+	qmake
+	make
+	./examples
+
+Executing example Python project
+================================
+You must build and install library and Python bindings at first
+	cd py-examples
+	python freshexample.py
