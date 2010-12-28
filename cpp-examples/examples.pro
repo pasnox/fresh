@@ -36,7 +36,6 @@ isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG	*= console
 
 isEmpty(shared) {
 	# If using static fresh
-	FRESH_LIBRARY_PATH	= ../build
 	include( ../fresh.pri )
 	message("Using static fresh library. Run 'qmake shared=1' for use installed shared version")
 } else {
@@ -53,12 +52,9 @@ exists( ../../QtSolutions/modeltest-0.2/modeltest.pri ) {
 	include (../../QtSolutions/modeltest-0.2/modeltest.pri )
 }
 
-INCLUDEPATH *= /usr/local/include/fresh
-LIBS *= -L/usr/local/lib -lfresh
+RESOURCES	*= ../resources/fresh.qrc
 
-RESOURCES	+= ../resources/fresh.qrc
+HEADERS	*= src/MainWindow.h
 
-HEADERS	+= src/MainWindow.h
-
-SOURCES	+= src/main.cpp \
+SOURCES	*= src/main.cpp \
 	src/MainWindow.cpp

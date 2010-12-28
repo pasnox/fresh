@@ -22,6 +22,6 @@ PRE_TARGETDEPS	*= $${PWD}
 contains( TEMPLATE, .*app ) {
 	FRESH_TARGET	= fresh
 	QT	*= xml network
-	LIBS	*= -L$${FRESH_LIBRARY_PATH}/build
+	LIBS	*= -L$${PWD}/build
 	LIBS	*= -l$$targetForMode( $${FRESH_TARGET} )
 }
