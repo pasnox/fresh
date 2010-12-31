@@ -52,6 +52,12 @@ namespace pFileSystemUtils
 	*/
 	FRESH_EXPORT QStringList textCodecs();
 	/*!
+		Return a title cased string of \a string.
+		
+		Title case is the meaning of having each first letter of a word upercase and others lower case.
+	*/
+	FRESH_EXPORT QString toTitleCase( const QString& string );
+	/*!
 		\brief Implementation of QLocale hash.
 		\param locale The locale to hash.
 		\return An uint hash of the locale name;

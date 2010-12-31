@@ -73,6 +73,32 @@ QStringList pFileSystemUtils::textCodecs()
 	return codecs.values();
 }
 
+QString pFileSystemUtils::toTitleCase( const QString& _string )
+{
+	QString string = _string;
+	bool lastWasLetter = false;
+	
+	for ( int i = 0; i < string.length(); i++ ) {
+		const QChar c = string.at( i );
+		
+		if ( c.isLetter() || c == '?' ) {
+			if ( lastWasLetter ) {
+				string[ i ] = c.toLower();
+			}
+			else {
+				string[ i ] = c.toTitleCase();
+			}
+			
+			lastWasLetter = true;
+		}
+		else if ( c != '\'' ) {
+			lastWasLetter = false;
+		}
+	}
+	
+	return string;
+}
+
 uint pFileSystemUtils::qHash( const QLocale& locale )
 {
 	return qHash( locale.name() );
