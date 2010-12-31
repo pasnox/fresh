@@ -3,9 +3,8 @@
 
 /*!
 	\file pDockToolBarManager.h
-	\date 2008-01-14T00:27:41
+	\brief This class manage a set of pDockToolBar of a pMainWindow according to its mode.
 	\author Filipe AZEVEDO aka Nox P\@sNox <pasnox@gmail.com>
-	\brief This class manage a set of pDockToolBar ( left, top, right and bottom ) of a QMainWindow
 */
 
 #include "core/FreshExport.h"
@@ -20,9 +19,12 @@ class pSettings;
 class pDockToolBarManagerModernWidget;
 
 /*!
-	\brief This class manage a set of pDockToolBar ( left, top, right and bottom ) of a QMainWindow
-	\details It provide usefull member ( bar() ) to directly create a unique pDockToolBar for the corresponding area.
-	\details It allow to save/restore state of pDockToolBar using a pSettings class.
+	\ingroup Gui
+	\class pDockToolBarManager
+	\brief This class manage a set of pDockToolBar of a pMainWindow according to its mode.
+	
+	It provide usefull member ( bar() ) to directly create a unique pDockToolBar for the corresponding area.
+	It allow to save/restore state of pDockToolBar using a pSettings object.
 */
 class FRESH_EXPORT pDockToolBarManager : public QObject
 {
@@ -30,32 +32,74 @@ class FRESH_EXPORT pDockToolBarManager : public QObject
 	friend class pDockToolBar;
 
 public:
+	/*! This enumeration represents the differents mode available for presenting the toolbars managing the dock widgets. */ 
 	enum Mode {
-		Invalid = -1,
-		Classic,
-		Modern
+		Invalid = -1, /*!< An invalid mode. */ 
+		Classic, /*!< The classical mode presenting toolbars at each part of a window (left, top, right, bottom). */ 
+		Modern /*!< The modern mode presenting all the toolbars in a unique toolbar that minimize the used space. */ 
 		
 	};
-	
+	/*!
+		Create a manager working on \a window.
+	*/
 	pDockToolBarManager( pMainWindow* window );
-	
+	/*!
+		Reimplemented.
+	*/
 	virtual bool eventFilter( QObject* object, QEvent* event );
-	
+	/*!
+		Return true if settings restoration is in process else false.
+	*/
 	bool isRestoring() const;
+	/*!
+		Tells if the setttings restoration process is active or not according to \a restoring.
+		
+		\note This member should never be used directly.
+	*/
 	void setRestoring( bool restoring );
-	
+	/*!
+		Return the current presentation mode.
+	*/
 	pDockToolBarManager::Mode mode() const;
+	/*!
+		Set the current presentation mode.
+	*/
 	void setMode( pDockToolBarManager::Mode mode );
-	
+	/*!
+		Return the pMainWindow handled by this manager.
+	*/
 	pMainWindow* mainWindow() const;
+	/*!
+		Return the toolbar area used by \a toolBar.
+	*/
 	Qt::ToolBarArea toolBarArea( pDockToolBar* toolBar ) const;
+	/*!
+		Return all the toolbars this manager is using.
+	*/
 	QList<pDockToolBar*> dockToolBars() const;
+	/*!
+		Return the toolbar placed in the tool bar area \a area.
+	*/
 	pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
+	/*!
+		Return the toolbar placed in the dock widget area \a area.
+	*/
 	pDockToolBar* dockToolBar( Qt::DockWidgetArea area ) const;
+	/*!
+		Return the pDockToolBar that handles \a dockWidget.
+	*/
 	pDockToolBar* dockToolBar( QDockWidget* dockWidget ) const;
-
+	/*!
+		Conversion helper.
+	*/
 	static Qt::ToolBarArea dockWidgetAreaToToolBarArea( Qt::DockWidgetArea area );
+	/*!
+		Conversion helper.
+	*/
 	static Qt::DockWidgetArea toolBarAreaToDockWidgetArea( Qt::ToolBarArea area );
+	/*!
+		Conversion helper.
+	*/
 	static QBoxLayout::Direction toolBarAreaToBoxLayoutDirection( Qt::ToolBarArea area );
 
 protected:

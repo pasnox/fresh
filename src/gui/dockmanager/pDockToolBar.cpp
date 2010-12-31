@@ -9,12 +9,6 @@
 #include <QAction>
 #include <QKeyEvent>
 
-/*!
-	\details Create a new object
-	\param manager The pDockToolBarManager manager
-	\param orientation The toolbar orientation
-	\param window The main window
-*/
 pDockToolBar::pDockToolBar( pDockToolBarManager* manager, Qt::Orientation orientation )
 	: QToolBar( manager->mainWindow() )
 {
@@ -72,13 +66,6 @@ bool pDockToolBar::eventFilter( QObject* object, QEvent* event )
 	return QToolBar::eventFilter( object, event );
 }
 
-/*!
-	\details Add a dock in this toolbar, the dock is moved area if needed
-	\param dock The dock to add
-	\param title The dock button title
-	\param icon The dock button icon
-	\return Return the unique id that identify the dock
-*/
 void pDockToolBar::addDockWidget( QDockWidget* dockWidget, const QString& title, const QIcon& icon )
 {
 	if ( !dockWidget || mDockWidgets.contains( dockWidget ) ) {
@@ -98,8 +85,7 @@ void pDockToolBar::addDockWidget( QDockWidget* dockWidget, const QString& title,
 	// create button
 	const Qt::ToolBarArea tbAreaCurrent = mManager->toolBarArea( this );
 	const Qt::DockWidgetArea dwAreaCurrent = mManager->toolBarAreaToDockWidgetArea( tbAreaCurrent );
-	const QBoxLayout::Direction blDirection = mManager->toolBarAreaToBoxLayoutDirection( tbAreaCurrent );
-	pToolButton* button = addButton( dockWidget, blDirection );
+	pToolButton* button = addButton( dockWidget );
 	
 	if ( mManager->mainWindow()->dockWidgetArea( dockWidget ) != dwAreaCurrent ) {
 		mManager->mainWindow()->addDockWidget( dwAreaCurrent, dockWidget );
@@ -111,10 +97,6 @@ void pDockToolBar::addDockWidget( QDockWidget* dockWidget, const QString& title,
 	connect( button, SIGNAL( clicked( bool ) ), this, SLOT( internal_buttonClicked( bool ) ) );
 }
 
-/*!
-	\details Unmanage a dock
-	\param dock The dock to unmanage
-*/
 void pDockToolBar::removeDockWidget( QDockWidget* dockWidget )
 {
 	if ( !mDockWidgets.contains( dockWidget ) ) {
@@ -126,18 +108,11 @@ void pDockToolBar::removeDockWidget( QDockWidget* dockWidget )
 	internal_checkToolBarVisibility();
 }
 
-/*!
-	\details Return true if the pDockToolBar buttons are exclusive, else false
-*/
-bool pDockToolBar::exclusive() const
+bool pDockToolBar::isExclusive() const
 {
 	return aToggleExclusive->isChecked();
 }
 
-/*!
-	\details Set this pDockToolBar exclusive, ie each dock button are exclusive meaning activating one will deactivate all others
-	\param exclusive exclusive or not
-*/
 void pDockToolBar::setExclusive( bool exclusive )
 {
 	if ( aToggleExclusive->isChecked() == exclusive ) {
@@ -148,11 +123,6 @@ void pDockToolBar::setExclusive( bool exclusive )
 	internal_checkButtonExclusivity();
 }
 
-/*!
-	\details Set a dock visibility
-	\param dock The dock
-	\param visible The visible state
-*/
 void pDockToolBar::setDockVisible( QDockWidget* dockWidget, bool visible )
 {
 	pToolButton* button = mDockWidgets.value( dockWidget );
@@ -170,9 +140,6 @@ void pDockToolBar::setDockVisible( QDockWidget* dockWidget, bool visible )
 	}
 }
 
-/*!
-	\details Return the docks list
-*/
 QList<QDockWidget*> pDockToolBar::dockWidgets( pDockToolBar::DockWidgetsOrder order ) const
 {
 	QList<QDockWidget*> dockWidgets;
@@ -200,52 +167,31 @@ QList<QDockWidget*> pDockToolBar::dockWidgets( pDockToolBar::DockWidgetsOrder or
 	return dockWidgets;
 }
 
-/*!
-	\details Return the dock associated with the button given in parameter
-	\param button The button of the dock to get
-*/
 QDockWidget* pDockToolBar::dockWidget( pToolButton* button ) const
 {
 	return mDockWidgets.key( button );
 }
 
-/*!
-	\details Return true if the dockWidget is member of this dockToolBar
-	\param dockWidget The dock widget to check
-*/
 bool pDockToolBar::hasDockWidget( QDockWidget* dockWidget ) const
 {
 	return mDockWidgets.contains( dockWidget );
 }
 
-/*!
-	\details Return the buttons list
-*/
 QList<pToolButton*> pDockToolBar::buttons() const
 {
 	return mDockWidgets.values();
 }
 
-/*!
-	\details Return the button associated with the dock given in parameter
-	\param dock The dock of the button to get
-*/
 pToolButton* pDockToolBar::button( QDockWidget* dock ) const
 {
 	return mDockWidgets.value( dock );
 }
 
-/*!
-	\details Return the number of docks managed by this pDockToolBar
-*/
 int pDockToolBar::count() const
 {
 	return mDockWidgets.count();
 }
 
-/*!
-	\details Return the togglabe exclusive action associated with this pDockToolBar
-*/
 QAction* pDockToolBar::toggleExclusiveAction() const 
 {
 	return aToggleExclusive;
@@ -278,8 +224,10 @@ void pDockToolBar::setButtonMode( pToolButton* button )
 	}
 }
 
-pToolButton* pDockToolBar::addButton( QDockWidget* dockWidget, QBoxLayout::Direction direction )
+pToolButton* pDockToolBar::addButton( QDockWidget* dockWidget )
 {
+	const Qt::ToolBarArea area = mManager->toolBarArea( this );
+	const QBoxLayout::Direction direction = mManager->toolBarAreaToBoxLayoutDirection( area );
 	pToolButton* button = new pToolButton( this, direction );
 	
 	button->setDefaultAction( dockWidget->toggleViewAction() );

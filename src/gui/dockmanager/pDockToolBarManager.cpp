@@ -9,10 +9,6 @@
 #include <QAction>
 #include <QChildEvent>
 
-/*!
-	\details Create a new pDockToolBarManager
-	\param window The QMainWindow where this manager operate
-*/
 pDockToolBarManager::pDockToolBarManager( pMainWindow* window )
 	: QObject( window )
 {
@@ -119,9 +115,6 @@ void pDockToolBarManager::setMode( pDockToolBarManager::Mode mode )
 	emit modeChanged( mMode );
 }
 
-/*!
-	\details Return the associated pMainWindow
-*/
 pMainWindow* pDockToolBarManager::mainWindow() const
 {
 	return mMainWindow;
@@ -132,22 +125,14 @@ Qt::ToolBarArea pDockToolBarManager::toolBarArea( pDockToolBar* toolBar ) const
 	return mDockToolBars.key( toolBar );
 }
 
-/*!
-	\details Return the pDockToolBars of the manager.
-*/
 QList<pDockToolBar*> pDockToolBarManager::dockToolBars() const
 {
 	return mDockToolBars.values();
 }
 
-/*!
-	\details Return a pDockToolBar for the area, creating it if needed.
-	\details Return null if area is invalid
-	\param area The area to get/create the pDockToolBar
-*/
 pDockToolBar* pDockToolBarManager::dockToolBar( Qt::ToolBarArea area ) const
 {
-	return mDockToolBars[ area ];
+	return mDockToolBars.value( area );
 }
 
 pDockToolBar* pDockToolBarManager::dockToolBar( Qt::DockWidgetArea area ) const
@@ -289,11 +274,6 @@ void pDockToolBarManager::untrackDockWidget( QDockWidget* dockWidget )
 	disconnect( dockWidget, SIGNAL( visibilityChanged( bool ) ), this, SLOT( dockWidget_visibilityChanged( bool ) ) );
 }
 
-/*!
-	\details Convert a DockWidgetArea to a ToolBarArea and return it.
-	\details Return BottomToolBarArea if area is invalid
-	\param area The DockWidgetArea to convert
-*/
 Qt::ToolBarArea pDockToolBarManager::dockWidgetAreaToToolBarArea( Qt::DockWidgetArea area )
 {
 	switch ( area ) {
@@ -310,11 +290,6 @@ Qt::ToolBarArea pDockToolBarManager::dockWidgetAreaToToolBarArea( Qt::DockWidget
 	}
 }
 
-/*!
-	\details Convert a ToolBarArea to a DockWidgetArea and return it.
-	\details Return BottomDockWidgetArea if area is invalid
-	\param area The ToolBarArea to convert
-*/
 Qt::DockWidgetArea pDockToolBarManager::toolBarAreaToDockWidgetArea( Qt::ToolBarArea area )
 {
 	switch ( area ) {
@@ -331,11 +306,6 @@ Qt::DockWidgetArea pDockToolBarManager::toolBarAreaToDockWidgetArea( Qt::ToolBar
 	}
 }
 
-/*!
-	\details Convert a ToolBarArea to a QBoxLayout::Direction and return it.
-	\details Return QBoxLayout::LeftToRight if area is invalid
-	\param area The ToolBarArea to convert
-*/
 QBoxLayout::Direction pDockToolBarManager::toolBarAreaToBoxLayoutDirection( Qt::ToolBarArea area )
 {
 	switch ( area ) {
@@ -351,10 +321,6 @@ QBoxLayout::Direction pDockToolBarManager::toolBarAreaToBoxLayoutDirection( Qt::
 	}
 }
 
-/*!
-	\details Restore the state of the bar given in parameter.
-	\param pbar The bar to restore, if null all bars are restored
-*/
 void pDockToolBarManager::restoreState( pDockToolBar* dockToolBar )
 {
 	pSettings* settings = mMainWindow->settings();
@@ -374,7 +340,7 @@ void pDockToolBarManager::restoreState( pDockToolBar* dockToolBar )
 		
 		if ( dockToolBar ) {
 			const QStringList docksName = settings->value( QString( "MainWindow/Docks/%1/Widgets" ).arg( area ) ).toStringList();
-			const bool isExclusive = dockToolBar->exclusive();
+			const bool isExclusive = dockToolBar->isExclusive();
 			
 			dockToolBar->setExclusive( false );
 			
@@ -394,10 +360,6 @@ void pDockToolBarManager::restoreState( pDockToolBar* dockToolBar )
 	setMode( pDockToolBarManager::Mode( settings->value( "MainWindow/Docks/Mode", pDockToolBarManager::Modern ).toInt() ) );
 }
 
-/*!
-	\details Save the state of the bar given in parameter.
-	\param bar The bar to save, if null all bars are saved
-*/
 void pDockToolBarManager::saveState( pDockToolBar* dockToolBar )
 {
 	pSettings* settings = mMainWindow->settings();
@@ -419,7 +381,7 @@ void pDockToolBarManager::saveState( pDockToolBar* dockToolBar )
 		
 		// write datas
 		const int area = mDockToolBars.key( dockToolBar );
-		settings->setValue( QString( "MainWindow/Docks/%1/Exclusive" ).arg( area ), dockToolBar->exclusive() );
+		settings->setValue( QString( "MainWindow/Docks/%1/Exclusive" ).arg( area ), dockToolBar->isExclusive() );
 		settings->setValue( QString( "MainWindow/Docks/%1/Widgets" ).arg( area ), docksName );
 	}
 	
