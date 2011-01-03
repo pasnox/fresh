@@ -9,7 +9,10 @@ class pDockWidgetTitleBar;
 
 /*!
 	\brief A QDockWidget that keep it's size
+		
 	\details when hidden then shown when docked
+	If pDockWidget has focus proxy, this proxy will get focus,
+	when QDockWidget::toggleViewAction was activated.	
 */
 class FRESH_EXPORT pDockWidget : public QDockWidget
 {
@@ -24,9 +27,14 @@ public:
 
 protected:
 	pDockWidgetTitleBar* mTitleBar;
-	
+
 	void init();
 	virtual void paintEvent( QPaintEvent* event );
+
+protected slots:
+	void toggleViewAction_toggled( bool toggled );
+	void handleWindowActivation();
+	void handleFocusProxy();
 };
 
 #endif // PDOCKWIDGET_H
