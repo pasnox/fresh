@@ -41,12 +41,17 @@ public:
 
 protected:
 	pDockWidgetTitleBar* mTitleBar;
-	
+
 	void init();
 	/*!
 		Reimplemented.
 	*/
 	virtual void paintEvent( QPaintEvent* event );
+
+protected slots:
+	void toggleViewAction_toggled( bool toggled );
+	void handleWindowActivation();
+	void handleFocusProxy();
 };
 
 #endif // PDOCKWIDGET_H

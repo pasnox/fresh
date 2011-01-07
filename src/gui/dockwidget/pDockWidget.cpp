@@ -3,6 +3,8 @@
 
 #include <QPainter>
 #include <QStyle>
+#include <QTimer>
+#include <QAction>
 
 pDockWidget::pDockWidget( const QString& title, QWidget* parent, Qt::WindowFlags flags )
 	: QDockWidget( title, parent, flags )
@@ -20,6 +22,7 @@ void pDockWidget::init()
 {
 	mTitleBar = new pDockWidgetTitleBar( this );
 	setTitleBarWidget( mTitleBar );
+	connect( toggleViewAction(), SIGNAL( toggled( bool ) ), this, SLOT( toggleViewAction_toggled( bool ) ) );
 }
 
 void pDockWidget::paintEvent( QPaintEvent* event )
@@ -39,4 +42,30 @@ void pDockWidget::paintEvent( QPaintEvent* event )
 pDockWidgetTitleBar* pDockWidget::titleBar() const
 {
 	return mTitleBar;
+}
+
+void pDockWidget::toggleViewAction_toggled( bool toggled )
+{
+	if ( toggled && focusProxy() )
+	{
+		if ( isFloating() )
+		{
+			QTimer::singleShot( 0, this, SLOT( handleWindowActivation() ) );
+		}
+		else
+		{
+			QTimer::singleShot( 0, this, SLOT( handleFocusProxy() ) );
+		}
+	}
+}
+
+void pDockWidget::handleWindowActivation()
+{
+	activateWindow();
+	QTimer::singleShot( 0, this, SLOT( handleFocusProxy() ) );
+}
+
+void pDockWidget::handleFocusProxy()
+{
+	focusProxy()->setFocus();
 }
