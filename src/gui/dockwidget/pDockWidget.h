@@ -16,15 +16,16 @@ class pDockWidgetTitleBar;
 /*!
 	\ingroup Gui
 	\class pDockWidget
-	\brief An extended QDockWidget class that handle a QToolBar as title bar widget.
-	
+	\brief An extended QDockWidget class.
+
+	This dock widget has a QToolBar as title bar widget and handle its proxy widget on activation.
 	The dock widget has a small frame when it's floating (except for Oxygen style).
 */
 class FRESH_EXPORT pDockWidget : public QDockWidget
 {
 	Q_OBJECT
 	friend class pDockWidgetTitleBar;
-	
+
 public:
 	/*!
 		Create a pDockWidget having \a title, \a parent and \a flags.
