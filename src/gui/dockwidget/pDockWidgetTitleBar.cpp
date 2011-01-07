@@ -8,15 +8,15 @@
 #include <QEvent>
 #include <QPainter>
 
-pDockWidgetTitleBar::pDockWidgetTitleBar( pDockWidget* parent )
+pDockWidgetTitleBar::pDockWidgetTitleBar( QDockWidget* parent )
 	: QToolBar( parent )
 {
 	Q_ASSERT( parent );
 	mDock = parent;
 	
 	// a fake spacer widget
-	QWidget* widget = new QWidget( this );
-	widget->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
+	QWidget* spacer = new QWidget( this );
+	spacer->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	
 	aOrientation = new QAction( this );
 	aFloat = new QAction( this );
@@ -32,7 +32,7 @@ pDockWidgetTitleBar::pDockWidgetTitleBar( pDockWidget* parent )
 	tbClose->setDefaultAction( aClose );
 	tbClose->installEventFilter( this );
 	
-	addWidget( widget );
+	addWidget( spacer );
 	addWidget( tbOrientation );
 	addWidget( tbFloat );
 	addWidget( tbClose );
@@ -117,7 +117,8 @@ void pDockWidgetTitleBar::updateStyleChange()
 	
 	QIcon icon;
 	
-	icon = pDrawingUtils::scaledPixmap( orientation() == Qt::Horizontal ? ":/fresh/icons/vertical.png" : ":/fresh/icons/horizontal.png", iconSize() );
+	//icon = pDrawingUtils::scaledPixmap( orientation() == Qt::Horizontal ? ":/fresh/icons/vertical.png" : ":/fresh/icons/horizontal.png", iconSize() );
+	icon = style()->standardIcon( QStyle::SP_TitleBarShadeButton, 0, widgetForAction( aOrientation ) );
 	aOrientation->setIcon( icon );
 	
 	icon = style()->standardIcon( QStyle::SP_TitleBarNormalButton, 0, widgetForAction( aFloat ) );

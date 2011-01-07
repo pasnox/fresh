@@ -4,7 +4,7 @@
 /*!
 	\file pFileListEditor.h
 	\date 2008-01-14T00:27:48
-	\author Filipe AZEVEDO aka Nox P\@sNox <pasnox@gmail.com>
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 	\brief a pStringListEditor that handle files name.
 */
 

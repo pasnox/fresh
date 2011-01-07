@@ -149,7 +149,7 @@ void pEnvironmentVariablesEditor::on_aEdit_triggered()
 	const QModelIndex index = ui->tvVariables->selectionModel()->selectedIndexes().value( 0 );
 	pEnvironmentVariablesModel::Variable variable = mModel->variable( index );
 
-	pEnvironmentVariableEditor dlg( this, variable.name, variable.value );
+	pEnvironmentVariableEditor dlg( this, variable );
 	dlg.setWindowTitle( tr( "Edit a variable..." ) );
 
 	if ( dlg.exec() == QDialog::Rejected ) {

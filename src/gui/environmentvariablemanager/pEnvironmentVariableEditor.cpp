@@ -1,17 +1,17 @@
 #include "pEnvironmentVariableEditor.h"
 #include "ui_pEnvironmentVariableEditor.h"
 
-pEnvironmentVariableEditor::pEnvironmentVariableEditor( QWidget* parent, const QString& name, const QString& value )
+pEnvironmentVariableEditor::pEnvironmentVariableEditor( QWidget* parent, const pEnvironmentVariablesModel::Variable& variable )
 	: QDialog( parent )
 {
 	ui = new Ui_pEnvironmentVariableEditor;
 	
 	ui->setupUi( this );
-	ui->leName->setReadOnly( !name.isEmpty() );
-	ui->leName->setText( name );
-	ui->leValue->setText( value );
+	ui->leName->setReadOnly( !variable.name.isEmpty() );
+	ui->leName->setText( variable.name );
+	ui->leValue->setText( variable.value );
 
-	if ( name.isEmpty() ) {
+	if ( variable.name.isEmpty() ) {
 		ui->leName->setFocus();
 	}
 	else {

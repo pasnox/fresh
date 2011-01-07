@@ -4,7 +4,7 @@
 /*!
 	\file pKeySequenceEdit.h
 	\date 2008-01-14T00:27:45
-	\author Filipe AZEVEDO aka Nox P\@sNox <pasnox@gmail.com>
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 	\brief A special QLineEdit that allow to defin QShortcut
 */
 

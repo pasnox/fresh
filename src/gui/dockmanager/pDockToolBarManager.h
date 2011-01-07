@@ -4,7 +4,7 @@
 /*!
 	\file pDockToolBarManager.h
 	\brief This class manage a set of pDockToolBar of a pMainWindow according to its mode.
-	\author Filipe AZEVEDO aka Nox P\@sNox <pasnox@gmail.com>
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "core/FreshExport.h"
@@ -108,15 +108,35 @@ protected:
 	pDockToolBarManager::Mode mMode;
 	QWeakPointer<pDockToolBarManagerModernWidget> mModernWidget;
 	bool mIsRestoring;
-	
+	/*!
+		Initialize the toolbar for each area.
+	*/
 	virtual void initializeToolBars();
+	/*!
+		Check for unmanaged dock widgets and add them to the correct toolbar.
+	*/
 	virtual void checkForUnManagedDockWidgets();
+	/*!
+		Change the toolbar \a tb visibility according to \a visible.
+	*/
 	virtual void setToolBarVisible( pDockToolBar* tb, bool visible );
+	/*!
+		Initialize needed signals / slot / properties for tracking \a dock.
+	*/
 	virtual void trackDockWidget( QDockWidget* dock );
+	/*!
+		De initialize needed signals / slots / properties for un tracking \a dock.
+	*/
 	virtual void untrackDockWidget( QDockWidget* dock );
 
 public slots:
+	/*!
+		Restore the state of \a dockToolBar if not null, else all toolbars.
+	*/
 	virtual void restoreState( pDockToolBar* dockToolBar = 0 );
+	/*!
+		Save the state of \a dockToolBar if not null, else all toolbars.
+	*/
 	virtual void saveState( pDockToolBar* dockToolBar = 0 );
 
 protected slots:
@@ -127,6 +147,9 @@ protected slots:
 	void dockWidget_visibilityChanged( bool visible );
 
 signals:
+	/*!
+		This signal is emited when the current prensentation mode is changed to \a mode.
+	*/
 	void modeChanged( pDockToolBarManager::Mode mode );
 };
 

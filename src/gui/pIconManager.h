@@ -4,7 +4,7 @@
 /*!
 	\file pIconManager.h
 	\brief A cache class for icons and pixmaps
-	\author Filipe AZEVEDO aka Nox P\@sNox <pasnox@gmail.com>
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "core/FreshExport.h"

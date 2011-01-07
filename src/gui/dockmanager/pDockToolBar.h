@@ -4,7 +4,7 @@
 /*!
 	\file pDockToolBar.h
 	\brief A toolbar that can manage dock visibility by adding buttons in it.
-	\author Filipe AZEVEDO aka Nox P\@sNox <pasnox@gmail.com>
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "core/FreshExport.h"
