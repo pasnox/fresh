@@ -1,4 +1,5 @@
 #include "pUpdateCheckerDialog.h"
+#include "ui_pUpdateCheckerDialog.h"
 #include "pUpdateChecker.h"
 
 #include <QNetworkAccessManager>
@@ -143,12 +144,13 @@ pUpdateCheckerDialog::pUpdateCheckerDialog( pUpdateChecker* updateChecker, QWidg
 {
 	Q_ASSERT( updateChecker );
 	
+	ui = new Ui_pUpdateCheckerDialog;
 	mUpdateChecker = updateChecker;
 	
-	setupUi( this );
+	ui->setupUi( this );
 	setAttribute( Qt::WA_DeleteOnClose );
 	setAttribute( Qt::WA_MacSmallSize );
-	dbbButtons->button( QDialogButtonBox::Yes )->setEnabled( false );
+	ui->dbbButtons->button( QDialogButtonBox::Yes )->setEnabled( false );
 	
 	foreach ( QWidget* widget, findChildren<QWidget*>() ) {
 		widget->setAttribute( Qt::WA_MacSmallSize );
@@ -178,9 +180,9 @@ bool pUpdateCheckerDialog::event( QEvent* event )
 
 void pUpdateCheckerDialog::localeChanged()
 {
-	retranslateUi( this );
-	lVersion->setText( tr( "You are using version <b>%1</b> (%2)." ).arg( mUpdateChecker->version() ).arg( mUpdateChecker->versionString() ) );
-	dbbButtons->button( QDialogButtonBox::Yes )->setText( tr( "Download" ) );
+	ui->retranslateUi( this );
+	ui->lVersion->setText( tr( "You are using version <b>%1</b> (%2)." ).arg( mUpdateChecker->version() ).arg( mUpdateChecker->versionString() ) );
+	ui->dbbButtons->button( QDialogButtonBox::Yes )->setText( tr( "Download" ) );
 }
 
 void pUpdateCheckerDialog::accessManager_finished( QNetworkReply* reply )
@@ -192,7 +194,7 @@ void pUpdateCheckerDialog::accessManager_finished( QNetworkReply* reply )
 	//const QDateTime lastCheck = mUpdateChecker->lastChecked();
 	
 	if ( reply->error() != QNetworkReply::NoError ) {
-		lwVersions->addItem( new QListWidgetItem( tr( "An error occur: %1" ).arg( reply->errorString() ) ) );
+		ui->lwVersions->addItem( new QListWidgetItem( tr( "An error occur: %1" ).arg( reply->errorString() ) ) );
 	}
 	else {
 		QDomDocument document;
@@ -212,13 +214,13 @@ void pUpdateCheckerDialog::accessManager_finished( QNetworkReply* reply )
 					
 					item->setToolTip( updateItem.toolTip() );
 					item->setData( Qt::UserRole, QVariant::fromValue( updateItem ) );
-					lwVersions->addItem( item );
+					ui->lwVersions->addItem( item );
 				}
 			}
 			
 			mUpdateChecker->setLastUpdated( updated );
 			
-			if ( lwVersions->count() > 0 ) {				
+			if ( ui->lwVersions->count() > 0 ) {				
 				if ( !isVisible() && lastUpdated < updated ) {
 					open();
 				}
@@ -227,7 +229,7 @@ void pUpdateCheckerDialog::accessManager_finished( QNetworkReply* reply )
 				QListWidgetItem* item = new QListWidgetItem( tr( "You are running the last available version." ) );
 				
 				item->setFlags( Qt::NoItemFlags );
-				lwVersions->addItem( item );
+				ui->lwVersions->addItem( item );
 				
 				if ( !isVisible() ) {
 					close();
@@ -235,7 +237,7 @@ void pUpdateCheckerDialog::accessManager_finished( QNetworkReply* reply )
 			}
 		}
 		else {
-			lwVersions->addItem( new QListWidgetItem( tr( "An error occur while parsing xml, retry later." ) ) );
+			ui->lwVersions->addItem( new QListWidgetItem( tr( "An error occur while parsing xml, retry later." ) ) );
 		}
 	}
 	
@@ -244,21 +246,21 @@ void pUpdateCheckerDialog::accessManager_finished( QNetworkReply* reply )
 
 void pUpdateCheckerDialog::on_lwVersions_itemSelectionChanged()
 {
-	QListWidgetItem* item = lwVersions->selectedItems().value( 0 );
+	QListWidgetItem* item = ui->lwVersions->selectedItems().value( 0 );
 	const pUpdateItem updateItem = item ? item->data( Qt::UserRole ).value<pUpdateItem>() : pUpdateItem();
 	
-	dbbButtons->button( QDialogButtonBox::Yes )->setEnabled( updateItem.isValid() );
+	ui->dbbButtons->button( QDialogButtonBox::Yes )->setEnabled( updateItem.isValid() );
 }
 
 void pUpdateCheckerDialog::on_lwVersions_itemDoubleClicked( QListWidgetItem* item )
 {
 	Q_UNUSED( item );
-	dbbButtons->button( QDialogButtonBox::Yes )->click();
+	ui->dbbButtons->button( QDialogButtonBox::Yes )->click();
 }
 
 void pUpdateCheckerDialog::accept()
 {
-	QListWidgetItem* item = lwVersions->selectedItems().value( 0 );
+	QListWidgetItem* item = ui->lwVersions->selectedItems().value( 0 );
 	const pUpdateItem updateItem = item->data( Qt::UserRole ).value<pUpdateItem>();
 	
 	QDesktopServices::openUrl( updateItem.link() );
