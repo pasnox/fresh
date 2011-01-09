@@ -20,7 +20,7 @@ XUPProjectSettings {
 }
 
 # include functions file
-include( ../functions.pri )
+include( ../../functions.pri )
 
 EXAMPLES_BUILD_MODE	= release
 EXAMPLES_BUILD_PATH	= build
@@ -36,7 +36,7 @@ isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG	*= console
 
 isEmpty(shared) {
 	# If using static fresh
-	include( ../fresh.pri )
+	include( ../../fresh.pri )
 	message("Using static fresh library. Run 'qmake shared=1' for use installed shared version")
 } else {
 	# If using shared fresh
@@ -46,13 +46,13 @@ isEmpty(shared) {
 	message("Using shared fresh library")
 }
 
-exists( ../../QtSolutions/modeltest-0.2/modeltest.pri ) {
+exists( ../../../QtSolutions/modeltest-0.2/modeltest.pri ) {
 	message( "Using QtSolution ModelTest." )
 	DEFINES	*= QT_MODELTEST
-	include (../../QtSolutions/modeltest-0.2/modeltest.pri )
+	include (../../../QtSolutions/modeltest-0.2/modeltest.pri )
 }
 
-RESOURCES	*= ../resources/fresh.qrc
+RESOURCES	*= ../../resources/fresh.qrc
 
 HEADERS	*= src/MainWindow.h
 
