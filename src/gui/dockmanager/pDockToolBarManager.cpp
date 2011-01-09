@@ -206,11 +206,9 @@ void pDockToolBarManager::checkForUnManagedDockWidgets()
 			}
 		}
 		
-		if ( hasDockWidget ) {
-			continue;
+		if ( !hasDockWidget ) {
+			dockToolBar( mMainWindow->dockWidgetArea( dockWidget ) )->addDockWidget( dockWidget );
 		}
-		
-		dockToolBar( mMainWindow->dockWidgetArea( dockWidget ) )->addDockWidget( dockWidget );
 	}
 }
 
@@ -425,14 +423,16 @@ void pDockToolBarManager::dockWidget_topLevelChanged( bool topLevel )
 
 void pDockToolBarManager::dockWidget_visibilityChanged( bool visible )
 {
-	QDockWidget* dockWidget = qobject_cast<QDockWidget*>( sender() );
-	pDockToolBar* dockToolBar = this->dockToolBar( dockWidget );
+	Q_UNUSED( visible );
 	
-	if ( mIsRestoring ) {
+	/*if ( mIsRestoring ) {
 		return;
 	}
 	
+	QDockWidget* dockWidget = qobject_cast<QDockWidget*>( sender() );
+	pDockToolBar* dockToolBar = this->dockToolBar( dockWidget );
+	
 	if ( dockToolBar ) {
 		dockToolBar->setDockVisible( dockWidget, visible );
-	}
+	}*/
 }

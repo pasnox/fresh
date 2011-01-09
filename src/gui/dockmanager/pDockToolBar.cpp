@@ -29,6 +29,7 @@ pDockToolBar::pDockToolBar( pDockToolBarManager* manager, Qt::Orientation orient
 
 	// connect orientation change
 	connect( this, SIGNAL( orientationChanged( Qt::Orientation ) ), this, SLOT( internal_orientationChanged( Qt::Orientation ) ) );
+	connect( aToggleExclusive, SIGNAL( toggled( bool ) ), this, SLOT( internal_checkButtonExclusivity() ) );
 
 	// toolbar properties
 	setMovable( false );
@@ -115,12 +116,9 @@ bool pDockToolBar::isExclusive() const
 
 void pDockToolBar::setExclusive( bool exclusive )
 {
-	if ( aToggleExclusive->isChecked() == exclusive ) {
-		return;
+	if ( aToggleExclusive->isChecked() != exclusive ) {
+		aToggleExclusive->setChecked( exclusive );
 	}
-	
-	aToggleExclusive->setChecked( exclusive );
-	internal_checkButtonExclusivity();
 }
 
 void pDockToolBar::setDockVisible( QDockWidget* dockWidget, bool visible )
@@ -215,8 +213,8 @@ void pDockToolBar::setButtonMode( pToolButton* button )
 		case pDockToolBarManager::Modern: {
 			button->setIconSize( iconSize() *2 );
 			button->setToolButtonStyle( Qt::ToolButtonIconOnly );
-			button->setDirection( QBoxLayout::LeftToRight );
 			button->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+			button->setDirection( QBoxLayout::LeftToRight );
 			break;
 		}
 		default:
@@ -226,9 +224,7 @@ void pDockToolBar::setButtonMode( pToolButton* button )
 
 pToolButton* pDockToolBar::addButton( QDockWidget* dockWidget )
 {
-	const Qt::ToolBarArea area = mManager->toolBarArea( this );
-	const QBoxLayout::Direction direction = mManager->toolBarAreaToBoxLayoutDirection( area );
-	pToolButton* button = new pToolButton( this, direction );
+	pToolButton* button = new pToolButton( this );
 	
 	button->setDefaultAction( dockWidget->toggleViewAction() );
 	
