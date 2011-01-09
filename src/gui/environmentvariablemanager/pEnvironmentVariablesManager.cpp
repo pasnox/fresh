@@ -5,8 +5,7 @@
 
 const QString pEnvironmentVariablesManager::mSettingsKey( "EnvironmentVariables" );
 
-pEnvironmentVariablesManager::pEnvironmentVariablesManager( QObject* parent )
-	: QObject( parent )
+pEnvironmentVariablesManager::pEnvironmentVariablesManager()
 {
 }
 

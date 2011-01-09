@@ -1,17 +1,36 @@
 #ifndef PENVIRONMENTVARIABLESMANAGER_H
 #define PENVIRONMENTVARIABLESMANAGER_H
 
+/*!
+	\file pEnvironmentVariablesManager.h
+	\brief Helper manager for pEnvironmentVariablesModel.
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+*/
+
 #include "core/FreshExport.h"
 #include "pEnvironmentVariablesModel.h"
 
-class FRESH_EXPORT pEnvironmentVariablesManager : public QObject
+/*!
+	\ingroup Gui
+	\class pEnvironmentVariablesManager
+	\brief Helper manager for pEnvironmentVariablesModel.
+
+	This helper class allow to read, write, update and merge variables to/from files.
+*/
+class FRESH_EXPORT pEnvironmentVariablesManager
 {
-	Q_OBJECT
-	
 public:
-	pEnvironmentVariablesManager( QObject* parent = 0 );
-	
+	/*!
+		Create a manager for handling pEnvironmentVariablesModel::Variables.
+	*/
+	pEnvironmentVariablesManager();
+	/*!
+		Load the variables states from ini file.
+	*/
 	bool load();
+	/*!
+		Save the variables states to ini file.
+	*/
 	bool save();
 	
 	pEnvironmentVariablesModel::Variables variables() const;
