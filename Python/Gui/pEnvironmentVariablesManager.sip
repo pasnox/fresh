@@ -1,11 +1,11 @@
-class pEnvironmentVariablesManager : QObject
+class pEnvironmentVariablesManager
 {
 %TypeHeaderCode
 #include <gui/environmentvariablemanager/pEnvironmentVariablesManager.h>
 %End
 
 public:
-	pEnvironmentVariablesManager( QObject* parent = 0 );
+	pEnvironmentVariablesManager();
 	
 	bool load();
 	bool save();

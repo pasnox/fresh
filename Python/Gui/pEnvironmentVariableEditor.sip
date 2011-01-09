@@ -4,7 +4,7 @@ class pEnvironmentVariableEditor : QDialog
 #include <gui/environmentvariablemanager/pEnvironmentVariableEditor.h>
 %End
 public:
-	pEnvironmentVariableEditor( QWidget* parent = 0, const QString& name = QString::null, const QString& value = QString::null );
+	pEnvironmentVariableEditor( QWidget* parent = 0, const pEnvironmentVariablesModel::Variable& variable = pEnvironmentVariablesModel::Variable() );
 	virtual ~pEnvironmentVariableEditor();
 	
 	pEnvironmentVariablesModel::Variable variable() const;
