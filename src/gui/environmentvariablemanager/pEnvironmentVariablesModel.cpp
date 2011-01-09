@@ -286,6 +286,11 @@ void pEnvironmentVariablesModel::setVariables( const QStringList& variables, boo
 	setVariables( stringListToVariables( variables ), setDefault );
 }
 
+void pEnvironmentVariablesModel::setDefaultVariables( const QStringList& variables )
+{
+	setDefaultVariables( stringListToVariables( variables ) );
+}
+
 void pEnvironmentVariablesModel::setVariable( const QString& name, const pEnvironmentVariablesModel::Variable& variable )
 {
 	const bool hasVariable = mVariables.contains( name );
