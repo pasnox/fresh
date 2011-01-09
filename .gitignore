@@ -1,1 +1,7 @@
 build
+doc/html
+examples/cpp/*.ini
+examples/cpp/Makefile*
+examples/cpp/examples
+examples/cpp/*.ini
+
