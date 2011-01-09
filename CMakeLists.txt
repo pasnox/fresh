@@ -24,6 +24,10 @@ qt4_wrap_ui( UI_HEADERS ${FORMS} )
 
 # Build main library
 add_library (${PROJECT} ${UI_HEADERS} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${TRANSLATIONS})
+if(CMAKE_COMPILER_IS_GNUCC)
+	set_target_properties(${PROJECT}
+						  PROPERTIES COMPILE_FLAGS -fPIC)
+endif(CMAKE_COMPILER_IS_GNUCC)
 include_directories ("include")
 include_directories ("src")
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} ) # for .ui
