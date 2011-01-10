@@ -50,7 +50,7 @@ protected:
 	virtual void paintEvent( QPaintEvent* event );
 
 protected slots:
-	void toggleViewAction_toggled( bool toggled );
+	void toggleViewAction_triggered( bool toggled );
 	void handleWindowActivation();
 	void handleFocusProxy();
 };
