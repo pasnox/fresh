@@ -3,6 +3,8 @@
 #include "gui/pIconManager.h"
 
 #include <QTimer>
+#include <QAction>
+#include <QEvent>
 
 pUpdateChecker::pUpdateChecker( QWidget* parent )
 	: QObject( parent )

@@ -1,16 +1,27 @@
 #ifndef PUPDATECHECKERDIALOG_H
 #define PUPDATECHECKERDIALOG_H
 
+/*!
+	\file pUpdateCheckerDialog.h
+	\brief A update checker dialog.
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+*/
+
 #include "core/FreshExport.h"
-#include "ui_pUpdateCheckerDialog.h"
 #include "core/pVersion.h"
 
+#include <QDialog>
 #include <QDomDocument>
 #include <QDateTime>
+#include <QHash>
+#include <QMetaType>
 
+class Ui_pUpdateCheckerDialog;
+class pUpdateChecker;
 class QNetworkAccessManager;
 class QNetworkReply;
-class pUpdateChecker;
+class QListWidgetItem;
+class QUrl;
 
 class FRESH_EXPORT pUpdateItem
 {
@@ -49,16 +60,29 @@ protected:
 	QHash<pUpdateItem::Type, QString> mDatas;
 };
 
-class FRESH_EXPORT pUpdateCheckerDialog : public QDialog, public Ui::pUpdateCheckerDialog
+/*!
+	\ingroup Gui
+	\class pUpdateCheckerDialog
+	\brief A update checker dialog.
+
+	This dialog is used by pUpdateChecker.
+*/
+class FRESH_EXPORT pUpdateCheckerDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
+	/*!
+		Create an instance of pUpdateCheckerDialog for \a updateChecker having parent \a parent.
+	*/
 	pUpdateCheckerDialog( pUpdateChecker* updateChecker, QWidget* parent = 0 );
-	
+	/*!
+		Reimplemented.
+	*/
 	virtual bool event( QEvent* event );
 
 protected:
+	Ui_pUpdateCheckerDialog* ui;
 	pUpdateChecker* mUpdateChecker;
 	QNetworkAccessManager* mAccessManager;
 	
@@ -68,6 +92,9 @@ protected slots:
 	void accessManager_finished( QNetworkReply* reply );
 	void on_lwVersions_itemSelectionChanged();
 	void on_lwVersions_itemDoubleClicked( QListWidgetItem* item );
+	/*!
+		Reimplemented.
+	*/
 	virtual void accept();
 };
 
