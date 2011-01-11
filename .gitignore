@@ -5,3 +5,6 @@ examples/cpp/Makefile*
 examples/cpp/examples
 
 /build-cmake/
+/*.directory
+/Makefile
+/*.fresh
