@@ -20,10 +20,11 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
 qt4_wrap_ui( UI_HEADERS ${FORMS} )
 # qt4_add_translation(TRANSLATIONS ${TS_FILES}) it seems, we don't need generate translations for the lib
+qt4_add_resources(RESOURCES resources/fresh.qrc)
 
 
 # Build main library
-add_library (${PROJECT} ${UI_HEADERS} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${TRANSLATIONS})
+add_library (${PROJECT} ${UI_HEADERS} ${HEADERS} ${SOURCES} ${RESOURCES} ${MOC_SOURCES} ${TRANSLATIONS})
 if(CMAKE_COMPILER_IS_GNUCC)
 	set_target_properties(${PROJECT}
 						  PROPERTIES COMPILE_FLAGS -fPIC)

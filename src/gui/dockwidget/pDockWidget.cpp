@@ -22,7 +22,7 @@ void pDockWidget::init()
 {
 	mTitleBar = new pDockWidgetTitleBar( this );
 	setTitleBarWidget( mTitleBar );
-	connect( toggleViewAction(), SIGNAL( toggled( bool ) ), this, SLOT( toggleViewAction_toggled( bool ) ) );
+	connect( toggleViewAction(), SIGNAL( triggered( bool ) ), this, SLOT( toggleViewAction_triggered( bool ) ) );
 }
 
 void pDockWidget::paintEvent( QPaintEvent* event )
@@ -44,7 +44,7 @@ pDockWidgetTitleBar* pDockWidget::titleBar() const
 	return mTitleBar;
 }
 
-void pDockWidget::toggleViewAction_toggled( bool toggled )
+void pDockWidget::toggleViewAction_triggered( bool toggled )
 {
 	if ( toggled && focusProxy() )
 	{
