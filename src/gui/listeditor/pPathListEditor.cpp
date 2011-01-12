@@ -37,7 +37,7 @@ void pPathListEditor::onAddItem()
 	const QString path = QFileDialog::getExistingDirectory( window(), tr( "Choose directory" ), mPath );
 	
 	if ( !path.isEmpty() ) {
-		appendValue( path );
+		append( path );
 	}
 }
 
@@ -47,6 +47,6 @@ void pPathListEditor::onEditItem()
 	const QString path = QFileDialog::getExistingDirectory( window(), tr( "Choose directory" ), mPath );
 	
 	if ( !path.isEmpty() ) {
-		setSelectedIndexValue( path );
+		setValue( path );
 	}
 }

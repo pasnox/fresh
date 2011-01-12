@@ -18,24 +18,21 @@ pDockWidgetTitleBar::pDockWidgetTitleBar( QDockWidget* parent )
 	QWidget* spacer = new QWidget( this );
 	spacer->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	
-	aOrientation = new QAction( this );
-	aFloat = new QAction( this );
-	aClose = new QAction( this );
-	
 	tbOrientation = new pToolButton( this );
-	tbOrientation->setDefaultAction( aOrientation );
 	tbOrientation->installEventFilter( this );
 	tbFloat = new pToolButton( this );
-	tbFloat->setDefaultAction( aFloat );
 	tbFloat->installEventFilter( this );
 	tbClose = new pToolButton( this );
-	tbClose->setDefaultAction( aClose );
 	tbClose->installEventFilter( this );
 	
 	addWidget( spacer );
-	addWidget( tbOrientation );
-	addWidget( tbFloat );
-	addWidget( tbClose );
+	aOrientation = addWidget( tbOrientation );
+	aFloat = addWidget( tbFloat );
+	aClose = addWidget( tbClose );
+	
+	tbOrientation->setDefaultAction( aOrientation );
+	tbFloat->setDefaultAction( aFloat );
+	tbClose->setDefaultAction( aClose );
 	
 	setMovable( false );
 	setFloatable( false );
@@ -49,10 +46,33 @@ pDockWidgetTitleBar::pDockWidgetTitleBar( QDockWidget* parent )
 	connect( aClose, SIGNAL( triggered() ), mDock, SLOT( close() ) );
 }
 
+QIcon pDockWidgetTitleBar::icon() const
+{
+	QIcon icon = mDock->toggleViewAction()->icon();
+	
+	if ( icon.isNull() ) {
+		icon = mDock->windowIcon();
+	}
+	
+	if ( icon.isNull() ) {
+		icon =  toggleViewAction()->icon();
+	}
+	
+	if ( icon.isNull() ) {
+		icon =  windowIcon();
+	}
+	
+	if ( icon.isNull() ) {
+		icon = window()->windowIcon();
+	}
+	
+	return icon;
+}
+
 QSize pDockWidgetTitleBar::windowIconSize() const
 {
 	const int size = orientation() == Qt::Horizontal ? height() -2 : width() -2;
-	return mDock->windowIcon().isNull() ? QSize() : QSize( size, size );
+	return icon().isNull() ? QSize() : QSize( size, size );
 }
 
 bool pDockWidgetTitleBar::eventFilter( QObject* object, QEvent* event )
@@ -104,7 +124,7 @@ void pDockWidgetTitleBar::paintEvent( QPaintEvent* event )
 	optionB.rect = rect.adjusted( 2, 0, -( orientation() == Qt::Horizontal ? minimumSizeHint().width() : minimumSizeHint().height() ), 0 );
 	optionB.text = mDock->windowTitle();
 	optionB.iconSize = windowIconSize();
-	optionB.icon = mDock->windowIcon();
+	optionB.icon = icon();
 	
 	style()->drawControl( QStyle::CE_PushButtonLabel, &optionB, &painter, mDock );
 }
@@ -238,10 +258,11 @@ void pDockWidgetTitleBar::dockWidget_featuresChanged( QDockWidget::DockWidgetFea
 	}
 	
 	// re-order the actions
+	const QList<QAction*> actions = this->actions();
 	QList<QAction*> items;
 	
-	for ( int i = actions().count() -1; i > -1; i-- ) {
-		items << actions().at( i );
+	for ( int i = actions.count() -1; i > -1; i-- ) {
+		items << actions.at( i );
 	}
 	
 	clear();

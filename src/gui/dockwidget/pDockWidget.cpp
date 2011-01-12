@@ -46,14 +46,11 @@ pDockWidgetTitleBar* pDockWidget::titleBar() const
 
 void pDockWidget::toggleViewAction_triggered( bool toggled )
 {
-	if ( toggled && focusProxy() )
-	{
-		if ( isFloating() )
-		{
+	if ( toggled && focusProxy() ) {
+		if ( isFloating() ) {
 			QTimer::singleShot( 0, this, SLOT( handleWindowActivation() ) );
 		}
-		else
-		{
+		else {
 			QTimer::singleShot( 0, this, SLOT( handleFocusProxy() ) );
 		}
 	}

@@ -71,10 +71,8 @@ protected:
 		Reimplemented
 	*/
 	virtual void paintEvent( QPaintEvent* event );
-	/*!
-		Return the required QSize for drawinf the window icon if available.
-		\note The returned size will be null if no window icon is setted.
-	*/
+	
+	QIcon icon() const;
 	QSize windowIconSize() const;
 	void updateStyleChange();
 

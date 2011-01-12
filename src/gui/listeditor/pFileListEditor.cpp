@@ -73,7 +73,7 @@ void pFileListEditor::onAddItem()
 	
 	if ( !files.isEmpty() ) {
 		foreach ( const QString& file, files ) {
-			appendValue( file );
+			append( file );
 		}
 	}
 }
@@ -84,6 +84,6 @@ void pFileListEditor::onEditItem()
 	const QString file = QFileDialog::getOpenFileName( window(), tr( "Choose file" ), mPath, mFilter );
 	
 	if ( !file.isEmpty() ) {
-		setSelectedIndexValue( file );
+		setValue( file );
 	}
 }

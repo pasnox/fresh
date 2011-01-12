@@ -3,9 +3,8 @@
 
 /*!
 	\file pStringListEditor.h
-	\date 2008-01-14T00:27:49
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 	\brief A widget that handle QStringList edition.
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "core/FreshExport.h"
@@ -20,22 +19,44 @@ class QVBoxLayout;
 class QModelIndex;
 
 /*!
+	\ingroup Gui
+	\class pStringListEditor
 	\brief A widget that handle QStringList edition.
-	\details 
 */
 class FRESH_EXPORT pStringListEditor : public QGroupBox
 {
 	Q_OBJECT
 	
 public:
+	/*!
+		Create an editor instance having parent \a parent.
+	*/
 	pStringListEditor( QWidget* paret = 0 );
+	/*!
+		Create an editor instance having parent \a parent and title \a title.
+	*/
 	pStringListEditor( const QString& title, QWidget* paret = 0 );
-
+	/*!
+		Set the editor values to \a values.
+	*/
 	void setValues( const QStringList& values );
+	/*!
+		Return the values of the editor.
+	*/
 	QStringList values() const;
 	
-	virtual void appendValue( const QString& value );
-	virtual void setSelectedIndexValue( const QString& value );
+	virtual void insert( int index, const QString& value );
+	void append( const QString& value );
+	
+	void selectRow( int row );
+	int selectedRow() const;
+	
+	void selectValue( const QString& value );
+	QString selectedValue() const;
+	
+	void setValue( const QString& value );
+	void editValue( const QString& value );
+	void editValue( int row );
 
 protected:
 	QToolBar* tbActions;
@@ -50,7 +71,10 @@ protected:
 	QVBoxLayout* vLayout;
 	
 	virtual void init();
-	virtual QModelIndex selectedIndex() const;
+	QModelIndex selectedIndex() const;
+	QModelIndex indexForValue( const QString& value ) const;
+	QModelIndex indexForRow( int row ) const;
+	int rowForValue( const QString& value ) const;
 
 protected slots:
 	virtual void onSelectionChanged();

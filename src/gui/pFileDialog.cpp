@@ -142,7 +142,7 @@ void pFileDialog::setOpenReadOnlyEnabled( bool enabled )
 void pFileDialog::setDialog( pFileDialog* dlg, const QString& caption, const QString& dir, const QString& filter, bool enabledTextCodec, bool enabledOpenReadOnly, const QString& selectedFilter, QFileDialog::FileMode mode, QFileDialog::Options options )
 {
 #if defined( Q_OS_MAC ) && QT_VERSION < 0x040500
-	if ( !options.testFlag( QFileDialog::DontUseSheet ) {
+	if ( !options.testFlag( QFileDialog::DontUseSheet ) ) {
 		// that's impossible to have a sheet in a sheet
 		QWidget* parent = dlg->parentWidget();
 		

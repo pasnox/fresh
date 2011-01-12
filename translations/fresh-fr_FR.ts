@@ -110,7 +110,7 @@
         <translation>Pour plus de détails sur une commande, tappez: &lt;commande&gt; -h/--help</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="269"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="268"/>
         <source>Press &apos;Tab&apos; key to list or auto complete commands, type help for commands help.</source>
         <translation>Pressez la touche &apos;Tabulation&apos; pour lister ou auto compléter les commandes, tappez &apos;help&apos; pour l&apos;aide des commandes.</translation>
     </message>
@@ -128,7 +128,7 @@
 <context>
     <name>pDockToolBar</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBar.cpp" line="51"/>
+        <location filename="../src/gui/dockmanager/pDockToolBar.cpp" line="46"/>
         <source>%1 exclusive</source>
         <translation>%1 exclusif</translation>
     </message>
@@ -136,42 +136,42 @@
 <context>
     <name>pDockToolBarManager</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="174"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="159"/>
         <source>Top toolbar</source>
         <translation>Barre d&apos;outils du haut</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="176"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="161"/>
         <source>Top toolbar visible</source>
         <translation>Barre d&apos;outils du haut visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="182"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="167"/>
         <source>Bottom toolbar</source>
         <translation>Barre d&apos;outils du bas</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="184"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="169"/>
         <source>Bottom toolbar visible</source>
         <translation>Barre d&apos;outils du bas visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="190"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="175"/>
         <source>Left toolbar</source>
         <translation>Barre d&apos;outils de gauche</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="192"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="177"/>
         <source>Left toolbar visible</source>
         <translation>Barre d&apos;outils de gauche visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="198"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="183"/>
         <source>Right toolbar</source>
         <translation>Barre d&apos;outils de droite</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="200"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="185"/>
         <source>Right toolbar visible</source>
         <translation>Barre d&apos;outils de droite visible</translation>
     </message>
@@ -294,37 +294,37 @@
 <context>
     <name>pEnvironmentVariablesModel</name>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="36"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="43"/>
         <source>Name: %1</source>
         <translation>Nom: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="37"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="44"/>
         <source>Value: %1</source>
         <translation>Valeur: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="38"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="45"/>
         <source>Enabled: %1</source>
         <translation>Activé: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="38"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="45"/>
         <source>true</source>
         <translation>vrai</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="38"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="45"/>
         <source>false</source>
         <translation>faux</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="89"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="96"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="91"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="98"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
@@ -401,37 +401,37 @@
 <context>
     <name>pStringListEditor</name>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="70"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="58"/>
         <source>Add Item</source>
         <translation>Ajouter un élément</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="71"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="59"/>
         <source>Edit Item</source>
         <translation>Éditer l&apos;élément</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="72"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="60"/>
         <source>Remove Item</source>
         <translation>Enlever l&apos;élément</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="73"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="61"/>
         <source>Clear Items</source>
         <translation>Effacer les éléments</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="74"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="62"/>
         <source>Move Item Up</source>
         <translation>Déplacer l&apos;élément vers le haut</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="75"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="63"/>
         <source>Move Item Down</source>
         <translation>Déplacer l&apos;élément vers le bas</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="186"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="217"/>
         <source>New item %1</source>
         <translation>Nouvel élément %1</translation>
     </message>
@@ -480,12 +480,12 @@ You can click on buttons to locate/reload the translations.</source>
 <context>
     <name>pUpdateChecker</name>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateChecker.cpp" line="108"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateChecker.cpp" line="110"/>
         <source>Update</source>
         <translation>Mise à jour</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateChecker.cpp" line="109"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateChecker.cpp" line="111"/>
         <source>Check for update</source>
         <translation>Vérifier les mises à jour</translation>
     </message>
@@ -505,32 +505,32 @@ Generally lastest updates fix bugs and/or add new options/plugins/things.</sourc
         <translation>Lorsque une mise à jour est détectée, vous pouvez la télécharger directement (ou la mettre à jour via votre gestionnaire de paquets). Généralement les derniéres mises à jour corrigent des bogues et/ou ajoutent de nouvelles options/greffons/choses.</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="97"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="98"/>
         <source>Updated on %1 by %2</source>
         <translation>Mis à jour le %1 par %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="182"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="184"/>
         <source>You are using version &lt;b&gt;%1&lt;/b&gt; (%2).</source>
         <translation type="unfinished">Vous utilisez la version &lt;b&gt;%1&lt;/b&gt; (%2).</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="183"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="185"/>
         <source>Download</source>
         <translation>Télécharger</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="195"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="197"/>
         <source>An error occur: %1</source>
         <translation>Une erreur est survenue: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="227"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="229"/>
         <source>You are running the last available version.</source>
         <translation>Vous utilisez la derniére version disponible.</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="238"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="240"/>
         <source>An error occur while parsing xml, retry later.</source>
         <translation>Une erreur est survenue lors du traitement xml, essayez de nouveau plus tard.</translation>
     </message>

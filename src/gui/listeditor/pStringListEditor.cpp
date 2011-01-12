@@ -34,30 +34,18 @@ public:
 	}
 };
 
-/*!
-	\details Create a new pStringListEditor instance
-	\param parent The parent widget
-*/
 pStringListEditor::pStringListEditor( QWidget* parent )
 	: QGroupBox( parent )
 {
 	init();
 }
 
-/*!
-	\details Create a new pStringListEditor instance
-	\param title The editor title
-	\param parent The parent widget
-*/
 pStringListEditor::pStringListEditor( const QString& title, QWidget* parent )
 	: QGroupBox( title, parent )
 {
 	init();
 }
 
-/*!
-	\details internal initialisation
-*/
 void pStringListEditor::init()
 {
 	// create toolbar
@@ -116,38 +104,49 @@ void pStringListEditor::init()
 	connect( this, SIGNAL( modified() ), this, SLOT( onSelectionChanged() ) );
 }
 
-/*!
-	\details Return the selected index
-*/
 QModelIndex pStringListEditor::selectedIndex() const
 {
 	return lvValues->selectionModel()->selectedIndexes().value( 0 );
 }
 
-/*!
-	\details Set the editor values
-	\param values The string list to set as values
-*/
+QModelIndex pStringListEditor::indexForValue( const QString& value ) const
+{
+	const Qt::MatchFlags flags = Qt::MatchFixedString | Qt::MatchCaseSensitive | Qt::MatchRecursive;
+	return slmValues->match( indexForRow( 0 ), Qt::DisplayRole, value, 1, flags ).value( 0 );
+}
+
+QModelIndex pStringListEditor::indexForRow( int row ) const
+{
+	return slmValues->index( row, 0 );
+}
+
+int pStringListEditor::rowForValue( const QString& value ) const
+{
+	return indexForValue( value ).row();
+}
+
 void pStringListEditor::setValues( const QStringList& values )
 {
 	slmValues->setStringList( values );
 	emit modified();
 }
 
-/*!
-	\details Return the editor QStringList values
-*/
 QStringList pStringListEditor::values() const
 {
 	return slmValues->stringList();
 }
 
-/*!
-	\details Append a value to the list and scroll to it
-*/
-void pStringListEditor::appendValue( const QString& value )
+void pStringListEditor::insert( int index, const QString& value )
 {
 	const int row = slmValues->rowCount();
+	
+	if ( index < 0 ) {
+		index = 0;
+	}
+	
+	if ( index > row ) {
+		index = row;
+	}
 	
 	if ( slmValues->insertRow( row ) ) {
 		const QModelIndex index = slmValues->index( row, 0 );
@@ -159,13 +158,45 @@ void pStringListEditor::appendValue( const QString& value )
 	}
 }
 
-/*!
-	\details Update the selected value
-*/
-void pStringListEditor::setSelectedIndexValue( const QString& value )
+void pStringListEditor::append( const QString& value )
+{
+	insert( slmValues->rowCount(), value );
+}
+
+void pStringListEditor::selectRow( int row )
+{
+	lvValues->setCurrentIndex( indexForRow( row ) );
+}
+
+int pStringListEditor::selectedRow() const
+{
+	return selectedIndex().row();
+}
+
+void pStringListEditor::selectValue( const QString& value )
+{
+	lvValues->setCurrentIndex( indexForValue( value ) );
+}
+
+QString pStringListEditor::selectedValue() const
+{
+	return selectedIndex().data( Qt::DisplayRole ).toString();
+}
+
+void pStringListEditor::setValue( const QString& value )
 {
 	const QModelIndex index = selectedIndex();
 	slmValues->setData( index, value, Qt::DisplayRole );
+}
+
+void pStringListEditor::editValue( const QString& value )
+{
+	lvValues->edit( indexForValue( value ) );
+}
+
+void pStringListEditor::editValue( int row )
+{
+	lvValues->edit( indexForRow( row ) );
 }
 
 void pStringListEditor::onSelectionChanged()
@@ -183,7 +214,7 @@ void pStringListEditor::onSelectionChanged()
 void pStringListEditor::onAddItem()
 {
 	const int row = slmValues->rowCount();
-	appendValue( tr( "New item %1" ).arg( row ) );
+	append( tr( "New item %1" ).arg( row ) );
 }
 
 void pStringListEditor::onEditItem()
