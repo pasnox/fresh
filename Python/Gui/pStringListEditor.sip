@@ -23,12 +23,24 @@ public:
 	void setValues( const QStringList& values );
 	QStringList values() const;
 	
-	virtual void appendValue( const QString& value );
-	virtual void setSelectedIndexValue( const QString& value );
-
+	virtual void insert( int index, const QString& value );
+	void append( const QString& value );
+			
+	void selectRow( int row );
+	int selectedRow() const;
+			
+	void selectValue( const QString& value );
+	QString selectedValue() const;
+			
+	void setValue( const QString& value );
+	void editValue( const QString& value );
+	void editValue( int row );
 protected:
 	virtual void init();
-	virtual QModelIndex selectedIndex() const;
+	QModelIndex selectedIndex() const;
+	QModelIndex indexForValue( const QString& value ) const;
+	QModelIndex indexForRow( int row ) const;
+	int rowForValue( const QString& value ) const;
 
 protected slots:
 	virtual void onSelectionChanged();

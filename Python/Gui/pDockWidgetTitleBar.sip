@@ -21,6 +21,7 @@ public:
 protected:
 	virtual bool eventFilter( QObject* object, QEvent* event );
 	virtual void paintEvent( QPaintEvent* event );
+	QIcon icon() const;
 	QSize windowIconSize() const;
 	void updateStyleChange();
 
