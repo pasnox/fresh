@@ -16,6 +16,9 @@ set(QT_USE_QTNETWORK true)
 include (${QT_USE_FILE})
 
 find_package(PyQt4 REQUIRED)
+if (NOT EXISTS ${PYQT4_SIP_DIR}/QtCore/QtCoremod.sip)
+    message(FATAL_ERROR "PyQt4 development files not found. Install it from python-qt4-dev package, or find other way, and share it to the fresh authors for update this message")
+endif (NOT EXISTS ${PYQT4_SIP_DIR}/QtCore/QtCoremod.sip)
 
 find_package(SIP REQUIRED)
 include(SIPMacros)
