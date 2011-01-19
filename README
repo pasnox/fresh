@@ -1,36 +1,48 @@
 Fresh is a library extending the Qt library by adding new classes/widgets.
 Library has Python bindings
 It's developped by Filipe AZEVEDO (Nox P@sNox, pasnox@gmail.com)
+Python bindings created by Andrei KOPATS (hlamer, hlamer@tut.by)
 
 Licensed in LGPL v3.
 
-There are 2 build modes - qmake and cmake build system.
-QMake build system does not require Cmake
-Cmake build system supports installation and generation Python bindings.
 
-Building fresh library using qmake
-===================================================
+Building library and examples WITHOUT Python support
+====================================================
+Dependencies:
+* C++ compiler (ubuntu package g++)
+* Qt4 library v4.7, headers and tools. (ubuntu packages qt4-qmake, libqt4-dev)
+
+Building:
 	qmake ./fresh.pro && make
+Building an example:
+	cd examples/cpp
+	qmake
+	make
+Running an example
+	./examples
 
-Building and installing library and Python bindings using cmake
-===============================================================
+
+Building library and examples WITH Python support
+=================================================
+Dependencies:
+* C++ compiler (Ubuntu package g++)
+* Qt4 library v4.7, headers and tools. (Ubuntu packages qt4-qmake, libqt4-dev)
+* PyQt4 including development files (Ubuntu packages python-qt4, python-qt-dev)
+* SIP (http://www.riverbankcomputing.co.uk/software/sip/download) (Ubuntu package python-sip-dev)
+
+Building:
 	mkdir build
 	cd build
 	cmake ..
-	cmake all
-	cmake install
+	make all
+	make install
 The last command requires root privileges
-
-Building and executing example C++ project
-==========================================
-You must build library at first
-	cd cpp-examples
-	qmake
-	make
-	./examples
-
-Executing example Python project
-================================
-You must build and install library and Python bindings at first
-	cd py-examples
+Executing Python example:
+	cd examples/python
 	python freshexample.py
+
+
+Reporting bugs
+==============
+
+monkeystudio.ide@gmail.com
