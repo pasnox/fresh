@@ -2,25 +2,32 @@
 #define PPATHLISTEDITOR_H
 
 /*!
-	\file pFileListEditor.h
-	\date 2008-01-14T00:27:48
+	\file pPathListEditor.h
+	\brief a pStringListEditor that handle paths name.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
-	\brief a pStringListEditor that handle files name.
 */
 
 #include "core/FreshExport.h"
 #include "pFileListEditor.h"
 
 /*!
-	\brief a pPathListEditor that handle paths name.
-	\details 
+	\ingroup Gui
+	\class pPathListEditor
+	\brief a pStringListEditor that handle paths name.
 */
 class FRESH_EXPORT pPathListEditor : public pFileListEditor
 {
 	Q_OBJECT
 	
 public:
+	/*!
+		Create an editor instance having parent \a parent.
+	*/
 	pPathListEditor( QWidget* parent = 0 );
+	/*!
+		Create an editor instance having parent \a parent and title \a title.
+		The default path for the file dialog will be \a path.
+	*/
 	pPathListEditor( const QString& title, const QString& path, QWidget* parent = 0 );
 
 protected:

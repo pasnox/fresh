@@ -44,18 +44,44 @@ public:
 		Return the values of the editor.
 	*/
 	QStringList values() const;
-	
+	/*!
+		Insert \a value at \a index.
+		If \a index is inferior to 0 then it's prepend and if it's superior or equals to count() it's append.
+	*/
 	virtual void insert( int index, const QString& value );
+	/*!
+		Append \a value at the end of the list.
+	*/
 	void append( const QString& value );
-	
+	/*!
+		Select the value at \a row.
+	*/
 	void selectRow( int row );
+	/*!
+		Return the row of the selected value.
+	*/
 	int selectedRow() const;
-	
+	/*!
+		Select \a value. If the list contains multiple times the same value then the selected one could not be predicted.
+	*/
 	void selectValue( const QString& value );
+	/*!
+		Return the selected value. In fact it's the value of the selected row.
+		\sa selectedRow()
+	*/
 	QString selectedValue() const;
-	
+	/*!
+		Set the value of the selected value.
+		\sa selectedValue()
+	*/
 	void setValue( const QString& value );
+	/*!
+		Enter in edit mode for \a value. If there is multiple time the same value which one will be edited is not predictable.
+	*/
 	void editValue( const QString& value );
+	/*!
+		Enter in edit mode for value at \a row.
+	*/
 	void editValue( int row );
 
 protected:
@@ -86,6 +112,9 @@ protected slots:
 	virtual void onMoveDownItem();
 
 signals:
+	/*!
+		This signal is emited when the values are modified.
+	*/
 	void modified();
 };
 
