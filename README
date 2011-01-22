@@ -27,7 +27,7 @@ Building library and examples WITH Python support
 Dependencies:
 * C++ compiler (Ubuntu package g++)
 * Qt4 library v4.7, headers and tools. (Ubuntu packages qt4-qmake, libqt4-dev)
-* PyQt4 including development files (Ubuntu packages python-qt4, python-qt-dev)
+* PyQt4 including development files (Ubuntu packages python-qt4, python-qt4-dev)
 * SIP (http://www.riverbankcomputing.co.uk/software/sip/download) (Ubuntu package python-sip-dev)
 
 Building:
