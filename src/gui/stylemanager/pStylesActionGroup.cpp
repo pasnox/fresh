@@ -54,6 +54,11 @@ void pStylesActionGroup::installInMenuBar( pActionsNodeMenuBar* menuBar, const Q
 	}
 }
 
+void pStylesActionGroup::installInMenu( QMenu* menu )
+{
+	menu->addActions( mActions.values() );
+}
+
 void pStylesActionGroup::setCheckable( bool checkable )
 {
 	mCheckable = checkable;
