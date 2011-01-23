@@ -32,11 +32,6 @@ bool pQueuedMessage::operator==( const pQueuedMessage& other ) const
 		;
 }
 
-
-/*!
-	\details Create a new pQueuedMessageWidget object
-	\param parent The parent widget
-*/
 pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	: QWidget( parent )
 {
@@ -126,9 +121,6 @@ void pQueuedMessageWidget::currentMessageInformations( QPixmap* pixmap, QBrush* 
 	}
 }
 
-/*!
-	\details Return the number of message currently queued
-*/
 int pQueuedMessageWidget::pendingMessageCount() const
 {
 	return mMessages.count();
@@ -139,11 +131,6 @@ pQueuedMessage pQueuedMessageWidget::currentMessage() const
 	return mMessages.value( 0 );
 }
 
-/*!
-	\details Append a message to the queued and return it's unique \c id
-	\param message The message to show
-	\param milliseconds The milliseconds to wait before the message is auto closed, use 0 for unlimited time
-*/
 pQueuedMessage pQueuedMessageWidget::append( const QString& message, int milliSeconds )
 {
 	pQueuedMessage msg;
@@ -183,10 +170,6 @@ void pQueuedMessageWidget::setDefaultForeground( const QBrush& brush )
 	mDefaultForeground = brush;
 }
 
-/*!
-	\details Append a message to the queued and return it's unique \c id
-	\param message The message structure to add
-*/
 void pQueuedMessageWidget::append( const pQueuedMessage& message )
 {
 	if ( !mMessages.contains( message ) ) {
@@ -198,18 +181,15 @@ void pQueuedMessageWidget::append( const pQueuedMessage& message )
 	}
 }
 
-/*!
-	\details Remove a message from the queue
-	\param message The message to remove
-*/
 void pQueuedMessageWidget::remove( const pQueuedMessage& message )
 {
+	if ( mMessages.isEmpty() || mMessages.first() == message ) {
+		return;
+	}
+	
 	mMessages.removeOne( message );
 }
 
-/*!
-	\details Clear the messages
-*/
 void pQueuedMessageWidget::clear()
 {
 	mMessages.clear();
@@ -262,10 +242,6 @@ void pQueuedMessageWidget::buttonClicked( QAbstractButton* button )
 	closeMessage();
 }
 
-/*!
-	\details Show the curernt message.
-	\details The widget must be visible as only the gui contents is updated.
-*/
 void pQueuedMessageWidget::showMessage()
 {
 	// get message
@@ -308,9 +284,6 @@ void pQueuedMessageWidget::showMessage()
 	emit shown( msg );
 }
 
-/*!
-	\details Close the current shown message
-*/
 void pQueuedMessageWidget::closeMessage()
 {
 	// emit message
