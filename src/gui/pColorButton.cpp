@@ -22,7 +22,7 @@ void pColorButton::init( const QColor& color )
 	setColor( color );
 }
 
-const QColor& pColorButton::color() const
+QColor pColorButton::color() const
 {
 	return mColor;
 }
