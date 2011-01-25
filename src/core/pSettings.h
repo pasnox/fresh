@@ -49,16 +49,20 @@ public:
 		Properties( const pSettings::Properties& other = pSettings::defaultProperties() );
 		/*!
 			\brief A Properties object initialized with custom parameters.
-			\param _name The name of the application.
-			\param _version The application version.
-			\param _type The pSettings::Type type.
+			\param name The name of the application.
+			\param version The application version.
+			\param type The pSettings::Type type.
 		*/
-		Properties( const QString& _name, const QString& _version, pSettings::Type _type );
+		Properties( const QString& name, const QString& version, pSettings::Type type );
 		/*!
 			\brief Return the path where is located the ini file when using the pSettings::Normal type.
 			\return A QString containing the absolute path of the ini file.
 		*/
 		QString storageLocation() const;
+		/*!
+			Return a deducted file path for \a type.
+		*/
+		QString filePath( pSettings::Type type ) const;
 		/*!
 			\brief The absolute file path of the ini file.
 			\return The absolute file path of the ini file.
@@ -107,7 +111,7 @@ public:
 	/*!
 		\brief Save the state of a QMainWindow.
 		\param window The window to restore state.
-		\sa QMainWindow::restoreState()
+		\sa QMainWindow::saveState()
 		\note This member is only defined if QT_GUI_LIB is defined.
 	*/
 	virtual void saveState( QMainWindow* window );

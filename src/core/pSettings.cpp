@@ -9,7 +9,7 @@
 #include <QMainWindow>
 #endif
 
-pSettings::Properties pSettings::mDefaultProperties = pSettings::Properties( QString::null, QString::null, pSettings::Invalid );
+pSettings::Properties pSettings::mDefaultProperties = pSettings::Properties( QString::null, QString::null, pSettings::Auto );
 
 pSettings::Properties::Properties( const pSettings::Properties& other )
 {
@@ -33,36 +33,29 @@ QString pSettings::Properties::storageLocation() const
 #endif
 }
 
-QString pSettings::Properties::settingsFilePath() const
+QString pSettings::Properties::filePath( pSettings::Type _type ) const
 {
-	pSettings::Type t = type;
 	QString fn;
 	
-	if ( t == pSettings::Auto ) {
-#ifdef Q_OS_MAC
-		const QString path = QString( "%1/../Resources" ).arg( QCoreApplication::applicationDirPath() );
-#else
-		const QString path = QCoreApplication::applicationDirPath();
-#endif
-		const QFileInfo info( path );
-		
-		if ( info.isDir() && info.isWritable() ) {
-			t = pSettings::Portable;
-		}
-		else {
-			t = pSettings::Normal;
-		}
-	}
-	
-	switch ( t ) {
+	switch ( _type ) {
 		case pSettings::Invalid: {
 			Q_ASSERT( 0 );
 			qFatal( "%s", qPrintable( QString( "%1: Invalid call" ).arg( Q_FUNC_INFO ) ) );
 			break;
 		}
 		case pSettings::Auto: {
-			Q_ASSERT( 0 );
-			return QString::null;
+#ifdef Q_OS_MAC
+			const QString path = QString( "%1/../Resources" ).arg( QCoreApplication::applicationDirPath() );
+#else
+			const QString path = QCoreApplication::applicationDirPath();
+#endif
+			const QFileInfo dirInfo( path );
+			
+			if ( dirInfo.isDir() && dirInfo.isWritable() ) {
+				return filePath( pSettings::Portable );
+			}
+			
+			// do nothing to throw pSettings::Normal case.
 		}
 		case pSettings::Normal: {
 			fn = QString( "%1/%2-%3.ini" )
@@ -83,11 +76,21 @@ QString pSettings::Properties::settingsFilePath() const
 				.arg( name )
 				.arg( version );
 #endif
-			break;
 		}
 	}
 	
-	return QDir::cleanPath( fn );
+	fn = QDir::cleanPath( fn );
+	
+	if ( !QFileInfo( fn ).isWritable() ) {
+		qWarning( "%s: File '%s' is not writable.", Q_FUNC_INFO, fn.toLocal8Bit().constData() );
+	}
+	
+	return fn;
+}
+
+QString pSettings::Properties::settingsFilePath() const
+{
+	return filePath( type );
 }
 
 QString pSettings::Properties::settingsFilePath( const QString& name, const QString& version ) const
