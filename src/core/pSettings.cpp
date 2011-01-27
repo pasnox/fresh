@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QDir>
 #include <QCoreApplication>
+#include <QDebug>
 
 #if defined( QT_GUI_LIB )
 #include <QDesktopServices>
@@ -33,11 +34,22 @@ QString pSettings::Properties::storageLocation() const
 #endif
 }
 
-QString pSettings::Properties::filePath( pSettings::Type _type ) const
+bool pSettings::Properties::isWritable( const QString& filePath ) const
+{
+	QFileInfo fi( filePath );
+	
+	while ( !fi.exists() ) {
+		fi.setFile( fi.absolutePath() );
+	}
+	
+	return fi.isWritable();
+}
+
+QString pSettings::Properties::filePath( pSettings::Type type ) const
 {
 	QString fn;
 	
-	switch ( _type ) {
+	switch ( type ) {
 		case pSettings::Invalid: {
 			Q_ASSERT( 0 );
 			qFatal( "%s", qPrintable( QString( "%1: Invalid call" ).arg( Q_FUNC_INFO ) ) );
@@ -49,9 +61,8 @@ QString pSettings::Properties::filePath( pSettings::Type _type ) const
 #else
 			const QString path = QCoreApplication::applicationDirPath();
 #endif
-			const QFileInfo dirInfo( path );
 			
-			if ( dirInfo.isDir() && dirInfo.isWritable() ) {
+			if ( isWritable( path ) ) {
 				return filePath( pSettings::Portable );
 			}
 			
@@ -79,13 +90,18 @@ QString pSettings::Properties::filePath( pSettings::Type _type ) const
 		}
 	}
 	
-	fn = QDir::cleanPath( fn );
-	
-	if ( !QFileInfo( fn ).isWritable() ) {
-		qWarning( "%s: File '%s' is not writable.", Q_FUNC_INFO, fn.toLocal8Bit().constData() );
+	if ( !isWritable( fn ) ) {
+		if ( type == pSettings::Portable ) {
+			//qWarning( "%s: File '%s' is not writable, fallbacking to pSettings::Normal mode.", Q_FUNC_INFO, fn.toLocal8Bit().constData() );
+			return filePath( pSettings::Normal );
+		}
+		else {
+			qWarning( "%s: File '%s' is not writable.", Q_FUNC_INFO, fn.toLocal8Bit().constData() );
+			return QString::null;
+		}
 	}
 	
-	return fn;
+	return QDir::cleanPath( fn );
 }
 
 QString pSettings::Properties::settingsFilePath() const

@@ -32,7 +32,7 @@ public:
 		Invalid = -1, /*!< An invalid path. */ 
 		Auto, /*!< The pSettings decide which enum to use. pSettings::Portable if the binary path is writable, else pSettings::Normal. */ 
 		Normal, /*!< The init file will be created in the user home. */ 
-		Portable /*!< The ini file will be created in the binary path. */ 
+		Portable /*!< The ini file will be created in the binary path if possible, else fallback to pSettings::Normal mode. */ 
 	};
 	
 	/*!
@@ -75,6 +75,12 @@ public:
 			\return The file path of the ini file.
 		*/
 		QString settingsFilePath( const QString& name, const QString& version ) const;
+		/*!
+			\brief Return true if \a filePath is writable (ie: file/path) can be created/writed.
+			\param filePath The file path to check.
+			\return Return true if is writable, else false.
+		*/
+		bool isWritable( const QString& filePath ) const;
 		
 		QString name;
 		QString version;
