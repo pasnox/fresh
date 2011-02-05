@@ -13,6 +13,8 @@ public:
 	pDockWidget( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
 
 	pDockWidgetTitleBar* titleBar() const;
+	
+	QAction* showAction();
 
 protected:
 	void init();

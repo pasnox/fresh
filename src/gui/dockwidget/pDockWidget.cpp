@@ -20,6 +20,7 @@ pDockWidget::pDockWidget( QWidget* parent, Qt::WindowFlags flags )
 
 void pDockWidget::init()
 {
+	mShowAction = NULL;
 	mTitleBar = new pDockWidgetTitleBar( this );
 	setTitleBarWidget( mTitleBar );
 	connect( toggleViewAction(), SIGNAL( triggered( bool ) ), this, SLOT( toggleViewAction_triggered( bool ) ) );
@@ -44,6 +45,17 @@ pDockWidgetTitleBar* pDockWidget::titleBar() const
 	return mTitleBar;
 }
 
+QAction* pDockWidget::showAction()
+{
+	if ( !mShowAction )
+	{
+		mShowAction = new QAction(windowIcon(), windowTitle(), this);
+		connect(mShowAction, SIGNAL(activated()), this, SLOT(show()));
+		connect(mShowAction, SIGNAL(activated()), this, SLOT(handleFocusProxy()));
+	}
+	return mShowAction;
+}
+
 void pDockWidget::toggleViewAction_triggered( bool toggled )
 {
 	if ( toggled && focusProxy() ) {
@@ -64,5 +76,6 @@ void pDockWidget::handleWindowActivation()
 
 void pDockWidget::handleFocusProxy()
 {
-	focusProxy()->setFocus();
+	if ( focusProxy() )
+		focusProxy()->setFocus();
 }

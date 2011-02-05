@@ -10,6 +10,7 @@
 #include "core/FreshExport.h"
 
 #include <QDockWidget>
+#include <QAction>
 
 class pDockWidgetTitleBar;
 
@@ -39,9 +40,16 @@ public:
 		Return the title bar widget.
 	*/
 	pDockWidgetTitleBar* titleBar() const;
+	
+	/*!
+		Show widget
+		Unlike toggleViewAction, this action only shows widget, but never hides
+	 */
+	QAction* showAction();
 
 protected:
 	pDockWidgetTitleBar* mTitleBar;
+	QAction* mShowAction;
 
 	void init();
 	/*!
