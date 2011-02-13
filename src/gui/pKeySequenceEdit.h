@@ -3,31 +3,45 @@
 
 /*!
 	\file pKeySequenceEdit.h
-	\date 2008-01-14T00:27:45
+	\brief A special QLineEdit that allow to defin QShortcut.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
-	\brief A special QLineEdit that allow to defin QShortcut
 */
 
 #include "core/FreshExport.h"
 #include "pLineEdit.h"
 
 /*!
-	\brief A special QLineEdit that allow to defin QShortcut
-	\details When the user press some combinaison keys, the result is
-	\details wrotten in the QLineEdit
+	\ingroup Gui
+	\class pKeySequenceEdit
+	\brief A special QLineEdit that allow to define QShortcut.
+
+	When the user press some combinaison keys, the result is wrotten in the pLineEdit.
 */
 class FRESH_EXPORT pKeySequenceEdit : public pLineEdit
 {
 	Q_OBJECT
 
 public:
+	/*!
+		Create a instance of pKeySequenceEdit having parent \a parent.
+	*/
 	pKeySequenceEdit( QWidget* parent = 0 );
+	/*!
+		Create a instance of pKeySequenceEdit having parent \a parent.
+		The widget text is set to \a content.
+	*/
 	pKeySequenceEdit( const QString& contents, QWidget* parent = 0 );
 
 protected:
 	mutable bool mFinished;
 	
+	/*!
+		Reimplemented.
+	*/
 	virtual void keyPressEvent( QKeyEvent* event );
+	/*!
+		Reimplemented.
+	*/
 	virtual void keyReleaseEvent( QKeyEvent* event );
 	
 	QString keySequence( QKeyEvent* event ) const;

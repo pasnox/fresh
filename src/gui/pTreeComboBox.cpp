@@ -14,31 +14,15 @@
 #include <QInputContext>
 #include <QScrollBar>
 
-//Windows and KDE allows menus to cover the taskbar, while GNOME and Mac don't
-QRect popupGeometry(int screen)
+QRect popupGeometry( int screen )
 {
 	return QApplication::desktop()->screenGeometry(screen);
-/*#ifdef Q_WS_WIN
-    return QApplication::desktop()->screenGeometry(screen);
-#elif defined Q_WS_X11
-    if (X11->desktopEnvironment == DE_KDE)
-        return QApplication::desktop()->screenGeometry(screen);
-    else
-        return QApplication::desktop()->availableGeometry(screen);
-#else
-        return QApplication::desktop()->availableGeometry(screen);
-#endif*/
 }
 
-/*!
-	\details Create a new pTreeComboBox object
-	\param parent The parent widget
-*/
 pTreeComboBox::pTreeComboBox( QWidget* parent )
 	: QWidget( parent )
 {
-	mIconSize = QSize( -1, -1 );
-	mForce = false;
+	mForceIndex = false;
 	mModelColumn = 0;
 	mMaxVisibleItems = 10;
 	mFrame = new QFrame( this );
@@ -58,10 +42,6 @@ pTreeComboBox::pTreeComboBox( QWidget* parent )
 	setView( new QTreeView( this ) );
 }
 
-pTreeComboBox::~pTreeComboBox()
-{
-}
-
 bool pTreeComboBox::eventFilter( QObject* object, QEvent* event )
 {
 	switch ( event->type() ) {
@@ -75,7 +55,7 @@ bool pTreeComboBox::eventFilter( QObject* object, QEvent* event )
 			break;
 		}
 		case QEvent::KeyPress: {
-			if ( object == mView.data() ) {
+			if ( object == mView ) {
 				const QKeyEvent* ke = static_cast<QKeyEvent*>( event );
 				
 				if ( ke->key() == Qt::Key_Escape && ke->modifiers() == Qt::NoModifier ) {
@@ -90,10 +70,10 @@ bool pTreeComboBox::eventFilter( QObject* object, QEvent* event )
 				const QModelIndex index = modelColumnIndex( mCurrentIndex );
 				
 				if ( currentIndex() != index ) {
-					mForce = false;
-					mView.data()->clearSelection();
-					mView.data()->setCurrentIndex( index );
-					mForce = true;
+					mForceIndex = false;
+					mView->clearSelection();
+					mView->setCurrentIndex( index );
+					mForceIndex = true;
 				}
 				
 				update();
@@ -102,16 +82,16 @@ bool pTreeComboBox::eventFilter( QObject* object, QEvent* event )
 			break;
 		}
 		case QEvent::MouseMove: {
-			if ( mView.data() && object == mView.data()->viewport() ) {
+			if ( mView && object == mView->viewport() ) {
 				const QMouseEvent* me = static_cast<QMouseEvent*>( event );
-				const QModelIndex index = modelColumnIndex( mView.data()->indexAt( me->pos() ) );
+				const QModelIndex index = modelColumnIndex( mView->indexAt( me->pos() ) );
 				
-				if ( mView.data()->currentIndex() != index ) {
+				if ( mView->currentIndex() != index ) {
 					emit highlighted( index );
-					mForce = false;
-					mView.data()->clearSelection();
-					mView.data()->setCurrentIndex( index );
-					mForce = true;
+					mForceIndex = false;
+					mView->clearSelection();
+					mView->setCurrentIndex( index );
+					mForceIndex = true;
 				}
 			}
 			
@@ -124,14 +104,11 @@ bool pTreeComboBox::eventFilter( QObject* object, QEvent* event )
 	return QWidget::eventFilter( object, event );
 }
 
-/*!
-	\details Return the widget size hint
-*/
 QSize pTreeComboBox::sizeHint() const
 {
 	const QFontMetrics fm( font() );
 	QSize size = mCurrentIndex.isValid()
-		? mView.data()->sizeHintForIndex( mCurrentIndex )
+		? mView->sizeHintForIndex( mCurrentIndex )
 		: QSize( style()->pixelMetric( QStyle::QStyle::PM_ComboBoxFrameWidth ), qMax( fm.lineSpacing(), 14 ) +2 )
 		;
 	QStyleOptionComboBox option;
@@ -145,23 +122,23 @@ QSize pTreeComboBox::sizeHint() const
     return size.expandedTo( QApplication::globalStrut() );
 }
 
-/*!
-	\details Return the iconSize
-*/
 QSize pTreeComboBox::iconSize() const
 {
-	return mIconSize;
+	const int size = style()->pixelMetric( QStyle::PM_ButtonIconSize );
+	QSize is = QSize( size, size );
+	
+	if ( mView && mView->iconSize() != QSize( -1, -1 ) ) {
+		is = mView->iconSize();
+	}
+	
+	return is;
 }
 
-/*!
-	\details Set the icon size
-*/
 void pTreeComboBox::setIconSize( const QSize& s )
 {
-	if ( mIconSize != s ) {
-		mIconSize = s;
+	if ( mView ) {
+		mView->setIconSize( s );
 		updateGeometry();
-		update();
 	}
 }
 
@@ -176,7 +153,6 @@ void pTreeComboBox::setColumnModel( int column )
 		mModelColumn = column;
 		mCurrentIndex = modelColumnIndex( mCurrentIndex );
 		updateGeometry();
-		update();
 	}
 }
 
@@ -191,9 +167,8 @@ void pTreeComboBox::initStyleOption( QStyleOptionComboBox* option ) const
 
 	// QStyleOptionComboBox
 	const QModelIndex index = currentIndex();
-	const int iconSize = style()->pixelMetric( QStyle::PM_ButtonIconSize );
 	option->currentIcon = index.data( Qt::DecorationRole ).value<QIcon>();
-	option->iconSize = mIconSize == QSize( -1, -1 ) ? QSize( iconSize, iconSize ) : mIconSize;
+	option->iconSize = iconSize();
 	option->currentText = index.data( Qt::DisplayRole ).toString();
 	option->editable = false;
 	option->frame = true;
@@ -202,11 +177,11 @@ void pTreeComboBox::initStyleOption( QStyleOptionComboBox* option ) const
 	if ( mView ) {
 		const QPoint pos = mapFromGlobal( QCursor::pos() );
 		
-		if ( !mView.data()->isVisible() && rect().contains( pos ) ) {
+		if ( !mView->isVisible() && rect().contains( pos ) ) {
 			option->state |= QStyle::State_MouseOver;
 		}
 		
-		if ( mView.data()->isVisible() ) {
+		if ( mView->isVisible() ) {
 			option->state |= QStyle::State_On;
 		}
 	}
@@ -254,9 +229,6 @@ void pTreeComboBox::mousePressEvent( QMouseEvent* event )
 	QWidget::mousePressEvent( event );
 }
 
-/*!
-	\details Hide the popup
-*/
 void pTreeComboBox::hidePopup()
 {
 	if ( mFrame->isVisible() ) {
@@ -264,9 +236,6 @@ void pTreeComboBox::hidePopup()
 	}
 }
 
-/*!
-	\details Show the popup
-*/
 void pTreeComboBox::showPopup()
 {
 	if ( mView && !mFrame->isVisible() ) {
@@ -475,117 +444,83 @@ void pTreeComboBox::calculPopupGeometry()
 #endif
 }
 
-
-
-/*!
-	\details Return the view widget
-*/
 QTreeView* pTreeComboBox::view() const
 {
-	return mView.data();
+	return mView;
 }
 
-/*!
-	\details Set the view widget
-*/
 void pTreeComboBox::setView( QTreeView* view )
 {
-	if ( mView.data() == view ) {
+	if ( mView == view ) {
 		return;
 	}
 	
-	delete mView.data();
+	delete mView;
 	mView = view;
 	
 	if ( mView ) {
-		mFrameLayout->insertWidget( 0, mView.data() );
-		mView.data()->setEditTriggers( QAbstractItemView::NoEditTriggers );
-		mView.data()->setMouseTracking( true );
-		mView.data()->installEventFilter( this );
-		mView.data()->viewport()->installEventFilter( this );
+		mFrameLayout->insertWidget( 0, mView );
 		
-		setModel( mModel.data() );
+		mView->setEditTriggers( QAbstractItemView::NoEditTriggers );
+		mView->setMouseTracking( true );
+		mView->installEventFilter( this );
+		mView->viewport()->installEventFilter( this );
 		
-		connect( mView.data(), SIGNAL( activated( const QModelIndex& ) ), this, SLOT( internal_activated( const QModelIndex& ) ) );
-		connect( mView.data(), SIGNAL( clicked( const QModelIndex& ) ), this, SLOT( internal_clicked( const QModelIndex& ) ) );
+		connect( mView, SIGNAL( activated( const QModelIndex& ) ), this, SLOT( internal_activated( const QModelIndex& ) ) );
+		connect( mView, SIGNAL( clicked( const QModelIndex& ) ), this, SLOT( internal_clicked( const QModelIndex& ) ) );
 	}
 }
 
-/*!
-	\details Return the used model
-*/
 QAbstractItemModel* pTreeComboBox::model() const
 {
-	return mModel.data();
+	return mView ? mView->model() : 0;
 }
 
-/*!
-	\details Set the model
-*/
 void pTreeComboBox::setModel( QAbstractItemModel* model )
 {
-	if ( mModel.data() != model ) {
-		mModel = model;
-	}
-	
-	if ( mView && mView.data()->model() != mModel.data() ) {
-		mView.data()->setModel( mModel.data() );
-		connect( mView.data()->selectionModel(), SIGNAL( currentChanged( const QModelIndex&, const QModelIndex& ) ), this, SLOT( internal_currentChanged( const QModelIndex&, const QModelIndex& ) ) );
+	if ( mView && mView->model() != model ) {
+		mView->setModel( model );
+		connect( mView->selectionModel(), SIGNAL( currentChanged( const QModelIndex&, const QModelIndex& ) ), this, SLOT( internal_currentChanged( const QModelIndex&, const QModelIndex& ) ) );
 	}
 }
 
-/*!
-	\details Return the root index
-*/
 QModelIndex pTreeComboBox::rootIndex() const
 {
-	return mView ? mView.data()->rootIndex() : QModelIndex();
+	return mView ? mView->rootIndex() : QModelIndex();
 }
 
-/*!
-	\details Set the root index
-*/
 void pTreeComboBox::setRootIndex( const QModelIndex& index )
 {
 	if ( mView ) {
-		mView.data()->setRootIndex( index );
+		mView->setRootIndex( index );
 	}
 }
 
-/*!
-	\details Return the current index
-*/
 QModelIndex pTreeComboBox::currentIndex() const
 {
 	if ( mView ) {
-		return mFrame->isVisible() ? QModelIndex( mCurrentIndex ) : mView.data()->currentIndex();
+		return mFrame->isVisible() ? QModelIndex( mCurrentIndex ) : mView->currentIndex();
 	}
 	
 	return QModelIndex();
 }
 
-/*!
-	\details Set the current index
-*/
 void pTreeComboBox::setCurrentIndex( const QModelIndex& index )
 {
 	if ( mView && ( currentIndex() != index || !index.isValid() ) ) {
 		mCurrentIndex = modelColumnIndex( index );
-		mForce = true;
-		mView.data()->clearSelection();
-		mView.data()->setCurrentIndex( mCurrentIndex );
-		mForce = false;
+		mForceIndex = true;
+		mView->clearSelection();
+		mView->setCurrentIndex( mCurrentIndex );
+		mForceIndex = false;
 		update();
 	}
 }
 
-/*!
-	\details Expand all rows
-*/
 void pTreeComboBox::expandAll()
 {
 	if ( mView ) {
-		mView.data()->expandAll();
+		mView->expandAll();
 	}
 }
 
@@ -628,7 +563,7 @@ void pTreeComboBox::internal_currentChanged( const QModelIndex& current, const Q
 	Q_UNUSED( previous );
 	const QModelIndex index = modelColumnIndex( current );
 	
-	if ( mForce ) {
+	if ( mForceIndex ) {
 		emit currentIndexChanged( index );
 	}
 }

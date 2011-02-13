@@ -83,9 +83,146 @@ public:
 	*/
 	void setOpenReadOnlyEnabled( bool enabled );
 	
+	/*!
+		This is a convenience static function that will return an existing directory selected by the user.
+		
+		\code
+		QString dir = pFileDialog::getExistingDirectory( this, tr( "Open Directory" ),
+													"/home",
+													false,
+													false,
+													QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks );
+		\endcode
+		
+		This function creates a modal file dialog with the given \a parent widget.
+		If parent is not 0, the dialog will be shown centered over the parent widget.
+		
+		The dialog's working directory is set to \a dir, and the caption is set to \a caption.
+		Either of these may be an empty string in which case the current directory and a default caption will be used respectively.
+		
+		The options argument holds various options about how to run the dialog, see the QFileDialog::Option enum for more information on the flags you can pass.
+		To ensure a native file dialog, ShowDirsOnly must be set.
+		
+		\note This use a QFileDialog so the native dialog will never be shown even when asking the correct flag for that.
+		On Windows if \a parent is not 0 then it will position the dialog just below the parent's title bar.
+		On Unix/X11, the normal behavior of the file dialog is to resolve and follow symlinks.
+		For example, if /usr/tmp is a symlink to /var/tmp, the file dialog will change to /var/tmp after entering /usr/tmp.
+		If options includes DontResolveSymlinks, the file dialog will treat symlinks as regular directories.
+		
+		\sa getOpenFileName(), getOpenFileNames(), and getSaveFileName().
+	*/
 	static pFileDialogResult getExistingDirectory( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, bool enabledTextCodec = true, bool enabledOpenReadOnly = true, QFileDialog::Options options = QFileDialog::ShowDirsOnly );
+	/*!
+		This is a convenience static function that returns an existing file selected by the user.
+		
+		\code
+		QString fileName = pFileDialog::getOpenFileName( this, tr( "Open File" ),
+													"/home",
+													tr( "Images (*.png *.xpm *.jpg)" ),
+													true, true,
+													QString::null, 0 );
+		\endcode
+		
+		The function creates a modal file dialog with the given \a parent widget.
+		If \a parent is not 0, the dialog will be shown centered over the parent widget.
+		
+		The file dialog's working directory will be set to \a dir.
+		If \a dir includes a file name, the file will be selected.
+		Only files that match the given \a filter are shown.
+		The filter selected is set to \a selectedFilter.
+		The parameters \a dir, \a selectedFilter, and \a filter may be empty strings.
+		If you want multiple filters, separate them with ';;', for example:
+		
+		\code
+		"Images (*.png *.xpm *.jpg);;Text files (*.txt);;XML files (*.xml)"
+		\endcode
+		
+		The \a options argument holds various options about how to run the dialog, see the QFileDialog::Option enum for more information on the flags you can pass.
+		The dialog's caption is set to \a caption. If \a caption is not specified then a default caption will be used.
+		
+		\note This use a QFileDialog so the native dialog will never be shown even when asking the correct flag for that.
+		On Windows if \a parent is not 0 then it will position the dialog just below the parent's title bar.
+		On Unix/X11, the normal behavior of the file dialog is to resolve and follow symlinks.
+		For example, if /usr/tmp is a symlink to /var/tmp, the file dialog will change to /var/tmp after entering /usr/tmp.
+		If options includes DontResolveSymlinks, the file dialog will treat symlinks as regular directories.
+		
+		\sa getOpenFileNames(), getSaveFileName(), and getExistingDirectory().
+	*/
 	static pFileDialogResult getOpenFileName( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, bool enabledOpenReadOnly = true, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
+	/*!
+		This is a convenience static function that will return one or more existing files selected by the user.
+		
+		\code
+		QStringList files = pFileDialog::getOpenFileNames( this, tr( "Select one or more files to open" ),
+													"/home", tr( "Images (*.png *.xpm *.jpg)" ),
+													true, true,
+													QString::null, 0 );
+		\endcode
+		
+		This function creates a modal file dialog with the given \a parent widget.
+		If \a parent is not 0, the dialog will be shown centered over the parent widget.
+		
+		The file dialog's working directory will be set to \a dir. If \a dir includes a file name, the file will be selected.
+		The filter is set to \a filter so that only those files which match the filter are shown.
+		The filter selected is set to \a selectedFilter.
+		
+		The parameters \a dir, \a selectedFilter and \a filter may be empty strings.
+		If you need multiple filters, separate them with ';;', for instance:
+		
+		\code
+		"Images (*.png *.xpm *.jpg);;Text files (*.txt);;XML files (*.xml)"
+		\endcode
+		
+		The dialog's caption is set to \a caption.
+		If \a caption is not specified then a default caption will be used.
+		
+		\note This use a QFileDialog so the native dialog will never be shown even when asking the correct flag for that.
+		On Windows if \a parent is not 0 then it will position the dialog just below the parent's title bar.
+		On Unix/X11, the normal behavior of the file dialog is to resolve and follow symlinks.
+		For example, if /usr/tmp is a symlink to /var/tmp, the file dialog will change to /var/tmp after entering /usr/tmp.
+		The options argument holds various options about how to run the dialog, see the QFileDialog::Option enum for more information on the flags you can pass.
+		
+		\sa getOpenFileName(), getSaveFileName(), and getExistingDirectory().
+	*/
 	static pFileDialogResult getOpenFileNames( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, bool enabledOpenReadOnly = true, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
+	/*!
+		This is a convenience static function that will return a file name selected by the user.
+		The file does not have to exist.
+		
+		It creates a modal file dialog with the given \a parent widget.
+		If \a parent is not 0, the dialog will be shown centered over the parent widget.
+		
+		\code
+		QString fileName = pFileDialog::getSaveFileName( this, tr( "Save File" ),
+												"/home/jana/untitled.png",
+												tr( "Images (*.png *.xpm *.jpg)" ),
+												true, QString::null, 0 );
+		\endcode
+		
+		The file dialog's working directory will be set to \a dir.
+		If \a dir includes a file name, the file will be selected.
+		Only files that match the \a filter are shown.
+		The filter selected is set to \a selectedFilter.
+		The parameters \a dir, \a selectedFilter, and \a filter may be empty strings.
+		Multiple filters are separated with ';;'. For instance:
+		
+		\code
+		"Images (*.png *.xpm *.jpg);;Text files (*.txt);;XML files (*.xml)"
+		\endcode
+		
+		The \æ options argument holds various options about how to run the dialog, see the QFileDialog::Option enum for more information on the flags you can pass.
+		The default filter can be chosen by setting \a selectedFilter to the desired value.
+		The dialog's caption is set to \a caption.
+		If \a caption is not specified, a default caption will be used.
+		
+		\note This use a QFileDialog so the native dialog will never be shown even when asking the correct flag for that.
+		On Windows if parent is not 0 then it will position the dialog just below the parent's title bar.
+		On Unix/X11, the normal behavior of the file dialog is to resolve and follow symlinks.
+		For example, if /usr/tmp is a symlink to /var/tmp, the file dialog will change to /var/tmp after entering /usr/tmp.
+		If \a options includes DontResolveSymlinks the file dialog will treat symlinks as regular directories.
+		
+		\sa getOpenFileName(), getOpenFileNames(), and getExistingDirectory().
+	*/
 	static pFileDialogResult getSaveFileName( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
 
 protected:
