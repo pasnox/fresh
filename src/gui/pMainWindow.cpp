@@ -5,11 +5,6 @@
 #include "dockmanager/pDockToolBarManager.h"
 #include "dockmanager/pDockToolBar.h"
 
-/*!
-	\details Create a new pMainWindow object
-	\param parent The parent widget
-	\param windowFlags The window flags
-*/
 pMainWindow::pMainWindow( QWidget* parent, Qt::WindowFlags windowFlags )
 	: QMainWindow( parent, windowFlags )
 {
@@ -68,9 +63,6 @@ void pMainWindow::closeEvent( QCloseEvent* event )
 	QMainWindow::closeEvent( event );
 }
 
-/*!
-	\details Return the pSettings object
-*/
 pSettings* pMainWindow::settings() const
 {
 	if ( !mSettings ) {
@@ -80,9 +72,6 @@ pSettings* pMainWindow::settings() const
 	return mSettings;
 }
 
-/*!
-	\details Return the pMenuBar object
-*/
 pActionsNodeMenuBar* pMainWindow::menuBar() const
 {
 	if ( !mMenuBar ) {
@@ -108,9 +97,6 @@ pQueuedMessageToolBar* pMainWindow::queuedMessageToolBar() const
 	return mQueuedMessageToolBar;
 }
 
-/*!
-	\details Return the pDockToolBarManager object
-*/
 pDockToolBarManager* pMainWindow::dockToolBarManager() const
 {
 	if ( !mDockToolBarManager ) {
@@ -120,20 +106,11 @@ pDockToolBarManager* pMainWindow::dockToolBarManager() const
 	return mDockToolBarManager;
 }
 
-/*!
-	\details Return the pDockToolBar object for \c area
-	\param area The area of the bar to get
-*/
 pDockToolBar* pMainWindow::dockToolBar( Qt::ToolBarArea area ) const
 {
 	return dockToolBarManager()->dockToolBar( area );
 }
 
-/*!
-	\details Save the pMainWindow state.
-	\details Concretly pDockToolBarManager::saveState() and
-	\details pSettings::saveState() are called.
-*/
 void pMainWindow::saveState()
 {
 	if ( settings() ) {
@@ -142,11 +119,6 @@ void pMainWindow::saveState()
 	}
 }
 
-/*!
-	\details Restore the pMainWindow state.
-	\details Concretly pDockToolBarManager::restoreState() and
-	\details pSettings::restoreState() are called.
-*/
 void pMainWindow::restoreState()
 {
 	if ( settings() ) {

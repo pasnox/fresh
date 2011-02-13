@@ -238,7 +238,7 @@ QSize pToolButton::sizeHint() const
 			break;
 	}
 
-	// return new size hint;
+	// return new size hint
 	return size;
 }
 

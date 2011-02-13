@@ -3,10 +3,6 @@
 #include <QKeySequence>
 #include <QKeyEvent>
 
-/*!
-	\details Create a new pKeySequenceEdit object
-	\param parent The parent widget
-*/
 pKeySequenceEdit::pKeySequenceEdit( QWidget* parent )
 	: pLineEdit( parent )
 {
@@ -51,11 +47,6 @@ void pKeySequenceEdit::keyReleaseEvent( QKeyEvent* event )
 	setText( keySequence( event ) );
 }
 
-/*!
-	\details Check a QKeyEvent event
-	\param event The QKeyEvent to check
-	\return The QString shortcut generate from the QKeyEvent
-*/
 QString pKeySequenceEdit::keySequence( QKeyEvent* event ) const
 {
 	// is key pressed or key released ?
@@ -83,7 +74,7 @@ QString pKeySequenceEdit::keySequence( QKeyEvent* event ) const
 	
 	if ( keyPressed ) {
 		// get press key
-		switch( event->key() ) {
+		switch ( event->key() ) {
 			// this keys can't be used
 			case Qt::Key_Control:
 			case Qt::Key_Alt:

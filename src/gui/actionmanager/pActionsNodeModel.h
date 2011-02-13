@@ -3,7 +3,7 @@
 
 /*!
 	\file pActionsNodeModel.h
-	\brief This class allow to define a hierarchy of pActionsNode that can be exposed in a pActionsNodeMenuBar.
+	\brief A model for presenting menus and actions.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
@@ -18,7 +18,7 @@ class QAction;
 /*!
 	\ingroup Gui
 	\class pActionsNodeModel
-	\brief This class allow to define a hierarchy of pActionsNode that can be exposed in a pActionsNodeMenuBar.
+	\brief A model for presenting menus and actions.
 	
 	That allow to have a menu bar that can be easily queried / handled by third party components like plugins.
 */
@@ -115,8 +115,8 @@ public:
 	/*!
 		Add a new action in the model at the given \a path having text \a text and icon \a icon.
 		
-		Return the created QAction on success else 
-.	*/
+		Return the created QAction on success else 0.
+	*/
 	QAction* addAction( const QString& path, const QString& text, const QIcon& icon = QIcon() );
 	/*!
 		Add a path node at the given \a path.

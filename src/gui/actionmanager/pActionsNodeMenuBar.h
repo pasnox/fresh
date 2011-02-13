@@ -3,7 +3,7 @@
 
 /*!
 	\file pActionsNodeMenuBar.h
-	\brief The pActionsNodeMenuBar class is a QMenuBar where the hierarchy and actions are exposed by a pActionsNodeModel.
+	\brief An extended QMenuBar having menu/actions exposed by a pActionsNodeModel.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
@@ -17,7 +17,7 @@ class pActionsNodeModel;
 /*!
 	\ingroup Gui
 	\class pActionsNodeMenuBar
-	\brief The pActionsNodeMenuBar class is a QMenuBar where the hierarchy and actions are exposed by a pActionsNodeModel.
+	\brief An extended QMenuBar having menu/actions exposed by a pActionsNodeModel.
 */
 
 class FRESH_EXPORT pActionsNodeMenuBar : public QMenuBar

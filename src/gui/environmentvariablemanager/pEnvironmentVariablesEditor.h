@@ -3,7 +3,7 @@
 
 /*!
 	\file pEnvironmentVariablesEditor.h
-	\brief This widget allow you to create / edit a list of pEnvironmentVariablesModel::Variable.
+	\brief A pEnvironmentVariablesModel::Variable list widget editor.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
@@ -17,7 +17,7 @@ class Ui_pEnvironmentVariablesEditor;
 /*!
 	\ingroup Gui
 	\class pEnvironmentVariablesEditor
-	\brief This widget allow you to create / edit a list of pEnvironmentVariablesModel::Variable.
+	\brief A pEnvironmentVariablesModel::Variable list widget editor.
 */
 class FRESH_EXPORT pEnvironmentVariablesEditor : public QWidget
 {

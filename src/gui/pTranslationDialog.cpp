@@ -7,17 +7,16 @@
 #include <QFileDialog>
 #include <QDebug>
 
-pTranslationDialog::pTranslationDialog( pTranslationManager* translationManager, QWidget* parent )
-	: QDialog( parent )
+pTranslationDialog::pTranslationDialog( QWidget* parent )
+	: QDialog( parent ), ui( 0 )
 {
-	Q_ASSERT( translationManager );
-	mTranslationManager = translationManager;
-	mOriginalLocale = translationManager->currentLocale().name();
-	
-	ui = new Ui::pTranslationDialog;
-	ui->setupUi( this );
-	ui->tbReload->click();
-	localeChanged();
+	init( 0 );
+}
+
+pTranslationDialog::pTranslationDialog( pTranslationManager* translationManager, QWidget* parent )
+	: QDialog( parent ), ui( 0 )
+{
+	init( translationManager );
 }
 
 pTranslationDialog::~pTranslationDialog()
@@ -38,10 +37,20 @@ bool pTranslationDialog::event( QEvent* event )
 	return QDialog::event( event );
 }
 
+pTranslationManager* pTranslationDialog::translationManager() const
+{
+	return mTranslationManager;
+}
+
+void pTranslationDialog::setTranslationManager( pTranslationManager* translationManager )
+{
+	init( translationManager );
+}
+
 QString pTranslationDialog::selectedLocale() const
 {
 	const QTreeWidgetItem* currentItem = ui->twLocales->selectedItems().value( 0 );
-	return currentItem ? currentItem->data( 0, Qt::UserRole ).toString() : mTranslationManager->currentLocale().name();
+	return currentItem ? currentItem->data( 0, Qt::UserRole ).toString() : ( mTranslationManager ? mTranslationManager->currentLocale().name() : QString::null );
 }
 
 QString pTranslationDialog::getLocale( pTranslationManager* translationManager, QWidget* parent )
@@ -62,25 +71,47 @@ void pTranslationDialog::localeChanged()
 
 void pTranslationDialog::on_tbLocate_clicked()
 {
+	if ( !mTranslationManager ) {
+		return;
+	}
+	
 	QDialog dlg( this );
-	pPathListEditor editor( tr( "Choose folders containing your application translations" ), QApplication::applicationDirPath(), &dlg );
-	QDialogButtonBox buttons( &dlg );
-	QVBoxLayout vl( &dlg );
-	vl.addWidget( &editor );
-	vl.addWidget( &buttons );
+	pPathListEditor* editor = new pPathListEditor( tr( "Choose folders containing your application translations" ), QApplication::applicationDirPath(), &dlg );
+	QDialogButtonBox* buttons = new QDialogButtonBox( &dlg );
+	QVBoxLayout* vl = new QVBoxLayout( &dlg );
+	vl->addWidget( editor );
+	vl->addWidget( buttons );
 	
-	buttons.setStandardButtons( QDialogButtonBox::Cancel | QDialogButtonBox::Ok );
-	editor.setValues( mTranslationManager->translationsPaths() );
+	buttons->setStandardButtons( QDialogButtonBox::Cancel | QDialogButtonBox::Ok );
+	editor->setValues( mTranslationManager->translationsPaths() );
 	
-	connect( &buttons, SIGNAL( rejected() ), &dlg, SLOT( reject() ) );
-	connect( &buttons, SIGNAL( accepted() ), &dlg, SLOT( accept() ) );
+	connect( buttons, SIGNAL( rejected() ), &dlg, SLOT( reject() ) );
+	connect( buttons, SIGNAL( accepted() ), &dlg, SLOT( accept() ) );
 	
 	if ( dlg.exec() == QDialog::Rejected ) {
 		return;
 	}
 	
-	mTranslationManager->setTranslationsPaths( editor.values() );
+	mTranslationManager->setTranslationsPaths( editor->values() );
 	ui->tbReload->click();
+}
+
+void pTranslationDialog::init( pTranslationManager* translationManager )
+{
+	if ( mTranslationManager == translationManager ) {
+		return;
+	}
+	
+	mTranslationManager = translationManager;
+	mOriginalLocale = mTranslationManager ? mTranslationManager->currentLocale().name() : locale().name();
+	
+	if ( !ui ) {
+		ui = new Ui::pTranslationDialog;
+		ui->setupUi( this );
+	}
+	
+	ui->tbReload->click();
+	localeChanged();
 }
 
 QTreeWidgetItem* pTranslationDialog::newItem( const QLocale& locale )
@@ -113,7 +144,7 @@ QTreeWidgetItem* pTranslationDialog::rootItem( const QLocale& locale )
 void pTranslationDialog::on_tbReload_clicked()
 {
 	// reload translations if needed
-	if ( mTranslationManager->availableLocales().isEmpty() ) {
+	if ( mTranslationManager && mTranslationManager->availableLocales().isEmpty() ) {
 		mTranslationManager->reloadTranslations();
 	}
 	
@@ -125,15 +156,17 @@ void pTranslationDialog::on_tbReload_clicked()
 	mRootItems.clear();
 	
 	// create new ones
-	foreach ( const QLocale& _locale, mTranslationManager->availableQLocales() ) {
-		const QLocale locale = _locale.language() == QLocale::C ? QLocale( QLocale::English ) : _locale;
-		QTreeWidgetItem* rootItem = this->rootItem( QLocale( locale.language() ) );
-		
-		if ( rootItem->data( 0, Qt::UserRole ).toString() == locale.name() ) {
-			continue;
+	if ( mTranslationManager ) {
+		foreach ( const QLocale& _locale, mTranslationManager->availableQLocales() ) {
+			const QLocale locale = _locale.language() == QLocale::C ? QLocale( QLocale::English ) : _locale;
+			QTreeWidgetItem* rootItem = this->rootItem( QLocale( locale.language() ) );
+			
+			if ( rootItem->data( 0, Qt::UserRole ).toString() == locale.name() ) {
+				continue;
+			}
+			
+			rootItem->addChild( newItem( locale ) );
 		}
-		
-		rootItem->addChild( newItem( locale ) );
 	}
 	
 	// sort items
@@ -152,15 +185,19 @@ void pTranslationDialog::on_tbReload_clicked()
 
 void pTranslationDialog::on_twLocales_itemSelectionChanged()
 {
-	mTranslationManager->setCurrentLocale( selectedLocale() );
-	mTranslationManager->reloadTranslations();
-	setLocale( selectedLocale() );
+	if ( mTranslationManager ) {
+		mTranslationManager->setCurrentLocale( selectedLocale() );
+		mTranslationManager->reloadTranslations();
+		setLocale( selectedLocale() );
+	}
 }
 
 void pTranslationDialog::reject()
 {
-	mTranslationManager->setCurrentLocale( mOriginalLocale );
-	mTranslationManager->reloadTranslations();
+	if ( mTranslationManager ) {
+		mTranslationManager->setCurrentLocale( mOriginalLocale );
+		mTranslationManager->reloadTranslations();
+	}
 	
 	QDialog::reject();
 }

@@ -15,7 +15,7 @@ pPaypalButton::pPaypalButton( QWidget* parent )
 	setCursor( Qt::PointingHandCursor );
 	setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum ) );
 	
-	mQueryItems[ "path" ] = "https://www.paypal.com/cgi-bin/webscr";
+	mQueryItems[ "path" ] = QString( "%1/cgi-bin/webscr" ).arg( PAYPAL_DOMAIN );
 	mQueryItems[ "cmd" ] = "_donations";
 	mQueryItems[ "bn" ] = QUrl::fromPercentEncoding( "PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" );
 	mAutoOpenUrl = true;
@@ -26,10 +26,6 @@ pPaypalButton::pPaypalButton( QWidget* parent )
 	connect( pNetworkAccessManager::instance(), SIGNAL( cached( const QUrl& ) ), this, SLOT( networkAccessManager_cached( const QUrl& ) ) );
 	connect( pNetworkAccessManager::instance(), SIGNAL( error( const QUrl&, const QString& ) ), this, SLOT( networkAccessManager_error( const QUrl&, const QString& ) ) );
 	connect( pNetworkAccessManager::instance(), SIGNAL( cacheCleared() ), this, SLOT( networkAccessManager_cacheCleared() ) );
-}
-
-pPaypalButton::~pPaypalButton()
-{
 }
 
 QSize pPaypalButton::minimumSizeHint() const
@@ -192,6 +188,9 @@ void pPaypalButton::_q_clicked()
 {
 	if ( mAutoOpenUrl ) {
 		QDesktopServices::openUrl( url() );
+	}
+	else {
+		emit clicked( url() );
 	}
 }
 

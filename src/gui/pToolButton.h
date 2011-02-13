@@ -3,9 +3,8 @@
 
 /*!
 	\file pToolButton.h
-	\date 2008-01-14T00:27:54
+	\brief An extended QToolButton that can be rotated.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
-	\brief A corner button used by the pTabbedWorkspaceCorner class
 */
 
 #include "core/FreshExport.h"
@@ -16,22 +15,48 @@
 
 class QStyleOptionToolButton;
 
+/*!
+	\ingroup Gui
+	\class pToolButton
+	\brief An extended QToolButton that can be rotated.
+
+	This button can be rotated.
+*/
 class FRESH_EXPORT pToolButton : public QToolButton
 {
 	Q_OBJECT
 	friend class pDockWidgetTitleBar;
 
 public:
+	/*!
+		Create an instance of button having \a parent as parent and layouted in \a direction.
+	*/
 	pToolButton( QWidget* parent, QBoxLayout::Direction direction = QBoxLayout::LeftToRight );
-
+	/*!
+		Reimplemented.
+	*/
 	virtual QSize minimumSizeHint() const;
+	/*!
+		Reimplemented.
+	*/
 	virtual QSize sizeHint() const;
-
+	/*!
+		Return the direction this button is layouted.
+	*/
 	QBoxLayout::Direction direction() const;
+	/*!
+		Return the user data associated with this button.
+	*/
 	QVariant userData() const;
 
 public slots:
+	/*!
+		Set the direction of the button to \a direction.
+	*/
 	void setDirection( QBoxLayout::Direction direction );
+	/*!
+		Set the user data to \a data.
+	*/
 	void setUserData( const QVariant& data );
 
 protected:
@@ -46,10 +71,21 @@ protected:
 		caArrowClicked,
 		caButtonClicked
 	};
-	
+	/*!
+		Reimplemented.
+	*/
 	virtual void paintEvent( QPaintEvent* event );
+	/*!
+		Reimplemented.
+	*/
 	virtual void mousePressEvent( QMouseEvent* event );
+	/*!
+		Reimplemented.
+	*/
 	virtual void mouseMoveEvent( QMouseEvent* event );
+	/*!
+		Reimplemented.
+	*/
 	virtual void mouseReleaseEvent( QMouseEvent* event );
 
 	void paint( QStyleOptionToolButton* option );
