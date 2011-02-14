@@ -21,30 +21,30 @@ class QLocale;
 namespace pCoreUtils
 {
 	/*!
-		\brief Look for \a fileName in \a dir, the search is done recursively according to \a recursive.
-		\param dir The start search directory.
-		\param fileName The file name, this can be a mask file name like: README*.txt.
-		\param recursive Tells if the scan of directories will recurse or not. The default is true.
-		\return The absolute file path of the found file or QString::null.
+		Return a file path that match \a fileName in \a dir.
+		If no match is found QString::null is returned.
+		The search is done recursively according to \a recursive.
+		\note fileName can be a filter (ie: README*.TXT).
 	*/
 	FRESH_EXPORT QString findFile( QDir& dir, const QString& fileName, bool recursive = true );
 	/*!
-		\brief Look for files \a filters in \a dir, the search is done recursively according to \a recursive.
-		\param dir The start search directory.
-		\param filters The file name filters, ie: README*.txt.
-		\param recursive Tells if the scan of directories will recurse or not. The default is true.
-		\return The absolute file path of the found files or QStringList.
+		Return a list of file path that match \a filters in \a dir.
+		If no match is found QStringList() is returned.
+		The search is done recursively according to \a recursive.
 	*/
 	FRESH_EXPORT QStringList findFiles( QDir& dir, const QStringList& filters, bool recursive = true );
+	/*!
+		Return a list of file path that match \a filter in \a dir.
+		If no match is found QStringList() is returned.
+		The search is done recursively according to \a recursive.
+	*/
 	FRESH_EXPORT QStringList findFiles( QDir& dir, const QString& filter, bool recursive = true );
 	/*!
 		Return true if the directory at \a path is totally empty else false.
 	*/
 	FRESH_EXPORT bool isEmptyDirectory( const QString& path );
 	/*!
-		\brief Return the available list of text codecs.
-		\return The codecs list.
-		\note The list is ascending sorted by codec name;
+		Return the available list of sorted text codecs.
 	*/
 	FRESH_EXPORT QStringList textCodecs();
 	/*!
@@ -54,18 +54,14 @@ namespace pCoreUtils
 	*/
 	FRESH_EXPORT QString toTitleCase( const QString& string );
 	/*!
-		\brief Implementation of QLocale hash.
-		\param locale The locale to hash.
-		\return An uint hash of the locale name;
-		\sa qHash, QHash
+		Return a hash for \a locale.
+		\sa qHash, QHash.
 	*/
 	FRESH_EXPORT uint qHash( const QLocale& locale );
 #if QT_VERSION < 0x040700
 	/*!
-		\brief Implementation of QUrl hash.
-		\param url The url to hash.
-		\return An uint hash of the url.toString();
-		\sa qHash, QHash
+		Return a hash for \a url, in fact it return qHash( url.toString() ).
+		\sa qHash, QHash.
 		\note This member is defined only if QT_VERSION < 4.7.0 because it exists for Qt version >= 4.7.0.
 	*/
 	FRESH_EXPORT uint qHash( const QUrl& url );
