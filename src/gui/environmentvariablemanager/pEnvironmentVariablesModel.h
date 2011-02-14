@@ -22,7 +22,9 @@ class FRESH_EXPORT pEnvironmentVariablesModel : public QAbstractItemModel
 
 public:
 	/*!
-		This structure represent the state of a variable.
+		\ingroup Gui
+		\class pEnvironmentVariablesModel::Variable
+		\brief This structure represent the state of a variable.
 	*/
 	struct Variable {
 		Variable( const QString& _name = QString::null, const QString& _value = QString::null, bool _enabled = false );

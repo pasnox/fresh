@@ -5,10 +5,8 @@
 #include <QDir>
 #include <QDebug>
 
-namespace pIconManager {
-	pIconManager::QIconCache mIconCache( 200 );
-	pIconManager::FileNameCache mFileNameCache;
-};
+pIconManager::pIconCache pIconManager::mIconCache( 200 );
+pIconManager::pFileNameCache pIconManager::mFileNameCache;
 
 QString pIconManager::filePath( const QString& fileName, const QString& prefix )
 {
@@ -18,7 +16,7 @@ QString pIconManager::filePath( const QString& fileName, const QString& prefix )
 		path = QLatin1String( ":/" );
 	}
 	
-	const FileNamePair pair = qMakePair( fileName, path );
+	const pFileNamePair pair = qMakePair( fileName, path );
 	QString fn = mFileNameCache.value( pair );
 	
 	if ( !fn.isEmpty() ) {
