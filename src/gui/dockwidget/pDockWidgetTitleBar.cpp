@@ -1,6 +1,6 @@
 #include "pDockWidgetTitleBar.h"
 #include "gui/pToolButton.h"
-#include "gui/pDrawingUtils.h"
+#include "gui/pGuiUtils.h"
 
 #include <QAction>
 #include <QStyleOptionToolButton>
@@ -137,7 +137,7 @@ void pDockWidgetTitleBar::updateStyleChange()
 	
 	QIcon icon;
 	
-	//icon = pDrawingUtils::scaledPixmap( orientation() == Qt::Horizontal ? ":/fresh/icons/vertical.png" : ":/fresh/icons/horizontal.png", iconSize() );
+	//icon = pGuiUtils::scaledPixmap( orientation() == Qt::Horizontal ? ":/fresh/icons/vertical.png" : ":/fresh/icons/horizontal.png", iconSize() );
 	icon = style()->standardIcon( QStyle::SP_TitleBarShadeButton, 0, widgetForAction( aOrientation ) );
 	aOrientation->setIcon( icon );
 	

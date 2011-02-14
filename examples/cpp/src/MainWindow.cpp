@@ -11,7 +11,7 @@
 #include <Gui/pFileListEditor>
 #include <Gui/pPathListEditor>
 #include <Gui/pColorButton>
-#include <Gui/pDrawingUtils>
+#include <Gui/pGuiUtils>
 #include <Gui/pToolButton>
 #include <Gui/pIconManager>
 #include <Gui/pQueuedMessageToolBar>
@@ -308,7 +308,7 @@ void MainWindow::createConsole()
 	dwShell->setObjectName( "Shell" );
 	dwShell->setWidget( cShell );
 	dwShell->toggleViewAction()->setObjectName( "ShellViewAction" );
-	dockToolBar( Qt::BottomToolBarArea )->addDockWidget( dwShell, tr( "Shell" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/ro.png", QSize( 96, 96 ) ) ) );
+	dockToolBar( Qt::BottomToolBarArea )->addDockWidget( dwShell, tr( "Shell" ), QIcon( pGuiUtils::scaledPixmap( ":/fresh/country-flags/ro.png", QSize( 96, 96 ) ) ) );
 }
 
 void MainWindow::createEnvironmentVariablesEditor()
@@ -319,7 +319,7 @@ void MainWindow::createEnvironmentVariablesEditor()
 	dwEnvironmentVariablesEditor->setObjectName( "EnvironmentVariablesEditor" );
 	dwEnvironmentVariablesEditor->setWidget( eveVariables );
 	dwEnvironmentVariablesEditor->toggleViewAction()->setObjectName( "EnvironmentVariablesEditorViewAction" );
-	dockToolBar( Qt::TopToolBarArea )->addDockWidget( dwEnvironmentVariablesEditor, tr( "Environment Variables Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/it.png", QSize( 96, 96 ) ) ) );
+	dockToolBar( Qt::TopToolBarArea )->addDockWidget( dwEnvironmentVariablesEditor, tr( "Environment Variables Editor" ), QIcon( pGuiUtils::scaledPixmap( ":/fresh/country-flags/it.png", QSize( 96, 96 ) ) ) );
 }
 
 void MainWindow::createVersionsTests()
@@ -370,7 +370,7 @@ void MainWindow::createListEditors()
 	dwListEditor->setObjectName( "DockListEditor" );
 	dwListEditor->setWidget( twListEditors );
 	dwListEditor->toggleViewAction()->setObjectName( "DockListEditorViewAction" );
-	dockToolBar( Qt::RightToolBarArea )->addDockWidget( dwListEditor, tr( "List Editor" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/fr.png", QSize( 96, 96 ) ) ) );
+	dockToolBar( Qt::RightToolBarArea )->addDockWidget( dwListEditor, tr( "List Editor" ), QIcon( pGuiUtils::scaledPixmap( ":/fresh/country-flags/fr.png", QSize( 96, 96 ) ) ) );
 	
 	twListEditors->addTab( new pStringListEditor( QString::null, this ), tr( "Edit strings" ) );
 	twListEditors->addTab( new pPathListEditor( QString::null, ".", this ), tr( "Edit paths" ) );
@@ -382,7 +382,7 @@ void MainWindow::createCustomWidgets()
 	pDockWidget* dwWidgets = new pDockWidget( this );
 	dwWidgets->setObjectName( "dwWidgets" );
 	dwWidgets->toggleViewAction()->setObjectName( "dwWidgetsViewAction" );
-	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwWidgets, tr( "Custom Widgets" ), QIcon( pDrawingUtils::scaledPixmap( ":/fresh/country-flags/es.png", QSize( 96, 96 ) ) ) );
+	dockToolBar( Qt::LeftToolBarArea )->addDockWidget( dwWidgets, tr( "Custom Widgets" ), QIcon( pGuiUtils::scaledPixmap( ":/fresh/country-flags/es.png", QSize( 96, 96 ) ) ) );
 	
 	QWidget* dwWidgetsContents = new QWidget( this );
 	QGridLayout* dwWidgetsContentsLayout = new QGridLayout( dwWidgetsContents );

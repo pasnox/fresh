@@ -1,5 +1,5 @@
 #include "pFileDialog.h"
-#include "core/pFileSystemUtils.h"
+#include "core/pCoreUtils.h"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -75,7 +75,7 @@ pFileDialog::pFileDialog( QWidget* parent, const QString& caption, const QString
 	
 	lCodec = new QLabel( tr( "Codec:" ), this );
 	cbCodec = new QComboBox( this );
-	cbCodec->addItems( pFileSystemUtils::textCodecs() );
+	cbCodec->addItems( pCoreUtils::textCodecs() );
 	setTextCodec( QTextCodec::codecForLocale()->name() );
 	
 	glDialog->addWidget( lCodec, 4, 0 );
