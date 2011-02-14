@@ -1,5 +1,5 @@
 #include "pColorButton.h"
-#include "pDrawingUtils.h"
+#include "pGuiUtils.h"
 
 #include <QColorDialog>
 
@@ -39,7 +39,7 @@ void pColorButton::setColor( const QColor& color )
 	setText( texts.first() );
 	setToolTip( texts.join( "\n" ) );
 	
-	setIcon( QIcon( pDrawingUtils::filledPixmap( mColor, iconSize() ) ) );
+	setIcon( QIcon( pGuiUtils::filledPixmap( mColor, iconSize() ) ) );
 	
 	emit colorChanged( mColor );
 }

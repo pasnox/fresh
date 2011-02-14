@@ -1,4 +1,4 @@
-#include "pFileSystemUtils.h"
+#include "pCoreUtils.h"
 
 #include <QMap>
 #include <QHash>
@@ -6,7 +6,7 @@
 #include <QLocale>
 #include <QDebug>
 
-QString pFileSystemUtils::findFile( QDir& dir, const QString& fileName, bool recursive )
+QString pCoreUtils::findFile( QDir& dir, const QString& fileName, bool recursive )
 {
 	foreach ( const QFileInfo& fi, dir.entryInfoList( QStringList( fileName ) ) ) {
 		/*if ( fi.fileName() == fileName )*/ {
@@ -29,7 +29,7 @@ QString pFileSystemUtils::findFile( QDir& dir, const QString& fileName, bool rec
 	return QString::null;
 }
 
-QStringList pFileSystemUtils::findFiles( QDir& dir, const QStringList& filters, bool recursive )
+QStringList pCoreUtils::findFiles( QDir& dir, const QStringList& filters, bool recursive )
 {
 	QStringList files;
 	
@@ -48,7 +48,7 @@ QStringList pFileSystemUtils::findFiles( QDir& dir, const QStringList& filters, 
 	return files;
 }
 
-bool pFileSystemUtils::isEmptyDirectory( const QString& path )
+bool pCoreUtils::isEmptyDirectory( const QString& path )
 {
 	return QFileInfo( path ).isDir()
 		? QDir( path ).entryList( QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot ).isEmpty()
@@ -56,12 +56,12 @@ bool pFileSystemUtils::isEmptyDirectory( const QString& path )
 		;
 }
 
-QStringList pFileSystemUtils::findFiles( QDir& dir, const QString& filter, bool recursive )
+QStringList pCoreUtils::findFiles( QDir& dir, const QString& filter, bool recursive )
 {
 	return findFiles( dir, QStringList( filter ), recursive );
 }
 
-QStringList pFileSystemUtils::textCodecs()
+QStringList pCoreUtils::textCodecs()
 {
 	QMap<QString, QString> codecs;
 	
@@ -73,7 +73,7 @@ QStringList pFileSystemUtils::textCodecs()
 	return codecs.values();
 }
 
-QString pFileSystemUtils::toTitleCase( const QString& _string )
+QString pCoreUtils::toTitleCase( const QString& _string )
 {
 	QString string = _string;
 	bool lastWasLetter = false;
@@ -99,13 +99,13 @@ QString pFileSystemUtils::toTitleCase( const QString& _string )
 	return string;
 }
 
-uint pFileSystemUtils::qHash( const QLocale& locale )
+uint pCoreUtils::qHash( const QLocale& locale )
 {
 	return qHash( locale.name() );
 }
 
 #if QT_VERSION < 0x040700
-uint pFileSystemUtils::qHash( const QUrl& url )
+uint pCoreUtils::qHash( const QUrl& url )
 {
 	return qHash( url.toString() );
 }

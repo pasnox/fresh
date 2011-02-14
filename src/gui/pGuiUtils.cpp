@@ -1,11 +1,11 @@
-#include "pDrawingUtils.h"
+#include "pGuiUtils.h"
 
 #include <QPixmapCache>
 #include <QDebug>
 
-QPixmap pDrawingUtils::filledPixmap( const QColor& color, const QSize& size )
+QPixmap pGuiUtils::filledPixmap( const QColor& color, const QSize& size )
 {
-	const QString key = QString( "pDrawingUtils::filledPixmap-%1-%2-%3-%4" )
+	const QString key = QString( "pGuiUtils::filledPixmap-%1-%2-%3-%4" )
 		.arg( color.name() ).arg( color.alpha() )
 		.arg( size.width() ).arg( size.height() );
 	QPixmap pixmap;
@@ -22,7 +22,7 @@ QPixmap pDrawingUtils::filledPixmap( const QColor& color, const QSize& size )
 	return pixmap;
 }
 
-QPixmap pDrawingUtils::scaledPixmap( const QString& filePath, const QSize& size )
+QPixmap pGuiUtils::scaledPixmap( const QString& filePath, const QSize& size )
 {
 	const QString key = QString( "%1-%2-%3" ).arg( filePath ).arg( size.width() ).arg( size.height() );
 	QPixmap pixmap;
@@ -46,7 +46,7 @@ QPixmap pDrawingUtils::scaledPixmap( const QString& filePath, const QSize& size 
 	return pixmap;
 }
 
-QPixmap pDrawingUtils::scaledPixmap( const QPixmap& _pixmap, const QString& _key, const QSize& size )
+QPixmap pGuiUtils::scaledPixmap( const QPixmap& _pixmap, const QString& _key, const QSize& size )
 {
 	const QString key = QString( "%1-%2-%3" ).arg( _key ).arg( size.width() ).arg( size.height() );
 	QPixmap pixmap;

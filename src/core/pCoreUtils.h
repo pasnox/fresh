@@ -1,11 +1,9 @@
-#ifndef PFILESYSTEMUTILS_H
-#define PFILESYSTEMUTILS_H
+#ifndef PCOREUTILS_H
+#define PCOREUTILS_H
 
 /*!
-	\file pFileSystemUtils.h
-	\brief Global place for IO functions.
-	
-	This namespace is a global place for functions related to IO.
+	\file pCoreUtils.h
+	\brief A central place for reusable core functions.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
@@ -17,12 +15,10 @@ class QLocale;
 
 /*!
 	\ingroup Core
-	\namespace pFileSystemUtils
-	\brief Global place for IO functions.
-	
-	This namespace is a global place for functions related to IO.
+	\namespace pCoreUtils
+	\brief A central place for reusable core functions.
 */
-namespace pFileSystemUtils
+namespace pCoreUtils
 {
 	/*!
 		\brief Look for \a fileName in \a dir, the search is done recursively according to \a recursive.
@@ -76,4 +72,4 @@ namespace pFileSystemUtils
 #endif
 };
 
-#endif // PFILESYSTEMUTILS_H
+#endif // PCOREUTILS_H

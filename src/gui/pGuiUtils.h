@@ -1,9 +1,9 @@
-#ifndef PDRAWINGUTILS_H
-#define PDRAWINGUTILS_H
+#ifndef PGUIUTILS_H
+#define PGUIUTILS_H
 
 /*!
-	\file pDrawingUtils.h
-	\brief A central place for reusable drawing functions.
+	\file pGuiUtils.h
+	\brief A central place for reusable gui functions.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
@@ -13,10 +13,10 @@
 
 /*!
 	\ingroup Gui
-	\namespace pDrawingUtils
-	\brief A central place for reusable drawing functions.
+	\namespace pGuiUtils
+	\brief A central place for reusable gui functions.
 */
-namespace pDrawingUtils
+namespace pGuiUtils
 {
 	/*!
 		Create a QPixmap of \a size filled with \a color.
@@ -36,4 +36,4 @@ namespace pDrawingUtils
 	FRESH_EXPORT QPixmap scaledPixmap( const QPixmap& pixmap, const QString& key, const QSize& size = QSize() );
 };
 
-#endif // PDRAWINGUTILS_H
+#endif // PGUIUTILS_H

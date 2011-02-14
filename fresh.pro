@@ -66,13 +66,13 @@ FORMS	*=  \
 
 HEADERS	*=  \
 	src/core/FreshExport.h \
-	src/core/pFileSystemUtils.h \
+	src/core/pCoreUtils.h \
 	src/core/pGetOpt.h \
 	src/core/pSettings.h \
 	src/core/pTranslationManager.h \
 	src/core/pVersion.h \
 	src/gui/pColorButton.h \
-	src/gui/pDrawingUtils.h \
+	src/gui/pGuiUtils.h \
 	src/gui/pIconManager.h \
 	src/gui/pKeySequenceEdit.h \
 	src/gui/pLineEdit.h \
@@ -110,13 +110,13 @@ HEADERS	*=  \
 	src/core/pNetworkAccessManager.h
 
 SOURCES	*=  \
-	src/core/pFileSystemUtils.cpp \
+	src/core/pCoreUtils.cpp \
 	src/core/pGetOpt.cpp \
 	src/core/pSettings.cpp \
 	src/core/pTranslationManager.cpp \
 	src/core/pVersion.cpp \
 	src/gui/pColorButton.cpp \
-	src/gui/pDrawingUtils.cpp \
+	src/gui/pGuiUtils.cpp \
 	src/gui/pIconManager.cpp \
 	src/gui/pKeySequenceEdit.cpp \
 	src/gui/pLineEdit.cpp \
