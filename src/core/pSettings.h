@@ -36,7 +36,7 @@ public:
 	};
 	
 	/*!
-		\class pSettings::Properties
+		\struct pSettings::Properties
 		\brief This class defined the properties to apply to a pSettings class.
 		\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 	*/

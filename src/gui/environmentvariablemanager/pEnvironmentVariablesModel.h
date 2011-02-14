@@ -23,7 +23,7 @@ class FRESH_EXPORT pEnvironmentVariablesModel : public QAbstractItemModel
 public:
 	/*!
 		\ingroup Gui
-		\class pEnvironmentVariablesModel::Variable
+		\struct pEnvironmentVariablesModel::Variable
 		\brief This structure represent the state of a variable.
 	*/
 	struct Variable {
