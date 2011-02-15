@@ -35,49 +35,35 @@ class FRESH_EXPORT pVersion
 {
 public:
 	/*!
-		\brief Create a pVersion initialized with the string version \a version.
-		\param version A QString representing the version number.
+		Create a pVersion initialized with the string version \a version.
 	*/
 	pVersion( const QString& version );
 	/*!
-		\brief Return the string based version number.
-		\return A QString containing the string version number.
+		Return the string based version number.
 	*/
 	QString toString() const;
 	/*!
-		\brief Check if this version is equal to \a other.
-		\param other The version to compare to.
-		\return Return true if this version is equal to \a other else false.
+		return true if this version is equal to \a other else false.
 	*/
 	bool operator==( const pVersion& other ) const;
 	/*!
-		\brief Check if this version is different from \a other.
-		\param other The version to compare to.
-		\return Return true if this version is different from \a other else false.
+		Return true if this version is different than \a other else false.
 	*/
 	bool operator!=( const pVersion& other ) const;
 	/*!
-		\brief Check if this version is smaller than \a other.
-		\param other The version to compare to.
-		\return Return true if this version is smaller than \a other else false.
+		Return true if this version is smaller than \a other else false.
 	*/
 	bool operator<( const pVersion& other ) const;
 	/*!
-		\brief Check if this version is bigger than \a other.
-		\param other The version to compare to.
-		\return Return true if this version is bigger than \a other else false.
+		Return true if this version is bigger than \a other else false.
 	*/
 	bool operator>( const pVersion& other ) const;
 	/*!
-		\brief Check if this version is smaller or equal to \a other.
-		\param other The version to compare to.
-		\return Return true if this version is smaller or equal to \a other else false.
+		Return true if this version is smaller or equal to \a other else false.
 	*/
 	bool operator<=( const pVersion& other ) const;
 	/*!
-		\brief Check if this version is bigger or equal to \a other.
-		\param other The version to compare to.
-		\return Return true if this version is bigger or equal to \a other else false.
+		Return true if this version is bigger or equal to \a other else false.
 	*/
 	bool operator>=( const pVersion& other ) const;
 

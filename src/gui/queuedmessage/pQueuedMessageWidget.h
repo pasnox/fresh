@@ -20,7 +20,7 @@ class QDialogButtonBox;
 
 /*!
 	\ingroup Gui
-	\class pQueuedMessage
+	\struct pQueuedMessage
 	\brief The is the \a message structure used by the pQueuedMessageWidget class.
 
 	It allow to configure the message to show.
