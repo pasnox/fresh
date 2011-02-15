@@ -23,7 +23,7 @@ from PyQt4.QtGui import qApp, QApplication, QAction, QActionGroup, \
 from PyQt4.fresh import pActionsNode, pActionsNodeModel, \
                         pActionsNodeShortcutEditor, \
                         pColorButton, pConsole, pConsoleCommand, \
-                        pDrawingUtils, pDockWidget, pDockToolBarManager, \
+                        pGuiUtils, pDockWidget, pDockToolBarManager, \
                         pFileDialog, \
                         pFileListEditor, \
                         pEnvironmentVariablesEditor, \
@@ -352,7 +352,7 @@ class MainWindow(pMainWindow):
         self.dockToolBar( Qt.BottomToolBarArea ).addDockWidget(
                self.dwShell, 
                self.tr( "Shell" ),
-               QIcon(pDrawingUtils.scaledPixmap( ":/fresh/country-flags/ro.png",
+               QIcon(pGuiUtils.scaledPixmap( ":/fresh/country-flags/ro.png",
                       QSize( 96, 96 ) ) ) )
 
     def createEnvironmentVariablesEditor(self):
@@ -367,7 +367,7 @@ class MainWindow(pMainWindow):
         self.dockToolBar( Qt.TopToolBarArea ).addDockWidget(
             self.dwEnvironmentVariablesEditor,
             self.tr( "Environment Variables Editor" ),
-            QIcon( pDrawingUtils.scaledPixmap(":/fresh/country-flags/it.png",
+            QIcon( pGuiUtils.scaledPixmap(":/fresh/country-flags/it.png",
                                               QSize( 96, 96 ) ) ) )
 
     def createVersionsTests(self):
@@ -410,7 +410,7 @@ class MainWindow(pMainWindow):
         self.dockToolBar( Qt.RightToolBarArea ).addDockWidget(
               self.dwListEditor,
               self.tr( "List Editor" ),
-              QIcon(pDrawingUtils.scaledPixmap( ":/fresh/country-flags/fr.png", 
+              QIcon(pGuiUtils.scaledPixmap( ":/fresh/country-flags/fr.png", 
                                                 QSize( 96, 96 ))))
         
         twListEditors.addTab( 
@@ -427,7 +427,7 @@ class MainWindow(pMainWindow):
         self.dockToolBar( Qt.LeftToolBarArea ).addDockWidget(
               self.dwWidgets,
               self.tr( "Custom Widgets" ),
-              QIcon( pDrawingUtils.scaledPixmap( ":/fresh/country-flags/es.png",
+              QIcon( pGuiUtils.scaledPixmap( ":/fresh/country-flags/es.png",
               QSize( 96, 96 ) ) ) )
         
         self.dwWidgetsContents = QWidget( self )

@@ -22,7 +22,7 @@
 %Include Gui/pDockToolBar.sip
 %Include Gui/pDockWidget.sip
 %Include Gui/pDockWidgetTitleBar.sip
-%Include Gui/pDrawingUtils.sip
+%Include Gui/pGuiUtils.sip
 %Include Gui/pEnvironmentVariableEditor.sip
 %Include Gui/pEnvironmentVariablesEditor.sip
 %Include Gui/pEnvironmentVariablesManager.sip
