@@ -1,5 +1,5 @@
 #include "pMainWindow.h"
-#include "core/pSettings.h"
+#include "pSettings.h"
 #include "actionmanager/pActionsNodeMenuBar.h"
 #include "queuedmessage/pQueuedMessageToolBar.h"
 #include "dockmanager/pDockToolBarManager.h"

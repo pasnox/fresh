@@ -1,6 +1,6 @@
 #include "pPaypalButton.h"
-#include "core/pNetworkAccessManager.h"
-#include "gui/pIconManager.h"
+#include "pNetworkAccessManager.h"
+#include "pIconManager.h"
 
 #include <QEvent>
 #include <QDesktopServices>

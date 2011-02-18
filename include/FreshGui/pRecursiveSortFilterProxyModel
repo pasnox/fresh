@@ -1,1 +1,1 @@
-#include "gui/models/pRecursiveSortFilterProxyModel.h"
+#include "pRecursiveSortFilterProxyModel.h"

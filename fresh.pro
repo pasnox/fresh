@@ -3,17 +3,22 @@
 # include functions file
 include( functions.pri )
 
-FRESH_BUILD_MODE	= release
+isEmpty( build_mode ):FRESH_BUILD_MODE	= release
+else:FRESH_BUILD_MODE	= $$build_mode
+
+isEmpty( build_type ):FRESH_BUILD_TYPE	= static
+else:FRESH_BUILD_TYPE	= $$build_type
+
 FRESH_BUILD_PATH	= build
-DESTDIR				= build
+FRESH_DESTDIR		= build
 
 TEMPLATE	= lib
 CONFIG	-= debug_and_release release debug warn_off warn_on
-CONFIG	*= qt staticlib warn_on thread x11 windows $$FRESH_BUILD_MODE
+CONFIG	*= qt warn_on thread x11 windows $$FRESH_BUILD_MODE $$FRESH_BUILD_TYPE
 QT	*= xml network
 
 # Mac universal build from 10.3 to up to 10.5
-mac {
+mac:universal {
 	QMAKE_MACOSX_DEPLOYMENT_TARGET	= 10.3
 	QMAKE_MAC_SDK	= /Developer/SDKs/MacOSX10.4u.sdk
 	CONFIG	*= x86 ppc
@@ -23,18 +28,25 @@ setTarget( fresh )
 setTemporaryDirectories( $$FRESH_BUILD_PATH )
 isEqual( FRESH_BUILD_MODE, debug ):CONFIG	*= console
 
+isEqual( FRESH_BUILD_TYPE, static ) {
+	DESTDIR	= $$FRESH_DESTDIR
+} else {
+	win32:DLLDESTDIR	= $$FRESH_DESTDIR
+	else:DESTDIR	= $$FRESH_DESTDIR
+}
+
 # some library infos
 QMAKE_TARGET_COMPANY	= "The Fresh Team"
 QMAKE_TARGET_PRODUCT	= "Fresh Framework"
 QMAKE_TARGET_DESCRIPTION	= "Qt Extension Framework"
-QMAKE_TARGET_COPYRIGHT	= "(C) 2005 - 2010 Filipe AZEVEDO and $$QMAKE_TARGET_COMPANY"
+QMAKE_TARGET_COPYRIGHT	= "(C) 2005 - 2011 Filipe AZEVEDO and $$QMAKE_TARGET_COMPANY"
 
 # make library exportable
 DEFINES	*= FRESH_CORE_BUILD
 
 FRESH_SOURCES_PATHS	= $$getFolders( ./src )
 DEPENDPATH	*= $${FRESH_SOURCES_PATHS}
-INCLUDEPATH	*= ./src
+INCLUDEPATH	*= $${FRESH_SOURCES_PATHS}
 
 RESOURCES	*= resources/fresh.qrc
 
@@ -152,3 +164,6 @@ SOURCES	*=  \
 	src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp \
 	src/gui/pPaypalButton.cpp \
 	src/core/pNetworkAccessManager.cpp
+
+# include installs file
+include( installs.pri )

@@ -1,1 +1,1 @@
-#include "gui/listeditor/pPathListEditor.h"
+#include "pPathListEditor.h"

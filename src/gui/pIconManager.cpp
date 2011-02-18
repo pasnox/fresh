@@ -1,5 +1,5 @@
 #include "pIconManager.h"
-#include "core/pCoreUtils.h"
+#include "pCoreUtils.h"
 
 #include <QPixmapCache>
 #include <QDir>

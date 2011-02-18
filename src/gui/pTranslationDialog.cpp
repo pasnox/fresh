@@ -1,6 +1,6 @@
 #include "pTranslationDialog.h"
 #include "ui_pTranslationDialog.h"
-#include "core/pTranslationManager.h"
+#include "pTranslationManager.h"
 #include "pIconManager.h"
 #include "listeditor/pPathListEditor.h"
 

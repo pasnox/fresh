@@ -7,8 +7,8 @@
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
-#include "core/FreshExport.h"
-#include "core/pVersion.h"
+#include "FreshExport.h"
+#include "pVersion.h"
 
 #include <QDialog>
 #include <QDomDocument>

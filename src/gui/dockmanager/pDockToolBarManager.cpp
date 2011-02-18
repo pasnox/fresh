@@ -1,8 +1,8 @@
 #include "pDockToolBarManager.h"
 #include "pDockToolBarManagerModernWidget.h"
-#include "gui/pMainWindow.h"
+#include "pMainWindow.h"
 #include "pDockToolBar.h"
-#include "core/pSettings.h"
+#include "pSettings.h"
 
 #include <QDockWidget>
 #include <QAbstractButton>

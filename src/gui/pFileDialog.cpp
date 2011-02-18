@@ -1,5 +1,5 @@
 #include "pFileDialog.h"
-#include "core/pCoreUtils.h"
+#include "pCoreUtils.h"
 
 #include <QGridLayout>
 #include <QLabel>

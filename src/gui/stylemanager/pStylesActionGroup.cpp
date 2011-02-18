@@ -1,5 +1,5 @@
 #include "pStylesActionGroup.h"
-#include "gui/actionmanager/pActionsNodeMenuBar.h"
+#include "actionmanager/pActionsNodeMenuBar.h"
 
 #include <QStyleFactory>
 #include <QStyle>

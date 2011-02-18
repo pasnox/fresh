@@ -1,6 +1,6 @@
 #include "pDockWidgetTitleBar.h"
-#include "gui/pToolButton.h"
-#include "gui/pGuiUtils.h"
+#include "pToolButton.h"
+#include "pGuiUtils.h"
 
 #include <QAction>
 #include <QStyleOptionToolButton>

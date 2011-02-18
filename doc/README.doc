@@ -23,7 +23,7 @@ See the file "LICENSE" to see what license this copy of Fresh is released under.
 
 <h2>Installation</h2>
 
-As supplied Fresh will be built as a static library/DLL.
+As supplied Fresh will be built as a static library and installed in the Qt installation folder.
 There is currently no install rules for the qmake version,
 so once built you should include <tt>fresh.pri</tt> in your project.
 

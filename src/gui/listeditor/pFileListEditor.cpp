@@ -1,5 +1,5 @@
 #include "pFileListEditor.h"
-#include "gui/pIconManager.h"
+#include "pIconManager.h"
 
 #include <QAction>
 #include <QFileDialog>

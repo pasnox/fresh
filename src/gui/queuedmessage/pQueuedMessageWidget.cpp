@@ -1,5 +1,5 @@
 #include "pQueuedMessageWidget.h"
-#include "gui/pIconManager.h"
+#include "pIconManager.h"
 
 #include <QLabel>
 #include <QHBoxLayout>

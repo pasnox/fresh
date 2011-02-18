@@ -1,5 +1,5 @@
 #include "pEnvironmentVariablesManager.h"
-#include "core/pSettings.h"
+#include "pSettings.h"
 
 #include <QProcessEnvironment>
 

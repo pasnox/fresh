@@ -1,1 +1,1 @@
-#include "gui/queuedmessage/pQueuedMessageWidget.h"
+#include "pQueuedMessageWidget.h"

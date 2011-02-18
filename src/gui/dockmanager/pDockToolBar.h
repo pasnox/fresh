@@ -7,7 +7,7 @@
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
-#include "core/FreshExport.h"
+#include "FreshExport.h"
 
 #include <QToolBar>
 #include <QIcon>

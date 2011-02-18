@@ -1,6 +1,6 @@
 #include "pUpdateChecker.h"
 #include "pUpdateCheckerDialog.h"
-#include "gui/pIconManager.h"
+#include "pIconManager.h"
 
 #include <QTimer>
 #include <QAction>

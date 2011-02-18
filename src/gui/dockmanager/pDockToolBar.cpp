@@ -1,7 +1,7 @@
 #include "pDockToolBar.h"
 #include "pDockToolBarManager.h"
-#include "gui/pMainWindow.h"
-#include "gui/pToolButton.h"
+#include "pMainWindow.h"
+#include "pToolButton.h"
 
 #include <QButtonGroup>
 #include <QEvent>
