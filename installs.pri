@@ -11,7 +11,7 @@
 	FRESH_INSTALL_FEATURES	= $$[QMAKE_MKSPECS]/features
 	
 	message( "Configuring Fresh..." )
-	message( "Build mode: $$FRESH_BUILD_MODE $$UNIVERSAL_TEXT" )
+	message( "Build mode: $$FRESH_BUILD_MODE" )
 	message( "Build type: $$FRESH_BUILD_TYPE $$UNIVERSAL_TEXT" )
 	message( "Instal headers: $$FRESH_INSTALL_HEADERS" )
 	message( "Instal libs: $$FRESH_INSTALL_LIBS" )
@@ -22,7 +22,11 @@
 	message( "You can change the build type:" )
 	message( "    qmake \"build_type = static\"" )
 	message( "    qmake \"build_type = shared\"" )
-	message( "Both build_mode & build_type can be use at same time" )
+	mac:!universal {
+		message( "You can create a universal build:" )
+		message( "    qmake \"CONFIG *= universal\"" )
+	}
+	message( "Multiple options can be use at same time" )
 	message( "Configuration complete" )
 
 	# core headers
