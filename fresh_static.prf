@@ -1,0 +1,4 @@
+# fresh project features file
+
+include( fresh_shared.prf )
+DEFINES	*= FRESH_CORE_BUILD

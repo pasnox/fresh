@@ -32,16 +32,23 @@
 	# core headers
 	fresh_core_headers.path	= $$FRESH_INSTALL_HEADERS/FreshCore
 	fresh_core_headers.files	= include/FreshCore/*
-	unix:fresh_core_headers.files	*= $$system( find src/core -name '*.h' )
+	win32:fresh_core_headers.files	*= $$system( for /R src/core %i in (*.h) do @echo %i )
+	else:fresh_core_headers.files	*= $$system( find src/core -name '*.h' )
+	
+	fresh_core_headers.files = $$replace( fresh_core_headers.files, "\\\\", "/" )
 	
 	# gui headers
 	fresh_gui_headers.path	= $$FRESH_INSTALL_HEADERS/FreshGui
 	fresh_gui_headers.files	= include/FreshGui/*
-	unix:fresh_gui_headers.files	*= $$system( find src/gui -name '*.h' )
+	win32:fresh_gui_headers.files	*= $$system( for /R src/gui %i in (*.h) do @echo %i )
+	else:fresh_gui_headers.files	*= $$system( find src/gui -name '*.h' )
+	
+	fresh_gui_headers.files = $$replace( fresh_gui_headers.files, "\\\\", "/" )
 	
 	# features
 	features.path = $$FRESH_INSTALL_FEATURES
-	features.files = fresh.prf
+	features.files = fresh_shared.prf \
+		fresh_static.prf
 	
 	# translations
 	translations.path	= $$FRESH_INSTALL_TRANSLATIONS

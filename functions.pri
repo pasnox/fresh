@@ -18,6 +18,8 @@ isEmpty( translations_pass ) {
 
 			_q_folders	= $$system( $$command )
 			win32:_q_folders *= $$1
+			
+			_q_folders = $$replace( _q_folders, "\\\\", "/" )
 
 			# loop paths
 			for( q_folder, _q_folders ) {
@@ -36,7 +38,7 @@ isEmpty( translations_pass ) {
 		}
 		
 		#message( Getting folders for $$q_paths: $$q_folders )
-
+message( $$q_folders )
 		return( $$q_folders )
 	}
 
