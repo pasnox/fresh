@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <Gui/pMainWindow>
-#include <Gui/pDockToolBarManager>
+#include <FreshGui/pMainWindow>
+#include <FreshGui/pDockToolBarManager>
 
 #include <QtGui>
 

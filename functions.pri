@@ -38,7 +38,7 @@ isEmpty( translations_pass ) {
 		}
 		
 		#message( Getting folders for $$q_paths: $$q_folders )
-message( $$q_folders )
+
 		return( $$q_folders )
 	}
 

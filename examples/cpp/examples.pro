@@ -19,8 +19,10 @@ XUPProjectSettings {
 	OTHERS_PLATFORM_TARGET_RELEASE	= examples
 }
 
+FRESH_PATH = ../..
+
 # include functions file
-include( ../../functions.pri )
+include( $${FRESH_PATH}/functions.pri )
 
 EXAMPLES_BUILD_MODE	= release
 EXAMPLES_BUILD_PATH	= build
@@ -34,16 +36,27 @@ setTarget( examples )
 setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )
 isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG	*= console
 
-isEmpty(shared) {
-	# If using static fresh
-	include( ../../fresh.pri )
-	message("Using static fresh library. Run 'qmake shared=1' for use installed shared version")
+fresh_static|fresh_shared {
+	!build_pass:message( "Using system fresh library." )
 } else {
-	# If using shared fresh
-	INCLUDEPATH *= /usr/local/include/fresh
-	LIBS *= -L/usr/local/lib -lfresh
+	!build_pass:message( "Using bundled fresh library." )
+	
+	FRESH_SOURCES_PATHS	= $$getFolders( $${FRESH_PATH}/src )
+	
+	QMAKE_RPATHDIR *= $${FRESH_PATH}/build
+	macx:LIBS	*= -F$${FRESH_PATH}/build
+	LIBS	*= -L$${FRESH_PATH}/build
+
+	DEPENDPATH *= $${FRESH_PATH}/include/FreshCore \
+		$${FRESH_PATH}/include/FreshGui
+
+	INCLUDEPATH	*= $${FRESH_PATH}/include
+	
+	DEPENDPATH	*= $${FRESH_SOURCES_PATHS}
+	INCLUDEPATH	*= $${FRESH_SOURCES_PATHS}
+
 	QT	*= xml network
-	message("Using shared fresh library")
+	qtAddLibrary( fresh )
 }
 
 exists( ../../../QtSolutions/modeltest-0.2/modeltest.pri ) {

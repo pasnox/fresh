@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QDebug>
 
-#include <Core/pSettings>
+#include <FreshCore/pSettings>
 
 #include "MainWindow.h"
 
