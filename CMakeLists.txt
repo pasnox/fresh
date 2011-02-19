@@ -48,6 +48,7 @@ if (BUILD_SHARED_LIBS)
     install(FILES ${GUI_HEADERS} DESTINATION ${QT_HEADERS_DIR}/FreshGui)
     install(FILES ${PRF_FILES} DESTINATION ${QT_MKSPECS_DIR}/features)
     install(FILES ${TS_FILES} DESTINATION ${QT_TRANSLATIONS_DIR})
+    install(FILES ./FindFresh.cmake DESTINATION ${CMAKE_ROOT}/Modules/)
     
 else (BUILD_SHARED_LIBS)
     message("Building STATIC library. Use 'cmake -DBUILD_SHARED_LIBS=1' for build shared.")
