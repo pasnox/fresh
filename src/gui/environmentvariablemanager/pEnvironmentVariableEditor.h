@@ -40,7 +40,7 @@
 class Ui_pEnvironmentVariableEditor;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pEnvironmentVariableEditor
 	\brief Ths dialog allow you to create / edit a pEnvironmentVariablesModel::Variable.
 */

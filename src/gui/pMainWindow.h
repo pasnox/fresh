@@ -43,7 +43,7 @@ class pDockToolBarManager;
 class pDockToolBar;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pMainWindow
 	\brief An extended QMainWindow.
 

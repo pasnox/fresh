@@ -40,7 +40,7 @@
 class pDockWidgetTitleBar;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pDockWidget
 	\brief An extended QDockWidget class.
 

@@ -40,7 +40,7 @@ class QMenu;
 class pStylesActionGroup;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pStylesToolButton
 	\brief A special QToolButton that has a QMenu of available styles.
 */

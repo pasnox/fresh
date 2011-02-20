@@ -37,7 +37,7 @@
 #include <QString>
 
 /*!
-	\ingroup Core
+	\ingroup FreshCore
     \class pVersion
     \brief This class is an helper for comparing string based application versions.
 

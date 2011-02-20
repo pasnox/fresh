@@ -37,7 +37,7 @@
 #include <QPixmap>
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\namespace pGuiUtils
 	\brief A central place for reusable gui functions.
 */

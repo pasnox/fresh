@@ -44,7 +44,7 @@ class QVBoxLayout;
 class QModelIndex;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pStringListEditor
 	\brief A widget that handle QStringList edition.
 */

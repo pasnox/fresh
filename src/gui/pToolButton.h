@@ -41,7 +41,7 @@
 class QStyleOptionToolButton;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pToolButton
 	\brief An extended QToolButton that can be rotated.
 

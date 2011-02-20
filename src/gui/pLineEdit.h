@@ -42,7 +42,7 @@ class QToolButton;
 class QTimer;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pLineEdit
 	\brief An extended QLineEdit.
 

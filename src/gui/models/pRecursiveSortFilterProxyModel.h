@@ -37,7 +37,7 @@
 #include <QSortFilterProxyModel>
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pRecursiveSortFilterProxyModel
 	\brief A QSortFilterProxyModel that does the rows filtering recursively.
 

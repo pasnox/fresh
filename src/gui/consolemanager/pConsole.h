@@ -39,7 +39,7 @@
 #include <QHash>
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pConsole
 	\brief The pConsole widget is a terminal emulator providing a gui for pConsoleCommand.
 */

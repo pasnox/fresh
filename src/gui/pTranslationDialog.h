@@ -46,7 +46,7 @@ namespace Ui {
 };
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pTranslationDialog
 	\brief A dialog for handling application locales.
 

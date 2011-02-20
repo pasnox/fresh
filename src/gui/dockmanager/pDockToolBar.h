@@ -47,7 +47,7 @@ class pDockToolBarManager;
 class pMainWindow;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
     \class pDockToolBar
 	\brief A toolbar that can manage dock visibility by adding buttons in it.
 	

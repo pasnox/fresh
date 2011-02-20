@@ -40,7 +40,7 @@
 class pActionsNodeModel;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pActionsNodeMenuBar
 	\brief An extended QMenuBar having menu/actions exposed by a pActionsNodeModel.
 */

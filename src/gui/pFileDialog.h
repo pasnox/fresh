@@ -46,7 +46,7 @@ class QCheckBox;
 typedef QMap<int, QVariant> pFileDialogResult;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pFileDialog
 	\brief An extended QFileDialog.
 

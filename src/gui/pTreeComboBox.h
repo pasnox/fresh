@@ -45,7 +45,7 @@ class QAbstractItemModel;
 class QStyleOptionComboBox;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pTreeComboBox
 	\brief A special combobox handling a QTreeView as popup widget.
 */

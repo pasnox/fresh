@@ -37,7 +37,7 @@
 #include <QAbstractItemModel>
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pEnvironmentVariablesModel
 	\brief A model to handle your process environment variables.
 */
@@ -47,7 +47,7 @@ class FRESH_EXPORT pEnvironmentVariablesModel : public QAbstractItemModel
 
 public:
 	/*!
-		\ingroup Gui
+		\ingroup FreshGui
 		\struct pEnvironmentVariablesModel::Variable
 		\brief This structure represent the state of a variable.
 	*/

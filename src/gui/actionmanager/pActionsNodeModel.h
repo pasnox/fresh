@@ -41,7 +41,7 @@
 class QAction;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pActionsNodeModel
 	\brief A model for presenting menus and actions.
 	

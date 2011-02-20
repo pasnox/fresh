@@ -44,7 +44,7 @@ class QLabel;
 class QDialogButtonBox;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\struct pQueuedMessage
 	\brief The is the \a message structure used by the pQueuedMessageWidget class.
 
@@ -86,7 +86,7 @@ struct FRESH_EXPORT pQueuedMessage
 };
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pQueuedMessageWidget
 	\brief A widget that show non blocking queued message.
 

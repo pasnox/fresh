@@ -30,11 +30,11 @@
 */
 
 /*!
-    \defgroup Gui Gui
-    \brief The Gui module contains gui classes, structures, namespaces...
+    \defgroup FreshGui FreshGui
+    \brief The Fresh Gui module contains gui classes, structures, namespaces...
     
-    To include Gui classes use:
+    To include Fresh Gui classes use:
     \code
-    #include <Gui/ClassName>
+    #include <FreshGui/ClassName>
     \endcode
 */

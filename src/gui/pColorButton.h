@@ -37,7 +37,7 @@
 #include <QToolButton>
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pColorButton
 	\brief A QToolButton that allow to choose a QColor.
 */

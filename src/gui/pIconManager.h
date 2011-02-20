@@ -40,7 +40,7 @@
 #include <QMap>
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pIconManager
 	\brief A cache class for icons and pixmaps.
 	

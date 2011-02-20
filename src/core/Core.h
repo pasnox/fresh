@@ -30,11 +30,11 @@
 */
 
 /*!
-    \defgroup Core Core
-    \brief The Core module contains non gui classes, structures, namespaces...
+    \defgroup FreshCore FreshCore
+    \brief The Fresh Core module contains non gui classes, structures, namespaces...
     
-    To include Core classes use:
+    To include Fresh Core classes use:
     \code
-    #include <Core/ClassName>
+    #include <FreshCore/ClassName>
     \endcode
 */

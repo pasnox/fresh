@@ -40,7 +40,7 @@
 class Ui_pEnvironmentVariablesEditor;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pEnvironmentVariablesEditor
 	\brief A pEnvironmentVariablesModel::Variable list widget editor.
 */

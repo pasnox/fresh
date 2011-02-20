@@ -38,7 +38,7 @@
 #include <QToolBar>
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pQueuedMessageToolBar
 	\brief A toolbar that handle a pQueuedMessageWidget mimicing the chromium yellow toolbar.
 */

@@ -40,7 +40,7 @@
 class pActionsNodeMenuBar;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pStylesActionGroup
 	\brief A special QActionGroup for application styles.
 */

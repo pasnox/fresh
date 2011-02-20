@@ -44,7 +44,7 @@ class pRecursiveSortFilterProxyModel;
 class QAbstractButton;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pActionsNodeShortcutEditor
 	\brief This class allow to edit the pActionsNode shortcuts of a pActionsNodeModel.
 */

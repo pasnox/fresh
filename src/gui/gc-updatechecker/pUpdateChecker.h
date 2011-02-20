@@ -42,7 +42,7 @@
 class QAction;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pUpdateChecker
 	\brief A class for checking available update for your application.
 	

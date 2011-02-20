@@ -38,7 +38,7 @@
 #include <QHash>
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pConsoleCommand
 	\brief pConsoleCommand is the command interpreter to be used with pConsole.
 */

@@ -40,7 +40,7 @@
 #define PAYPAL_MASK "https://www.paypal.com/%1/i/btn/btn_donate_LG.gif"
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pPaypalButton
 	\brief A custom button providing paypal donation.
 

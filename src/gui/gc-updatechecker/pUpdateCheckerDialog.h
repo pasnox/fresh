@@ -86,7 +86,7 @@ protected:
 };
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pUpdateCheckerDialog
 	\brief A update checker dialog.
 

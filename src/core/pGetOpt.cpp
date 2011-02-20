@@ -31,7 +31,7 @@
 #include <QDebug>
 
 /**
-	\ingroup Core
+	\ingroup FreshCore
 	\class pGetOpt
 
 	\brief A command line option parser.

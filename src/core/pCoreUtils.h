@@ -39,7 +39,7 @@
 class QLocale;
 
 /*!
-	\ingroup Core
+	\ingroup FreshCore
 	\namespace pCoreUtils
 	\brief A central place for reusable core functions.
 */

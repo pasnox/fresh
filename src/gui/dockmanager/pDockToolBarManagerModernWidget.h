@@ -42,7 +42,7 @@ class QBoxLayout;
 class pDockToolBar;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pDockToolBarManagerModernWidget
 	\brief This is the modern widget used in the pDockToolBarManager when in Modern mode.
 */

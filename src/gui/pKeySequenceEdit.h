@@ -36,7 +36,7 @@
 #include "pLineEdit.h"
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pKeySequenceEdit
 	\brief A special QLineEdit that allow to define QShortcut.
 

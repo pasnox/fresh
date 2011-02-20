@@ -42,7 +42,7 @@
 class pActionsNodeModel;
 
 /*!
-    \ingroup Gui
+    \ingroup FreshGui
     \class pActionsNode
     \brief It's the class used for storing indexes data in pActionsNodeModel.
 	

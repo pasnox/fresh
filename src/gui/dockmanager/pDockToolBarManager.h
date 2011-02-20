@@ -44,7 +44,7 @@ class pSettings;
 class pDockToolBarManagerModernWidget;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pDockToolBarManager
 	\brief This class manage a set of pDockToolBar of a pMainWindow according to its mode.
 	

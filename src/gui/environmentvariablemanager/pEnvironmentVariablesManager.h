@@ -36,7 +36,7 @@
 #include "pEnvironmentVariablesModel.h"
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pEnvironmentVariablesManager
 	\brief Helper manager for pEnvironmentVariablesModel.
 

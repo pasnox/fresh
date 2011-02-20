@@ -42,7 +42,7 @@ class pToolButton;
 class QStyleOptionToolButton;
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pDockWidgetTitleBar
 	\brief A custom title bar for pDockWidget that herits QToolBar.
 

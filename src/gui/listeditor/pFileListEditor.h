@@ -36,7 +36,7 @@
 #include "pStringListEditor.h"
 
 /*!
-	\ingroup Gui
+	\ingroup FreshGui
 	\class pFileListEditor
 	\brief a pStringListEditor that handle files name.
 */

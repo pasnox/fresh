@@ -51,7 +51,7 @@ class QTranslator;
 typedef QList<QTranslator*> QTranslatorList;
 
 /*!
-	\ingroup Core
+	\ingroup FreshCore
     \class pTranslationManager
     \brief Application translations maanager.
 
