@@ -28,7 +28,7 @@
 
 /*!
 	\file Fresh.h
-	\brief Fresh namespace giving access to the library informations.
+	\brief Access to library informations.
 	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
@@ -45,7 +45,7 @@
 /*!
 	\ingroup FreshCore
 	\namespace Fresh
-	\brief Fresh namespace giving access to the library informations.
+	\brief Access to library informations.
 */
 namespace Fresh
 {
