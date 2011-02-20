@@ -43,7 +43,7 @@
 #define FRESH_VERSION "1.0.0"
 
 /*!
-	\ingroup FreshGui
+	\ingroup FreshCore
 	\namespace Fresh
 	\brief Fresh namespace giving access to the library informations.
 */

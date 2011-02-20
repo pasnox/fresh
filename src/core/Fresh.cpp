@@ -25,6 +25,7 @@
 ****************************************************************************/
 #include "Fresh.h"
 
+#ifdef QT_GUI
 namespace Fresh
 {
 	struct InitResources
@@ -37,6 +38,7 @@ namespace Fresh
 	
 	InitResources resources;
 };
+#endif
 
 QString Fresh::versionString()
 {
