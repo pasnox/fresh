@@ -10,7 +10,7 @@ isEmpty( build_type ):FRESH_BUILD_TYPE	= static
 else:FRESH_BUILD_TYPE	= $$build_type
 
 FRESH_BUILD_PATH	= build
-FRESH_DESTDIR		= build
+FRESH_DESTDIR	= build
 
 TEMPLATE	= lib
 CONFIG	-= debug_and_release release debug warn_off warn_on
@@ -120,7 +120,8 @@ HEADERS	*=  \
 	src/gui/gc-updatechecker/pUpdateChecker.h \
 	src/gui/gc-updatechecker/pUpdateCheckerDialog.h \
 	src/gui/pPaypalButton.h \
-	src/core/pNetworkAccessManager.h
+	src/core/pNetworkAccessManager.h \
+	src/core/Fresh.h
 
 SOURCES	*=  \
 	src/core/pCoreUtils.cpp \
@@ -164,7 +165,8 @@ SOURCES	*=  \
 	src/gui/gc-updatechecker/pUpdateChecker.cpp \
 	src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp \
 	src/gui/pPaypalButton.cpp \
-	src/core/pNetworkAccessManager.cpp
+	src/core/pNetworkAccessManager.cpp \
+	src/core/Fresh.cpp
 
 # include installs file
 include( installs.pri )
