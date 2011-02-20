@@ -56,11 +56,11 @@ class FRESH_EXPORT pActionsNode
 	friend class pActionsNodeModel;
 	
 public:
-	/*! This enum defines the differents types of node. */ 
+	/*! This enum defines the differents types of node. */
 	enum Type {
-		Invalid, /*!< An invalid type */ 
-		Path, /*!< This type represents a path node (ie: a possible hierarchy where to integrate the actions nodes) */ 
-		Action /*!< This type represente an action node (ie: it represente a QAction) */ 
+		Invalid, /*!< An invalid type */
+		Path, /*!< This type represents a path node (ie: a possible hierarchy where to integrate the actions nodes) */
+		Action /*!< This type represente an action node (ie: it represente a QAction) */
 	};
 	
 	enum Role {

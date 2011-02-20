@@ -37,4 +37,4 @@
     \code
     #include <Gui/ClassName>
     \endcode
-*/ 
+*/

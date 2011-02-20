@@ -54,10 +54,10 @@ class FRESH_EXPORT pSettings : public QSettings
 public:
 	/*! Thie enumeration represent the possible choices for the location of your pSettings object. */
 	enum Type {
-		Invalid = -1, /*!< An invalid path. */ 
-		Auto, /*!< The pSettings decide which enum to use. pSettings::Portable if the binary path is writable, else pSettings::Normal. */ 
-		Normal, /*!< The init file will be created in the user home. */ 
-		Portable /*!< The ini file will be created in the binary path if possible, else fallback to pSettings::Normal mode. */ 
+		Invalid = -1, /*!< An invalid path. */
+		Auto, /*!< The pSettings decide which enum to use. pSettings::Portable if the binary path is writable, else pSettings::Normal. */
+		Normal, /*!< The init file will be created in the user home. */
+		Portable /*!< The ini file will be created in the binary path if possible, else fallback to pSettings::Normal mode. */
 	};
 	
 	/*!

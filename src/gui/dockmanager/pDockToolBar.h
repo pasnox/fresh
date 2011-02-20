@@ -60,10 +60,10 @@ class FRESH_EXPORT pDockToolBar : public QToolBar
 	friend class pDockToolBarManagerModernWidget;
 
 public:
-	/*! This enumeration represents the possible order to use. */ 
+	/*! This enumeration represents the possible order to use. */
 	enum DockWidgetsOrder {
-		HashedOrder = 0, /*!< The list is ordered by the hash order. */ 
-		InsertedOrder /*!< The list is ordered by the insertion order. */ 
+		HashedOrder = 0, /*!< The list is ordered by the hash order. */
+		InsertedOrder /*!< The list is ordered by the insertion order. */
 	};
 	/*!
 		Create a pDockToolBar having \a manager as manager and orientation \a orientation.

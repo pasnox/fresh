@@ -57,11 +57,11 @@ class FRESH_EXPORT pDockToolBarManager : public QObject
 	friend class pDockToolBar;
 
 public:
-	/*! This enumeration represents the differents mode available for presenting the toolbars managing the dock widgets. */ 
+	/*! This enumeration represents the differents mode available for presenting the toolbars managing the dock widgets. */
 	enum Mode {
-		Invalid = -1, /*!< An invalid mode. */ 
-		Classic, /*!< The classical mode presenting toolbars at each part of a window (left, top, right, bottom). */ 
-		Modern /*!< The modern mode presenting all the toolbars in a unique toolbar that minimize the used space. */ 
+		Invalid = -1, /*!< An invalid mode. */
+		Classic, /*!< The classical mode presenting toolbars at each part of a window (left, top, right, bottom). */
+		Modern /*!< The modern mode presenting all the toolbars in a unique toolbar that minimize the used space. */
 		
 	};
 	/*!

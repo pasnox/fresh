@@ -47,7 +47,7 @@ using namespace pCoreUtils;
 
 class QTranslator;
 
-/*!< A QList of QTranslator */ 
+/*!< A QList of QTranslator */
 typedef QList<QTranslator*> QTranslatorList;
 
 /*!

@@ -37,4 +37,4 @@
     \code
     #include <Core/ClassName>
     \endcode
-*/ 
+*/

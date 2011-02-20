@@ -24,20 +24,26 @@ See the file "LICENSE" to see what license this copy of Fresh is released under.
 <h2>Installation</h2>
 
 As supplied Fresh will be built as a static library and installed in the Qt installation folder.
-There is currently no install rules for the qmake version,
-so once built you should include <tt>fresh.pri</tt> in your project.
 
 To build Fresh, run:
 
 <pre>
     qmake fresh.pro
     make
+    sudo make install
 </pre>
 
-If you have both Qt v3 and v4 installed then make sure you use the correct
-version of <tt>qmake</tt>.
+If you have both Qt v3 and v4 installed then make sure you use the correct version of <tt>qmake</tt>.
 
 Depending on the compiler you are using you may need to run <tt>nmake</tt> rather than <tt>make</tt>.
+
+Once installed, use it that way in your project:
+
+<pre>
+    CONFIG *= fresh_static
+</pre>
+
+You can replace fresh_static by fresh_shared if you built Fresh in shared mode.
 
 <h2>Example Application</h2>
 

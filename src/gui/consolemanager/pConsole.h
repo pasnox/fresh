@@ -51,10 +51,10 @@ class FRESH_EXPORT pConsole : public QPlainTextEdit
 public:
 	/*! Thie enumeration represent the different possible output color in the pConsole widget. */
 	enum ColorType {
-		Command, /*!< \a Command color is the color used when the user is typing a command. */ 
-		Error, /*!< \a Error color is the color used when the execution of a command failed and it produce an output. */ 
-		Output, /*!< \a Output color is the color used when the execution of a command success and it produce an output. */ 
-		Completion /*!< \a Completion color is the color used when the user press the key to auto complete a command and that produce an output. */ 
+		Command, /*!< \a Command color is the color used when the user is typing a command. */
+		Error, /*!< \a Error color is the color used when the execution of a command failed and it produce an output. */
+		Output, /*!< \a Output color is the color used when the execution of a command success and it produce an output. */
+		Completion /*!< \a Completion color is the color used when the user press the key to auto complete a command and that produce an output. */
 	};
 
 	/*!

@@ -45,15 +45,15 @@
 class FRESH_EXPORT pConsoleCommand
 {
 public:
-	/*! This enumeration represents some standard exit code */ 
+	/*! This enumeration represents some standard exit code */
 	enum ExitCode {
-		NotFound = -2, /*!< The command to be executed was not found. */ 
-		NoExitCode = -1, /*!< Undefined exit code, this is the case when a command is executed and a pointer for the exit code is not given. */ 
-		Success = 0, /*!< The command was successfuly executed. */ 
-		Error = 1 /*!< An error occurs while executing the command. */ 
+		NotFound = -2, /*!< The command to be executed was not found. */
+		NoExitCode = -1, /*!< Undefined exit code, this is the case when a command is executed and a pointer for the exit code is not given. */
+		Success = 0, /*!< The command was successfuly executed. */
+		Error = 1 /*!< An error occurs while executing the command. */
 	};
 	
-	/*!< A QList of pConsoleCommand. */ 
+	/*!< A QList of pConsoleCommand. */
 	typedef QList<pConsoleCommand*> List;
 	
 	/*!

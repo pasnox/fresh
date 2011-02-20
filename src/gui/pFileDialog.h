@@ -60,12 +60,12 @@ class FRESH_EXPORT pFileDialog : public QFileDialog
 public:
 	/*! Thie enumeration represent the possible properties to query. */
 	enum Property {
-		TextCodec = 0, /*!< The text codec choosed by user (QString). */ 
-		OpenReadOnly, /*!< The open in read only state (bool). */ 
-		Directory, /*!< The directory choosed by the user (QString). */ 
-		FileName, /*!< The file name choosed by the user (QString) */ 
-		FileNames, /*!< The file names choosed by the user (QStringList). */ 
-		SelectedFilter /*!< The selected filter choosed by the user (QString). */ 
+		TextCodec = 0, /*!< The text codec choosed by user (QString). */
+		OpenReadOnly, /*!< The open in read only state (bool). */
+		Directory, /*!< The directory choosed by the user (QString). */
+		FileName, /*!< The file name choosed by the user (QString) */
+		FileNames, /*!< The file names choosed by the user (QStringList). */
+		SelectedFilter /*!< The selected filter choosed by the user (QString). */
 	};
 	
 	/*!

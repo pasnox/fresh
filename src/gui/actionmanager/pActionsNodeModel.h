@@ -55,11 +55,11 @@ class pActionsNodeModel : public QAbstractItemModel
 	friend class pActionsNodeMenuBar;
 	
 public:
-	/*! This enum defines teh differents columns of the model. */ 
+	/*! This enum defines teh differents columns of the model. */
 	enum Column {
-		Action = 0, /*!< The action column. */ 
-		Shortcut, /*!< The shortcut column. */ 
-		DefaultShortcut /*!< The default shortcut. */ 
+		Action = 0, /*!< The action column. */
+		Shortcut, /*!< The shortcut column. */
+		DefaultShortcut /*!< The default shortcut. */
 	};
 	/*!
 		Create a new pActionsNodeModel having parent \a parent.
