@@ -55,10 +55,6 @@ public:
 		Return a pointer to the internal pQueuedMessageWidget widget.
 	*/
 	pQueuedMessageWidget* queuedMessageWidget() const;
-	/*!
-		\sa pQueuedMessageWidget::append( const QString&, int )
-	*/
-	pQueuedMessage appendMessage( const QString& message, int milliSeconds = -1 );
 
 protected:
 	pQueuedMessageWidget* mQueuedWidget;
@@ -69,6 +65,10 @@ protected:
 	void paintEvent( QPaintEvent* event );
 
 public slots:
+	/*!
+		\sa pQueuedMessageWidget::append( const QString&, int )
+	*/
+	pQueuedMessage appendMessage( const QString& message, int milliSeconds = -1 );
 	/*!
 		\sa pQueuedMessageWidget::append( const pQueuedMessage& )
 	*/

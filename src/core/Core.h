@@ -25,7 +25,7 @@
 ****************************************************************************/
 /*!
     \file Core.h
-    \brief This file only defined the description of the \ref Core module.
+    \brief This file only defined the description of the \ref FreshCore module.
     \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 

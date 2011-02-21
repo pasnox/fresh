@@ -88,28 +88,6 @@ void pMainWindow::closeEvent( QCloseEvent* event )
 	QMainWindow::closeEvent( event );
 }
 
-pSettings* pMainWindow::settings() const
-{
-	if ( !mSettings ) {
-		mSettings = new pSettings( const_cast<pMainWindow*>( this ) );
-	}
-	
-	return mSettings;
-}
-
-pActionsNodeMenuBar* pMainWindow::menuBar() const
-{
-	if ( !mMenuBar ) {
-#if defined( Q_OS_MAC )
-		mMenuBar = new pActionsNodeMenuBar;
-#else
-		mMenuBar = new pActionsNodeMenuBar( const_cast<pMainWindow*>( this ) );
-#endif
-	}
-	
-	return mMenuBar;
-}
-
 pQueuedMessageToolBar* pMainWindow::queuedMessageToolBar() const
 {
 	if ( !mQueuedMessageToolBar ) {
@@ -134,6 +112,60 @@ pDockToolBarManager* pMainWindow::dockToolBarManager() const
 pDockToolBar* pMainWindow::dockToolBar( Qt::ToolBarArea area ) const
 {
 	return dockToolBarManager()->dockToolBar( area );
+}
+
+pSettings* pMainWindow::settings() const
+{
+	if ( !mSettings ) {
+		mSettings = new pSettings( const_cast<pMainWindow*>( this ) );
+	}
+	
+	return mSettings;
+}
+
+pActionsNodeMenuBar* pMainWindow::menuBar() const
+{
+	if ( !mMenuBar ) {
+#if defined( Q_OS_MAC )
+		mMenuBar = new pActionsNodeMenuBar;
+#else
+		mMenuBar = new pActionsNodeMenuBar( const_cast<pMainWindow*>( this ) );
+#endif
+	}
+	
+	return mMenuBar;
+}
+
+void pMainWindow::addDockManagerWidget( Qt::ToolBarArea area, QDockWidget* dockWidget, Qt::Orientation orientation )
+{
+	dockToolBar( area )->addDockWidget( dockWidget );
+	
+	if ( orientation == Qt::Horizontal ) {
+		dockWidget->setFeatures( dockWidget->features() ^ QDockWidget::DockWidgetVerticalTitleBar );
+	}
+	else  {
+		dockWidget->setFeatures( dockWidget->features() | QDockWidget::DockWidgetVerticalTitleBar );
+	}
+}
+
+void pMainWindow::setDockManagerAreaExclusive( Qt::ToolBarArea area, bool exclusive )
+{
+	dockToolBar( area )->setExclusive( exclusive );
+}
+
+void pMainWindow::setDockManagerMode( pDockToolBarManager::Mode mode )
+{
+	dockToolBarManager()->setMode( mode );
+}
+
+void pMainWindow::appendMessage( const QString& message, int milliSeconds )
+{
+	queuedMessageToolBar()->appendMessage( message, milliSeconds );
+}
+
+void pMainWindow::appendMessage( const pQueuedMessage& message )
+{
+	queuedMessageToolBar()->appendMessage( message );
 }
 
 void pMainWindow::saveState()

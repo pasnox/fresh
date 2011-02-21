@@ -87,7 +87,7 @@ public:
 	*/
 	pDockToolBarManager::Mode mode() const;
 	/*!
-		Set the current presentation mode.
+		Set the current presentation mode to \a mode.
 	*/
 	void setMode( pDockToolBarManager::Mode mode );
 	/*!

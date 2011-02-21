@@ -33,13 +33,14 @@
 */
 
 #include "FreshExport.h"
+#include "pQueuedMessageWidget.h"
+#include "pDockToolBarManager.h"
 
 #include <QMainWindow>
 
 class pSettings;
 class pActionsNodeMenuBar;
 class pQueuedMessageToolBar;
-class pDockToolBarManager;
 class pDockToolBar;
 
 /*!
@@ -50,9 +51,8 @@ class pDockToolBar;
 	This extended mainwindow contains some usefull features :
 	- a pMenuBar as menu bar.
 	- a pDockToolBarManager for tabbed management of docked widgets.
+	- a pQueuedMessageToolBar for present the user passive errors / messages.
 	- a pSettings object for storing/reading your settings.
-	
-	There is also a confortable dockToolBar() member to deal with the pDockToolBar.
 */
 class FRESH_EXPORT pMainWindow : public QMainWindow
 {
@@ -80,17 +80,29 @@ public:
 	*/
 	virtual pActionsNodeMenuBar* menuBar() const;
 	/*!
-		Return the queued message toolbar object.
+		Add \a dockWidget in \a area having \a orientation.
 	*/
-	virtual pQueuedMessageToolBar* queuedMessageToolBar() const;
+	void addDockManagerWidget( Qt::ToolBarArea area, QDockWidget* dockWidget, Qt::Orientation orientation = Qt::Horizontal );
 	/*!
-		Return the dock widget toolbar manager object.
+		Seth the dock toolbar in \a area to be exclusive according to \a exclusive.
 	*/
-	virtual pDockToolBarManager* dockToolBarManager() const;
+	void setDockManagerAreaExclusive( Qt::ToolBarArea area, bool exclusive );
 	/*!
-		Return the dock toolbar manager for \a area.
+		Set the dock manager presentation mode to \a mode.
 	*/
-	pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
+	void setDockManagerMode( pDockToolBarManager::Mode mode );
+	/*!
+		Append a queued \a message in the message toolbar with an auto close defined to \a milliSeconds.
+		
+		\sa pQueuedMessageToolBar::appendMessage( const QString&, int ).
+	*/
+	void appendMessage( const QString& message, int milliSeconds = -1 );
+	/*!
+		Append a queued \a message in the message toolbar.
+		
+		\sa pQueuedMessageToolBar::appendMessage( const pQueuedMessage& ).
+	*/
+	void appendMessage( const pQueuedMessage& message );
 
 protected:
 	bool mShown;
@@ -106,6 +118,18 @@ protected:
 		Reimplemented.
 	*/
 	virtual void closeEvent( QCloseEvent* event );
+	/*!
+		Return the queued message toolbar object.
+	*/
+	virtual pQueuedMessageToolBar* queuedMessageToolBar() const;
+	/*!
+		Return the dock widget toolbar manager object.
+	*/
+	virtual pDockToolBarManager* dockToolBarManager() const;
+	/*!
+		Return the dock toolbar manager for \a area.
+	*/
+	pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
 
 public slots:
 	/*!

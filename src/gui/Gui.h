@@ -25,7 +25,7 @@
 ****************************************************************************/
 /*!
     \file Gui.h
-    \brief This file only defined the description of the \ref Gui module.
+    \brief This file only defined the description of the \ref FreshGui module.
     \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
