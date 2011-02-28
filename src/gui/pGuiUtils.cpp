@@ -47,9 +47,14 @@ QPixmap pGuiUtils::filledPixmap( const QColor& color, const QSize& size )
 	return pixmap;
 }
 
+QString pGuiUtils::cacheKey( const QString& key, const QSize& size )
+{
+	return QString( "%1-%2-%3" ).arg( key ).arg( size.width() ).arg( size.height() );;
+}
+
 QPixmap pGuiUtils::scaledPixmap( const QString& filePath, const QSize& size )
 {
-	const QString key = QString( "%1-%2-%3" ).arg( filePath ).arg( size.width() ).arg( size.height() );
+	const QString key = cacheKey( filePath, size );
 	QPixmap pixmap;
 
 	if ( !QPixmapCache::find( key, pixmap ) ) {
@@ -73,7 +78,7 @@ QPixmap pGuiUtils::scaledPixmap( const QString& filePath, const QSize& size )
 
 QPixmap pGuiUtils::scaledPixmap( const QPixmap& _pixmap, const QString& _key, const QSize& size )
 {
-	const QString key = QString( "%1-%2-%3" ).arg( _key ).arg( size.width() ).arg( size.height() );
+	const QString key = cacheKey( _key, size );
 	QPixmap pixmap;
 
 	if ( !QPixmapCache::find( key, pixmap ) ) {
@@ -82,13 +87,16 @@ QPixmap pGuiUtils::scaledPixmap( const QPixmap& _pixmap, const QString& _key, co
 			if ( size != QSize() ) {
 				pixmap = _pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 			}
+			else {
+				pixmap = _pixmap;
+			}
 
 			if ( !QPixmapCache::insert( key, pixmap ) ) {
 				qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << key;
 			}
 		}
 		else {
-			qWarning() << Q_FUNC_INFO << "Pixmap not exists" << key;
+			qWarning() << Q_FUNC_INFO << "Pixmap invalid" << key;
 		}
 	}
 
