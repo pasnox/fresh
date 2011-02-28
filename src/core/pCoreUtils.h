@@ -35,6 +35,7 @@
 #include "FreshExport.h"
 
 #include <QDir>
+#include <QUrl>
 
 class QLocale;
 
