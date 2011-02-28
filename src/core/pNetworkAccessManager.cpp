@@ -57,7 +57,7 @@ pNetworkAccessManager::~pNetworkAccessManager()
 
 QNetworkReply* pNetworkAccessManager::createRequest( Operation op, const QNetworkRequest& req, QIODevice* outgoingData )
 {
-	if ( mPendingRequests.contains( req.url() ) || mRetryRequests[ req.url() ] >= 5 ) {
+	if ( mPendingRequests.contains( req.url() ) || mRetryRequests[ req.url() ] >= mMaxRetryPerUrl ) {
 		QNetworkReply* reply = QNetworkAccessManager::createRequest( QNetworkAccessManager::HeadOperation, QNetworkRequest(), outgoingData );
 		return reply;
 	}
