@@ -4,17 +4,17 @@
 <context>
     <name>pActionsNodeModel</name>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="127"/>
+        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="152"/>
         <source>Action</source>
         <translation>Acció</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="129"/>
+        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="154"/>
         <source>Shortcut</source>
         <translation>Accessos</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="131"/>
+        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="156"/>
         <source>Default Shortcut</source>
         <translation>Accessos per defecte</translation>
     </message>
@@ -42,17 +42,17 @@
         <translation>Netejar accés</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="26"/>
+        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="51"/>
         <source>Text filter...</source>
         <translation>Text del filtre ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="106"/>
+        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="131"/>
         <source>Can&apos;t set shortcut, it&apos;s maybe already used by another action.</source>
         <translation>No es pot configurar l&apos;accés, potser ja s&apos;està utilitzant en una altra acció.</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="130"/>
+        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="155"/>
         <source>Can&apos;t restore default shortcut, it&apos;s maybe already used by another action.</source>
         <translation>No es pot restaurar accés, potser ja s&apos;està utilitzant en una altra acció.</translation>
     </message>
@@ -60,7 +60,7 @@
 <context>
     <name>pColorButton</name>
     <message>
-        <location filename="../src/gui/pColorButton.cpp" line="49"/>
+        <location filename="../src/gui/pColorButton.cpp" line="74"/>
         <source>Choose a color</source>
         <translation>Tria un color</translation>
     </message>
@@ -68,59 +68,59 @@
 <context>
     <name>pConsole</name>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="17"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="42"/>
         <source>Clear the screen</source>
         <translation>Netejar pantalla</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="18"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="43"/>
         <source>An alias for clear command</source>
         <translation>Àlies per la comanda neteja</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="19"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="44"/>
         <source>Reset the console</source>
         <translation>Restablir consola</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="20"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="45"/>
         <source>List available commands</source>
         <translation>Llista de comandas disponibles</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="35"/>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="43"/>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="51"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="60"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="68"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="76"/>
         <source>%1 take no parameter</source>
         <translation>%1 no té paràmetre</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="64"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="89"/>
         <source>No help available</source>
         <translation>No hi ha ajuda</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="67"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="92"/>
         <source>Available commands:</source>
         <translation>Comandaments disponibles:</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="68"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="93"/>
         <source>For specific command details, type: &lt;command&gt; -h/--help</source>
         <translation>Per obtenir informació específica d&apos;una comanda, escriviu: &lt;comanda&gt; -h/--help</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="268"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="293"/>
         <source>Press &apos;Tab&apos; key to list or auto complete commands, type help for commands help.</source>
         <translation>Premeu la tecla &apos;Tab&apos; per obtenir una llista dels comandaments o ompliment automàtic, escriviu &apos;help&apos; per als comandaments.</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsole.cpp" line="571"/>
+        <location filename="../src/gui/consolemanager/pConsole.cpp" line="596"/>
         <source>%1: Command not found.</source>
         <translation>%1: La comanda no es troba.</translation>
     </message>
     <message>
-        <location filename="../src/gui/consolemanager/pConsoleCommand.cpp" line="58"/>
+        <location filename="../src/gui/consolemanager/pConsoleCommand.cpp" line="83"/>
         <source>No description available</source>
         <translation>No disposem de descripció</translation>
     </message>
@@ -128,7 +128,7 @@
 <context>
     <name>pDockToolBar</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBar.cpp" line="46"/>
+        <location filename="../src/gui/dockmanager/pDockToolBar.cpp" line="71"/>
         <source>%1 exclusive</source>
         <translation>%1 en exclusiva</translation>
     </message>
@@ -136,42 +136,42 @@
 <context>
     <name>pDockToolBarManager</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="159"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="184"/>
         <source>Top toolbar</source>
         <translation>Barra d&apos;eines a la part superior</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="161"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="186"/>
         <source>Top toolbar visible</source>
         <translation>Barra superior visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="167"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="192"/>
         <source>Bottom toolbar</source>
         <translation>Barra d&apos;eines a la part inferior</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="169"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="194"/>
         <source>Bottom toolbar visible</source>
         <translation>Barra inferior visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="175"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="200"/>
         <source>Left toolbar</source>
         <translation>Barra d&apos;eines a l&apos;esquerra</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="177"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="202"/>
         <source>Left toolbar visible</source>
         <translation>Barra esquerra visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="183"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="208"/>
         <source>Right toolbar</source>
         <translation>Barra d&apos;eines a la dreta</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="185"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="210"/>
         <source>Right toolbar visible</source>
         <translation>Barra dreta visible</translation>
     </message>
@@ -179,7 +179,7 @@
 <context>
     <name>pDockToolBarManagerModernWidget</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManagerModernWidget.cpp" line="17"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManagerModernWidget.cpp" line="42"/>
         <source>Modern dock toolbar manager</source>
         <translation>Barra d&apos;eines moderna</translation>
     </message>
@@ -266,27 +266,27 @@
         <translation>Restaurar variables per defecte</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="116"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="141"/>
         <source>Add a new variable...</source>
         <translation>Afegir nova variable ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="130"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="155"/>
         <source>The variable &apos;%1&apos; already exists, update it?</source>
         <translation>La variable &apos;%1&apos; ja existeix, vol actualitzar?</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="153"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="178"/>
         <source>Edit a variable...</source>
         <translation>Edita variable ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="168"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="193"/>
         <source>Are you sure you want to remove the variable &apos;%1&apos; ?</source>
         <translation>Esteu segur que voleu eliminar la variable &apos;%1&apos; ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="181"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.cpp" line="206"/>
         <source>Are you sure you want to clear all variables?</source>
         <translation>¿Segur que vols netejar totes les variables?</translation>
     </message>
@@ -294,37 +294,37 @@
 <context>
     <name>pEnvironmentVariablesModel</name>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="43"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="68"/>
         <source>Name: %1</source>
         <translation>Nom: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="44"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="69"/>
         <source>Value: %1</source>
         <translation>Valor: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="45"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="70"/>
         <source>Enabled: %1</source>
         <translation>Habilitat: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="45"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="70"/>
         <source>true</source>
         <translation>Veritable</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="45"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="70"/>
         <source>false</source>
         <translation>Fals</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="96"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="121"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="98"/>
+        <location filename="../src/gui/environmentvariablemanager/pEnvironmentVariablesModel.cpp" line="123"/>
         <source>Value</source>
         <translation>Valor</translation>
     </message>
@@ -332,12 +332,12 @@
 <context>
     <name>pFileDialog</name>
     <message>
-        <location filename="../src/gui/pFileDialog.cpp" line="76"/>
+        <location filename="../src/gui/pFileDialog.cpp" line="101"/>
         <source>Codec:</source>
         <translation>Codec:</translation>
     </message>
     <message>
-        <location filename="../src/gui/pFileDialog.cpp" line="87"/>
+        <location filename="../src/gui/pFileDialog.cpp" line="112"/>
         <source>Open in read only.</source>
         <translation>Obert en mode només lectura.</translation>
     </message>
@@ -358,7 +358,7 @@
 <context>
     <name>pKeySequenceEdit</name>
     <message>
-        <location filename="../src/gui/pKeySequenceEdit.cpp" line="16"/>
+        <location filename="../src/gui/pKeySequenceEdit.cpp" line="37"/>
         <source>Press a keybord shortcut...</source>
         <translation>Premeu un accés ...</translation>
     </message>
@@ -366,12 +366,12 @@
 <context>
     <name>pLineEdit</name>
     <message>
-        <location filename="../src/gui/pLineEdit.cpp" line="125"/>
+        <location filename="../src/gui/pLineEdit.cpp" line="150"/>
         <source>Search Options</source>
         <translation>Opcions de cerca</translation>
     </message>
     <message>
-        <location filename="../src/gui/pLineEdit.cpp" line="133"/>
+        <location filename="../src/gui/pLineEdit.cpp" line="158"/>
         <source>Clear</source>
         <translation>Netejar</translation>
     </message>
@@ -379,8 +379,8 @@
 <context>
     <name>pPathListEditor</name>
     <message>
-        <location filename="../src/gui/listeditor/pPathListEditor.cpp" line="37"/>
-        <location filename="../src/gui/listeditor/pPathListEditor.cpp" line="47"/>
+        <location filename="../src/gui/listeditor/pPathListEditor.cpp" line="52"/>
+        <location filename="../src/gui/listeditor/pPathListEditor.cpp" line="62"/>
         <source>Choose directory</source>
         <translation>Trieu un directori</translation>
     </message>
@@ -388,12 +388,12 @@
 <context>
     <name>pPaypalButton</name>
     <message>
-        <location filename="../src/gui/pPaypalButton.cpp" line="187"/>
+        <location filename="../src/gui/pPaypalButton.cpp" line="208"/>
         <source>Donation</source>
         <translation>Donar</translation>
     </message>
     <message>
-        <location filename="../src/gui/pPaypalButton.cpp" line="188"/>
+        <location filename="../src/gui/pPaypalButton.cpp" line="209"/>
         <source>Make a donation via Paypal</source>
         <translation>Fer una donació mitjançant Paypal</translation>
     </message>
@@ -401,37 +401,37 @@
 <context>
     <name>pStringListEditor</name>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="58"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="83"/>
         <source>Add Item</source>
         <translation>Afegeix element</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="59"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="84"/>
         <source>Edit Item</source>
         <translation>Edita element</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="60"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="85"/>
         <source>Remove Item</source>
         <translation>Eliminar element</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="61"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="86"/>
         <source>Clear Items</source>
         <translation>Netejar elements</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="62"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="87"/>
         <source>Move Item Up</source>
         <translation>Mou element cap amunt</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="63"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="88"/>
         <source>Move Item Down</source>
         <translation>Mou element cap avall</translation>
     </message>
     <message>
-        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="217"/>
+        <location filename="../src/gui/listeditor/pStringListEditor.cpp" line="242"/>
         <source>New item %1</source>
         <translation>Nou element %1</translation>
     </message>
@@ -439,7 +439,7 @@
 <context>
     <name>pStylesActionGroup</name>
     <message>
-        <location filename="../src/gui/stylemanager/pStylesActionGroup.cpp" line="108"/>
+        <location filename="../src/gui/stylemanager/pStylesActionGroup.cpp" line="138"/>
         <source>(System)</source>
         <translation>(Sistema)</translation>
     </message>
@@ -469,7 +469,7 @@ Pots fer clic als botons de localitzar / recarregar idiomes.</translation>
         <translation>Premi aquí per recarregar els idiomes</translation>
     </message>
     <message>
-        <location filename="../src/gui/pTranslationDialog.cpp" line="66"/>
+        <location filename="../src/gui/pTranslationDialog.cpp" line="104"/>
         <source>Choose folders containing your application translations</source>
         <translation>Seleccioneu les carpetes que contenen els idiomes de l&apos;aplicació</translation>
     </message>
@@ -477,12 +477,12 @@ Pots fer clic als botons de localitzar / recarregar idiomes.</translation>
 <context>
     <name>pUpdateChecker</name>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateChecker.cpp" line="110"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateChecker.cpp" line="135"/>
         <source>Update</source>
         <translation>Actualitzar</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateChecker.cpp" line="111"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateChecker.cpp" line="136"/>
         <source>Check for update</source>
         <translation>Buscant actualitzacions</translation>
     </message>
@@ -503,32 +503,32 @@ Generally lastest updates fix bugs and/or add new options/plugins/things.</sourc
 En general, les actualitzacions corregeixen errors i / o la afegeixen noves característiques, plugins, etc.</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="98"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="123"/>
         <source>Updated on %1 by %2</source>
         <translation>Actualitzat el %1 de %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="184"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="209"/>
         <source>You are using version &lt;b&gt;%1&lt;/b&gt; (%2).</source>
         <translation>Està utilitzant la versió &lt;b&gt;%1&lt;/b&gt; (%2).</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="185"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="210"/>
         <source>Download</source>
         <translation>Descarregant</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="197"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="222"/>
         <source>An error occur: %1</source>
         <translation>S&apos;ha produït un error: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="229"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="254"/>
         <source>You are running the last available version.</source>
         <translation>Està utilitzant la darrera versió disponible.</translation>
     </message>
     <message>
-        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="240"/>
+        <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="265"/>
         <source>An error occur while parsing xml, retry later.</source>
         <translation>S&apos;ha produït un error en analitzar xml, intenti més tard.</translation>
     </message>
