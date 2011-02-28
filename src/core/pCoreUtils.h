@@ -35,9 +35,9 @@
 #include "FreshExport.h"
 
 #include <QDir>
-#include <QUrl>
 
 class QLocale;
+class QUrl;
 
 /*!
 	\ingroup FreshCore
@@ -79,19 +79,21 @@ namespace pCoreUtils
 		Title case is the meaning of having each first letter of a word upercase and others lower case.
 	*/
 	FRESH_EXPORT QString toTitleCase( const QString& string );
-	/*!
-		Return a hash for \a locale.
-		\sa qHash, QHash.
-	*/
-	FRESH_EXPORT uint qHash( const QLocale& locale );
-#if QT_VERSION < 0x040700
-	/*!
-		Return a hash for \a url, in fact it return qHash( url.toString() ).
-		\sa qHash, QHash.
-		\note This member is defined only if QT_VERSION < 4.7.0 because it exists for Qt version >= 4.7.0.
-	*/
-	FRESH_EXPORT uint qHash( const QUrl& url );
-#endif
 };
+
+/*!
+	Return a hash for \a locale.
+	\sa qHash, QHash.
+*/
+FRESH_EXPORT uint qHash( const QLocale& locale );
+
+#if QT_VERSION < 0x040700
+/*!
+	Return a hash for \a url, in fact it return qHash( url.toString() ).
+	\sa qHash, QHash.
+	\note This member is defined only if QT_VERSION < 4.7.0 because it exists for Qt version >= 4.7.0.
+*/
+FRESH_EXPORT uint qHash( const QUrl& url );
+#endif
 
 #endif // PCOREUTILS_H

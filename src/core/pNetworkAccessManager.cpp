@@ -24,7 +24,7 @@
 **
 ****************************************************************************/
 #include "pNetworkAccessManager.h"
-#include "pCoreUtils.h" // for qHash of QUrl
+#include "pCoreUtils.h" // for qHash( const QUrl& )
 
 #include <QCoreApplication>
 #include <QNetworkDiskCache>
@@ -34,8 +34,6 @@
 #if defined( QT_GUI_LIB )
 #include <QPixmapCache>
 #endif
-
-using namespace pCoreUtils; // for qHash of QUrl
 
 Q_GLOBAL_STATIC( pNetworkAccessManager, networkAccessManager );
 

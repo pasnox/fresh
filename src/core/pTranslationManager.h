@@ -33,10 +33,7 @@
 */
 
 #include "FreshExport.h"
-
-// for qHash( const QLocale& locale )
-#include "pCoreUtils.h" 
-using namespace pCoreUtils;
+#include "pCoreUtils.h" // for qHash( const QLocale& )
 
 #include <QObject>
 #include <QStringList>

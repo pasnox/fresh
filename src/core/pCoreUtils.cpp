@@ -124,13 +124,13 @@ QString pCoreUtils::toTitleCase( const QString& _string )
 	return string;
 }
 
-uint pCoreUtils::qHash( const QLocale& locale )
+uint qHash( const QLocale& locale )
 {
 	return qHash( locale.name() );
 }
 
 #if QT_VERSION < 0x040700
-uint pCoreUtils::qHash( const QUrl& url )
+uint qHash( const QUrl& url )
 {
 	return qHash( url.toString() );
 }
