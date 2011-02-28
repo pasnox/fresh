@@ -32,7 +32,23 @@ if(CMAKE_COMPILER_IS_GNUCC)
     set_target_properties(${PROJECT}
                           PROPERTIES COMPILE_FLAGS -fPIC)
 endif(CMAKE_COMPILER_IS_GNUCC)
-include_directories ("include" "src" "src/core" "src/gui")
+
+
+include_directories (   "include"
+                        "src"
+                        "src/core"
+                        "src/gui"  
+                        "src/gui/dockwidget"
+                        "src/gui/dockmanager"
+                        "src/gui/environmentvariablemanager"
+                        "src/gui/listeditor"
+                        "src/gui/models"
+                        "src/gui/stylemanager"
+                        "src/gui/queuedmessage"
+                        "src/gui/gc-updatechecker"
+                        "src/gui/consolemanager"
+                        "src/gui/actionmanager" )
+
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} ) # for .ui
 target_link_libraries (${PROJECT} ${QT_LIBRARIES})
 

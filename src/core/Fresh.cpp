@@ -32,6 +32,7 @@ namespace Fresh
 	{
 		InitResources()
 		{
+			printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ init!!!\n");
 			Q_INIT_RESOURCE( fresh );
 		}
 	};
