@@ -17,7 +17,7 @@ isEmpty( translations_pass ) {
 			win32:isEqual( Q_OS, windows ):command	= "for /D /R \"$$q_path\" %i in (*) do @echo \"%i\""
 
 			_q_folders	= $$system( $$command )
-			win32:_q_folders *= $$1
+			_q_folders *= $$1
 			
 			_q_folders = $$replace( _q_folders, "\\\\", "/" )
 
