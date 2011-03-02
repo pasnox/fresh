@@ -3,10 +3,15 @@ namespace pGuiUtils
 %TypeHeaderCode
 #include <gui/pGuiUtils.h>
 %End
+
 	/*!
 		Create a QPixmap of \a size filled with \a color.
 	*/
 	QPixmap filledPixmap( const QColor& color, const QSize& size );
+	/*!
+		Create a cache key using \a key and \a size used for caching scaled pixmap in QPixmapCache.
+	*/
+	QString cacheKey( const QString& key, const QSize& size = QSize() );
 	/*!
 		Create a QPixmap from \a filePath. If \a size is not null, the pixmap is scaled to \a size.
 		The resulted pixmap is cached in QPixmapCache so a call with same parameters will be very quick.
@@ -19,4 +24,5 @@ namespace pGuiUtils
 		\note The scale is done using Qt::KeepAspectRatio and Qt::SmoothTransformation.
 	*/
 	QPixmap scaledPixmap( const QPixmap& pixmap, const QString& key, const QSize& size = QSize() );
+
 };

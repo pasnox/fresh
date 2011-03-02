@@ -76,6 +76,7 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	lMessage->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred ) );
 	lMessage->setWordWrap( true );
 	lMessage->setOpenExternalLinks( true );
+	lMessage->setTextInteractionFlags( Qt::TextBrowserInteraction );
 	
 	// button
 	dbbButtons = new QDialogButtonBox( this );
