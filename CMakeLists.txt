@@ -4,6 +4,9 @@ set (PROJECT fresh)
  
 project (${PROJECT}) 
 
+option(shared "Build shared library" y)
+set(BUILD_SHARED_LIBS ${shared})
+
 # Find Qt4
 find_package (Qt4 REQUIRED)
 set(QT_USE_QTXML true)
@@ -32,13 +35,28 @@ if(CMAKE_COMPILER_IS_GNUCC)
     set_target_properties(${PROJECT}
                           PROPERTIES COMPILE_FLAGS -fPIC)
 endif(CMAKE_COMPILER_IS_GNUCC)
-include_directories ("include" "src" "src/core" "src/gui")
+
+include_directories (   "include"
+                        "src"
+                        "src/core"
+                        "src/gui"  
+                        "src/gui/dockwidget"
+                        "src/gui/dockmanager"
+                        "src/gui/environmentvariablemanager"
+                        "src/gui/listeditor"
+                        "src/gui/models"
+                        "src/gui/stylemanager"
+                        "src/gui/queuedmessage"
+                        "src/gui/gc-updatechecker"
+                        "src/gui/consolemanager"
+                        "src/gui/actionmanager" )
+
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} ) # for .ui
 target_link_libraries (${PROJECT} ${QT_LIBRARIES})
 
 # Install library and include files, only if it is shared
-if (BUILD_SHARED_LIBS)
-    message("Building SHARED library.  Use \n\tcmake -DBUILD_SHARED_LIBS=0\n for build static.")
+if (shared)
+    message("Building SHARED library.  Use \n\tcmake -Dshared=0\n for build static.")
     #message("Library and headers will be installed to " ${CMAKE_INSTALL_PREFIX})
     #message ("Use \n\tcmake -D CMAKE_INSTALL_PREFIX=/your/install/path\n for set another path")
     
@@ -50,9 +68,14 @@ if (BUILD_SHARED_LIBS)
     install(FILES ${TS_FILES} DESTINATION ${QT_TRANSLATIONS_DIR})
     install(FILES ./FindFresh.cmake DESTINATION ${CMAKE_ROOT}/Modules/)
     
-else (BUILD_SHARED_LIBS)
-    message("Building STATIC library. Use 'cmake -DBUILD_SHARED_LIBS=1' for build shared.")
-endif (BUILD_SHARED_LIBS)
+else (shared)
+    message("Building STATIC library. Use 'cmake -Dshared=1' for build shared.")
+endif (shared)
 
-add_subdirectory(Python
-                 ${CMAKE_CURRENT_BINARY_DIR}/python)
+if (shared)
+    add_subdirectory(Python
+                     ${CMAKE_CURRENT_BINARY_DIR}/python)
+else (shared)
+    message("Python bindings not supported for static library")
+endif(shared)
+
