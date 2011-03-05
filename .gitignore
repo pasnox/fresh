@@ -8,3 +8,4 @@ examples/cpp/examples
 /*.directory
 /Makefile
 /*.fresh
+/object_script.*
