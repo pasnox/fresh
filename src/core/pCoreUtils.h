@@ -40,6 +40,21 @@ class QLocale;
 class QUrl;
 
 /*!
+	Return a hash for \a locale.
+	\sa qHash, QHash.
+*/
+FRESH_EXPORT uint qHash( const QLocale& locale );
+
+#if QT_VERSION < 0x040700
+/*!
+	Return a hash for \a url, in fact it return qHash( url.toString() ).
+	\sa qHash, QHash.
+	\note This member is defined only if QT_VERSION < 4.7.0 because it exists for Qt version >= 4.7.0.
+*/
+FRESH_EXPORT uint qHash( const QUrl& url );
+#endif
+
+/*!
 	\ingroup FreshCore
 	\namespace pCoreUtils
 	\brief A central place for reusable core functions.
@@ -79,21 +94,14 @@ namespace pCoreUtils
 		Title case is the meaning of having each first letter of a word upercase and others lower case.
 	*/
 	FRESH_EXPORT QString toTitleCase( const QString& string );
+	/*!
+		Adapt file size \a nb to a user visible string.
+	*/
+	FRESH_EXPORT QString fileSizeAdaptString( qreal nb );
+	/*!
+		Convert \a bytes to a human reading string.
+	*/
+	FRESH_EXPORT QString fileSizeToString( qint64 bytes );
 };
-
-/*!
-	Return a hash for \a locale.
-	\sa qHash, QHash.
-*/
-FRESH_EXPORT uint qHash( const QLocale& locale );
-
-#if QT_VERSION < 0x040700
-/*!
-	Return a hash for \a url, in fact it return qHash( url.toString() ).
-	\sa qHash, QHash.
-	\note This member is defined only if QT_VERSION < 4.7.0 because it exists for Qt version >= 4.7.0.
-*/
-FRESH_EXPORT uint qHash( const QUrl& url );
-#endif
 
 #endif // PCOREUTILS_H

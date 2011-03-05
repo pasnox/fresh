@@ -31,6 +31,18 @@
 #include <QLocale>
 #include <QDebug>
 
+uint qHash( const QLocale& locale )
+{
+	return qHash( locale.name() );
+}
+
+#if QT_VERSION < 0x040700
+uint qHash( const QUrl& url )
+{
+	return qHash( url.toString() );
+}
+#endif
+
 QString pCoreUtils::findFile( QDir& dir, const QString& fileName, bool recursive )
 {
 	foreach ( const QFileInfo& fi, dir.entryInfoList( QStringList( fileName ) ) ) {
@@ -124,14 +136,38 @@ QString pCoreUtils::toTitleCase( const QString& _string )
 	return string;
 }
 
-uint qHash( const QLocale& locale )
+QString pCoreUtils::fileSizeAdaptString( qreal nb )
 {
-	return qHash( locale.name() );
+	//return nb >= 100 ? QString::number( nb, 'f', 0 ) : QString::number( nb, 'g', 3 );
+	return QString::number( nb, 'f', 2 );
 }
 
-#if QT_VERSION < 0x040700
-uint qHash( const QUrl& url )
+QString pCoreUtils::fileSizeToString( qint64 bytes )
 {
-	return qHash( url.toString() );
+	qreal nb = bytes;
+	
+	if ( nb < 0 ) {
+		return QObject::tr( "N/C" );
+	}
+	else if ( nb < 1024 ) {
+		return QString::number( nb ) +" " +QObject::tr( "B"  );
+	}
+	else if ( ( nb = nb / 1024 ) < 1024 ) {
+		return fileSizeAdaptString( nb ) +" " +QObject::tr( "KB" );
+	}
+	else if ( ( nb = nb / 1024 ) < 1024 ) {
+		return fileSizeAdaptString( nb ) +" " +QObject::tr( "MB" );
+	}
+	else if ( ( nb = nb / 1024 ) < 1024 ) {
+		return fileSizeAdaptString( nb ) +" " +QObject::tr( "GB" );
+	}
+	else if ( ( nb = nb / 1024 ) < 1024 ) {
+		return fileSizeAdaptString( nb ) +" " +QObject::tr( "TB" );
+	}
+	else if ( ( nb = nb / 1024 ) < 1024 ) {
+		return fileSizeAdaptString( nb ) +" " +QObject::tr( "PB" );
+	}
+	else {
+		return QObject::tr( "Too big" );
+	}
 }
-#endif
