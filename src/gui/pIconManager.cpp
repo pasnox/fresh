@@ -67,7 +67,7 @@ QPixmap pIconManager::pixmap( const QString& fileName, const QString& prefix )
 			}
 		}
 		else {
-			qWarning() << Q_FUNC_INFO << "Can't load pixmap" << fn;
+			qWarning() << Q_FUNC_INFO << "Can't load pixmap" << fn << "(" << prefix<< "/" << fileName << ")";
 		}
 	}
 	
