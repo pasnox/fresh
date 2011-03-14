@@ -25,6 +25,7 @@
 ****************************************************************************/
 #include "pCoreUtils.h"
 
+#include <QUrl>
 #include <QMap>
 #include <QHash>
 #include <QTextCodec>
