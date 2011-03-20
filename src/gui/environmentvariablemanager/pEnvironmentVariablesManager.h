@@ -49,6 +49,10 @@ public:
 		Create a manager for handling pEnvironmentVariablesModel::Variables.
 	*/
 	pEnvironmentVariablesManager();
+	/*
+		Destroys the manager.
+	*/
+	virtual ~pEnvironmentVariablesManager();
 	/*!
 		Load the variables states from ini file.
 	*/

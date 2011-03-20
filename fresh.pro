@@ -18,10 +18,14 @@ CONFIG	*= qt warn_on thread x11 windows $$FRESH_BUILD_MODE $$FRESH_BUILD_TYPE
 QT	*= xml network
 
 # Mac universal build from 10.3 to up to 10.5
-mac:universal {
+macx:universal {
 	QMAKE_MACOSX_DEPLOYMENT_TARGET	= 10.3
 	QMAKE_MAC_SDK	= /Developer/SDKs/MacOSX10.4u.sdk
 	CONFIG	*= x86 ppc
+}
+
+macx {
+	LIBS	*= "-framework CoreFoundation"
 }
 
 setTarget( fresh )
@@ -167,6 +171,11 @@ SOURCES	*=  \
 	src/gui/pPaypalButton.cpp \
 	src/core/pNetworkAccessManager.cpp \
 	src/core/Fresh.cpp
+
+macx {
+	HEADERS	*= src/core/pMacHelpers.h
+	OBJECTIVE_SOURCES	*= src/core/pMacHelpers.mm
+}
 
 # include installs file
 include( installs.pri )

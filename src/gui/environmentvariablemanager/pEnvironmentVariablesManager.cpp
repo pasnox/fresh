@@ -34,6 +34,10 @@ pEnvironmentVariablesManager::pEnvironmentVariablesManager()
 {
 }
 
+pEnvironmentVariablesManager::~pEnvironmentVariablesManager()
+{
+}
+
 bool pEnvironmentVariablesManager::load()
 {
 	return readVariables( mVariables );
