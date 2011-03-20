@@ -24,6 +24,7 @@
 **
 ****************************************************************************/
 #include "pDockWidgetTitleBar.h"
+#include "pDockWidget.h"
 #include "pToolButton.h"
 #include "pGuiUtils.h"
 
@@ -137,11 +138,25 @@ void pDockWidgetTitleBar::paintEvent( QPaintEvent* event )
 	painter.setTransform( transform );
 	
 	// draw background
-	QStyleOptionToolBar optionTb;
-	initStyleOption( &optionTb );
-	optionTb.rect = rect;
-	
-	style()->drawControl( QStyle::CE_ToolBar, &optionTb, &painter, window() );
+	if ( style()->inherits( "QMacStyle" ) && qobject_cast<pDockWidget*>( mDock ) ) {
+		QStyleOptionDockWidgetV2 optionDw;
+		((pDockWidget*)mDock)->initStyleOption( &optionDw );
+		optionDw.title.clear();
+		optionDw.closable = false;
+		optionDw.floatable = false;
+		optionDw.movable = false;
+		optionDw.rect = rect;
+		
+		style()->drawControl( QStyle::CE_DockWidgetTitle, &optionDw, &painter, mDock );
+	}
+	else {
+		QStyleOptionToolBar optionTb;
+		initStyleOption( &optionTb );
+		optionTb.toolBarArea = Qt::TopToolBarArea;
+		optionTb.rect = rect;
+		
+		style()->drawControl( QStyle::CE_ToolBar, &optionTb, &painter, window() );
+	}
 	
 	// icon / title
 	QStyleOptionButton optionB;

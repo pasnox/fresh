@@ -62,6 +62,10 @@ protected:
 	/*!
 		Reimplemented.
 	*/
+	void changeEvent( QEvent* event );
+	/*!
+		Reimplemented.
+	*/
 	void paintEvent( QPaintEvent* event );
 
 public slots:

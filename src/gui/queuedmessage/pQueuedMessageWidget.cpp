@@ -93,7 +93,11 @@ pQueuedMessageWidget::pQueuedMessageWidget( QWidget* parent )
 	
 	// font
 	QFont font = this->font();
+#if defined( Q_OS_MAC )
+	font.setPointSize( 11 );
+#else
 	font.setPointSize( 9 );
+#endif
 	setFont( font );
 	
 	// connections
@@ -253,7 +257,7 @@ void pQueuedMessageWidget::paintEvent( QPaintEvent* event )
 	QPainter painter( this );
 	painter.setPen( Qt::NoPen );
 	painter.setBrush( currentMessageBackground() );
-	painter.drawRect( rect() );
+	painter.drawRect( contentsRect() );
 }
 
 void pQueuedMessageWidget::buttonClicked( QAbstractButton* button )

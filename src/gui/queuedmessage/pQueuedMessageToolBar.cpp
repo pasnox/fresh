@@ -28,6 +28,7 @@
 #include <QAction>
 #include <QPainter>
 #include <QLayout>
+#include <QEvent>
 #include <QDebug>
 
 pQueuedMessageToolBar::pQueuedMessageToolBar( QWidget* parent )
@@ -42,8 +43,8 @@ pQueuedMessageToolBar::pQueuedMessageToolBar( QWidget* parent )
 	toggleViewAction()->setEnabled( false );
 	toggleViewAction()->setVisible( false );
 	
-	layout()->setMargin( 3 );
 	addWidget( mQueuedWidget );
+	layout()->setMargin( 3 );
 	
 	// connections
 	connect( mQueuedWidget, SIGNAL( shown( const pQueuedMessage& ) ), this, SLOT( messageShown( const pQueuedMessage& ) ) );
@@ -53,6 +54,15 @@ pQueuedMessageToolBar::pQueuedMessageToolBar( QWidget* parent )
 pQueuedMessageWidget* pQueuedMessageToolBar::queuedMessageWidget() const
 {
 	return mQueuedWidget;
+}
+
+void pQueuedMessageToolBar::changeEvent( QEvent* event )
+{
+	if ( event->type() == QEvent::FontChange ) {
+		mQueuedWidget->setFont( font() );
+	}
+	
+	QToolBar::changeEvent( event );
 }
 
 void pQueuedMessageToolBar::paintEvent( QPaintEvent* event )
@@ -66,7 +76,7 @@ void pQueuedMessageToolBar::paintEvent( QPaintEvent* event )
 	QPainter painter( this );
 	painter.setPen( brush.color().darker( 150 ) );
 	painter.setBrush( brush );
-	painter.drawRect( rect().adjusted( 0, 0, -1, -1 ) );
+	painter.drawRect( contentsRect().adjusted( 0, 0, -1, -1 ) );
 }
 
 pQueuedMessage pQueuedMessageToolBar::appendMessage( const QString& message, int milliSeconds )
