@@ -131,8 +131,12 @@ void pDockWidgetTitleBar::paintEvent( QPaintEvent* event )
 	
 	if ( mDock->features() & QDockWidget::DockWidgetVerticalTitleBar ) {
 		rect.setSize( QSize( rect.height(), rect.width() ) );
+		rect = rect.adjusted( 1, 0, 1, 0 );
 		transform.rotate( -90 );
-		transform.translate( -rect.width() +1, 0 );
+		transform.translate( -rect.width(), 0 );
+	}
+	else {
+		rect = rect.adjusted( 0, 1, 0, 0 );
 	}
 	
 	painter.setTransform( transform );
@@ -167,6 +171,8 @@ void pDockWidgetTitleBar::paintEvent( QPaintEvent* event )
 	optionB.icon = icon();
 	
 	style()->drawControl( QStyle::CE_PushButtonLabel, &optionB, &painter, mDock );
+	
+	painter.drawRect( rect.adjusted( 0, 0, -1, -1 ) );
 }
 
 void pDockWidgetTitleBar::updateStyleChange()
