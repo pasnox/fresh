@@ -32,7 +32,7 @@ namespace Fresh
 	{
 		InitResources()
 		{
-			printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ init!!!\n");
+			qWarning( "Fresh Initialized" );
 			Q_INIT_RESOURCE( fresh );
 		}
 	};

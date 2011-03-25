@@ -3,7 +3,7 @@
 ** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
-** FileName  : pMacHelpers.cpp
+** FileName  : pMacHelpers.mm
 ** Date      : 2011-02-20T00:44:21
 ** License   : LGPL v3
 ** Home Page : http://bettercodes.org/projects/fresh

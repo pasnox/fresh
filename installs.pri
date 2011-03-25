@@ -47,8 +47,9 @@
 	
 	# features
 	features.path = $$FRESH_INSTALL_FEATURES
-	features.files = fresh_shared.prf \
-		fresh_static.prf
+	features.output	= fresh.prf
+	isEqual( FRESH_BUILD_TYPE, static ):features.files = fresh_static.prf
+	else:features.files = fresh_shared.prf
 	
 	# translations
 	translations.path	= $$FRESH_INSTALL_TRANSLATIONS

@@ -3,7 +3,7 @@
 ** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
-** FileName  : pMacHelpers.h
+** FileName  : pWinHelpers.h
 ** Date      : 2011-02-20T00:44:21
 ** License   : LGPL v3
 ** Home Page : http://bettercodes.org/projects/fresh
@@ -29,7 +29,8 @@
 /*!
 	\file pWinHelpers.h
 	\brief A central place for windows helpers.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>.
+	\note Gordon Schumacher's macros for TCHAR -> QString conversions and vice versa.
 */
 
 #include <QtGlobal>
@@ -44,20 +45,40 @@
 #ifndef _UNICODE // needed for _tcslen
 #define _UNICODE
 #endif
-#define QStringToTCHAR(x)     (wchar_t*) x.utf16()
-#define PQStringToTCHAR(x)    (wchar_t*) x->utf16()
-#define TCHARToQString(x)     QString::fromUtf16((ushort*)(x))
-#define TCHARToQStringN(x,y)  QString::fromUtf16((ushort*)(x),(y))
+#define QStringToTCHAR( x )      (wchar_t*)x.utf16()
+#define PQStringToTCHAR( x )     (wchar_t*)x->utf16()
+#define TCHARToQString( x )      QString::fromUtf16( (ushort*)( x ) )
+#define TCHARToQStringN( x, y )  QString::fromUtf16( (ushort*)( x ), ( y ) )
 #else /*UNICODE*/
-#define QStringToTCHAR(x)     x.local8Bit().constData()
-#define PQStringToTCHAR(x)    x->local8Bit().constData()
-#define TCHARToQString(x)     QString::fromLocal8Bit((x))
-#define TCHARToQStringN(x,y)  QString::fromLocal8Bit((x),(y))
+#define QStringToTCHAR( x )      x.local8Bit().constData()
+#define PQStringToTCHAR( x )     x->local8Bit().constData()
+#define TCHARToQString( x )      QString::fromLocal8Bit( ( x ) )
+#define TCHARToQStringN( x, y )  QString::fromLocal8Bit( ( x ), ( y ) )
 #endif /*UNICODE*/
 
 // in case of need
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0501
 #endif
+
+/*!
+    \def QStringToTCHAR( x )
+    \brief Convert \a x QString to TCHAR.
+*/
+
+/*!
+    \def PQStringToTCHAR( x )
+    \brief Convert \a x QString pointer to TCHAR.
+*/
+
+/*!
+    \def TCHARToQString( x )
+    \brief Convert \a x TCHAR to QString.
+*/
+
+/*!
+    \def TCHARToQStringN( x, y )
+    \brief Convert \a x TCHAR with a length of \a y to QString.
+*/
 
 #endif // PWINHELPERS_H

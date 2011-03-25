@@ -38,12 +38,9 @@
 #include <QPointer>
 #include <QHash>
 
+class Ui_pTranslationDialog;
 class pTranslationManager;
 class QTreeWidgetItem;
-
-namespace Ui {
-	class pTranslationDialog;
-};
 
 /*!
 	\ingroup FreshGui
@@ -91,7 +88,7 @@ public:
 	static QString getLocale( pTranslationManager* translationManager, QWidget* parent = 0 );
 
 protected:
-	Ui::pTranslationDialog* ui;
+	Ui_pTranslationDialog* ui;
 	QPointer<pTranslationManager> mTranslationManager;
 	QString mOriginalLocale;
 	QHash<QString, QTreeWidgetItem*> mRootItems;
