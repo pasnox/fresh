@@ -60,10 +60,6 @@ public:
 	/*!
 		Reimplemented.
 	*/
-	virtual bool event( QEvent* event );
-	/*!
-		Reimplemented.
-	*/
 	virtual QSize minimumSizeHint() const;
 	/*!
 		Reimplemented.
@@ -88,6 +84,10 @@ protected:
 	pToolButton* tbOrientation;
 	pToolButton* tbFloat;
 	pToolButton* tbClose;
+	/*!
+		Reimplemented
+	*/
+	virtual bool event( QEvent* event );
 	/*!
 		Reimplemented.
 	*/

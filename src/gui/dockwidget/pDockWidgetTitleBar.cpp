@@ -101,6 +101,19 @@ QSize pDockWidgetTitleBar::windowIconSize() const
 	return icon().isNull() ? QSize() : QSize( size, size );
 }
 
+bool pDockWidgetTitleBar::event( QEvent* event )
+{
+	switch ( event->type() ) {
+		case QEvent::StyleChange:
+			updateStyleChange();
+			break;
+		default:
+			break;
+	}
+	
+	return QToolBar::event( event );
+}
+
 bool pDockWidgetTitleBar::eventFilter( QObject* object, QEvent* event )
 {
 	pToolButton* button = qobject_cast<pToolButton*>( object );
@@ -126,23 +139,10 @@ void pDockWidgetTitleBar::paintEvent( QPaintEvent* event )
 	Q_UNUSED( event );
 	
 	QRect rect = this->rect();
-	QTransform transform;
 	QPainter painter( this );
 	
-	if ( mDock->features() & QDockWidget::DockWidgetVerticalTitleBar ) {
-		rect.setSize( QSize( rect.height(), rect.width() ) );
-		rect = rect.adjusted( 1, 0, 1, 0 );
-		transform.rotate( -90 );
-		transform.translate( -rect.width(), 0 );
-	}
-	else {
-		rect = rect.adjusted( 0, 1, 0, 0 );
-	}
-	
-	painter.setTransform( transform );
-	
-	// draw background
-	if ( style()->inherits( "QMacStyle" ) && qobject_cast<pDockWidget*>( mDock ) ) {
+	// native background paint for fucking styles
+	if ( ( style()->inherits( "QMacStyle" ) || style()->inherits( "Oxygen::Style" ) ) && qobject_cast<pDockWidget*>( mDock ) ) {
 		QStyleOptionDockWidgetV2 optionDw;
 		((pDockWidget*)mDock)->initStyleOption( &optionDw );
 		optionDw.title.clear();
@@ -153,13 +153,39 @@ void pDockWidgetTitleBar::paintEvent( QPaintEvent* event )
 		
 		style()->drawControl( QStyle::CE_DockWidgetTitle, &optionDw, &painter, mDock );
 	}
+	// custom background
 	else {
-		QStyleOptionToolBar optionTb;
-		initStyleOption( &optionTb );
-		optionTb.toolBarArea = Qt::TopToolBarArea;
-		optionTb.rect = rect;
+		QColor topColor = palette().color( QPalette::Highlight ).lighter( 130 );
+		QColor bottomColor = palette().color( QPalette::Highlight ).darker( 130 );
+		QLinearGradient gradient( rect.topLeft(), rect.bottomLeft() );
 		
-		style()->drawControl( QStyle::CE_ToolBar, &optionTb, &painter, window() );
+		topColor.setAlphaF( .7 );
+		bottomColor.setAlphaF( .7 );
+		
+		gradient.setColorAt( 0, topColor );
+		gradient.setColorAt( 1, bottomColor );
+		
+		if ( mDock->features() & QDockWidget::DockWidgetVerticalTitleBar ) {
+			gradient.setFinalStop( rect.topRight() );
+		}
+		
+		painter.setPen( Qt::NoPen );
+		painter.setBrush( gradient );
+		painter.drawRect( rect );
+		
+		painter.setPen( bottomColor.darker( 130 ) );
+		painter.setBrush( Qt::NoBrush );
+		painter.drawRect( rect.adjusted( 0, 0, -1, -1 ) );
+	}
+	
+	if ( mDock->features() & QDockWidget::DockWidgetVerticalTitleBar ) {
+		QTransform transform;
+		
+		rect.setSize( QSize( rect.height(), rect.width() ) );
+		transform.rotate( -90 );
+		transform.translate( -rect.width(), 0 );
+		
+		painter.setTransform( transform );
 	}
 	
 	// icon / title
@@ -171,8 +197,6 @@ void pDockWidgetTitleBar::paintEvent( QPaintEvent* event )
 	optionB.icon = icon();
 	
 	style()->drawControl( QStyle::CE_PushButtonLabel, &optionB, &painter, mDock );
-	
-	painter.drawRect( rect.adjusted( 0, 0, -1, -1 ) );
 }
 
 void pDockWidgetTitleBar::updateStyleChange()
@@ -183,7 +207,6 @@ void pDockWidgetTitleBar::updateStyleChange()
 	
 	QIcon icon;
 	
-	//icon = pGuiUtils::scaledPixmap( orientation() == Qt::Horizontal ? ":/fresh/icons/vertical.png" : ":/fresh/icons/horizontal.png", iconSize() );
 	icon = style()->standardIcon( QStyle::SP_TitleBarShadeButton, 0, widgetForAction( aOrientation ) );
 	aOrientation->setIcon( icon );
 	
@@ -203,15 +226,6 @@ void pDockWidgetTitleBar::updateStyleChange()
 		tbFloat->setDirection( QBoxLayout::BottomToTop );
 		tbClose->setDirection( QBoxLayout::BottomToTop );
 	}
-}
-
-bool pDockWidgetTitleBar::event( QEvent* event )
-{
-	if ( event->type() == QEvent::StyleChange ) {
-		updateStyleChange();
-	}
-	
-	return QToolBar::event( event );
 }
 
 QSize pDockWidgetTitleBar::minimumSizeHint() const
