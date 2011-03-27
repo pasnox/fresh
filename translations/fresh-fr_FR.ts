@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="154"/>
         <source>B</source>
-        <translation>O</translation>
+        <translation>Octet(s)</translation>
     </message>
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="157"/>

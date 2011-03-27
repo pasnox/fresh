@@ -45,11 +45,24 @@
 	
 	fresh_gui_headers.files = $$replace( fresh_gui_headers.files, "\\\\", "/" )
 	
+	# generate fresh.prf
+	# remove old one if needed
+	exists( "fresh.prf" ) {
+		win32:system( "delete fresh.prf" )
+		else:system( "rm fresh.prf" )
+	}
+	# create new one based on build type
+	isEqual( FRESH_BUILD_TYPE, static ) {
+		win32:system( "copy fresh_static.prf fresh.prf" )
+		else:system( "cp fresh_static.prf fresh.prf" )
+	} else {
+		win32:system( "copy fresh_shared.prf fresh.prf" )
+		else:system( "cp fresh_shared.prf fresh.prf" )
+	}
+	
 	# features
 	features.path = $$FRESH_INSTALL_FEATURES
-	features.output	= fresh.prf
-	isEqual( FRESH_BUILD_TYPE, static ):features.files = fresh_static.prf
-	else:features.files = fresh_shared.prf
+	features.files = fresh.prf
 	
 	# translations
 	translations.path	= $$FRESH_INSTALL_TRANSLATIONS

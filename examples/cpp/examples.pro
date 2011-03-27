@@ -36,13 +36,13 @@ setTarget( examples )
 setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )
 isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG	*= console
 
-fresh_static|fresh_shared {
+fresh {
 	!build_pass:message( "Using system fresh library." )
 } else {
 	!build_pass:message( "Using bundled fresh library." )
-	
+
 	FRESH_SOURCES_PATHS	= $$getFolders( $${FRESH_PATH}/src )
-	
+
 	QMAKE_RPATHDIR *= $${FRESH_PATH}/build
 	macx:LIBS	*= -F$${FRESH_PATH}/build
 	LIBS	*= -L$${FRESH_PATH}/build
@@ -51,7 +51,7 @@ fresh_static|fresh_shared {
 		$${FRESH_PATH}/include/FreshGui
 
 	INCLUDEPATH	*= $${FRESH_PATH}/include
-	
+
 	DEPENDPATH	*= $${FRESH_SOURCES_PATHS}
 	INCLUDEPATH	*= $${FRESH_SOURCES_PATHS}
 
