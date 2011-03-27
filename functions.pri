@@ -2,6 +2,8 @@ Q_OS	= $$lower( $$QMAKE_HOST.os )
 Q_OS_BUILD = $$Q_OS
 win32:Q_OS_BUILD = windows
 
+win32:!isEqual( Q_OS, "windows" ):CONFIG	*= win32_crossbuild
+
 # lupdate/lrelease too buggy ( not full qmake interpreter ), so avoid functions def in this case
 isEmpty( translations_pass ) {
 	# return the list of directories recursively from a given path ($$1)
