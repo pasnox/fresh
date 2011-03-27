@@ -2,6 +2,49 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ca_ES" sourcelanguage="en">
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="151"/>
+        <source>N/C</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="154"/>
+        <source>B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="157"/>
+        <source>KB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="160"/>
+        <source>MB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="163"/>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="166"/>
+        <source>TB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="169"/>
+        <source>PB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="172"/>
+        <source>Too big</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>pActionsNodeModel</name>
     <message>
         <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="152"/>

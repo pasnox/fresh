@@ -2,6 +2,49 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="fr_FR">
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="151"/>
+        <source>N/C</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="154"/>
+        <source>B</source>
+        <translation>O</translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="157"/>
+        <source>KB</source>
+        <translation>Ko</translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="160"/>
+        <source>MB</source>
+        <translation>Mo</translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="163"/>
+        <source>GB</source>
+        <translation>Go</translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="166"/>
+        <source>TB</source>
+        <translation>To</translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="169"/>
+        <source>PB</source>
+        <translation>Po</translation>
+    </message>
+    <message>
+        <location filename="../src/core/pCoreUtils.cpp" line="172"/>
+        <source>Too big</source>
+        <translation>Trop grand</translation>
+    </message>
+</context>
+<context>
     <name>pActionsNodeModel</name>
     <message>
         <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="152"/>
@@ -512,7 +555,7 @@ Generally lastest updates fix bugs and/or add new options/plugins/things.</sourc
     <message>
         <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="209"/>
         <source>You are using version &lt;b&gt;%1&lt;/b&gt; (%2).</source>
-        <translation type="unfinished">Vous utilisez la version &lt;b&gt;%1&lt;/b&gt; (%2).</translation>
+        <translation>Vous utilisez la version &lt;b&gt;%1&lt;/b&gt; (%2).</translation>
     </message>
     <message>
         <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="210"/>
