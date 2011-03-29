@@ -545,7 +545,7 @@ You can click on buttons to locate/reload the translations.</source>
         <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.ui" line="68"/>
         <source>When an update is detected, you can directly download it (or update it with your package manager).
 Generally lastest updates fix bugs and/or add new options/plugins/things.</source>
-        <translation>Lorsque une mise à jour est détectée, vous pouvez la télécharger directement (ou la mettre à jour via votre gestionnaire de paquets). Généralement les derniéres mises à jour corrigent des bogues et/ou ajoutent de nouvelles options/greffons/choses.</translation>
+        <translation>Lorsque une mise à jour est détectée, vous pouvez la télécharger directement (ou la mettre à jour via votre gestionnaire de paquets). Généralement les dernières mises à jour corrigent des bogues et/ou ajoutent de nouvelles options/greffons/choses.</translation>
     </message>
     <message>
         <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="123"/>
@@ -570,7 +570,7 @@ Generally lastest updates fix bugs and/or add new options/plugins/things.</sourc
     <message>
         <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="254"/>
         <source>You are running the last available version.</source>
-        <translation>Vous utilisez la derniére version disponible.</translation>
+        <translation>Vous utilisez la dernière version disponible.</translation>
     </message>
     <message>
         <location filename="../src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp" line="265"/>
