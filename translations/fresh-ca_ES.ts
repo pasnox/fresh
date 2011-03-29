@@ -6,42 +6,42 @@
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="151"/>
         <source>N/C</source>
-        <translation type="unfinished"></translation>
+        <translation>N/C</translation>
     </message>
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="154"/>
         <source>B</source>
-        <translation type="unfinished"></translation>
+        <translation>B</translation>
     </message>
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="157"/>
         <source>KB</source>
-        <translation type="unfinished"></translation>
+        <translation>KB</translation>
     </message>
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="160"/>
         <source>MB</source>
-        <translation type="unfinished"></translation>
+        <translation>MB</translation>
     </message>
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="163"/>
         <source>GB</source>
-        <translation type="unfinished"></translation>
+        <translation>GB</translation>
     </message>
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="166"/>
         <source>TB</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="169"/>
         <source>PB</source>
-        <translation type="unfinished"></translation>
+        <translation>PB</translation>
     </message>
     <message>
         <location filename="../src/core/pCoreUtils.cpp" line="172"/>
         <source>Too big</source>
-        <translation type="unfinished"></translation>
+        <translation>Massa gran</translation>
     </message>
 </context>
 <context>
