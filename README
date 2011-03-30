@@ -1,9 +1,10 @@
 Fresh is a library extending the Qt library by adding new classes/widgets.
-Library has Python bindings
+Library has Python bindings.
 It's developped by Filipe AZEVEDO (Nox P@sNox, pasnox@gmail.com)
 Python bindings created by Andrei KOPATS (hlamer, hlamer@tut.by)
 
 Licensed in LGPL v3.
+Home Page: http://bettercodes.org/projects/fresh
 
 
 Building library and examples WITHOUT Python support
@@ -14,7 +15,7 @@ Dependencies:
 
 Building:
 	qmake ./fresh.pro && make
-Building an example:
+Building an example (after having built the library):
 	cd examples/cpp
 	qmake
 	make

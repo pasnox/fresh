@@ -421,6 +421,7 @@ void pDockToolBarManager::restoreState( pDockToolBar* dockToolBar )
 		
 		if ( dockToolBar ) {
 			const QStringList docksName = settings->value( QString( "MainWindow/Docks/%1/Widgets" ).arg( area ) ).toStringList();
+			const QSet<QString> verticalDocksName = settings->value( QString( "MainWindow/Docks/%1/VerticalWidgets" ).arg( area ) ).toStringList().toSet();
 			const bool isExclusive = dockToolBar->isExclusive();
 			
 			dockToolBar->setExclusive( false );
@@ -430,6 +431,17 @@ void pDockToolBarManager::restoreState( pDockToolBar* dockToolBar )
 				
 				if ( dockWidget ) {
 					dockToolBar->addDockWidget( dockWidget );
+					
+					QDockWidget::DockWidgetFeatures features = dockWidget->features();
+					
+					if ( verticalDocksName.contains( dockName ) ) {
+						features |= QDockWidget::DockWidgetVerticalTitleBar;
+					}
+					else {
+						features &= ~QDockWidget::DockWidgetVerticalTitleBar;
+					}
+					
+					dockWidget->setFeatures( features );
 				}
 			}
 			
@@ -455,15 +467,21 @@ void pDockToolBarManager::saveState( pDockToolBar* dockToolBar )
 	
 	foreach ( pDockToolBar* dockToolBar, dockToolBars ) {
 		QStringList docksName;
+		QStringList verticalDocksName;
 		
 		foreach ( QDockWidget* dockWidget, dockToolBar->dockWidgets( pDockToolBar::InsertedOrder ) ) {
 			docksName << dockWidget->objectName();
+			
+			if ( dockWidget->features() & QDockWidget::DockWidgetVerticalTitleBar ) {
+				verticalDocksName << dockWidget->objectName();
+			}
 		}
 		
 		// write datas
 		const int area = mDockToolBars.key( dockToolBar );
 		settings->setValue( QString( "MainWindow/Docks/%1/Exclusive" ).arg( area ), dockToolBar->isExclusive() );
 		settings->setValue( QString( "MainWindow/Docks/%1/Widgets" ).arg( area ), docksName );
+		settings->setValue( QString( "MainWindow/Docks/%1/VerticalWidgets" ).arg( area ), verticalDocksName );
 	}
 	
 	settings->setValue( "MainWindow/Docks/Mode", mMode );
