@@ -41,6 +41,7 @@ fresh {
 } else {
 	!build_pass:message( "Using bundled fresh library." )
 
+	FRESH_TARGET	= $$targetForMode( "fresh", $${EXAMPLES_BUILD_MODE} )
 	FRESH_SOURCES_PATHS	= $$getFolders( $${FRESH_PATH}/src )
 
 	QMAKE_RPATHDIR *= $${FRESH_PATH}/build
@@ -54,15 +55,17 @@ fresh {
 
 	DEPENDPATH	*= $${FRESH_SOURCES_PATHS}
 	INCLUDEPATH	*= $${FRESH_SOURCES_PATHS}
+	
+	PRE_TARGETDEPS	*= $${FRESH_PATH}
 
 	QT	*= xml network
-	qtAddLibrary( fresh )
+	LIBS	*= $${FRESH_PATH}/build/lib$${FRESH_TARGET}.a
 }
 
 exists( ../../../QtSolutions/modeltest-0.2/modeltest.pri ) {
 	message( "Using QtSolution ModelTest." )
 	DEFINES	*= QT_MODELTEST
-	include (../../../QtSolutions/modeltest-0.2/modeltest.pri )
+	include(../../../QtSolutions/modeltest-0.2/modeltest.pri )
 }
 
 RESOURCES	*= ../../resources/fresh.qrc
