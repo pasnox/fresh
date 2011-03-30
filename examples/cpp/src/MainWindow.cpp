@@ -262,6 +262,9 @@ void MainWindow::createMenuBar()
 		menuBar()->addAction( QString( "mView/mDockToolBarManager/%1" ).arg( action->objectName() ), action );
 	}
 	
+	// change default icon size for modern toolbar
+	dockToolBarManager()->modernToolBar()->setIconSize( QSize( 32, 32 ) );
+	
 	// connections
 	connect( aQuit, SIGNAL( triggered() ), this, SLOT( close() ) );
 	connect( agStyles, SIGNAL( styleSelected( const QString& ) ), this, SLOT( setCurrentStyle( const QString& ) ) );
