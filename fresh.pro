@@ -101,7 +101,6 @@ HEADERS	*=  \
 	src/gui/actionmanager/pActionsNodeShortcutEditor.h \
 	src/gui/dockmanager/pDockToolBar.h \
 	src/gui/dockmanager/pDockToolBarManager.h \
-	src/gui/dockmanager/pDockToolBarManagerModernWidget.h \
 	src/gui/listeditor/pFileListEditor.h \
 	src/gui/listeditor/pPathListEditor.h \
 	src/gui/listeditor/pStringListEditor.h \
@@ -146,7 +145,6 @@ SOURCES	*=  \
 	src/gui/actionmanager/pActionsNodeShortcutEditor.cpp \
 	src/gui/dockmanager/pDockToolBar.cpp \
 	src/gui/dockmanager/pDockToolBarManager.cpp \
-	src/gui/dockmanager/pDockToolBarManagerModernWidget.cpp \
 	src/gui/listeditor/pFileListEditor.cpp \
 	src/gui/listeditor/pPathListEditor.cpp \
 	src/gui/listeditor/pStringListEditor.cpp \
