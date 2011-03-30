@@ -37,11 +37,11 @@
 #include <QHash>
 #include <QBoxLayout>
 #include <QDockWidget>
+#include <QToolBar>
 
 class pMainWindow;
 class pDockToolBar;
 class pSettings;
-class pDockToolBarManagerModernWidget;
 
 /*!
 	\ingroup FreshGui
@@ -115,6 +115,10 @@ public:
 	*/
 	pDockToolBar* dockToolBar( QDockWidget* dockWidget ) const;
 	/*!
+		Return pointer to modern dock tool bar widget
+	 */
+	QToolBar* modernToolBar() const;
+	/*!
 		Conversion helper.
 	*/
 	static Qt::ToolBarArea dockWidgetAreaToToolBarArea( Qt::DockWidgetArea area );
@@ -131,8 +135,9 @@ protected:
 	pMainWindow* mMainWindow;
 	QHash<Qt::ToolBarArea, pDockToolBar*> mDockToolBars;
 	pDockToolBarManager::Mode mMode;
-	QWeakPointer<pDockToolBarManagerModernWidget> mModernWidget;
+	QWeakPointer<QToolBar> mModernWidget;
 	bool mIsRestoring;
+	QTimer* mModernToolBarUpdate;
 	/*!
 		Initialize the toolbar for each area.
 	*/
@@ -165,6 +170,7 @@ public slots:
 	virtual void saveState( pDockToolBar* dockToolBar = 0 );
 
 protected slots:
+	void updateModernToolBarActions();
 	void dockWidget_allowedAreasChanged( Qt::DockWidgetAreas allowedAreas );
 	void dockWidget_dockLocationChanged( Qt::DockWidgetArea area );
 	void dockWidget_featuresChanged( QDockWidget::DockWidgetFeatures features );

@@ -57,7 +57,6 @@ class FRESH_EXPORT pDockToolBar : public QToolBar
 {
 	Q_OBJECT
 	friend class pDockToolBarManager;
-	friend class pDockToolBarManagerModernWidget;
 
 public:
 	/*! This enumeration represents the possible order to use. */

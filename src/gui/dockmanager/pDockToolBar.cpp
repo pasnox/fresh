@@ -33,6 +33,7 @@
 #include <QDockWidget>
 #include <QAction>
 #include <QKeyEvent>
+#include <QToolBar>
 
 pDockToolBar::pDockToolBar( pDockToolBarManager* manager, Qt::Orientation orientation )
 	: QToolBar( manager->mainWindow() )
@@ -117,6 +118,7 @@ void pDockToolBar::addDockWidget( QDockWidget* dockWidget, const QString& title,
 		mManager->mainWindow()->addDockWidget( dwAreaCurrent, dockWidget );
 	}
 
+	mManager->modernToolBar()->addAction( dockWidget->toggleViewAction() );
 	internal_checkButtonExclusivity( dockWidget );
 	internal_checkToolBarVisibility();
 	
@@ -130,6 +132,7 @@ void pDockToolBar::removeDockWidget( QDockWidget* dockWidget )
 	}
 	
 	dockWidget->removeEventFilter( this );
+	mManager->modernToolBar()->removeAction( dockWidget->toggleViewAction() );
 	delete mDockWidgets.take( dockWidget );
 	internal_checkToolBarVisibility();
 }

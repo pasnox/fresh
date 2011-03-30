@@ -24,7 +24,6 @@
 **
 ****************************************************************************/
 #include "pDockToolBarManager.h"
-#include "pDockToolBarManagerModernWidget.h"
 #include "pMainWindow.h"
 #include "pDockToolBar.h"
 #include "pSettings.h"
@@ -32,7 +31,10 @@
 #include <QDockWidget>
 #include <QAbstractButton>
 #include <QAction>
+#include <QActionEvent>
 #include <QChildEvent>
+#include <QToolBar>
+#include <QTimer>
 
 pDockToolBarManager::pDockToolBarManager( pMainWindow* window )
 	: QObject( window )
@@ -41,35 +43,81 @@ pDockToolBarManager::pDockToolBarManager( pMainWindow* window )
 	mMode = pDockToolBarManager::Invalid;
 	mMainWindow = window;
 	mIsRestoring = false;
+	mModernToolBarUpdate = new QTimer( this );
+	mModernToolBarUpdate->setSingleShot( true );
+	mModernToolBarUpdate->setInterval( 0 );
+	
+	connect( mModernToolBarUpdate, SIGNAL( timeout() ), this, SLOT( updateModernToolBarActions() ) );
+	
 	initializeToolBars();
+	mModernWidget.data()->installEventFilter( this );
 	mMainWindow->installEventFilter( this );
+}
+
+void pDockToolBarManager::updateModernToolBarActions()
+{
+	const bool wasRestoring = mIsRestoring;
+	mIsRestoring = true;
+	
+	const QList<QDockWidget*> docks = mMainWindow->findChildren<QDockWidget*>();
+	QHash<Qt::DockWidgetArea, QList<QAction*> > hashActions;
+	
+	foreach ( QDockWidget* dock, docks ) {
+		const Qt::DockWidgetArea area = mMainWindow->dockWidgetArea( dock );
+		hashActions[ area ] << dock->toggleViewAction();
+	}
+	
+	QList<QAction*> actions = QList<QAction*>()
+		<< hashActions[ Qt::LeftDockWidgetArea ]
+		<< hashActions[ Qt::TopDockWidgetArea ]
+		<< hashActions[ Qt::RightDockWidgetArea ]
+		<< hashActions[ Qt::BottomDockWidgetArea ];
+	
+	mModernWidget.data()->clear();
+	mModernWidget.data()->addActions( actions );
+	
+	mIsRestoring = wasRestoring;
 }
 
 bool pDockToolBarManager::eventFilter( QObject* object, QEvent* event )
 {
-	switch ( event->type() ) {
-		case QEvent::ChildPolished: {
-			QChildEvent* ce = static_cast<QChildEvent*>( event );
-			QDockWidget* dock = qobject_cast<QDockWidget*>( ce->child() );
-			
-			if ( dock ) {
-				trackDockWidget( dock );
+	if ( object == mModernWidget.data() ) {
+		switch ( event->type() ) {
+			case QEvent::ActionAdded: {
+				if ( !mIsRestoring ) {
+					mModernToolBarUpdate->start();
+				}
+				break;
 			}
-			
-			break;
+			default:
+				break;
 		}
-		case QEvent::ChildRemoved: {
-			QChildEvent* ce = static_cast<QChildEvent*>( event );
-			QDockWidget* dock = qobject_cast<QDockWidget*>( ce->child() );
-			
-			if ( dock ) {
-				untrackDockWidget( dock );
+	}
+	else if ( object == mMainWindow ) {
+		switch ( event->type() ) {
+			case QEvent::ChildPolished: {
+				QChildEvent* ce = static_cast<QChildEvent*>( event );
+				QDockWidget* dock = qobject_cast<QDockWidget*>( ce->child() );
+				
+				if ( dock ) {
+					trackDockWidget( dock );
+				}
+				
+				break;
 			}
-			
-			break;
+			case QEvent::ChildRemoved: {
+				QChildEvent* ce = static_cast<QChildEvent*>( event );
+				QDockWidget* dock = qobject_cast<QDockWidget*>( ce->child() );
+				
+				if ( dock ) {
+					untrackDockWidget( dock );
+				}
+				
+				break;
+			}
+			default:
+				break;
 		}
-		default:
-			break;
 	}
 	
 	return QObject::eventFilter( object, event );
@@ -113,29 +161,32 @@ void pDockToolBarManager::setMode( pDockToolBarManager::Mode mode )
 				mMainWindow->insertToolBarBreak( mDockToolBars[ Qt::TopToolBarArea ] );
 			}
 			
+			foreach ( pDockToolBar* toolBar, mDockToolBars ) {
+				toolBar->internal_updateButtonsState();
+				toolBar->setVisible( toolBar->count() > 0 );
+			}
+			
+			mModernWidget.data()->hide();
+			
 			break;
 		case pDockToolBarManager::Modern: {
-			mModernWidget.data()->setToolBars( mDockToolBars.values() );
+			bool visible = false;
+			
+			foreach ( pDockToolBar* toolBar, mDockToolBars ) {
+				if ( toolBar->count() > 0 ) {
+					visible = true;
+				}
+				
+				toolBar->hide();
+			}
+			
+			mModernWidget.data()->setVisible( visible );
+			
 			break;
 		}
 		default:
 			break;
 	}
-	
-	mModernWidget.data()->setVisible( mMode == pDockToolBarManager::Modern );
-	bool visible = false;
-	
-	foreach ( pDockToolBar* toolBar, mDockToolBars ) {
-		toolBar->internal_updateButtonsState();
-		toolBar->setVisible( false );
-		
-		if ( toolBar->count() > 0 ) {
-			visible = true;
-			toolBar->setVisible( true );
-		}
-	}
-	
-	mModernWidget.data()->setVisible( visible && mMode == pDockToolBarManager::Modern );
 	
 	emit modeChanged( mMode );
 }
@@ -158,6 +209,11 @@ QList<pDockToolBar*> pDockToolBarManager::dockToolBars() const
 pDockToolBar* pDockToolBarManager::dockToolBar( Qt::ToolBarArea area ) const
 {
 	return mDockToolBars.value( area );
+}
+
+QToolBar* pDockToolBarManager::modernToolBar() const
+{
+	return mModernWidget.data();
 }
 
 pDockToolBar* pDockToolBarManager::dockToolBar( Qt::DockWidgetArea area ) const
@@ -211,7 +267,11 @@ void pDockToolBarManager::initializeToolBars()
 	mDockToolBars[ Qt::RightToolBarArea ]->toggleExclusiveAction()->setObjectName( "pDockToolBarRightExclusiveAction" );
 	
 	// modern widget manager
-	mModernWidget = new pDockToolBarManagerModernWidget( mMainWindow );
+	mModernWidget = new QToolBar( mMainWindow );
+	mModernWidget.data()->setObjectName( "pDockToolBarManagerModernWidget" );
+	mModernWidget.data()->setWindowTitle( tr( "Modern dock toolbar manager" ) );
+	mModernWidget.data()->toggleViewAction()->setEnabled( false );
+	mModernWidget.data()->toggleViewAction()->setVisible( false );
 	mMainWindow->addToolBar( Qt::LeftToolBarArea, mModernWidget.data() );
 }
 
@@ -249,8 +309,6 @@ void pDockToolBarManager::setToolBarVisible( pDockToolBar* tb, bool visible )
 				mModernWidget.data()->setVisible( true );
 			}
 		}
-		
-		tb->setVisible( true );
 	}
 	else {
 		tb->setVisible( false );
