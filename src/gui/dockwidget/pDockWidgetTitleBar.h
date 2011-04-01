@@ -54,7 +54,7 @@ class FRESH_EXPORT pDockWidgetTitleBar : public QToolBar
 
 public:
 	/*!
-		Create a 
+		Create an instance of the title bar handing parent has \a parent.
 	*/
 	pDockWidgetTitleBar( QDockWidget* parent = 0 );
 	/*!
@@ -75,6 +75,23 @@ public:
 		If \a index is -1 then it's append at end.
 	*/
 	void addSeparator( int index = -1 );
+	/*!
+		Set the rendering to be native or custom according to \a native.
+	*/
+	void setNativeRendering( bool native );
+	/*!
+		Return true if native rendering is done else false.
+	*/
+	bool nativeRendering() const;
+	
+	/*!
+		Set the default rendering to be native or custom according to \a native.
+	*/
+	static void setDefaultNativeRendering( bool native );
+	/*!
+		Return true if default native rendering is done else false.
+	*/
+	static bool defaultNativeRendering();
 
 protected:
 	QDockWidget* mDock;
@@ -84,6 +101,8 @@ protected:
 	pToolButton* tbOrientation;
 	pToolButton* tbFloat;
 	pToolButton* tbClose;
+	bool mUseNativePaint;
+	static bool mUseNativePaintDefault;
 	/*!
 		Reimplemented
 	*/

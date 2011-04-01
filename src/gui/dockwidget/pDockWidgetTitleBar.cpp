@@ -34,11 +34,14 @@
 #include <QEvent>
 #include <QPainter>
 
+bool pDockWidgetTitleBar::mUseNativePaintDefault = true;
+
 pDockWidgetTitleBar::pDockWidgetTitleBar( QDockWidget* parent )
 	: QToolBar( parent )
 {
 	Q_ASSERT( parent );
 	mDock = parent;
+	mUseNativePaint = mUseNativePaintDefault;
 	
 	// a fake spacer widget
 	QWidget* spacer = new QWidget( this );
@@ -141,8 +144,8 @@ void pDockWidgetTitleBar::paintEvent( QPaintEvent* event )
 	QRect rect = this->rect();
 	QPainter painter( this );
 	
-	// native background paint for fucking styles
-	if ( ( style()->inherits( "QMacStyle" ) || style()->inherits( "Oxygen::Style" ) ) && qobject_cast<pDockWidget*>( mDock ) ) {
+	// native background paint for not common style / native paint
+	if ( ( mUseNativePaint || style()->inherits( "QMacStyle" ) || style()->inherits( "Oxygen::Style" ) ) && qobject_cast<pDockWidget*>( mDock ) ) {
 		QStyleOptionDockWidgetV2 optionDw;
 		((pDockWidget*)mDock)->initStyleOption( &optionDw );
 		optionDw.title.clear();
@@ -277,6 +280,27 @@ void pDockWidgetTitleBar::addSeparator( int index )
 	else {
 		QToolBar::addSeparator();
 	}
+}
+
+void pDockWidgetTitleBar::setNativeRendering( bool native )
+{
+	mUseNativePaint = native;
+	update();
+}
+
+bool pDockWidgetTitleBar::nativeRendering() const
+{
+	return mUseNativePaint;
+}
+
+void pDockWidgetTitleBar::setDefaultNativeRendering( bool native )
+{
+	mUseNativePaintDefault = native;
+}
+
+bool pDockWidgetTitleBar::defaultNativeRendering()
+{
+	return mUseNativePaintDefault;
 }
 
 void pDockWidgetTitleBar::aOrientation_triggered()
