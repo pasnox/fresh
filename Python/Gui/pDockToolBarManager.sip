@@ -40,6 +40,7 @@ public:
 	pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
 	pDockToolBar* dockToolBar( Qt::DockWidgetArea area ) const;
 	pDockToolBar* dockToolBar( QDockWidget* dockWidget ) const;
+	QToolBar* modernToolBar() const;
 
 	static Qt::ToolBarArea dockWidgetAreaToToolBarArea( Qt::DockWidgetArea area );
 	static Qt::DockWidgetArea toolBarAreaToDockWidgetArea( Qt::ToolBarArea area );
