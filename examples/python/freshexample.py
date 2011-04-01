@@ -39,8 +39,6 @@ from PyQt4.fresh import pActionsNode, pActionsNodeModel, \
                         pUpdateChecker, \
                         pVersion
 
-import freshresource
-
 def main():
     """Function, executed on start
     """

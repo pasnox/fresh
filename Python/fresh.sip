@@ -17,7 +17,6 @@
 %Include Gui/pColorButton.sip
 %Include Gui/pConsoleCommand.sip
 %Include Gui/pConsole.sip
-%Include Gui/pDockToolBarManagerModernWidget.sip
 %Include Gui/pDockToolBarManager.sip
 %Include Gui/pDockToolBar.sip
 %Include Gui/pDockWidget.sip
