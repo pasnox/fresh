@@ -168,7 +168,9 @@ void pGuiUtils::restoreGeometry( QWidget* window, const QRect& geometry )
 		window->showMaximized();
 	}
 	else if ( !geometry.isNull() ) {
+#if defined( Q_OS_MAC )
 		window->showMaximized();
+#endif
 		window->resize( geometry.size() );
 		window->move( geometry.topLeft() );
 	}
