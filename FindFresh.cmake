@@ -2,7 +2,7 @@
 # Once done this will define
 #  FRESH_FOUND - System has Fresh
 #  FRESH_INCLUDE_DIR - The Fresh include directory
-#  FRESH_LIBRARY - The libraries needed to use LibXml2
+#  FRESH_LIBRARY - The libraries needed to use Fresh
 #  FRESH_TRANSLATIONS - Fresh translation files
 
 find_package (Qt4)
