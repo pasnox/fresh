@@ -69,10 +69,21 @@ namespace pGuiUtils
 		\note The scale is done using Qt::KeepAspectRatio and Qt::SmoothTransformation.
 	*/
 	FRESH_EXPORT QPixmap scaledPixmap( const QPixmap& pixmap, const QString& key, const QSize& size = QSize() );
-	
-	QMargins frameMargins( QWidget* window );
-	QRect saveGeometry( QWidget* window );
-	void restoreGeometry( QWidget* window, const QRect& geometry );
+	/*!
+		Returns the margins of \a window.
+		\note The margins are the differences between frameGeometry() and geometry().
+	*/
+	FRESH_EXPORT QMargins frameMargins( QWidget* window );
+	/*!
+		Return geometry to save for \a window.
+		\note This implementation is a alternative to QMainWindow::saveGeometry() which is bugguy on Mac OS X and allow non QMainWindow widget to be saved.
+	*/
+	FRESH_EXPORT QRect saveGeometry( QWidget* window );
+	/*!
+		Restore the \a geometry of \a window.
+		\note This implementation is a alternative to QMainWindow::restoreGeometry() which is bugguy on Mac OS X and allow non QMainWindow widget to be restored.
+	*/
+	FRESH_EXPORT void restoreGeometry( QWidget* window, const QRect& geometry );
 };
 
 #endif // PGUIUTILS_H

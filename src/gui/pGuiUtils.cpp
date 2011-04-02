@@ -127,7 +127,13 @@ QMargins pGuiUtils::frameMargins( QWidget* window )
 QRect pGuiUtils::saveGeometry( QWidget* window )
 {
 	Q_ASSERT( window );
-	QRect geometry = QRect( window->pos(), window->size() );
+	const QMargins margins = frameMargins( window );
+	QRect geometry = QRect( window->pos(),
+		window->frameGeometry()
+			.adjusted(
+				margins.left(), margins.top(), -margins.right(), -margins.bottom()
+			).size()
+	);
 	
 	if ( window->isMaximized()
 #if defined( Q_OS_MAC )
@@ -138,25 +144,18 @@ QRect pGuiUtils::saveGeometry( QWidget* window )
 			&& window->pos().y() <= 0
 		)
 #endif
-	)
-	{
+	) {
 		geometry = Q_MAXIMIZED_WINDOW_GEOMETRY;
 	}
-	else
-	{
-#if defined( Q_OS_MAC )
-		QMainWindow* mainWindow = qobject_cast<QMainWindow*>( window );
-		
-		if ( mainWindow && mainWindow->unifiedTitleAndToolBarOnMac() ) {
-			const bool wasVisible = mainWindow->isVisible();
-			mainWindow->setVisible( false );
-			mainWindow->setUnifiedTitleAndToolBarOnMac( false );
-			geometry = QRect( mainWindow->pos(), mainWindow->size() );
-			mainWindow->setUnifiedTitleAndToolBarOnMac( true );
-			mainWindow->setVisible( wasVisible );
-		}
-#endif
-	}
+	
+	/*qWarning() << "Saving"
+		<< window->frameGeometry()
+		<< window->geometry()
+		<< window->pos()
+		<< window->size()
+		<< geometry
+		<< margins
+		;*/
 	
 	return geometry;
 }
@@ -165,31 +164,20 @@ void pGuiUtils::restoreGeometry( QWidget* window, const QRect& geometry )
 {
 	Q_ASSERT( window );
 	
-	if ( geometry == Q_MAXIMIZED_WINDOW_GEOMETRY )
-	{
-#if defined( Q_OS_MAC )
-		window->show();
-#endif
+	if ( geometry == Q_MAXIMIZED_WINDOW_GEOMETRY ) {
 		window->showMaximized();
 	}
-	else if ( !geometry.isNull() )
-	{
-#if defined( Q_OS_MAC )
-		QMainWindow* mainWindow = qobject_cast<QMainWindow*>( window );
-		
-		if ( mainWindow && mainWindow->unifiedTitleAndToolBarOnMac() ) {
-			mainWindow->setUnifiedTitleAndToolBarOnMac( false );
-			mainWindow->show();
-			mainWindow->resize( geometry.size() );
-			mainWindow->setUnifiedTitleAndToolBarOnMac( true );
-			mainWindow->move( geometry.topLeft() );
-		}
-		else {
-#endif
-			window->resize( geometry.size() );
-			window->move( geometry.topLeft() );
-#if defined( Q_OS_MAC )
-		}
-#endif
+	else if ( !geometry.isNull() ) {
+		window->showMaximized();
+		window->resize( geometry.size() );
+		window->move( geometry.topLeft() );
 	}
+	
+	/*qWarning() << "Restoring"
+		<< window->frameGeometry()
+		<< window->geometry()
+		<< window->pos()
+		<< window->size()
+		<< geometry
+		;*/
 }
