@@ -34,7 +34,13 @@
 
 #include "FreshExport.h"
 
-#include <QPixmap>
+#include <QSize>
+
+class QColor;
+class QRect;
+class QPixmap;
+class QMargins;
+class QWidget;
 
 /*!
 	\ingroup FreshGui
@@ -63,6 +69,10 @@ namespace pGuiUtils
 		\note The scale is done using Qt::KeepAspectRatio and Qt::SmoothTransformation.
 	*/
 	FRESH_EXPORT QPixmap scaledPixmap( const QPixmap& pixmap, const QString& key, const QSize& size = QSize() );
+	
+	QMargins frameMargins( QWidget* window );
+	QRect saveGeometry( QWidget* window );
+	void restoreGeometry( QWidget* window, const QRect& geometry );
 };
 
 #endif // PGUIUTILS_H

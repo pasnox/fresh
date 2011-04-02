@@ -26,7 +26,12 @@
 #include "pGuiUtils.h"
 
 #include <QPixmapCache>
+#include <QMainWindow>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QDebug>
+
+#define Q_MAXIMIZED_WINDOW_GEOMETRY QRect( QPoint( -1, -1 ), QSize( -1, -1 ) )
 
 QPixmap pGuiUtils::filledPixmap( const QColor& color, const QSize& size )
 {
@@ -101,4 +106,90 @@ QPixmap pGuiUtils::scaledPixmap( const QPixmap& _pixmap, const QString& _key, co
 	}
 
 	return pixmap;
+}
+
+QMargins pGuiUtils::frameMargins( QWidget* window )
+{
+	Q_ASSERT( window );
+	const QRect fg = window->frameGeometry();
+	const QRect g = window->geometry();
+	QMargins margins;
+	
+	margins.setLeft( g.left() -fg.left() );
+	margins.setTop( g.top() -fg.top() );
+	
+	margins.setRight( fg.right() -g.right() );
+	margins.setBottom( fg.bottom() -g.bottom() );
+	
+	return margins;
+}
+
+QRect pGuiUtils::saveGeometry( QWidget* window )
+{
+	Q_ASSERT( window );
+	QRect geometry = QRect( window->pos(), window->size() );
+	
+	if ( window->isMaximized()
+#if defined( Q_OS_MAC )
+		|| (
+			window == window->window()
+			&& window->frameGeometry().size() == QApplication::desktop()->availableGeometry( window ).size()
+			&& window->pos().x() == 0
+			&& window->pos().y() <= 0
+		)
+#endif
+	)
+	{
+		geometry = Q_MAXIMIZED_WINDOW_GEOMETRY;
+	}
+	else
+	{
+#if defined( Q_OS_MAC )
+		QMainWindow* mainWindow = qobject_cast<QMainWindow*>( window );
+		
+		if ( mainWindow && mainWindow->unifiedTitleAndToolBarOnMac() ) {
+			const bool wasVisible = mainWindow->isVisible();
+			mainWindow->setVisible( false );
+			mainWindow->setUnifiedTitleAndToolBarOnMac( false );
+			geometry = QRect( mainWindow->pos(), mainWindow->size() );
+			mainWindow->setUnifiedTitleAndToolBarOnMac( true );
+			mainWindow->setVisible( wasVisible );
+		}
+#endif
+	}
+	
+	return geometry;
+}
+
+void pGuiUtils::restoreGeometry( QWidget* window, const QRect& geometry )
+{
+	Q_ASSERT( window );
+	
+	if ( geometry == Q_MAXIMIZED_WINDOW_GEOMETRY )
+	{
+#if defined( Q_OS_MAC )
+		window->show();
+#endif
+		window->showMaximized();
+	}
+	else if ( !geometry.isNull() )
+	{
+#if defined( Q_OS_MAC )
+		QMainWindow* mainWindow = qobject_cast<QMainWindow*>( window );
+		
+		if ( mainWindow && mainWindow->unifiedTitleAndToolBarOnMac() ) {
+			mainWindow->setUnifiedTitleAndToolBarOnMac( false );
+			mainWindow->show();
+			mainWindow->resize( geometry.size() );
+			mainWindow->setUnifiedTitleAndToolBarOnMac( true );
+			mainWindow->move( geometry.topLeft() );
+		}
+		else {
+#endif
+			window->resize( geometry.size() );
+			window->move( geometry.topLeft() );
+#if defined( Q_OS_MAC )
+		}
+#endif
+	}
 }
