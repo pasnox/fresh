@@ -99,7 +99,10 @@ QVariant pMacHelpers::toQVariant( CFNumberRef number )
 		case kCFNumberLongType:
 		case kCFNumberLongLongType:
 		case kCFNumberCFIndexType:
-		case kCFNumberNSIntegerType: {
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+		case kCFNumberNSIntegerType:
+#endif
+		{
 			qint64 value = 0;
 			if ( CFNumberGetValue( number, kCFNumberSInt64Type, &value ) ) {
 				return value;
@@ -110,7 +113,10 @@ QVariant pMacHelpers::toQVariant( CFNumberRef number )
 		case kCFNumberFloat64Type:
 		case kCFNumberFloatType:
 		case kCFNumberDoubleType:
-		case kCFNumberCGFloatType: {
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+		case kCFNumberCGFloatType:
+#endif
+		{
 			qreal value = 0;
 			if ( CFNumberGetValue( number, kCFNumberFloat64Type, &value ) ) {
 				return value;

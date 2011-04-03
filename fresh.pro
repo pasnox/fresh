@@ -13,7 +13,7 @@ FRESH_BUILD_PATH	= build
 FRESH_DESTDIR	= build
 
 TEMPLATE	= lib
-CONFIG	-= debug_and_release release debug warn_off warn_on x86 ppc universal
+CONFIG	-= debug_and_release release debug warn_off warn_on x86 ppc
 CONFIG	*= qt warn_on thread x11 windows $$FRESH_BUILD_MODE $$FRESH_BUILD_TYPE
 QT	*= xml network
 
