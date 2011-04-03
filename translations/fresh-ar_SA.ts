@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="ar_SA">
 <context>
     <name>QObject</name>
     <message>
@@ -171,7 +171,7 @@
 <context>
     <name>pDockToolBar</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBar.cpp" line="71"/>
+        <location filename="../src/gui/dockmanager/pDockToolBar.cpp" line="72"/>
         <source>%1 exclusive</source>
         <translation type="unfinished"></translation>
     </message>
@@ -179,50 +179,47 @@
 <context>
     <name>pDockToolBarManager</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="184"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="240"/>
         <source>Top toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="186"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="242"/>
         <source>Top toolbar visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="192"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="248"/>
         <source>Bottom toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="194"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="250"/>
         <source>Bottom toolbar visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="200"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="256"/>
         <source>Left toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="202"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="258"/>
         <source>Left toolbar visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="208"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="264"/>
         <source>Right toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="210"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="266"/>
         <source>Right toolbar visible</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>pDockToolBarManagerModernWidget</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManagerModernWidget.cpp" line="42"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="272"/>
         <source>Modern dock toolbar manager</source>
         <translation type="unfinished"></translation>
     </message>

@@ -171,7 +171,7 @@
 <context>
     <name>pDockToolBar</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBar.cpp" line="71"/>
+        <location filename="../src/gui/dockmanager/pDockToolBar.cpp" line="72"/>
         <source>%1 exclusive</source>
         <translation>%1 en exclusiva</translation>
     </message>
@@ -179,50 +179,47 @@
 <context>
     <name>pDockToolBarManager</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="184"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="240"/>
         <source>Top toolbar</source>
         <translation>Barra de herramientas en la parte superior</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="186"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="242"/>
         <source>Top toolbar visible</source>
         <translation>Barra superior visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="192"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="248"/>
         <source>Bottom toolbar</source>
         <translation>Barra de herramientas en la parte inferior</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="194"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="250"/>
         <source>Bottom toolbar visible</source>
         <translation>Barra inferior visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="200"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="256"/>
         <source>Left toolbar</source>
         <translation>Barra de herramientas a la izquierda</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="202"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="258"/>
         <source>Left toolbar visible</source>
         <translation>Barra izquierda visible</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="208"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="264"/>
         <source>Right toolbar</source>
         <translation>Barra de herramientas a la derecha</translation>
     </message>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="210"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="266"/>
         <source>Right toolbar visible</source>
         <translation>Barra derecha visible</translation>
     </message>
-</context>
-<context>
-    <name>pDockToolBarManagerModernWidget</name>
     <message>
-        <location filename="../src/gui/dockmanager/pDockToolBarManagerModernWidget.cpp" line="42"/>
+        <location filename="../src/gui/dockmanager/pDockToolBarManager.cpp" line="272"/>
         <source>Modern dock toolbar manager</source>
         <translation>Barra de herramientas moderna</translation>
     </message>
