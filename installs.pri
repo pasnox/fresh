@@ -79,4 +79,16 @@
 	target.path	= $$FRESH_INSTALL_LIBS
 
 	INSTALLS	= fresh_core_headers fresh_gui_headers features  translations target
+	
+	# cmake
+	CMAKE_ROOT = $$system( "cmake --system-information 2> /dev/null | grep CMAKE_ROOT | cut -d ' ' -f 2 | sed s/'\"'/''/g" )
+	!isEmpty( CMAKE_ROOT ) {
+		CMAKE_PATH	= $$CMAKE_ROOT/Modules/
+		exists( $$CMAKE_PATH ) {
+			cmake.path	= $$CMAKE_PATH
+			cmake.files	= FindFresh.cmake
+			
+			INSTALLS	*= cmake
+		}
+	}
 }
