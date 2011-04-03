@@ -1,6 +1,6 @@
 # Fresh Install Project File
 
-!build_pass {
+!build_pass:!no_fresh_install {
 	mac:universal {
 		UNIVERSAL_TEXT	= "(universal)"
 	}
