@@ -20,4 +20,5 @@ INCLUDEPATH	*= $$FRESH_INSTALL_HEADERS/FreshCore \
 	$$FRESH_INSTALL_HEADERS/FreshGui
 
 QT	*= xml network
-qtAddLibrary(fresh)
+!macx:qtAddLibrary( fresh )
+macx:LIBS	*= -lfresh
