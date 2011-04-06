@@ -42,6 +42,11 @@ pKeySequenceEdit::pKeySequenceEdit( const QString& contents, QWidget* parent )
 {
 }
 
+QKeySequence pKeySequenceEdit::shortcut() const
+{
+	return QKeySequence::fromString( text() );
+}
+
 void pKeySequenceEdit::keyPressEvent( QKeyEvent* event )
 {	
 	// return if auto repeat

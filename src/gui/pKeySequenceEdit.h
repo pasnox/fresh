@@ -56,6 +56,11 @@ public:
 		The widget text is set to \a content.
 	*/
 	pKeySequenceEdit( const QString& contents, QWidget* parent = 0 );
+	
+	/*!
+		Return the typed shortcut.
+	*/
+	QKeySequence shortcut() const;
 
 protected:
 	mutable bool mFinished;
