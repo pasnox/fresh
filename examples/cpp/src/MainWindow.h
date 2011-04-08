@@ -6,8 +6,8 @@
 
 #include <QtGui>
 
-class pActionsNodeModel;
-class pActionsNodeMenuBar;
+class pActionsModel;
+class pActionsMenuBar;
 class pQueuedMessage;
 class pStylesActionGroup;
 class pConsole;
@@ -31,7 +31,7 @@ protected:
 	QTabWidget* twPages;
 	QPlainTextEdit* pteLog;
 	QTreeView* tvActions;
-	pActionsNodeModel* mActionsModel;
+	pActionsModel* mActionsModel;
 	pConsole* cShell;
 	pStylesActionGroup* agStyles;
 	pEnvironmentVariablesEditor* eveVariables;

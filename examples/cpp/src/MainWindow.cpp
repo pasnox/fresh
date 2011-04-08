@@ -4,9 +4,9 @@
 #include <FreshCore/pVersion>
 #include <FreshCore/pNetworkAccessManager>
 #include <FreshGui/pDockToolBar>
-#include <FreshGui/pActionsNodeModel>
-#include <FreshGui/pActionsNodeShortcutEditor>
-#include <FreshGui/pActionsNodeMenuBar>
+#include <FreshGui/pActionsModel>
+#include <FreshGui/pActionsShortcutEditor>
+#include <FreshGui/pActionsMenuBar>
 #include <FreshGui/pStringListEditor>
 #include <FreshGui/pFileListEditor>
 #include <FreshGui/pPathListEditor>
@@ -208,38 +208,36 @@ void MainWindow::createGui()
 	foreach ( QDockWidget* dockWidget, findChildren<QDockWidget*>() ) {
 		//dockWidget->setAttribute( Qt::WA_DeleteOnClose );
 		QAction* action = dockWidget->toggleViewAction();
-		menuBar()->addAction( QString( "mView/mDockWidgets/%1" ).arg( action->objectName() ), action );
-		pActionsNode node = mActionsModel->actionToNode( action );
-		node.setDefaultShortcut( QKeySequence( QString( "Ctrl+%1" ).arg( QChar( qMax( 32, qrand() % 127 ) ) ) ) );
+		mActionsModel->addAction( QString( "mView/mDockWidgets/%1" ).arg( action->objectName() ), action );
+		mActionsModel->setDefaultShortcut( action, QKeySequence( QString( "Ctrl+%1" ).arg( QChar( qMax( 32, qrand() % 127 ) ) ) ) );
 	}
 }
 
 void MainWindow::createMenuBar()
 {
 	// set menu bar model
-	mActionsModel = new pActionsNodeModel( this );
-	menuBar()->setModel( mActionsModel );
+	mActionsModel = menuBar()->model();
 	
 #if defined( QT_MODELTEST )
 	new ModelTest( mActionsModel, this );
 #endif
 	
 	// create menus and sub menus
-	menuBar()->addMenu( "mFile" ).setText( tr( "&File" ) );
-	menuBar()->addMenu( "mEdit" ).setText( tr( "&Edit" ) );
-	menuBar()->addMenu( "mView" ).setText( tr( "&View" ) );
-	menuBar()->addMenu( "mView/mStyle" ).setText( tr( "&Style" ) );
-	menuBar()->addMenu( "mView/mMode" ).setText( tr( "&Mode" ) );
-	menuBar()->addMenu( "mView/mDockToolBarManager" ).setText( tr( "&Dock ToolBar Manager" ) );
-	menuBar()->addMenu( "mView/mDockWidgets" ).setText( tr( "Dock &Widgets" ) );
+	mActionsModel->addMenu( "mFile", tr( "&File" ) );
+	mActionsModel->addMenu( "mEdit", tr( "&Edit" ) );
+	mActionsModel->addMenu( "mView", tr( "&View" ) );
+	mActionsModel->addMenu( "mView/mStyle", tr( "&Style" ) );
+	mActionsModel->addMenu( "mView/mMode", tr( "&Mode" ) );
+	mActionsModel->addMenu( "mView/mDockToolBarManager", tr( "&Dock ToolBar Manager" ) );
+	mActionsModel->addMenu( "mView/mDockWidgets", tr( "Dock &Widgets" ) );
 	
 	// create actions
-	QAction* aQuit = menuBar()->addAction( "mFile/aQuit", tr( "&Quit" ) );
+	QAction* aQuit = mActionsModel->addAction( "mFile/aQuit", tr( "&Quit" ) );
 	
-	QAction* aClassic = menuBar()->addAction( "mView/mMode/aShowClassic", tr( "Classic" ) );
+	QAction* aClassic = mActionsModel->addAction( "mView/mMode/aShowClassic", tr( "Classic" ) );
 	aClassic->setCheckable( true );
 	
-	QAction* aModern = menuBar()->addAction( "mView/mMode/aShowModern", tr( "Modern" ) );
+	QAction* aModern = mActionsModel->addAction( "mView/mMode/aShowModern", tr( "Modern" ) );
 	aModern->setCheckable( true );
 	
 	// style actions
@@ -256,10 +254,10 @@ void MainWindow::createMenuBar()
 		QAction* action;
 		
 		action = dockToolBar->toggleViewAction();
-		menuBar()->addAction( QString( "mView/mDockToolBarManager/%1" ).arg( action->objectName() ), action );
+		mActionsModel->addAction( QString( "mView/mDockToolBarManager/%1" ).arg( action->objectName() ), action );
 		
 		action = dockToolBar->toggleExclusiveAction();
-		menuBar()->addAction( QString( "mView/mDockToolBarManager/%1" ).arg( action->objectName() ), action );
+		mActionsModel->addAction( QString( "mView/mDockToolBarManager/%1" ).arg( action->objectName() ), action );
 	}
 	
 	// change default icon size for modern toolbar
@@ -284,14 +282,14 @@ void MainWindow::createPlainTextEdit()
 void MainWindow::createActionsTreeView()
 {
 	tvActions = new QTreeView( this );
-	tvActions->setModel( menuBar()->model() );
+	tvActions->setModel( mActionsModel );
 	
-	menuBar()->addMenu( "mEdit/mActions" ).setText( tr( "&Actions" ) );
+	mActionsModel->addMenu( "mEdit/mActions", tr( "&Actions" ) );
 	
-	QAction* aAddAction = menuBar()->addAction( "mEdit/mActions/aAddAction", tr( "&Add new action" ) );
-	QAction* aRemoveAction = menuBar()->addAction( "mEdit/mActions/aRemoveAction", tr( "&Remove selected action" ) );
-	QAction* aEditTextNode = menuBar()->addAction( "mEdit/mActions/aEditTextNode", tr( "&Edit selected node text" ) );
-	QAction* aEditShortcuts = menuBar()->addAction( "mEdit/mActions/aEditShortcuts", tr( "Edit the actions &shortcuts" ) );
+	QAction* aAddAction = mActionsModel->addAction( "mEdit/mActions/aAddAction", tr( "&Add new action" ) );
+	QAction* aRemoveAction = mActionsModel->addAction( "mEdit/mActions/aRemoveAction", tr( "&Remove selected action" ) );
+	QAction* aEditTextNode = mActionsModel->addAction( "mEdit/mActions/aEditTextNode", tr( "&Edit selected node text" ) );
+	QAction* aEditShortcuts = mActionsModel->addAction( "mEdit/mActions/aEditShortcuts", tr( "Edit the actions &shortcuts" ) );
 	
 	connect( aAddAction, SIGNAL( triggered() ), this, SLOT( aAddAction_triggered() ) );
 	connect( aRemoveAction, SIGNAL( triggered() ), this, SLOT( aRemoveAction_triggered() ) );
@@ -446,8 +444,8 @@ void MainWindow::createUpdateChecker()
 	ucMkS->setVersionString( "1.6.0.0" );
 	ucMkS->setVersionDiscoveryPattern( ".*mks_([0-9\\.]+).*" );
 	
-	menuBar()->addMenu( "mHelp" ).setText( tr( "&Help" ) );
-	menuBar()->addAction( "mHelp/aUpdateChecker", ucMkS->menuAction() );
+	mActionsModel->addMenu( "mHelp", tr( "&Help" ) );
+	mActionsModel->addAction( "mHelp/aUpdateChecker", ucMkS->menuAction() );
 }
 
 void MainWindow::aAddAction_triggered()
@@ -456,13 +454,13 @@ void MainWindow::aAddAction_triggered()
 	QString path;
 	
 	if ( index.isValid() ) {
-		const pActionsNode node = mActionsModel->indexToNode( index );
+		QAction* action = mActionsModel->action( index );
 		
-		if ( node.type() == pActionsNode::Action ) {
-			path = node.path().section( '/', 0, -2 );
+		if ( !action->menu() ) {
+			path = mActionsModel->path( action ).section( '/', 0, -2 );
 		}
 		else {
-			path = node.path();
+			path = mActionsModel->path( action );
 		}
 	}
 	
@@ -476,11 +474,11 @@ void MainWindow::aAddAction_triggered()
 		return;
 	}
 	
-	QAction* action = new QAction( this );
-	action->setText( path.section( '/', -1, -1 ) );
+	QAction* a = new QAction( this );
+	a->setText( path.section( '/', -1, -1 ) );
 	
-	if ( !mActionsModel->addAction( path, action ) ) {
-		delete action;
+	if ( !mActionsModel->addAction( path, a ) ) {
+		delete a;
 		QMessageBox::information( this, QString::null, tr( "Can't add action to '%1'" ).arg( path ) );
 	}
 }
@@ -490,10 +488,13 @@ void MainWindow::aRemoveAction_triggered()
 	const QModelIndex index = tvActions->selectionModel()->selectedIndexes().value( 0 );
 	
 	if ( index.isValid() ) {
-		const pActionsNode node = mActionsModel->indexToNode( index );
+		QAction* action = mActionsModel->action( index );
 		
-		if ( !mActionsModel->removeAction( node.path() ) ) {
-			QMessageBox::information( this, QString::null, tr( "Can't remove action '%1'" ).arg( node.path() ) );
+		qWarning() << "** PARENT" << action << (action ? action->text() : QString() );
+		qWarning() << mActionsModel->path( action ) << mActionsModel->path( action ).section( '/', 0, -2 ) << mActionsModel->action( mActionsModel->path( action ).section( '/', 0, -2 ) );
+		
+		if ( !mActionsModel->removeAction( action ) ) {
+			QMessageBox::information( this, QString::null, tr( "Can't remove action '%1'" ).arg( mActionsModel->path( action ) ) );
 		}
 	}
 }
@@ -503,18 +504,18 @@ void MainWindow::aEditTextNode_triggered()
 	const QModelIndex index = tvActions->selectionModel()->selectedIndexes().value( 0 );
 	
 	if ( index.isValid() ) {
-		pActionsNode node = mActionsModel->indexToNode( index );
-		const QString text = QInputDialog::getText( this, QString::null, tr( "Enter the new node text:" ), QLineEdit::Normal, node.text() );
+		QAction* action = mActionsModel->action( index );
+		const QString text = QInputDialog::getText( this, QString::null, tr( "Enter the new node text:" ), QLineEdit::Normal, action->text() );
 		
 		if ( !text.isEmpty() ) {
-			node.setText( text );
+			action->setText( text );
 		}
 	}
 }
 
 void MainWindow::aEditShortcuts_triggered()
 {
-	pActionsNodeShortcutEditor dlg( mActionsModel, this );
+	pActionsShortcutEditor dlg( mActionsModel, this );
 	dlg.exec();
 }
 
@@ -522,10 +523,10 @@ void MainWindow::dockToolBarManagerModeChanged( pDockToolBarManager::Mode mode )
 {
 	switch ( mode ) {
 		case pDockToolBarManager::Classic:
-			menuBar()->action( "mView/mMode/aShowClassic" )->trigger();
+			mActionsModel->action( "mView/mMode/aShowClassic" )->trigger();
 			break;
 		case pDockToolBarManager::Modern:
-			menuBar()->action( "mView/mMode/aShowModern" )->trigger();
+			mActionsModel->action( "mView/mMode/aShowModern" )->trigger();
 			break;
 		default:
 			break;

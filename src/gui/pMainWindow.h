@@ -39,7 +39,7 @@
 #include <QMainWindow>
 
 class pSettings;
-class pActionsNodeMenuBar;
+class pActionsMenuBar;
 class pQueuedMessageToolBar;
 class pDockToolBar;
 
@@ -78,7 +78,7 @@ public:
 	/*!
 		Return the menu bar object.
 	*/
-	virtual pActionsNodeMenuBar* menuBar() const;
+	virtual pActionsMenuBar* menuBar() const;
 	/*!
 		Add \a dockWidget in \a area having \a orientation.
 	*/
@@ -107,7 +107,7 @@ public:
 protected:
 	bool mShown;
 	mutable pSettings* mSettings;
-	mutable pActionsNodeMenuBar* mMenuBar;
+	mutable pActionsMenuBar* mMenuBar;
 	mutable pQueuedMessageToolBar* mQueuedMessageToolBar;
 	mutable pDockToolBarManager* mDockToolBarManager;
 	/*!

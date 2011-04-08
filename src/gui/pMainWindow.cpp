@@ -25,10 +25,12 @@
 ****************************************************************************/
 #include "pMainWindow.h"
 #include "pSettings.h"
-#include "actionmanager/pActionsNodeMenuBar.h"
+#include "actionmanager/pActionsMenuBar.h"
 #include "queuedmessage/pQueuedMessageToolBar.h"
 #include "dockmanager/pDockToolBarManager.h"
 #include "dockmanager/pDockToolBar.h"
+
+#include <QMenu>
 
 pMainWindow::pMainWindow( QWidget* parent, Qt::WindowFlags windowFlags )
 	: QMainWindow( parent, windowFlags )
@@ -123,13 +125,13 @@ pSettings* pMainWindow::settings() const
 	return mSettings;
 }
 
-pActionsNodeMenuBar* pMainWindow::menuBar() const
+pActionsMenuBar* pMainWindow::menuBar() const
 {
 	if ( !mMenuBar ) {
 #if defined( Q_OS_MAC )
-		mMenuBar = new pActionsNodeMenuBar;
+		mMenuBar = new pActionsMenuBar;
 #else
-		mMenuBar = new pActionsNodeMenuBar( const_cast<pMainWindow*>( this ) );
+		mMenuBar = new pActionsMenuBar( const_cast<pMainWindow*>( this ) );
 #endif
 	}
 	
@@ -143,7 +145,7 @@ void pMainWindow::addDockManagerWidget( Qt::ToolBarArea area, QDockWidget* dockW
 	if ( orientation == Qt::Horizontal ) {
 		dockWidget->setFeatures( dockWidget->features() ^ QDockWidget::DockWidgetVerticalTitleBar );
 	}
-	else  {
+	else {
 		dockWidget->setFeatures( dockWidget->features() | QDockWidget::DockWidgetVerticalTitleBar );
 	}
 }

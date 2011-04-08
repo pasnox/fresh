@@ -24,7 +24,8 @@
 **
 ****************************************************************************/
 #include "pStylesActionGroup.h"
-#include "actionmanager/pActionsNodeMenuBar.h"
+#include "actionmanager/pActionsMenuBar.h"
+#include "actionmanager/pActionsModel.h"
 
 #include <QStyleFactory>
 #include <QStyle>
@@ -72,10 +73,10 @@ QString pStylesActionGroup::applicationStyle() const
 	return QApplication::style()->objectName();
 }
 
-void pStylesActionGroup::installInMenuBar( pActionsNodeMenuBar* menuBar, const QString& path )
+void pStylesActionGroup::installInMenuBar( pActionsMenuBar* menuBar, const QString& path )
 {
 	foreach ( QAction* action, mActions ) {
-		menuBar->addAction( QString( "%1/%2" ).arg( path ).arg( action->objectName() ), action );
+		menuBar->model()->addAction( QString( "%1/%2" ).arg( path ).arg( action->objectName() ), action );
 	}
 }
 

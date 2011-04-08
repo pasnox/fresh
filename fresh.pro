@@ -75,7 +75,7 @@ TRANSLATIONS	*= translations/fresh-ru_RU.ts \
 	translations/fresh-sv_SE.ts
 
 FORMS	*=  \
-	src/gui/actionmanager/pActionsNodeShortcutEditor.ui \
+	src/gui/actionmanager/pActionsShortcutEditor.ui \
 	src/gui/pTranslationDialog.ui \
 	src/gui/environmentvariablemanager/pEnvironmentVariableEditor.ui \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.ui \
@@ -95,10 +95,9 @@ HEADERS	*=  \
 	src/gui/pLineEdit.h \
 	src/gui/pMainWindow.h \
 	src/gui/pToolButton.h \
-	src/gui/actionmanager/pActionsNode.h \
-	src/gui/actionmanager/pActionsNodeMenuBar.h \
-	src/gui/actionmanager/pActionsNodeModel.h \
-	src/gui/actionmanager/pActionsNodeShortcutEditor.h \
+	src/gui/actionmanager/pActionsMenuBar.h \
+	src/gui/actionmanager/pActionsModel.h \
+	src/gui/actionmanager/pActionsShortcutEditor.h \
 	src/gui/dockmanager/pDockToolBar.h \
 	src/gui/dockmanager/pDockToolBarManager.h \
 	src/gui/listeditor/pFileListEditor.h \
@@ -139,10 +138,9 @@ SOURCES	*=  \
 	src/gui/pLineEdit.cpp \
 	src/gui/pMainWindow.cpp \
 	src/gui/pToolButton.cpp \
-	src/gui/actionmanager/pActionsNode.cpp \
-	src/gui/actionmanager/pActionsNodeMenuBar.cpp \
-	src/gui/actionmanager/pActionsNodeModel.cpp \
-	src/gui/actionmanager/pActionsNodeShortcutEditor.cpp \
+	src/gui/actionmanager/pActionsMenuBar.cpp \
+	src/gui/actionmanager/pActionsModel.cpp \
+	src/gui/actionmanager/pActionsShortcutEditor.cpp \
 	src/gui/dockmanager/pDockToolBar.cpp \
 	src/gui/dockmanager/pDockToolBarManager.cpp \
 	src/gui/listeditor/pFileListEditor.cpp \

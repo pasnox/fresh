@@ -37,7 +37,7 @@
 #include <QActionGroup>
 #include <QMap>
 
-class pActionsNodeMenuBar;
+class pActionsMenuBar;
 
 /*!
 	\ingroup FreshGui
@@ -91,7 +91,7 @@ public:
 	/*!
 		Helper function for adding styles actions in \a menuBar at \a path.
 	*/
-	void installInMenuBar( pActionsNodeMenuBar* menuBar, const QString& path );
+	void installInMenuBar( pActionsMenuBar* menuBar, const QString& path );
 	/*!
 		Helper function for adding styles actions in \a menu.
 	*/
