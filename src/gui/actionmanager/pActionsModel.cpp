@@ -201,7 +201,7 @@ QString pActionsModel::path( QAction* action ) const
 
 QAction* pActionsModel::action( const QString& path ) const
 {
-	return mActions.value( fixedPath( path ) );
+	return mActions.value( cleanPath( path ) );
 }
 
 void pActionsModel::clear()
@@ -229,7 +229,7 @@ bool pActionsModel::addAction( const QString& _path, QAction* action )
 		return false;
 	}
 	
-	const QString path = fixedPath( _path );
+	const QString path = cleanPath( _path );
 	const QString subPath = path.section( '/', 0, -2 );
 	QAction* parentAction = createCompletePathNode( subPath );
 	
@@ -356,6 +356,23 @@ bool pActionsModel::setShortcut( const QString& path, const QKeySequence& shortc
 	return setShortcut( action( path ), shortcut, error );
 }
 
+QString pActionsModel::cleanPath( const QString& path )
+{
+	QString data = QDir::cleanPath( path )
+		.replace( '\\', '/' )
+		.remove( ' ' );
+	
+	while ( data.startsWith( '/' ) ) {
+		data.remove( 0, 1 );
+	}
+	
+	while ( data.endsWith( '/' ) ) {
+		data.chop( 1 );
+	}
+	
+	return data;
+}
+
 bool pActionsModel::isValid( const QModelIndex& index ) const
 {
 	if ( !index.isValid() || index.row() < 0 || index.column() < 0 || index.column() >= mColumnCount ) {
@@ -389,6 +406,9 @@ void pActionsModel::insertAction( const QString& path, QAction* action, QAction*
 	action->setParent( p );
 	if ( parent ) {
 		parent->menu()->addAction( action );
+	}
+	if ( action->text().isEmpty() ) {
+		action->setText( path.section( '/', -1, -1 ) );
 	}
 	mChildren[ parent ] << action;
 	mActions[ path ] = action;
@@ -467,23 +487,6 @@ void pActionsModel::removeCompleteEmptyPathNode( QAction* action )
 		removeAction( action, parentAction, row );
 		removeCompleteEmptyPathNode( parentAction );
 	}
-}
-
-QString pActionsModel::fixedPath( const QString& path )
-{
-	QString data = QDir::cleanPath( path )
-		.replace( '\\', '/' )
-		.remove( ' ' );
-	
-	while ( data.startsWith( '/' ) ) {
-		data.remove( 0, 1 );
-	}
-	
-	while ( data.endsWith( '/' ) ) {
-		data.chop( 1 );
-	}
-	
-	return data;
 }
 
 void pActionsModel::actionChanged()

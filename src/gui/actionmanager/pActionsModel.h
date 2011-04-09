@@ -194,6 +194,10 @@ public:
 		If an error occurs it will be set in \a error.
 	*/
 	bool setShortcut( const QString& path, const QKeySequence& shortcut, QString* error = 0 );
+	/*!
+		Return a clean version of \a path.
+	*/
+	static QString cleanPath( const QString& path );
 
 protected:
 	static int mColumnCount;
@@ -205,8 +209,6 @@ protected:
 	bool isValid( const QModelIndex& index ) const;
 	QAction* createCompletePathNode( const QString& path );
 	void removeCompleteEmptyPathNode( QAction* action );
-	
-	static QString fixedPath( const QString& path );
 
 protected slots:
 	void actionChanged();

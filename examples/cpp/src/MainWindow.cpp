@@ -468,7 +468,7 @@ void MainWindow::aAddAction_triggered()
 		path.append( '/' );
 	}
 	
-	path = QInputDialog::getText( this, QString::null, tr( "Enter the full path where to add the action (/some/path/to/add/the/actionName):" ), QLineEdit::Normal, path );
+	path = pActionsModel::cleanPath( QInputDialog::getText( this, QString::null, tr( "Enter the full path where to add the action (/some/path/to/add/the/actionName):" ), QLineEdit::Normal, path ) );
 	
 	if ( path.count( "/" ) == 0 || QString( path ).replace( "/", QString::null ).trimmed().isEmpty() ) {
 		return;
@@ -481,6 +481,10 @@ void MainWindow::aAddAction_triggered()
 		delete a;
 		QMessageBox::information( this, QString::null, tr( "Can't add action to '%1'" ).arg( path ) );
 	}
+	
+	/*if ( !mActionsModel->addAction( path, path.section( '/', -1, -1 )  ) ) {
+		QMessageBox::information( this, QString::null, tr( "Can't add action to '%1'" ).arg( path ) );
+	}*/
 }
 
 void MainWindow::aRemoveAction_triggered()
