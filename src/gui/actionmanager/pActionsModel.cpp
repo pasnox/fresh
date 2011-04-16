@@ -72,13 +72,8 @@ QVariant pActionsModel::data( const QModelIndex& index, int role ) const
 		case Qt::DisplayRole:
 		case Qt::ToolTipRole:
 			switch ( index.column() ) {
-				case pActionsModel::Action: {
-					const QString sep = "\001";
-					return action->text()
-						.replace( "&&", sep )
-						.remove( "&" )
-						.replace( sep, "&&" );
-				}
+				case pActionsModel::Action:
+					return cleanText( action->text() );
 				case pActionsModel::Shortcut:
 					return action->shortcut().toString( QKeySequence::NativeText );
 				case pActionsModel::DefaultShortcut:
@@ -342,12 +337,19 @@ void pActionsModel::setDefaultShortcut( const QString& path, const QKeySequence&
 
 bool pActionsModel::setShortcut( QAction* action, const QKeySequence& shortcut, QString* error )
 {
-	action->setShortcut( shortcut );
-	
-	if ( error ) {
-		*error = tr( "Can't set shortcut, it's already used by action '%1'." ).arg( "toto" );
+	foreach ( QAction* a, mActions.values() ) {
+		if ( a != action ) {
+			if ( a->shortcut() == shortcut ) {
+				if ( error ) {
+					*error = tr( "Can't set shortcut, it's already used by action '%1'." ).arg( cleanText( a->text() ) );
+				}
+				
+				return false;
+			}
+		}
 	}
 	
+	action->setShortcut( shortcut );
 	return true;
 }
 
@@ -360,7 +362,8 @@ QString pActionsModel::cleanPath( const QString& path )
 {
 	QString data = QDir::cleanPath( path )
 		.replace( '\\', '/' )
-		.remove( ' ' );
+		//.remove( ' ' )
+		;
 	
 	while ( data.startsWith( '/' ) ) {
 		data.remove( 0, 1 );
@@ -393,6 +396,15 @@ bool pActionsModel::isValid( const QModelIndex& index ) const
 	return true;
 }
 
+QString pActionsModel::cleanText( const QString& text ) const
+{
+	const QString sep = "\001";
+	return QString( text )
+		.replace( "&&", sep )
+		.remove( "&" )
+		.replace( sep, "&&" );
+}
+
 void pActionsModel::insertAction( const QString& path, QAction* action, QAction* parent, int row )
 {
 	QObject* p = parent;
@@ -419,25 +431,30 @@ void pActionsModel::insertAction( const QString& path, QAction* action, QAction*
 	emit actionInserted( action );
 }
 
+void pActionsModel::cleanTree( QAction* action, QAction* parent )
+{
+	foreach ( QAction* a, mChildren.value( action  ) ) {
+		cleanTree( a, action );
+	}
+	
+	QList<QAction*>& parentChildren = mChildren[ parent ];
+	parentChildren.removeAt( parentChildren.indexOf( action ) );
+	mChildren.remove( action );
+	mActions.remove( path( action ) );
+}
+
 void pActionsModel::removeAction( QAction* action, QAction* parent, int row )
 {
 	beginRemoveRows( index( parent ), row, row );
-	mChildren[ parent ].removeAt( row );
-	mChildren.remove( action );
-	mActions.remove( path( action ) );
 	if ( parent ) {
 		parent->menu()->removeAction( action );
 	}
+	cleanTree( action, parent );
 	endRemoveRows();
 	
 	emit actionRemoved( action );
 	
-	if ( action->menu() ) {
-		action->menu()->deleteLater();
-	}
-	else {
-		action->deleteLater();
-	}
+	action->deleteLater();
 }
 
 QAction* pActionsModel::createCompletePathNode( const QString& path )
@@ -499,7 +516,25 @@ void pActionsModel::actionChanged()
 	}
 }
 
+void pActionsModel::debugInternals()
+{
+	foreach ( QAction* parent, mChildren.keys() ) {
+		qWarning() << ( parent ? parent->text() : "ROOT" ).toAscii().constData() << parent;
+		qWarning() << QString( 1, '\t' ).toAscii().constData() << mChildren.value( parent );
+	}
+	
+	qWarning() << mActions.keys();
+}
+
 void pActionsModel::actionDestroyed( QObject* object )
 {
-	removeAction( path( (QAction*)object ) );
+qWarning() << "actionDestroyed" << object << object->objectName();
+	QAction* action = (QAction*)object;
+	QString path = this->path( action );
+	
+	if ( mActions.contains( path ) ) {
+		removeAction( path );
+	}
+	
+	//debugInternals();
 }

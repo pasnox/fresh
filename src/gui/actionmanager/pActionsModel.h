@@ -183,7 +183,6 @@ public:
 		Set the default shortcut of the action at the given \a path to \a shortcut.
 	*/
 	void setDefaultShortcut( const QString& path, const QKeySequence& shortcut );
-	
 	/*!
 		Set the shortcut of the given \a action to \a shortcut taking care that the shortcut is not yet used.
 		If an error occurs it will be set in \a error.
@@ -204,11 +203,14 @@ protected:
 	QHash<QAction*, QList<QAction*> > mChildren;
 	QHash<QString, QAction*> mActions;
 	
+	QString cleanText( const QString& text ) const;
 	void insertAction( const QString& path, QAction* action, QAction* parent, int row );
 	void removeAction( QAction* action, QAction* parent, int row );
 	bool isValid( const QModelIndex& index ) const;
 	QAction* createCompletePathNode( const QString& path );
 	void removeCompleteEmptyPathNode( QAction* action );
+	void cleanTree( QAction* action, QAction* parent = 0 );
+	void debugInternals();
 
 protected slots:
 	void actionChanged();
