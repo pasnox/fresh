@@ -10,10 +10,9 @@
 %Include Core/pVersion.sip
 %Include Core/pSettings.sip
 
-%Include Gui/pActionsNodeMenuBar.sip
-%Include Gui/pActionsNodeModel.sip
-%Include Gui/pActionsNodeShortcutEditor.sip
-%Include Gui/pActionsNode.sip
+%Include Gui/pActionsMenuBar.sip
+%Include Gui/pActionsModel.sip
+%Include Gui/pActionsShortcutEditor.sip
 %Include Gui/pColorButton.sip
 %Include Gui/pConsoleCommand.sip
 %Include Gui/pConsole.sip

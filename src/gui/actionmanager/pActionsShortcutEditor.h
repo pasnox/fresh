@@ -37,7 +37,7 @@
 #include <QDialog>
 #include <QHash>
 
-class Ui_pActionsNodeShortcutEditor;
+class Ui_pActionsShortcutEditor;
 class pActionsModel;
 class pRecursiveSortFilterProxyModel;
 
@@ -64,7 +64,7 @@ public:
 	virtual ~pActionsShortcutEditor();
 
 protected:
-	Ui_pActionsNodeShortcutEditor* ui;
+	Ui_pActionsShortcutEditor* ui;
 	pActionsModel* mModel;
 	pRecursiveSortFilterProxyModel* mProxy;
 	QHash<QAction*, QKeySequence> mOriginalShortcuts;

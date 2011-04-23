@@ -24,7 +24,7 @@
 **
 ****************************************************************************/
 #include "pActionsShortcutEditor.h"
-#include "ui_pActionsNodeShortcutEditor.h"
+#include "ui_pActionsShortcutEditor.h"
 #include "pActionsModel.h"
 #include "models/pRecursiveSortFilterProxyModel.h"
 #include "pKeySequenceEdit.h"
@@ -38,7 +38,7 @@ pActionsShortcutEditor::pActionsShortcutEditor( pActionsModel* model, QWidget* p
 	: QDialog( parent )
 {
 	Q_ASSERT( model );
-	ui = new Ui_pActionsNodeShortcutEditor;
+	ui = new Ui_pActionsShortcutEditor;
 	mModel = model;
 	mProxy = new pRecursiveSortFilterProxyModel( this );
 	
