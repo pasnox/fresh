@@ -26,6 +26,10 @@
 #ifndef PACTIONSMODEL_H
 #define PACTIONSMODEL_H
 
+#ifdef QT_NO_DEBUG
+//#undef QT_NO_DEBUG
+#endif
+
 /*!
 	\file pActionsModel.h
 	\brief A model for presenting menus and actions.
@@ -206,12 +210,18 @@ public:
 	
 #ifndef QT_NO_DEBUG
 	void debugInternals();
+	
+	bool isDebugging() const;
+	void setDebugging( bool debugging );
 #endif
 
 protected:
 	static int mColumnCount;
 	QHash<QAction*, QList<QAction*> > mChildren;
 	QHash<QString, QAction*> mActions;
+#ifndef QT_NO_DEBUG
+	bool mDebugging;
+#endif
 	
 	QString cleanText( const QString& text ) const;
 	void insertAction( const QString& path, QAction* action, QAction* parent, int row );

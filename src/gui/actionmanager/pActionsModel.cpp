@@ -37,6 +37,9 @@ int pActionsModel::mColumnCount = 3;
 pActionsModel::pActionsModel( QObject* parent )
 	: QAbstractItemModel( parent )
 {
+#ifndef QT_NO_DEBUG
+	mDebugging = false;
+#endif
 }
 
 pActionsModel::~pActionsModel()
@@ -58,8 +61,7 @@ QVariant pActionsModel::data( const QModelIndex& index, int role ) const
 		return QVariant();
 	}
 	
-	switch ( role )
-	{
+	switch ( role ) {
 		case Qt::DecorationRole:
 			switch ( index.column() ) {
 				case 0:
@@ -124,7 +126,7 @@ QModelIndex pActionsModel::parent( const QModelIndex& index ) const
 	QAction* parentAction = parent( action );
 	QAction* parentParentAction = parent( parentAction );
 	const int row = children( parentParentAction ).indexOf( parentAction );
-	return parentAction ? createIndex( row, 0, parentAction ) : QModelIndex();
+	return row != -1 ? createIndex( row, 0, parentAction ) : QModelIndex();
 }
 
 int pActionsModel::rowCount( const QModelIndex& parent ) const
@@ -177,9 +179,8 @@ QModelIndex pActionsModel::index( QAction* action, int column ) const
 	}
 	
 	QAction* parentAction = parent( action );
-	const int row = parentAction ? children( parentAction ).indexOf( action ) : 0;
-	
-	return createIndex( row, column, mActions[ path ] );
+	const int row = children( parentAction ).indexOf( action );
+	return row != -1 ? createIndex( row, column, mActions[ path ] ) : QModelIndex();
 }
 
 QAction* pActionsModel::action( const QModelIndex& index ) const
@@ -387,6 +388,16 @@ void pActionsModel::debugInternals()
 	
 	qWarning() << mActions.keys();
 }
+
+bool pActionsModel::isDebugging() const
+{
+	return mDebugging;
+}
+
+void pActionsModel::setDebugging( bool debugging )
+{
+	mDebugging = debugging;
+}
 #endif
 
 bool pActionsModel::isValid( const QModelIndex& index ) const
@@ -420,11 +431,20 @@ QString pActionsModel::cleanText( const QString& text ) const
 
 void pActionsModel::insertAction( const QString& path, QAction* action, QAction* parent, int row )
 {
+	Q_ASSERT( row != -1 );
+	
 	QObject* p = parent;
 	
 	if ( !p ) {
 		p = this;
 	}
+	
+#ifndef QT_NO_DEBUG
+	if ( mDebugging ) {
+		qWarning() << path << action << parent << row << index( parent ) << index( rowCount() -1, 0 );
+		qWarning() << index( parent ).data() << index( rowCount() -1, 0 ).data();
+	}
+#endif
 	
 	beginInsertRows( index( parent ), row, row );
 	action->setObjectName( QString( path ).replace( "/", "_" ) );
@@ -458,6 +478,8 @@ void pActionsModel::cleanTree( QAction* action, QAction* parent )
 
 void pActionsModel::removeAction( QAction* action, QAction* parent, int row )
 {
+	Q_ASSERT( row != -1 );
+	
 	beginRemoveRows( index( parent ), row, row );
 	if ( parent ) {
 		parent->menu()->removeAction( action );
