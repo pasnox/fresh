@@ -17,7 +17,7 @@ public:
 	QString systemStyle() const;
 	QString applicationStyle() const;
 	
-	void installInMenuBar( pActionsNodeMenuBar* menuBar, const QString& path );
+	void installInMenuBar( pActionsMenuBar* menuBar, const QString& path );
 
 public slots:
 	void setCheckable( bool checkable );

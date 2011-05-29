@@ -20,8 +20,8 @@ from PyQt4.QtGui import qApp, QApplication, QAction, QActionGroup, \
                         QTabWidget, QTreeView, \
                         QWidget
 
-from PyQt4.fresh import pActionsNode, pActionsNodeModel, \
-                        pActionsNodeShortcutEditor, \
+from PyQt4.fresh import pActionsModel, \
+                        pActionsShortcutEditor, \
                         pColorButton, pConsole, pConsoleCommand, \
                         pGuiUtils, pDockWidget, pDockToolBarManager, \
                         pFileDialog, \
@@ -249,36 +249,33 @@ class MainWindow(pMainWindow):
         for dockWidget in self.findChildren(QDockWidget):
             #dockWidget.setAttribute( Qt.WA_DeleteOnClose )
             action = dockWidget.toggleViewAction()
-            self.menuBar().addAction( "mView/mDockWidgets/%s" % \
+            self.mActionsModel.addAction( "mView/mDockWidgets/%s" % \
                         action.objectName() , action )
-            node = self.mActionsModel.actionToNode( action )
-            node.setDefaultShortcut( 
+            self.mActionsModel.setDefaultShortcut(action, 
                 QKeySequence( "Ctrl+%s" % chr( max( 32, qrand() % 127 ) ) ) )
 
     def createMenuBar(self):
         # set menu bar model
-        self.mActionsModel = pActionsNodeModel( self )
+        self.mActionsModel = pActionsModel( self )
         self.menuBar().setModel( self.mActionsModel )
         
         # create menus and sub menus
-        self.menuBar().addMenu( "mFile" ).setText( self.tr( "&File" ) )
-        self.menuBar().addMenu( "mEdit" ).setText( self.tr( "&Edit" ) )
-        self.menuBar().addMenu( "mView" ).setText( self.tr( "&View" ) )
-        self.menuBar().addMenu( "mView/mStyle" ).setText( self.tr( "&Style" ) )
-        self.menuBar().addMenu( "mView/mMode" ).setText( self.tr( "&Mode" ) )
-        self.menuBar().addMenu( "mView/mDockToolBarManager" ).setText(
-                        self.tr( "&Dock ToolBar Manager" ) )
-        self.menuBar().addMenu( "mView/mDockWidgets" ).setText(
-                        self.tr( "Dock &Widgets" ) )
+        self.mActionsModel.addMenu( "mFile", self.tr( "&File" ) )
+        self.mActionsModel.addMenu( "mEdit", self.tr( "&Edit" ) )
+        self.mActionsModel.addMenu( "mView", self.tr( "&View" ) )
+        self.mActionsModel.addMenu( "mView/mStyle", self.tr( "&Style" ) )
+        self.mActionsModel.addMenu( "mView/mMode", self.tr( "&Mode" ) )
+        self.mActionsModel.addMenu( "mView/mDockToolBarManager", self.tr( "&Dock ToolBar Manager" ) )
+        self.mActionsModel.addMenu( "mView/mDockWidgets", self.tr( "Dock &Widgets" ) )
         
         # create actions
-        aQuit = self.menuBar().addAction( "mFile/aQuit", self.tr( "&Quit" ) )
+        aQuit = self.mActionsModel.addAction( "mFile/aQuit", self.tr( "&Quit" ) )
         
-        aClassic = self.menuBar().addAction(
+        aClassic = self.mActionsModel.addAction(
                         "mView/mMode/aShowClassic", self.tr( "Classic" ) )
         aClassic.setCheckable( True )
         
-        aModern = self.menuBar().addAction(
+        aModern = self.mActionsModel.addAction(
                         "mView/mMode/aShowModern", self.tr( "Modern" ) )
         aModern.setCheckable( True )
         
@@ -294,11 +291,11 @@ class MainWindow(pMainWindow):
         # add dock toolbar manager actions
         for dockToolBar in self.dockToolBarManager().dockToolBars():
             action = dockToolBar.toggleViewAction()
-            self.menuBar().addAction(
+            self.mActionsModel.addAction(
                 "mView/mDockToolBarManager/%s" % action.objectName() , action )
             
             action = dockToolBar.toggleExclusiveAction()
-            self.menuBar().addAction(
+            self.mActionsModel.addAction(
                 "mView/mDockToolBarManager/%s" % action.objectName(), action )
         
         # connections
@@ -319,16 +316,15 @@ class MainWindow(pMainWindow):
         self.tvActions = QTreeView( self )
         self.tvActions.setModel( self.menuBar().model() )
         
-        self.menuBar().addMenu( "mEdit/mActions" ).setText(
-            self.tr( "&Actions" ) )
+        self.mActionsModel.addMenu( "mEdit/mActions", self.tr( "&Actions" ) )
         
-        aAddAction = self.menuBar().addAction( "mEdit/mActions/aAddAction",
+        aAddAction = self.mActionsModel.addAction( "mEdit/mActions/aAddAction",
                                            self.tr( "&Add action" ) )
-        aRemoveAction = self.menuBar().addAction( "mEdit/mActions/aRemoveAction",
+        aRemoveAction = self.mActionsModel.addAction( "mEdit/mActions/aRemoveAction",
                                         self.tr( "&Remove selected action" ) )
-        aEditTextNode = self.menuBar().addAction( "mEdit/mActions/aEditTextNode",
+        aEditTextNode = self.mActionsModel.addAction( "mEdit/mActions/aEditTextNode",
                                         self.tr( "&Edit selected node text" ) )
-        aEditShortcuts = self.menuBar().addAction( "mEdit/mActions/aEditShortcuts",
+        aEditShortcuts = self.mActionsModel.addAction( "mEdit/mActions/aEditShortcuts",
                                     self.tr( "Edit the actions &shortcuts" ) )
         
         aAddAction.triggered.connect(self.aAddAction_triggered)
@@ -487,20 +483,20 @@ class MainWindow(pMainWindow):
         self.ucMkS.setVersionString( "1.6.0.0" )
         self.ucMkS.setVersionDiscoveryPattern( ".*mks_([0-9\\.]+).*" )
         
-        self.menuBar().addMenu( "mHelp" ).setText( self.tr( "&Help" ) )
-        self.menuBar().addAction( "mHelp/aUpdateChecker", self.ucMkS.menuAction() )
+        self.mActionsModel.addMenu( "mHelp", self.tr( "&Help" ) )
+        self.mActionsModel.addAction( "mHelp/aUpdateChecker", self.ucMkS.menuAction() )
 
     def aAddAction_triggered(self):
         index = self.tvActions.selectionModel().selectedIndexes()[0]
         path = ''
         
         if index.isValid():
-            node = self.mActionsModel.indexToNode( index )
+            action = mActionsModel.action( index );   
             
-            if node.type() == pActionsNode.Action:
-                path = node.path().split('/')[:-2]
+            if action.menu():
+                path = mActionsModel.path(action).split('/')[:-2]
             else:
-                path = node.path()
+                path = mActionsModel.path()
         
         if path:
             path += '/'
@@ -553,14 +549,14 @@ class MainWindow(pMainWindow):
                 node.setText( text )
 
     def aEditShortcuts_triggered(self):
-        dlg = pActionsNodeShortcutEditor ( self.mActionsModel, self )
+        dlg = pActionsShortcutEditor ( self.mActionsModel, self )
         dlg.exec_()
 
     def dockToolBarManagerModeChanged(self, mode ):
         if mode == pDockToolBarManager.Classic:
-            self.menuBar().action( "mView/mMode/aShowClassic" ).trigger()
+            self.mActionsModel.action( "mView/mMode/aShowClassic" ).trigger()
         elif mode == pDockToolBarManager.Modern:
-            self.menuBar().action( "mView/mMode/aShowModern" ).trigger()
+            self.mActionsModel.action( "mView/mMode/aShowModern" ).trigger()
         else:
             assert(0)
 

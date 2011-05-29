@@ -324,7 +324,8 @@ void pActionsModel::setDefaultShortcut( QAction* action, const QKeySequence& sho
 {
 	if ( action ) {
 		action->setProperty( DEFAULT_SHORTCUT_PROPERTY, shortcut );
-		setShortcut( action, shortcut );
+		if ( action->shortcut().isEmpty() )
+			setShortcut( action, shortcut );
 	}
 }
 

@@ -38,7 +38,7 @@ public:
 	/*!
 		Return the menu bar object.
 	*/
-	virtual pActionsNodeMenuBar* menuBar() const;
+	virtual pActionsMenuBar* menuBar() const;
 	/*!
 		Add \a dockWidget in \a area having \a orientation.
 	*/
