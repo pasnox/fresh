@@ -2,6 +2,7 @@
 #include <QDebug>
 
 #include <FreshCore/pSettings>
+#include <FreshCore/pNetworkAccessManager>
 
 #include "MainWindow.h"
 
@@ -14,6 +15,7 @@ int main( int argc, char** argv )
 	qsrand( QTime( 0, 0, 0 ).secsTo( QTime::currentTime() ) );
 
 	pSettings::setDefaultProperties( pSettings::Properties( app.applicationName(), "1.0.0", pSettings::Auto ) );
+	pNetworkAccessManager::instance()->setCacheDirectory( app.applicationDirPath().append( "/tmp" ) );
 
 	MainWindow w;
 	w.setWindowTitle( app.applicationName() );

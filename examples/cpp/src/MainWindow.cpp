@@ -178,8 +178,6 @@ void MainWindow::restoreState()
 
 void MainWindow::createGui()
 {
-	pNetworkAccessManager::instance()->setCacheDirectory( qApp->applicationDirPath().append( "/tmp" ) );
-	
 	twPages = new QTabWidget( this );
 	setCentralWidget( twPages );
 	
@@ -230,6 +228,7 @@ void MainWindow::createMenuBar()
 	mActionsModel->addMenu( "mView/mMode", tr( "&Mode" ) );
 	mActionsModel->addMenu( "mView/mDockToolBarManager", tr( "&Dock ToolBar Manager" ) );
 	mActionsModel->addMenu( "mView/mDockWidgets", tr( "Dock &Widgets" ) );
+	mActionsModel->addMenu( "mHelp", tr( "&Help" ) );
 	
 	// create actions
 	QAction* aQuit = mActionsModel->addAction( "mFile/aQuit", tr( "&Quit" ) );
@@ -444,7 +443,6 @@ void MainWindow::createUpdateChecker()
 	ucMkS->setVersionString( "1.6.0.0" );
 	ucMkS->setVersionDiscoveryPattern( ".*mks_([0-9\\.]+).*" );
 	
-	mActionsModel->addMenu( "mHelp", tr( "&Help" ) );
 	mActionsModel->addAction( "mHelp/aUpdateChecker", ucMkS->menuAction() );
 }
 
@@ -481,10 +479,6 @@ void MainWindow::aAddAction_triggered()
 		delete a;
 		QMessageBox::information( this, QString::null, tr( "Can't add action to '%1'" ).arg( path ) );
 	}
-	
-	/*if ( !mActionsModel->addAction( path, path.section( '/', -1, -1 )  ) ) {
-		QMessageBox::information( this, QString::null, tr( "Can't add action to '%1'" ).arg( path ) );
-	}*/
 }
 
 void MainWindow::aRemoveAction_triggered()
@@ -493,9 +487,6 @@ void MainWindow::aRemoveAction_triggered()
 	
 	if ( index.isValid() ) {
 		QAction* action = mActionsModel->action( index );
-		
-		qWarning() << "** PARENT" << action << (action ? action->text() : QString() );
-		qWarning() << mActionsModel->path( action ) << mActionsModel->path( action ).section( '/', 0, -2 ) << mActionsModel->action( mActionsModel->path( action ).section( '/', 0, -2 ) );
 		
 		if ( !mActionsModel->removeAction( action ) ) {
 			QMessageBox::information( this, QString::null, tr( "Can't remove action '%1'" ).arg( mActionsModel->path( action ) ) );
