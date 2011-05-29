@@ -17,6 +17,7 @@
 XUPProjectSettings {
 	EDITOR	= QMake
 	OTHERS_PLATFORM_TARGET_RELEASE	= examples
+	OTHERS_PLATFORM_TARGET_DEBUG	= examples_debug
 }
 
 FRESH_PATH = ../..
