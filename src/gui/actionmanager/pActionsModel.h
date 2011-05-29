@@ -37,6 +37,7 @@
 #include <QAbstractItemModel>
 #include <QIcon>
 
+class QMenu;
 class QAction;
 
 /*!
@@ -57,6 +58,11 @@ public:
 		Action = 0, /*!< The action column. */
 		Shortcut, /*!< The shortcut column. */
 		DefaultShortcut /*!< The default shortcut. */
+	};
+	/*! This enum defines the differents custom roles of the model. */
+	enum CustomRole {
+		MenuRole = Qt::UserRole,
+		ActionRole
 	};
 	/*!
 		Create a new pActionsModel having parent \a parent.
@@ -197,6 +203,10 @@ public:
 		Return a clean version of \a path.
 	*/
 	static QString cleanPath( const QString& path );
+	
+#ifndef QT_NO_DEBUG
+	void debugInternals();
+#endif
 
 protected:
 	static int mColumnCount;
@@ -210,7 +220,6 @@ protected:
 	QAction* createCompletePathNode( const QString& path );
 	void removeCompleteEmptyPathNode( QAction* action );
 	void cleanTree( QAction* action, QAction* parent = 0 );
-	void debugInternals();
 
 protected slots:
 	void actionChanged();
@@ -234,5 +243,8 @@ signals:
 	*/
 	void actionsCleared();
 };
+
+Q_DECLARE_METATYPE( QMenu* )
+Q_DECLARE_METATYPE( QAction* )
 
 #endif // PACTIONSMODEL_H

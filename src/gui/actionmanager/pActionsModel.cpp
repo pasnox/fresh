@@ -94,6 +94,11 @@ QVariant pActionsModel::data( const QModelIndex& index, int role ) const
 		
 		/*case Qt::BackgroundRole:
 			return action->menu() ? QBrush( QColor( 0, 0, 255, 20 ) ) : QVariant();*/
+		
+		case pActionsModel::MenuRole:
+			return QVariant::fromValue( action->menu() );
+		case pActionsModel::ActionRole:
+			return QVariant::fromValue( action );
 	}
 	
 	return QVariant();
@@ -116,21 +121,15 @@ QModelIndex pActionsModel::index( int row, int column, const QModelIndex& parent
 QModelIndex pActionsModel::parent( const QModelIndex& index ) const
 {
 	QAction* action = this->action( index );
-	
-	if ( !action ) {
-		return QModelIndex();
-	}
-	
 	QAction* parentAction = parent( action );
 	QAction* parentParentAction = parent( parentAction );
-	const int row = parentParentAction ? children( parentParentAction ).indexOf( parentAction ) : 0;
-	return createIndex( row, 0, parentAction );
+	const int row = children( parentParentAction ).indexOf( parentAction );
+	return parentAction ? createIndex( row, 0, parentAction ) : QModelIndex();
 }
 
 int pActionsModel::rowCount( const QModelIndex& parent ) const
 {
 	QAction* action = this->action( parent );
-	
 	return ( parent.isValid() && parent.column() == 0 ) || parent == QModelIndex()
 		? children( action ).count()
 		: 0;
@@ -139,7 +138,6 @@ int pActionsModel::rowCount( const QModelIndex& parent ) const
 bool pActionsModel::hasChildren( const QModelIndex& parent ) const
 {
 	QAction* action = this->action( parent );
-	
 	return ( parent.isValid() && parent.column() == 0 ) || parent == QModelIndex()
 		? hasChildren( action )
 		: false;
@@ -363,6 +361,7 @@ QString pActionsModel::cleanPath( const QString& path )
 	QString data = QDir::cleanPath( path )
 		.replace( '\\', '/' )
 		//.remove( ' ' )
+		.trimmed()
 		;
 	
 	while ( data.startsWith( '/' ) ) {
@@ -375,6 +374,18 @@ QString pActionsModel::cleanPath( const QString& path )
 	
 	return data;
 }
+
+#ifndef QT_NO_DEBUG
+void pActionsModel::debugInternals()
+{
+	foreach ( QAction* parent, mChildren.keys() ) {
+		qWarning() << ( parent ? parent->text() : "ROOT" ).toAscii().constData() << parent;
+		qWarning() << QString( 1, '\t' ).toAscii().constData() << mChildren.value( parent );
+	}
+	
+	qWarning() << mActions.keys();
+}
+#endif
 
 bool pActionsModel::isValid( const QModelIndex& index ) const
 {
@@ -516,25 +527,12 @@ void pActionsModel::actionChanged()
 	}
 }
 
-void pActionsModel::debugInternals()
-{
-	foreach ( QAction* parent, mChildren.keys() ) {
-		qWarning() << ( parent ? parent->text() : "ROOT" ).toAscii().constData() << parent;
-		qWarning() << QString( 1, '\t' ).toAscii().constData() << mChildren.value( parent );
-	}
-	
-	qWarning() << mActions.keys();
-}
-
 void pActionsModel::actionDestroyed( QObject* object )
 {
-qWarning() << "actionDestroyed" << object << object->objectName();
 	QAction* action = (QAction*)object;
 	QString path = this->path( action );
 	
 	if ( mActions.contains( path ) ) {
 		removeAction( path );
 	}
-	
-	//debugInternals();
 }
