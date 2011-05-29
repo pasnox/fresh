@@ -49,7 +49,7 @@ VERSION	= 1.0.0
 # make library exportable
 DEFINES	*= FRESH_CORE_BUILD
 
-FRESH_SOURCES_PATHS	= $$getFolders( ./src )
+FRESH_SOURCES_PATHS	= $$getFolders( ./src ) $${UI_DIR} $${MOC_DIR} $${RCC_DIR}
 DEPENDPATH	*= $${FRESH_SOURCES_PATHS}
 INCLUDEPATH	*= $${FRESH_SOURCES_PATHS}
 
