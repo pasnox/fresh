@@ -175,6 +175,7 @@ void pMainWindow::saveState()
 	if ( settings() ) {
 		dockToolBarManager()->saveState();
 		settings()->saveState( this );
+		settings()->sync(); // FIXME tmp fix. Remove, when crash on close is fixed
 	}
 }
 
