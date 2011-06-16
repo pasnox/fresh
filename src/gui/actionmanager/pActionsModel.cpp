@@ -326,8 +326,9 @@ void pActionsModel::setDefaultShortcut( QAction* action, const QKeySequence& sho
 	if ( action ) {
 		action->setProperty( DEFAULT_SHORTCUT_PROPERTY, shortcut );
 		
-		if ( action->shortcut().isEmpty() )
+		if ( action->shortcut().isEmpty() ) {
 			setShortcut( action, shortcut );
+		}
 	}
 }
 
@@ -340,7 +341,7 @@ bool pActionsModel::setShortcut( QAction* action, const QKeySequence& shortcut, 
 {
 	foreach ( QAction* a, mActions.values() ) {
 		if ( a != action ) {
-			if ( ! a->shortcut().isEmpty() ) {
+			if ( !a->shortcut().isEmpty() ) {
 				if ( a->shortcut() == shortcut ) {
 					if ( error ) {
 						*error = tr( "Can't set shortcut, it's already used by action '%1'." ).arg( cleanText( a->text() ) );
