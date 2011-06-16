@@ -32,35 +32,51 @@ TEMPLATE	= app
 LANGUAGE	= C++/Qt4
 CONFIG	-= debug_and_release release debug warn_off warn_on
 CONFIG	*= warn_on $${EXAMPLES_BUILD_MODE}
+DESTDIR	= $$PWD
 
 setTarget( examples )
 setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )
 isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG	*= console
+
+unix {
+	UNIX_RAM_DISK	= /media/ramdisk
+	exists( $${UNIX_RAM_DISK} ) {
+		EXAMPLES_BUILD_PATH	= $${UNIX_RAM_DISK}/$$targetForMode( fresh, $${EXAMPLES_BUILD_MODE} )/$${TARGET}
+		DESTDIR	= $${EXAMPLES_BUILD_PATH}
+		setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )
+	}
+}
 
 fresh {
 	!build_pass:message( "Using system fresh library." )
 } else {
 	!build_pass:message( "Using bundled fresh library." )
 
-	FRESH_TARGET	= $$targetForMode( "fresh", $${EXAMPLES_BUILD_MODE} )
+	FRESH_TARGET	= $$targetForMode( fresh, $${EXAMPLES_BUILD_MODE} )
+	FRESH_BUILD_PATH = $${FRESH_PATH}/build
 	FRESH_SOURCES_PATHS	= $$getFolders( $${FRESH_PATH}/src )
-
-	QMAKE_RPATHDIR *= $${FRESH_PATH}/build
-	macx:LIBS	*= -F$${FRESH_PATH}/build
-	LIBS	*= -L$${FRESH_PATH}/build
 
 	DEPENDPATH *= $${FRESH_PATH}/include/FreshCore \
 		$${FRESH_PATH}/include/FreshGui
 
 	INCLUDEPATH	*= $${FRESH_PATH}/include
-
+	
 	DEPENDPATH	*= $${FRESH_SOURCES_PATHS}
 	INCLUDEPATH	*= $${FRESH_SOURCES_PATHS}
-	
+
 	PRE_TARGETDEPS	*= $${FRESH_PATH}
 
+	unix {
+		!exists( $${FRESH_BUILD_PATH} ) {
+			FRESH_BUILD_PATH = $${UNIX_RAM_DISK}/$${FRESH_TARGET}
+		}
+	}
+
 	QT	*= xml network
-	LIBS	*= $${FRESH_PATH}/build/lib$${FRESH_TARGET}.a
+	QMAKE_RPATHDIR *= $${FRESH_BUILD_PATH}
+	macx:LIBS	*= -F$${FRESH_BUILD_PATH}
+	LIBS	*= -L$${FRESH_BUILD_PATH}
+	LIBS	*= $${FRESH_BUILD_PATH}/lib$${FRESH_TARGET}.a
 }
 
 exists( ../../../QtSolutions/modeltest-0.2/modeltest.pri ) {
