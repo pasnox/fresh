@@ -219,7 +219,7 @@ bool pActionsModel::addAction( const QString& _path, QAction* action )
 {
 	Q_ASSERT( action );
 	
-	if ( !action || !path( action ).isEmpty() ) {
+	if ( !action || !path( action ).isEmpty() || this->action( _path ) ) {
 		return false;
 	}
 	
