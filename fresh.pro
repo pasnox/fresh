@@ -32,6 +32,15 @@ setTarget( fresh )
 setTemporaryDirectories( $$FRESH_BUILD_PATH )
 isEqual( FRESH_BUILD_MODE, debug ):CONFIG	*= console
 
+unix {
+	UNIX_RAM_DISK	= /media/ramdisk
+	exists( $${UNIX_RAM_DISK} ) {
+		FRESH_BUILD_PATH	= $${UNIX_RAM_DISK}/$${TARGET}
+		FRESH_DESTDIR = $${FRESH_BUILD_PATH}
+		setTemporaryDirectories( $$FRESH_BUILD_PATH )
+	}
+}
+
 isEqual( FRESH_BUILD_TYPE, static ) {
 	DESTDIR	= $$FRESH_DESTDIR
 } else {
