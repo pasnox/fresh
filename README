@@ -3,9 +3,13 @@ Library has Python bindings.
 It's developped by Filipe AZEVEDO (Nox P@sNox, pasnox@gmail.com)
 Python bindings created by Andrei KOPATS (hlamer, hlamer@tut.by)
 
-Licensed in LGPL v3.
-Home Page: http://bettercodes.org/projects/fresh
+Licensed in LGPL v3
+--------------------
 
+Home Page: https://github.com/pasnox/fresh
+----------
+Issues Tracker: https://github.com/pasnox/fresh/issues
+---------------
 
 Building library and examples WITHOUT Python support
 ====================================================
@@ -41,9 +45,3 @@ The last command requires root privileges
 Executing Python example:
 	cd examples/python
 	python freshexample.py
-
-
-Reporting bugs
-==============
-
-monkeystudio.ide@gmail.com

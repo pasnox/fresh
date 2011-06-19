@@ -6,7 +6,7 @@
 ** FileName  : pKeySequenceEdit.cpp
 ** Date      : 2011-02-20T00:41:35
 ** License   : LGPL v3
-** Home Page : http://bettercodes.org/projects/fresh
+** Home Page : https://github.com/pasnox/fresh
 ** Comment   : Fresh Library is a Qt 4 extension library providing set of new core & gui classes.
 **
 ** This program is free software: you can redistribute it and/or modify

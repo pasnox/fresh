@@ -2,7 +2,7 @@
 
 <h2>Introduction</h2>
 
-<a href="http://bettercodes.org/projects/fresh/home/">Fresh</a> is a <a href="http://qt.nokia.com/">Qt</a> extension library.
+<a href="https://github.com/pasnox/fresh/home/">Fresh</a> is a <a href="http://qt.nokia.com/">Qt</a> extension library.
 
 As an extension library it add usefull \ref FreshCore and \ref FreshGui classes to extend the possibilities offered by the excellent Qt.
 It runs on any operating system supported by Qt (eg. Windows, UNIX/Linux, MacOS/X).
