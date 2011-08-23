@@ -105,9 +105,10 @@ void pDockToolBar::addDockWidget( QDockWidget* dockWidget, const QString& title,
 	}
 	
 	if ( !icon.isNull() ) {
-		dockWidget->toggleViewAction()->setIcon( icon );
 		dockWidget->setWindowIcon( icon );
 	}
+
+	dockWidget->toggleViewAction()->setIcon(dockWidget->windowIcon());
 
 	// create button
 	const Qt::ToolBarArea tbAreaCurrent = mManager->toolBarArea( this );
