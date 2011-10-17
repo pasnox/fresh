@@ -13,12 +13,8 @@
 ##	WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ##
 ###########################################################################################
-
-XUPProjectSettings {
-	EDITOR	= QMake
-	OTHERS_PLATFORM_TARGET_RELEASE	= examples
-	OTHERS_PLATFORM_TARGET_DEBUG	= examples_debug
-}
+XUP.OTHERS_PLATFORM_TARGET_RELEASE	= examples
+XUP.OTHERS_PLATFORM_TARGET_DEBUG	= examples_debug
 
 FRESH_PATH = ../..
 
@@ -60,7 +56,7 @@ fresh {
 		$${FRESH_PATH}/include/FreshGui
 
 	INCLUDEPATH	*= $${FRESH_PATH}/include
-	
+
 	DEPENDPATH	*= $${FRESH_SOURCES_PATHS}
 	INCLUDEPATH	*= $${FRESH_SOURCES_PATHS}
 
