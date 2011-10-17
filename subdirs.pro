@@ -1,8 +1,6 @@
-XUPProjectSettings {
-	OTHERS_PLATFORM_TARGET_DEFAULT	= examples/cpp/examples
-	OTHERS_PLATFORM_TARGET_RELEASE	= examples/cpp/examples
-	OTHERS_PLATFORM_TARGET_DEBUG	= examples/cpp/examples_debug
-}
+XUP.OTHERS_PLATFORM_TARGET_DEFAULT	= /media/ramdisk/fresh/examples/examples
+XUP.OTHERS_PLATFORM_TARGET_RELEASE	= /media/ramdisk/fresh/examples/examples
+XUP.OTHERS_PLATFORM_TARGET_DEBUG	= /media/ramdisk/fresh/examples/examples_debug
 
 TEMPLATE	= subdirs
 CONFIG	*= ordered
