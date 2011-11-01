@@ -41,6 +41,7 @@ protected:
 	void createMenuBar();
 	void createPlainTextEdit();
 	void createActionsTreeView();
+	void createLocalesTreeView();
 	void createConsole();
 	void createEnvironmentVariablesEditor();
 	void createVersionsTests();

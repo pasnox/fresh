@@ -3,6 +3,7 @@
 #include <FreshCore/pSettings>
 #include <FreshCore/pVersion>
 #include <FreshCore/pNetworkAccessManager>
+#include <FreshCore/pLocaleModel>
 #include <FreshGui/pDockToolBar>
 #include <FreshGui/pActionsModel>
 #include <FreshGui/pActionsShortcutEditor>
@@ -26,6 +27,7 @@
 #include <FreshGui/pEnvironmentVariablesManager>
 #include <FreshGui/pUpdateChecker>
 #include <FreshGui/pPaypalButton>
+#include <FreshGui/pCheckComboBox>
 
 #if defined( QT_MODELTEST )
 #include <modeltest.h>
@@ -185,6 +187,7 @@ void MainWindow::createGui()
 	createMenuBar();
 	createPlainTextEdit();
 	createActionsTreeView();
+	createLocalesTreeView();
 	createConsole();
 	createVersionsTests();
 	createListEditors();
@@ -296,6 +299,18 @@ void MainWindow::createActionsTreeView()
 	connect( aEditShortcuts, SIGNAL( triggered() ), this, SLOT( aEditShortcuts_triggered() ) );
 	
 	twPages->addTab( tvActions, tr( "Actions" ) );
+}
+
+void MainWindow::createLocalesTreeView()
+{
+	pLocaleModel* model = new pLocaleModel( this );
+	model->setCheckable( true );
+	
+	QTreeView* tv = new QTreeView( this );
+	tv->setModel( model );
+	tv->expandAll();
+	
+	twPages->addTab( tv, tr( "Checkable Locales Model" ) );
 }
 
 void MainWindow::createConsole()
@@ -410,29 +425,37 @@ void MainWindow::createCustomWidgets()
 	tcbActions->setModel( mActionsModel );
 	dwWidgetsContentsLayout->addWidget( tcbActions, 4, 0 );
 	
+	pCheckComboBox* cbCheckable = new pCheckComboBox( this );
+	cbCheckable->addItem( tr( "Item 1" ) );
+	cbCheckable->addSeparator();
+	cbCheckable->addItem( tr( "Item 2" ) );
+	cbCheckable->addSeparator();
+	cbCheckable->addItem( tr( "Item 3" ) );
+	dwWidgetsContentsLayout->addWidget( cbCheckable, 5, 0 );
+	
 	pPaypalButton* paypal = new pPaypalButton( this );
 	paypal->setBusinessId( "5R924WYXJ6BAW" );
 	paypal->setItemName( "QWBFS Manager" );
 	paypal->setItemId( "QWBFS-DONATION" );
 	paypal->setCurrencyCode( "EUR" );
-	dwWidgetsContentsLayout->addWidget( paypal, 5, 0 );
+	dwWidgetsContentsLayout->addWidget( paypal, 6, 0 );
 	
 	pToolButton* toolButton1 = new pToolButton( dwWidgetsContents );
 	toolButton1->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
 	toolButton1->setText( tr( "Bottom To Top" ) );
 	toolButton1->setIcon( pIconManager::icon( "pt.png" ) );
 	toolButton1->setDirection( QBoxLayout::BottomToTop );
-	dwWidgetsContentsLayout->addWidget( toolButton1, 0, 1, 6, 1 );
+	dwWidgetsContentsLayout->addWidget( toolButton1, 0, 1, 7, 1 );
 	
 	pToolButton* toolButton2 = new pToolButton( dwWidgetsContents );
 	toolButton2->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
 	toolButton2->setText( tr( "Top To Bottom" ) );
 	toolButton2->setIcon( pIconManager::icon( "br.png" ) );
 	toolButton2->setDirection( QBoxLayout::TopToBottom );
-	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2, 6, 1 );
+	dwWidgetsContentsLayout->addWidget( toolButton2, 0, 2, 7, 1 );
 	
 	pColorButton* colorButton = new pColorButton( dwWidgetsContents );
-	dwWidgetsContentsLayout->addWidget( colorButton, 6, 0 );
+	dwWidgetsContentsLayout->addWidget( colorButton, 7, 0 );
 }
 
 void MainWindow::createUpdateChecker()
