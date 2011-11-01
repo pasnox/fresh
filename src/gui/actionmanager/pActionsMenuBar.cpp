@@ -26,25 +26,16 @@
 #include "pActionsMenuBar.h"
 #include "pActionsModel.h"
 
-#include <QActionEvent>
-#include <QDebug>
-
 pActionsMenuBar::pActionsMenuBar( QWidget* parent )
 	: QMenuBar( parent )
 {
 	mModel = 0;
 }
 
-pActionsMenuBar::~pActionsMenuBar()
-{
-}
-
 void pActionsMenuBar::setModel( pActionsModel* model )
 {
 	if ( mModel ) {
 		disconnect( mModel, SIGNAL( actionInserted( QAction* ) ), this, SLOT( model_actionInserted( QAction* ) ) );
-		disconnect( mModel, SIGNAL( actionChanged( QAction* ) ), this, SLOT( model_actionChanged( QAction* ) ) );
-		disconnect( mModel, SIGNAL( actionRemoved( QAction* ) ), this, SLOT( model_actionRemoved( QAction* ) ) );
 		disconnect( mModel, SIGNAL( actionsCleared() ), this, SLOT( model_actionsCleared() ) );
 		clear();
 		mModel = 0;
@@ -53,11 +44,15 @@ void pActionsMenuBar::setModel( pActionsModel* model )
 	mModel = model;
 	
 	if ( mModel ) {
+		for ( int i = 0; i < mModel->rowCount(); i++ ) {
+			QAction* action = mModel->action( mModel->index( i, 0 ) );
+			model_actionInserted( action );
+		}
+	}
+	
+	if ( mModel ) {
 		connect( mModel, SIGNAL( actionInserted( QAction* ) ), this, SLOT( model_actionInserted( QAction* ) ) );
-		connect( mModel, SIGNAL( actionChanged( QAction* ) ), this, SLOT( model_actionChanged( QAction* ) ) );
-		connect( mModel, SIGNAL( actionRemoved( QAction* ) ), this, SLOT( model_actionRemoved( QAction* ) ) );
 		connect( mModel, SIGNAL( actionsCleared() ), this, SLOT( model_actionsCleared() ) );
-		sync();
 	}
 }
 
@@ -71,28 +66,6 @@ pActionsModel* pActionsMenuBar::model() const
 	return mModel;
 }
 
-void pActionsMenuBar::recursiveSync( QAction* action )
-{
-	/*foreach ( const pActionsNode& childNode, node.children() ) {
-		model_actionInserted( childNode );
-		
-		if ( childNode.hasChildren() ) {
-			recursiveSync( childNode );
-		}
-	}*/
-}
-
-void pActionsMenuBar::sync()
-{
-	/*if ( !mModel ) {
-		qDeleteAll( mMenus.values() );
-		mMenus.clear();
-		return;
-	}
-	
-	recursiveSync( mModel->rootNode() );*/
-}
-
 void pActionsMenuBar::model_actionInserted( QAction* action )
 {
 	QAction* parent = mModel->parent( action );
@@ -100,69 +73,6 @@ void pActionsMenuBar::model_actionInserted( QAction* action )
 	if ( !parent && action->menu() ) {
 		addMenu( action->menu() );
 	}
-	
-	/*QMenu* parentMenu = mMenus.value( node.path().section( '/', 0, -2 ) );
-	
-	switch ( node.type() ) {
-		case pActionsNode::Action: {
-			parentMenu->addAction( node.action() );
-			break;
-		}
-		case pActionsNode::Path: {
-			QMenu* menu = new QMenu;
-			
-			menu->setObjectName( node.path() );
-			mMenus[ node.path() ] = menu;
-			
-			if ( parentMenu ) {
-				parentMenu->addMenu( menu );
-			}
-			else {
-				QMenuBar::addMenu( menu );
-			}
-			
-			model_actionChanged( node );
-			
-			break;
-		}
-		default:
-			break;
-	}*/
-}
-
-void pActionsMenuBar::model_actionChanged( QAction* action )
-{
-	/*switch ( node.type() ) {
-		case pActionsNode::Action:
-			break;
-		case pActionsNode::Path: {
-			QMenu* menu = mMenus.value( node.path() );
-			
-			menu->setIcon( node.icon() );
-			menu->setTitle( node.text() );
-		}
-		default:
-			break;
-	}*/
-}
-
-void pActionsMenuBar::model_actionRemoved( QAction* action )
-{
-	/*QAction* parent = mModel->parent( action );
-	
-	if ( !parent && action->menu() ) {
-	qWarning() << "removing menu" << action->menu() << action->menu()->title();
-		removeAction( action );
-	}*/
-	
-	/*if ( node.type() == pActionsNode::Path ) {
-		QMenu* menu = mMenus.take( node.path() );
-		menu->deleteLater();
-	}
-	else {
-		QMenu* parentMenu = mMenus.value( node.path().section( '/', 0, -2 ) );
-		parentMenu->removeAction( node.action() );
-	}*/
 }
 
 void pActionsMenuBar::model_actionsCleared()
