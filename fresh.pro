@@ -13,15 +13,19 @@ FRESH_BUILD_PATH	= build
 FRESH_DESTDIR	= build
 
 TEMPLATE	= lib
-CONFIG	-= debug_and_release release debug warn_off warn_on x86 ppc
+CONFIG	-= debug_and_release release debug warn_off warn_on x86 x86_64 ppc
 CONFIG	*= qt warn_on thread x11 windows $$FRESH_BUILD_MODE $$FRESH_BUILD_TYPE
 QT	*= xml network
 
-# Mac universal build from 10.3 to up to 10.5
+# Mac universal build from 10.3 & up
 macx:universal {
-	QMAKE_MACOSX_DEPLOYMENT_TARGET	= 10.3
-	QMAKE_MAC_SDK	= /Developer/SDKs/MacOSX10.4u.sdk
-	CONFIG	*= x86 ppc
+    SDK_PATH = $$(MAC_SDKS_PATH)
+    isEmpty( SDK_PATH ):SDK_PATH = /Developer/SDKs
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+    QMAKE_MAC_SDK = $${SDK_PATH}/MacOSX10.6.sdk
+    CONFIG *= x86 x86_64 ppc app_bundle
+    # this link is required for building the ppc port to avoid the undefined __Unwind_Resume symbol
+    CONFIG( ppc ):LIBS *= -lgcc_eh
 }
 
 macx {
@@ -52,8 +56,8 @@ isEqual( FRESH_BUILD_TYPE, static ) {
 QMAKE_TARGET_COMPANY	= "The Fresh Team"
 QMAKE_TARGET_PRODUCT	= "Fresh Framework"
 QMAKE_TARGET_DESCRIPTION	= "Qt Extension Framework"
-QMAKE_TARGET_COPYRIGHT	= "\\251 2005 - 2011 Filipe AZEVEDO and $$QMAKE_TARGET_COMPANY"
-VERSION	= 1.0.0
+QMAKE_TARGET_COPYRIGHT	= "\\251 2005 - 2012 Filipe AZEVEDO and $$QMAKE_TARGET_COMPANY"
+VERSION	= 1.1.0
 
 # make library exportable
 DEFINES	*= FRESH_CORE_BUILD
@@ -90,13 +94,19 @@ FORMS	*=  \
 	src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.ui \
 	src/gui/gc-updatechecker/pUpdateCheckerDialog.ui
 
-HEADERS	*=  \
+CORE_HEADERS = \
 	src/core/FreshExport.h \
 	src/core/pCoreUtils.h \
 	src/core/pGetOpt.h \
 	src/core/pSettings.h \
 	src/core/pTranslationManager.h \
 	src/core/pVersion.h \
+	src/core/pNetworkAccessManager.h \
+	src/core/pGenericTableModel.h \
+	src/core/pLocaleModel.h \
+	src/core/Fresh.h
+
+GUI_HEADERS	*=  \
 	src/gui/pColorButton.h \
 	src/gui/pGuiUtils.h \
 	src/gui/pIconManager.h \
@@ -131,15 +141,24 @@ HEADERS	*=  \
 	src/gui/gc-updatechecker/pUpdateChecker.h \
 	src/gui/gc-updatechecker/pUpdateCheckerDialog.h \
 	src/gui/pPaypalButton.h \
-	src/core/pNetworkAccessManager.h \
-	src/core/Fresh.h
+	src/gui/pCheckComboBox.h
 
-SOURCES	*=  \
+HEADERS *= \
+	$${CORE_HEADERS} \
+	$${GUI_HEADERS}
+
+CORE_SOURCES	*=  \
 	src/core/pCoreUtils.cpp \
 	src/core/pGetOpt.cpp \
 	src/core/pSettings.cpp \
 	src/core/pTranslationManager.cpp \
 	src/core/pVersion.cpp \
+	src/core/pNetworkAccessManager.cpp \
+	src/core/pGenericTableModel.cpp \
+	src/core/pLocaleModel.cpp \
+	src/core/Fresh.cpp
+
+GUI_SOURCES	*= \
 	src/gui/pColorButton.cpp \
 	src/gui/pGuiUtils.cpp \
 	src/gui/pIconManager.cpp \
@@ -174,8 +193,15 @@ SOURCES	*=  \
 	src/gui/gc-updatechecker/pUpdateChecker.cpp \
 	src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp \
 	src/gui/pPaypalButton.cpp \
-	src/core/pNetworkAccessManager.cpp \
-	src/core/Fresh.cpp
+	src/gui/pCheckComboBox.cpp
+
+SOURCES *= \
+	$${CORE_SOURCES} \
+	$${GUI_SOURCES}
+
+win32 {
+	HEADERS	*= src/core/pWinHelpers.h
+}
 
 macx {
 	HEADERS	*= src/core/pMacHelpers.h
