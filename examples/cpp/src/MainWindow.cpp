@@ -431,6 +431,9 @@ void MainWindow::createCustomWidgets()
 	cbCheckable->addItem( tr( "Item 2" ) );
 	cbCheckable->addSeparator();
 	cbCheckable->addItem( tr( "Item 3" ) );
+	cbCheckable->addItem( tr( "Item 4" ) );
+	cbCheckable->addItem( tr( "Item 5" ) );
+	cbCheckable->addItem( tr( "Item 6" ) );
 	dwWidgetsContentsLayout->addWidget( cbCheckable, 5, 0 );
 	
 	pPaypalButton* paypal = new pPaypalButton( this );
