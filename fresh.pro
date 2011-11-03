@@ -12,6 +12,7 @@ else:FRESH_BUILD_TYPE = $$build_type
 FRESH_BUILD_PATH = build
 FRESH_DESTDIR = build
 
+TEMPLATE = lib
 CONFIG -= release debug debug_and_release warn_on warn_off ppc x86 x86_64
 CONFIG *= warn_on thread x11 windows qt $$FRESH_BUILD_TYPE $$FRESH_BUILD_MODE
 QT *= network xml
