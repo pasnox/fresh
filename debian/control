@@ -1,7 +1,7 @@
 Source: fresh
 Priority: extra
 Maintainer: Filipe Azevedo <pasnox@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), cmake, libqt4-dev, qt4-qmake, python-qt4-dev, python-sip-dev
+Build-Depends: debhelper (>= 8.0.0), cmake, libqt4-dev, qt4-qmake, python-qt4, python-qt4-dev, python-sip-dev
 Standards-Version: 3.9.2
 Section: libs
 Homepage: http://github.com/pasnox/fresh
