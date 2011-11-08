@@ -92,7 +92,8 @@ banner "Build package..."
 sudo pbuilder build "$DEB_FRESH_LIB"*.dsc
 
 banner "Uploading package..."
-dput ppa:pasnox/ppa "$DEB_FRESH_LIB"*source.changes
+#dput ppa:pasnox/ppa "$DEB_FRESH_LIB"*source.changes
+dput pasnox-ppa "$DEB_FRESH_LIB"*source.changes
 
 rm "$FRESH_NAME"*"$FRESH_SUFFIX"
 rm "$FRESH_NAME"*.build
