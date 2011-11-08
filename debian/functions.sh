@@ -7,6 +7,9 @@
 PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 START_PWD="$PWD"
 
+# just to got sudo session if needed
+sudo ls > /dev/null 2>&1
+
 ###############################################################
 # Support functions
 ###############################################################
