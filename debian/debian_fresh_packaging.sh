@@ -91,7 +91,12 @@ rm -fr "$DEB_FRESH_LIB"
 banner "Build package..."
 sudo pbuilder build "$DEB_FRESH_LIB"*.dsc
 
+banner "Uploading package..."
+dput ppa:pasnox/ppa "$DEB_FRESH_LIB"*source.changes
+
 rm "$FRESH_NAME"*"$FRESH_SUFFIX"
-rm "$FRESH_NAME"*".build"
+rm "$FRESH_NAME"*.build
+rm "$FRESH_NAME"*.changes
+rm "$DEB_FRESH_LIB"*.dsc
 
 banner "Package done."
