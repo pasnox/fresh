@@ -29,7 +29,7 @@ clean:
 
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) clean
-	[ ! -f Makefile ] || $(MAKE) distclean
+	#[ ! -f Makefile ] || $(MAKE) distclean
 	[ ! -e ./fresh.prf ] || rm ./fresh.prf
 	[ ! -d ./build ] || rm -fr ./build
 
