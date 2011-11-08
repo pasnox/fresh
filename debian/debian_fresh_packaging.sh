@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-#export NAME="Filipe Azevedo"
-export NAME="Nox P@sNox"
+export NAME="Filipe Azevedo"
+#export NAME="Nox P@sNox"
 export EMAIL="pasnox@gmail.com"
 export DEBNAME="$NAME"
 export DEBFULLNAME="$NAME"
@@ -51,6 +51,9 @@ fi
 
 DEBIAN_PATH="$START_PWD/$DEB_FRESH_LIB/debian"
 
+banner "Remove debian folder..."
+rm -fr "$DEBIAN_PATH"
+
 cd "$DEB_FRESH_LIB"
 if [ ! -d "$DEBIAN_PATH" ] ; then
     banner "Creating debian package folder..."
@@ -66,7 +69,7 @@ cd "$DEBIAN_PATH"
 
 if [ -e "$START_PWD/rules" ] ; then
     banner "Copying package files..."
-    DEB_FILES="changelog control copyright rules"
+    DEB_FILES="changelog control copyright rules compat"
     for file in $DEB_FILES ; do
         cp -f "$START_PWD/$file" .
     done
