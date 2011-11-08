@@ -32,6 +32,7 @@ clean:
 	#[ ! -f Makefile ] || $(MAKE) distclean
 	[ ! -e ./fresh.prf ] || rm ./fresh.prf
 	[ ! -d ./build ] || rm -fr ./build
+	$(RM) -rf CMakeCache.txt CMakeFiles cmake_install.cmake install_manifest.txt resources/fresh.qrc.depends python Makefile
 
 	dh_clean
 
