@@ -1,25 +1,40 @@
 Source: fresh
 Priority: extra
 Maintainer: Filipe Azevedo <pasnox@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), cmake, libqt4-dev, qt4-qmake, python-qt4, python-qt4-dev, python-sip-dev
+Build-Depends: debhelper (>= 8.0.0), cmake, libqt4-dev, qt4-dev-tools, python-qt4, python-qt4-dev
 Standards-Version: 3.9.2
 Section: libs
 Homepage: http://github.com/pasnox/fresh
 Vcs-Git: git://github.com/pasnox/fresh.git
 Vcs-Browser: https://github.com/pasnox/fresh/tree/master
 
-Package: fresh-dev
+Package: libfresh-dev
 Section: libdevel
 Architecture: any
-Depends: fresh (= ${binary:Version}), libqt4-dev, python-qt4-dev, python-sip-dev
+Depends: libfresh (= ${binary:Version}), libqt4-dev
 Description: Fresh is a C++ library extending the Qt library.
-    Fresh is a C++ library extending the Qt library by adding new classes/widgets
-    and comes with Python bindings. This is the development package.
+    Fresh is a C++ library extending the Qt library by adding new classes/widgets.
+    This is the development package.
 
-Package: fresh
+Package: libfresh
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libqt4, python-qt4, python-sip
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt4
 Description: Fresh is a C++ library extending the Qt library.
-    Fresh is a C++ library extending the Qt library by adding new classes/widgets
-    and comes with Python bindings.
+    Fresh is a C++ library extending the Qt library by adding new classes/widgets.
+
+Package: python-qt4-fresh-dev
+Section: libdevel
+Architecture: any
+Depends: python-qt4-fresh (= ${binary:Version}), libqt4-dev, python-qt4-dev
+Description: Fresh module and development files for PyQt4.
+    Fresh is a C++ library extending the Qt library by adding new classes/widgets.
+    This is the fresh python bindings and development files for PyQt4.
+
+Package: python-qt4-fresh
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libfresh, python-qt4
+Description: Fresh module for PyQt4.
+    Fresh is a C++ library extending the Qt library by adding new classes/widgets.
+    This is the fresh python bindings for PyQt4.
