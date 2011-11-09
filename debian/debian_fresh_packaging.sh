@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 
 export NAME="Filipe Azevedo"
 #export NAME="Nox P@sNox"
@@ -22,37 +22,21 @@ FRESH_URL="https://github.com/downloads/pasnox/fresh/$FRESH_FILE_SRC"
 # load usefull functions
 . ./functions.sh
 
-# loader
-banner "Packaging Fresh for Debian..."
-
-# Getting the sources and uncompressing
-if [ ! -d "$DEB_FRESH_LIB" ]; then
-    banner "Getting sources..."
+# clean files
+# $1= optional string meaning some files will not be deleted
+clean() {
+    # files always deleted
+    rm -fr "$DEB_FRESH_LIB"
+    rm "$FRESH_NAME"*"$FRESH_SUFFIX"
+    rm "$FRESH_NAME"*.build
+    rm "$FRESH_NAME"*.upload
+    rm "$FRESH_NAME"*.dsc
     
-    if [ ! -e "$FRESH_FILE" ] && [ ! -e "$FRESH_FILE_SRC" ] ; then
-        if [ -e "../fresh.pro" ] ; then
-            cd ..
-            git archive --prefix="$DEB_FRESH_LIB/" master | gzip -9 > "debian/$FRESH_FILE_SRC"
-            cd "$START_PWD"
-        else
-            wget "$FRESH_URL"
-        fi
+    # not remove this files is $1 is not empty
+    if [ ! -z "$1" ] ; then
+        rm "$FRESH_NAME"*.changes
     fi
-    
-    if [ ! -e "$DEB_FRESH_ORIG_FILE" ] ; then
-        ln -s "$START_PWD/$FRESH_FILE_SRC" "$DEB_FRESH_ORIG_FILE"
-    fi
-    
-    arc=`basename "$FRESH_FILE_SRC"`
-    unpack "$arc"
-    arc=`basename "$FRESH_FILE_SRC" $FRESH_SUFFIX`
-    
-    if [ -d "$arc" ] ; then
-        if [ "$arc" != "$DEB_FRESH_LIB" ] ; then
-            mv "$arc" "$DEB_FRESH_LIB"
-        fi
-    fi
-fi
+}
 
 create_debian() {
     banner "Remove debian folder..."
@@ -82,24 +66,59 @@ copy_files() {
     fi
 }
 
+# loader
+banner "Packaging Fresh for Debian..."
+
+clean
+
+# Getting the sources and uncompressing
+if [ ! -d "$DEB_FRESH_LIB" ]; then
+    banner "Getting sources..."
+    
+    if [ ! -e "$FRESH_FILE" ] && [ ! -e "$FRESH_FILE_SRC" ] ; then
+        if [ -e "../fresh.pro" ] ; then
+            cd ..
+            git archive --prefix="$DEB_FRESH_LIB/" master | gzip -9 > "debian/$FRESH_FILE_SRC"
+            cd "$START_PWD"
+        else
+            wget "$FRESH_URL"
+        fi
+    fi
+    
+    arc=`basename "$FRESH_FILE_SRC"`
+    unpack "$arc"
+    arc=`basename "$FRESH_FILE_SRC" $FRESH_SUFFIX`
+    
+    if [ -d "$arc" ] ; then
+        if [ "$arc" != "$DEB_FRESH_LIB" ] ; then
+            mv "$arc" "$DEB_FRESH_LIB"
+        fi
+    fi
+    
+    # recreate archive with updated debian folder
+    rm "$FRESH_NAME"*"$FRESH_SUFFIX"
+    rm -fr "$DEB_PATH/"*
+    cp * "$DEB_PATH/"
+    cp -r source "$DEB_PATH/"
+    tar -pczhf "$FRESH_FILE_SRC" "$DEB_FRESH_LIB"
+    
+    if [ ! -e "$DEB_FRESH_ORIG_FILE" ] ; then
+        ln -s "$START_PWD/$FRESH_FILE_SRC" "$DEB_FRESH_ORIG_FILE"
+    fi
+fi
+
 banner "Generate package files..."
 cd "$DEB_FRESH_LIB"
 debuild -S
 cd ..
-rm -fr "$DEB_FRESH_LIB"
 
 banner "Build package..."
-sudo pbuilder build "$DEB_FRESH_LIB"*.dsc
+#sudo pbuilder build "$DEB_FRESH_LIB"*.dsc
+sudo cowbuilder --build "$DEB_FRESH_LIB"*.dsc
 
 banner "Uploading package..."
 #dput ppa:pasnox/ppa "$DEB_FRESH_LIB"*source.changes
 
-exit
-
-rm "$FRESH_NAME"*"$FRESH_SUFFIX"
-rm "$FRESH_NAME"*.build
-rm "$FRESH_NAME"*.changes
-rm "$FRESH_NAME"*.upload
-rm "$FRESH_NAME"*.dsc
+clean -
 
 banner "Package done."

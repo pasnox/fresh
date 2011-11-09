@@ -44,6 +44,9 @@ install: build
 
 	# Add here commands to install the package into debian/fresh
 	$(MAKE) INSTALL_ROOT=`pwd`/debian/tmp install DESTDIR=$(CURDIR)/debian/tmp
+	find $(CURDIR)/debian -name libfresh.so.1.0
+	dh_install
+	find $(CURDIR)/debian -name libfresh.so.1.0
 
 # Build architecture-independent files here.
 binary-indep: build install
