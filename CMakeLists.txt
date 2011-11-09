@@ -66,14 +66,15 @@ if (shared)
     #message("Library and headers will be installed to " ${CMAKE_INSTALL_PREFIX})
     #message ("Use \n\tcmake -D CMAKE_INSTALL_PREFIX=/your/install/path\n for set another path")
     
+    file(COPY ${CMAKE_SOURCE_DIR}/fresh_shared.prf DESTINATION ${CMAKE_BINARY_DIR})
+    file(RENAME ${CMAKE_BINARY_DIR}/fresh_shared.prf ${CMAKE_BINARY_DIR}/fresh.prf)
     # Install main library
     install(TARGETS fresh LIBRARY DESTINATION ${QT_LIBRARY_DIR})
     install(FILES ${CORE_HEADERS} DESTINATION ${QT_HEADERS_DIR}/FreshCore)
     install(FILES ${GUI_HEADERS} DESTINATION ${QT_HEADERS_DIR}/FreshGui)
-    install(FILES ${PRF_FILES} DESTINATION ${QT_MKSPECS_DIR}/features)
+    install(FILES ${CMAKE_BINARY_DIR}/fresh.prf DESTINATION ${QT_MKSPECS_DIR}/features)
     install(FILES ${TS_FILES} DESTINATION ${QT_TRANSLATIONS_DIR})
     install(FILES ./FindFresh.cmake DESTINATION ${CMAKE_ROOT}/Modules/)
-    
 else (shared)
     message("Building STATIC library. Use 'cmake -Dshared=1' for build shared.")
 endif (shared)
