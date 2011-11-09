@@ -4,7 +4,7 @@ Source: http://github.com/pasnox/fresh
 
 Files: *
 Copyright: 2005-2011 Filipe Azevedo <pasnox@gmail.com>
-           2010      Andrei KOPATS <hlamer@tut.by>
+           2010-2011 Andrei KOPATS <hlamer@tut.by>
 License: LGPL-3.0+
 
 Files: debian/*
