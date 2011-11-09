@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 set (PROJECT fresh) 
+set (VERSION 1.0)
  
 project (${PROJECT}) 
 
@@ -32,9 +33,14 @@ qt4_add_resources(RESOURCES resources/fresh.qrc)
 # Build main library
 add_library (${PROJECT} ${UI_HEADERS} ${HEADERS} ${SOURCES} ${RESOURCES} ${MOC_SOURCES} ${TRANSLATIONS})
 if(CMAKE_COMPILER_IS_GNUCC)
-    set_target_properties(${PROJECT}
-                          PROPERTIES COMPILE_FLAGS -fPIC)
+    set_target_properties(${PROJECT} PROPERTIES
+			    COMPILE_FLAGS -fPIC)
 endif(CMAKE_COMPILER_IS_GNUCC)
+
+set_target_properties(${PROJECT} PROPERTIES
+                         VERSION ${VERSION}
+                         SOVERSION ${VERSION}
+                     )
 
 include_directories (   "include"
                         "src"
