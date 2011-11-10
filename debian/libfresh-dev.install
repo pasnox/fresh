@@ -1,0 +1,3 @@
+usr/include/*
+/usr/share/cmake*/*/*.cmake
+/usr/share/qt4/mkspecs/*

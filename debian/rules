@@ -18,7 +18,7 @@ build-stamp:
 	#mkdir build
 	#cd build
 	cmake -Dshared=1 .
-	$(MAKE) -j 6
+	$(MAKE)
 
 	touch build-stamp
 
@@ -43,8 +43,9 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/fresh
-	$(MAKE) INSTALL_ROOT=`pwd`/debian/fresh install DESTDIR=$(CURDIR)/debian/fresh/
-	#$(MAKE) install
+	$(MAKE) INSTALL_ROOT=`pwd`/debian/tmp install DESTDIR=$(CURDIR)/debian/tmp
+	
+	dh_install
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -63,6 +64,7 @@ binary-arch: build install
 	dh_compress
 	dh_fixperms
 	dh_installdeb
+	dh_makeshlibs
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
