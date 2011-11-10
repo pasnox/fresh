@@ -15,7 +15,7 @@ FRESH_LIB_SRC="$FRESH_LIB-src"
 DEB_FRESH_LIB="$FRESH_NAME"_"$FRESH_VERSION"
 FRESH_FILE="$FRESH_LIB$FRESH_SUFFIX"
 FRESH_FILE_SRC="$FRESH_LIB_SRC$FRESH_SUFFIX"
-DEB_FRESH_ORIG_FILE="$DEB_FRESH_LIB.orig$FRESH_SUFFIX"
+DEB_FRESH_ORIG_FILE="$DEB_FRESH_LIB-2.orig$FRESH_SUFFIX"
 DEB_PATH="$DEB_FRESH_LIB/debian"
 FRESH_URL="https://github.com/downloads/pasnox/fresh/$FRESH_FILE_SRC"
 
@@ -31,7 +31,7 @@ clean() {
     rm "$FRESH_NAME"*.build
     rm "$FRESH_NAME"*.upload
     rm "$FRESH_NAME"*.dsc
-    
+
     # not remove this files is $1 is not empty
     if [ ! -z "$1" ] ; then
         rm "$FRESH_NAME"*.changes
@@ -74,7 +74,7 @@ clean
 # Getting the sources and uncompressing
 if [ ! -d "$DEB_FRESH_LIB" ]; then
     banner "Getting sources..."
-    
+
     if [ ! -e "$FRESH_FILE" ] && [ ! -e "$FRESH_FILE_SRC" ] ; then
         if [ -e "../fresh.pro" ] ; then
             cd ..
@@ -84,24 +84,24 @@ if [ ! -d "$DEB_FRESH_LIB" ]; then
             wget "$FRESH_URL"
         fi
     fi
-    
+
     arc=`basename "$FRESH_FILE_SRC"`
     unpack "$arc"
     arc=`basename "$FRESH_FILE_SRC" $FRESH_SUFFIX`
-    
+
     if [ -d "$arc" ] ; then
         if [ "$arc" != "$DEB_FRESH_LIB" ] ; then
             mv "$arc" "$DEB_FRESH_LIB"
         fi
     fi
-    
+
     # recreate archive with updated debian folder
     rm "$FRESH_NAME"*"$FRESH_SUFFIX"
     rm -fr "$DEB_PATH/"*
     cp * "$DEB_PATH/"
     cp -r source "$DEB_PATH/"
     tar -pczhf "$FRESH_FILE_SRC" "$DEB_FRESH_LIB"
-    
+
     if [ ! -e "$DEB_FRESH_ORIG_FILE" ] ; then
         ln -s "$START_PWD/$FRESH_FILE_SRC" "$DEB_FRESH_ORIG_FILE"
     fi
@@ -117,7 +117,7 @@ banner "Build package..."
 sudo cowbuilder --build "$DEB_FRESH_LIB"*.dsc
 
 banner "Uploading package..."
-#dput ppa:pasnox/ppa "$DEB_FRESH_LIB"*source.changes
+dput ppa:pasnox/ppa "$DEB_FRESH_LIB"*source.changes
 
 clean -
 

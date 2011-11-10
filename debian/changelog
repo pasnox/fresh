@@ -1,3 +1,9 @@
+fresh (1.1.0-2-ppa1) oneiric; urgency=low
+
+  * Second release
+
+ -- Filipe Azevedo <pasnox@gmail.com>  Mon, 11 Nov 2011 08:55:00 +0100
+
 fresh (1.1.0-1) oneiric; urgency=low
 
   * Initial release
