@@ -72,7 +72,8 @@
 
 	# translations
 	translations.path	= $$FRESH_INSTALL_TRANSLATIONS
-	translations.files	= translations/*.qm
+	translations.files	= translations/*.ts
+	translations.files	*= translations/*.qm
 
 	# library
 	target.path	= $$FRESH_INSTALL_LIBS
