@@ -1,7 +1,6 @@
 #!/bin/sh
 
 export NAME="Filipe Azevedo"
-#export NAME="Nox P@sNox"
 export EMAIL="pasnox@gmail.com"
 export DEBNAME="$NAME"
 export DEBFULLNAME="$NAME"
@@ -15,7 +14,7 @@ FRESH_LIB_SRC="$FRESH_LIB-src"
 DEB_FRESH_LIB="$FRESH_NAME"_"$FRESH_VERSION"
 FRESH_FILE="$FRESH_LIB$FRESH_SUFFIX"
 FRESH_FILE_SRC="$FRESH_LIB_SRC$FRESH_SUFFIX"
-DEB_FRESH_ORIG_FILE="$DEB_FRESH_LIB-2.orig$FRESH_SUFFIX"
+DEB_FRESH_ORIG_FILE="$DEB_FRESH_LIB-3.orig$FRESH_SUFFIX"
 DEB_PATH="$DEB_FRESH_LIB/debian"
 FRESH_URL="https://github.com/downloads/pasnox/fresh/$FRESH_FILE_SRC"
 
