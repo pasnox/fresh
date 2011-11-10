@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+option(shared "Build shared library" y)
+
 if (shared)
 	message("*** Building SHARED library. Use `cmake -Dshared=0` for build static.")
 else (shared)
@@ -10,12 +12,11 @@ endif (shared)
 #message("*** Use `cmake -DCMAKE_INSTALL_PREFIX=/your/install/path` for set another path")
 message("")
 
-set (PROJECT fresh) 
+set (PROJECT fresh)
 set (VERSION 1.1.0)
  
-project (${PROJECT}) 
+project (${PROJECT})
 
-option(shared "Build shared library" y)
 set(BUILD_SHARED_LIBS ${shared})
 
 # Find Qt4
@@ -30,7 +31,8 @@ file(GLOB_RECURSE HEADERS ./src/*.h)
 file(GLOB_RECURSE CORE_HEADERS include/FreshCore/* ./src/core/*.h)
 file(GLOB_RECURSE GUI_HEADERS include/FreshGui/* ./src/gui/*.h)
 file(GLOB_RECURSE SOURCES src/*.cpp)
-file(GLOB_RECURSE TS_FILES translations/*.ts translations/*.qm)
+file(GLOB_RECURSE TS_FILES translations/*.ts)
+file(GLOB_RECURSE QM_FILES translations/*.qm)
 if (shared)
 	set(PRF_FILE fresh_shared.prf)
 else (shared)
@@ -82,6 +84,7 @@ install(FILES ${CORE_HEADERS} DESTINATION ${QT_HEADERS_DIR}/FreshCore)
 install(FILES ${GUI_HEADERS} DESTINATION ${QT_HEADERS_DIR}/FreshGui)
 install(FILES ${CMAKE_BINARY_DIR}/fresh.prf DESTINATION ${QT_MKSPECS_DIR}/features)
 install(FILES ${TS_FILES} DESTINATION ${QT_TRANSLATIONS_DIR})
+install(FILES ${QM_FILES} DESTINATION ${QT_TRANSLATIONS_DIR})
 install(FILES ./FindFresh.cmake DESTINATION ${CMAKE_ROOT}/Modules)
 
 add_subdirectory(Python ${CMAKE_CURRENT_BINARY_DIR}/python)
