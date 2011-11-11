@@ -40,7 +40,7 @@
     \def FRESH_VERSION
     \brief This macro contains the Fresh version.
 */
-#define FRESH_VERSION "1.0.1"
+#define FRESH_VERSION "1.1.0"
 
 /*!
 	\ingroup FreshCore
