@@ -15,7 +15,7 @@ Building library and examples WITHOUT Python support
 ====================================================
 Dependencies:
 * C++ compiler (ubuntu package g++)
-* Qt4 library v4.7, headers and tools. (ubuntu packages qt4-qmake, libqt4-dev)
+* Qt4 library v4.6+, headers and tools. (ubuntu packages qt4-qmake, libqt4-dev)
 
 Building:
 	qmake ./fresh.pro && make
@@ -45,3 +45,4 @@ The last command requires root privileges
 Executing Python example:
 	cd examples/python
 	python freshexample.py
+
