@@ -46,7 +46,6 @@ create_debian() {
         banner "Creating debian package folder..."
         dh_make -c "lgpl3" -f "$START_PWD/$FRESH_FILE_SRC" --createorig -l << EOF
 EOF
-    fi
 
     cd "$DEB_PATH"
     #if [ -e *.ex ] || [ -e *.EX ] ; then
@@ -113,7 +112,7 @@ cd ..
 
 banner "Build package..."
 #sudo pbuilder build "$DEB_FRESH_LIB"*.dsc
-sudo cowbuilder --build "$DEB_FRESH_LIB"*.dsc
+sudo pbuilder DIST=stable --build "$DEB_FRESH_LIB"*.dsc
 
 banner "Uploading package..."
 dput ppa:pasnox/ppa "$DEB_FRESH_LIB"*source.changes
@@ -121,3 +120,7 @@ dput ppa:pasnox/ppa "$DEB_FRESH_LIB"*source.changes
 clean -
 
 banner "Package done."
+
+
+
+

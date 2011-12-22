@@ -38,3 +38,6 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Fresh module for PyQt4.
     Fresh is a C++ library extending the Qt library by adding new classes/widgets.
     This is the fresh python bindings for PyQt4.
+
+
+
