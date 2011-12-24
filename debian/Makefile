@@ -11,39 +11,39 @@ FRESH_LIB=$(FRESH_NAME)-$(FRESH_VERSION)
 FRESH_LIB_SRC=$(FRESH_LIB)-src
 DEB_FRESH_LIB=$(FRESH_NAME)_$(FRESH_VERSION)
 FRESH_FILE=$(FRESH_LIB)$(FRESH_SUFFIX)
-FRESH_FILE_SRC=$(FRESH_LIB_SRC)$(FRESH_SUFFIX)
-DEB_FRESH_ORIG_FILE=$(DEB_FRESH_LIB)-4.orig$(FRESH_SUFFIX)
+FRESH_SRC_ARCHIVE=$(FRESH_LIB_SRC)$(FRESH_SUFFIX)
+DEF_FRESH_ORIG_ARCHIVE=$(DEB_FRESH_LIB)-4.orig$(FRESH_SUFFIX)
 DEB_PATH=$(DEB_FRESH_LIB)/debian
-FRESH_URL=https://github.com/downloads/pasnox/fresh/$(FRESH_FILE_SRC)
+FRESH_URL=https://github.com/downloads/pasnox/fresh/$(FRESH_SRC_ARCHIVE)
 
 DIST=oneiric
 ARCH=i386
 
 all:
 
-clean:
-	rm -fr $(DEB_FRESH_LIB)
-	rm -f $(FRESH_NAME)*$(FRESH_SUFFIX)
-	rm -f $(FRESH_NAME)*.build
-	rm -f $(FRESH_NAME)*.upload
-	rm -f $(FRESH_NAME)*.dsc
-	rm -f $(FRESH_NAME)*.changes
-	rm -rf result
+#
+# Prepare sources
+#
 
-test:
-	echo $(FRESH_FILE)
+$(FRESH_SRC_ARCHIVE):
+	cd .. && git archive --prefix=$(DEB_FRESH_LIB)/ new-deb-package | gzip -9 > debian/$@
 
-
-$(FRESH_FILE_SRC):
-	cd .. && git archive --prefix=$(DEB_FRESH_LIB)/ master | gzip -9 > debian/$@
-
-$(DEB_FRESH_LIB): $(FRESH_FILE_SRC)
+$(DEB_FRESH_LIB): $(FRESH_SRC_ARCHIVE)
 	tar -xf $<
 
-$(DEB_FRESH_ORIG_FILE): $(FRESH_FILE_SRC)
+$(DEF_FRESH_ORIG_ARCHIVE): $(FRESH_SRC_ARCHIVE)
 	ln -s $< $@
 
-src: $(DEB_FRESH_ORIG_FILE) $(DEB_FRESH_LIB)
+$(DEB_FRESH_LIB)/debian:
+	mkdir $@
+	cp -R debian-common/* $@
+	cp -R debian-squeeze/* $@
+
+#
+# Build source package
+#
+
+src: $(DEF_FRESH_ORIG_ARCHIVE) $(DEB_FRESH_LIB) $(DEB_FRESH_LIB)/debian
 	cd $(DEB_FRESH_LIB) && debuild -S -uc -us
 
 sign-src: src
@@ -52,19 +52,40 @@ sign-src: src
 dput: sign-src
 	dput ppa:pasnox/ppa $(DEB_FRESH_LIB)*source.changes
 
+#
+# Build binary packages
+#
 result:
 	mkdir $@
 	
-result/repos:
-	mkdir $@
-
-#deb: src result
-deb: result
+deb: src result
 	#sudo DIST=$(DIST) ARCH=$(ARCH) pbuilder --build $(DEB_FRESH_LIB)*.dsc
 	cp /var/cache/pbuilder/$(DIST)-$(ARCH)/result/* result
+
+
+native-build: result $(DEB_FRESH_LIB) $(DEB_FRESH_LIB)/debian
+	cd $(DEB_FRESH_LIB) && debuild -uc -us -b
+
+#
+# Prepare repository
+#
+result/repos:
+	mkdir $@
 
 repos: result/repos deb
 	cd result && \
 		for deb in `ls result`; do \
 			cd result/repos && reprepo includedeb oneiric 
+#
+# Clean
+#
+clean:
+	rm -fr $(DEB_FRESH_LIB)
+	rm -f $(FRESH_NAME)*$(FRESH_SUFFIX)
+	rm -f $(FRESH_NAME)*.build
+	rm -f $(FRESH_NAME)*.upload
+	rm -f $(FRESH_NAME)*.dsc
+	rm -f $(FRESH_NAME)*.changes
+	rm -f *.deb
+	rm -rf result
 
