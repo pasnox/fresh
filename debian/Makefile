@@ -22,6 +22,17 @@ ARCH=i386
 all:
 
 #
+# Help
+#
+help:
+	@echo 'Top level targets:'
+	@echo 'src          Create source package (.dsc, .chagnes). Package is not signed'
+	@echo 'signed-src   Create signed source package (.dsc, .chagnes)'
+	@echo 'dput         Put source package to PPA'
+	@echo 'native-build Build .deb package on the current system (no chroot). For testing'
+	@echo 'clean        Clean all generated files'
+
+#
 # Prepare sources
 #
 
@@ -48,11 +59,37 @@ $(DEB_FRESH_LIB)/debian: $(DEB_FRESH_LIB)
 src: $(DEF_FRESH_ORIG_ARCHIVE) $(DEB_FRESH_LIB) $(DEB_FRESH_LIB)/debian
 	cd $(DEB_FRESH_LIB) && debuild -S -uc -us
 
-sign-src: src
+signed-src: src
 	DEBFULLNAME='$(DEBFULLNAME)' DEBEMAIL='$(DEBEMAIL)' debsign *.changes
 
-dput: sign-src
+dput: signed-src
 	dput ppa:pasnox/ppa $(DEB_FRESH_LIB)*source.changes
+
+#
+# pbuilder configuration
+#
+check_pbuilder_rc:
+	if [ ! -f $${HOME}/.pbuilderrc ]; then \
+		echo; \
+		echo ~/.pbuilderrc does not exist. Copy it to your home:;\
+		echo '    ' cp `pwd`/pbuilderrc $${HOME}/.pbuilderrc; \
+		echo; \
+		exit 1; \
+	fi
+	# If the file exists, lets hope it is valid
+
+test: check_pbuilder_base
+
+check_pbuilder_base:
+	if [ ! -f /var/cache/pbuilder/$(DIST)-$(ARCH)-base.tgz ]; then \
+		echo; \
+		echo pbuilder chroot for distribution $(DIST) architecture $(ARCH) does not exists. Create it with command:;\
+		echo '    ' sudo DIST=$(DIST) ARCH=$(ARCH) pbuilder create; \
+		echo; \
+		exit 1; \
+	fi
+
+check_pbuilder: check_pbuilder_rc check_pbuilder_base
 
 #
 # Build binary packages
@@ -60,10 +97,9 @@ dput: sign-src
 result:
 	mkdir $@
 	
-deb: src result
-	#sudo DIST=$(DIST) ARCH=$(ARCH) pbuilder --build $(DEB_FRESH_LIB)*.dsc
+deb: check_pbuilder src result 
+	sudo DIST=$(DIST) ARCH=$(ARCH) pbuilder --build $(DEB_FRESH_LIB)*.dsc
 	cp /var/cache/pbuilder/$(DIST)-$(ARCH)/result/* result
-
 
 native-build: result $(DEB_FRESH_LIB) $(DEB_FRESH_LIB)/debian
 	cd $(DEB_FRESH_LIB) && debuild -uc -us -b
