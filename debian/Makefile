@@ -16,7 +16,7 @@ DEF_FRESH_ORIG_ARCHIVE=$(DEB_FRESH_LIB)-4.orig$(FRESH_SUFFIX)
 DEB_PATH=$(DEB_FRESH_LIB)/debian
 FRESH_URL=https://github.com/downloads/pasnox/fresh/$(FRESH_SRC_ARCHIVE)
 
-DIST=oneiric
+DIST=$(shell lsb_release -cs)
 ARCH=i386
 
 all:
@@ -34,10 +34,12 @@ $(DEB_FRESH_LIB): $(FRESH_SRC_ARCHIVE)
 $(DEF_FRESH_ORIG_ARCHIVE): $(FRESH_SRC_ARCHIVE)
 	ln -s $< $@
 
-$(DEB_FRESH_LIB)/debian:
+$(DEB_FRESH_LIB)/debian: $(DEB_FRESH_LIB)
 	mkdir $@
 	cp -R debian-common/* $@
-	cp -R debian-squeeze/* $@
+	if [ -d debian-$(DIST) ]; then \
+	    cp -R debian-$(DIST)/* $@; \
+	fi
 
 #
 # Build source package
