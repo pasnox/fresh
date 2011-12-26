@@ -58,9 +58,10 @@ $(DEB_FRESH_LIB)/debian: $(DEB_FRESH_LIB)
 #
 # Build source package
 #
-
-src: $(DEF_FRESH_ORIG_ARCHIVE) $(DEB_FRESH_LIB) $(DEB_FRESH_LIB)/debian
+$(DEB_FRESH_LIB)*.dsc:
 	cd $(DEB_FRESH_LIB) && debuild -S -uc -us
+
+src: $(DEB_FRESH_LIB)*.dsc;
 
 signed-src: src
 	DEBFULLNAME='$(DEBFULLNAME)' DEBEMAIL='$(DEBEMAIL)' debsign *.changes
