@@ -58,7 +58,7 @@ $(DEB_FRESH_LIB)/debian: $(DEB_FRESH_LIB)
 #
 # Build source package
 #
-$(DEB_FRESH_LIB)*.dsc:
+$(DEB_FRESH_LIB)*.dsc: $(DEB_FRESH_LIB)/debian $(DEF_FRESH_ORIG_ARCHIVE)
 	cd $(DEB_FRESH_LIB) && debuild -S -uc -us
 
 src: $(DEB_FRESH_LIB)*.dsc;
