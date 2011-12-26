@@ -19,14 +19,17 @@ FRESH_URL=https://github.com/downloads/pasnox/fresh/$(FRESH_SRC_ARCHIVE)
 DIST=$(shell lsb_release -cs)
 ARCH=i386
 
+DISTS = squeeze oneiric
+ARCHS = i386 amd64
+
 all:
+	@echo $(ALL_DEBS)
 
 #
 # Help
 #
 help:
 	@echo 'Top level targets:'
-	@echo 'src          Create source package (.dsc, .chagnes). Package is not signed'
 	@echo 'signed-src   Create signed source package (.dsc, .chagnes)'
 	@echo 'dput         Put source package to PPA'
 	@echo 'native-build Build .deb package on the current system (no chroot). For testing'
@@ -68,7 +71,7 @@ dput: signed-src
 #
 # pbuilder configuration
 #
-check_pbuilder_rc:
+check-pbuilder-rc:
 	if [ ! -f $${HOME}/.pbuilderrc ]; then \
 		echo; \
 		echo ~/.pbuilderrc does not exist. Copy it to your home:;\
@@ -78,28 +81,44 @@ check_pbuilder_rc:
 	fi
 	# If the file exists, lets hope it is valid
 
-test: check_pbuilder_base
 
-check_pbuilder_base:
-	if [ ! -f /var/cache/pbuilder/$(DIST)-$(ARCH)-base.tgz ]; then \
+check-pbuilder-base-%-i386: check-pbuilder-rc
+	if [ ! -f /var/cache/pbuilder/$*-i386-base.tgz ]; then \
 		echo; \
-		echo pbuilder chroot for distribution $(DIST) architecture $(ARCH) does not exists. Create it with command:;\
-		echo '    ' sudo DIST=$(DIST) ARCH=$(ARCH) pbuilder create; \
+		echo pbuilder chroot for distribution $* architecture i386 does not exists. Create it with command:;\
+		echo '    ' sudo DIST=$* ARCH=i386 pbuilder create; \
 		echo; \
 		exit 1; \
 	fi
 
-check_pbuilder: check_pbuilder_rc check_pbuilder_base
+check-pbuilder-base-%-amd64: check-pbuilder-rc
+	if [ ! -f /var/cache/pbuilder/$*-amd64-base.tgz ]; then \
+		echo; \
+		echo pbuilder chroot for distribution $* architecture amd64 does not exists. Create it with command:;\
+		echo '    ' sudo DIST=$* ARCH=amd64 pbuilder create; \
+		echo; \
+		exit 1; \
+	fi
 
 #
 # Build binary packages
 #
-result:
-	mkdir $@
-	
-deb: check_pbuilder src result 
-	sudo DIST=$(DIST) ARCH=$(ARCH) pbuilder --build $(DEB_FRESH_LIB)*.dsc
-	cp /var/cache/pbuilder/$(DIST)-$(ARCH)/result/* result
+$(foreach dist,$(DISTS),result/$(dist)):
+	mkdir -p $@
+
+# A bit of copy-pasting, but, easier than generic solution
+result/%/$(DEB_FRESH_LIB)-ppa_i386.deb: result/% check-pbuilder-base-%-i386 $(DEB_FRESH_LIB)*.dsc
+	@echo sudo DIST=$* ARCH=i386 pbuilder --build $(DEB_FRESH_LIB)*.dsc
+	@echo cp /var/cache/pbuilder/$*-i386/result/* result/$*
+
+result/%/$(DEB_FRESH_LIB)-ppa_amd64.deb: result/% check-pbuilder-base-%-amd64 $(DEB_FRESH_LIB)*.dsc
+	@echo sudo DIST=$* ARCH=amd64 pbuilder --build $(DEB_FRESH_LIB)*.dsc
+	@echo cp /var/cache/pbuilder/$*-amd64/result/* result/$*
+
+ALL_DEBS = $(foreach dist,$(DISTS),\
+				$(foreach arch,$(ARCHS),\
+					result/$(dist)/$(DEB_FRESH_LIB)-ppa_$(arch).deb))
+all-debs: $(ALL_DEBS)
 
 native-build: result $(DEB_FRESH_LIB) $(DEB_FRESH_LIB)/debian
 	cd $(DEB_FRESH_LIB) && debuild -uc -us -b
