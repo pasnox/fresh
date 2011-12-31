@@ -17,10 +17,9 @@ DEB_PATH=$(DEB_FRESH_LIB)/debian
 FRESH_URL=https://github.com/downloads/pasnox/fresh/$(FRESH_SRC_ARCHIVE)
 
 DIST=$(shell lsb_release -cs)
-ARCH=i386
 
-DISTS = squeeze oneiric
-ARCHS = i386
+# "precise" "oneiric" "natty" "maverick" "lucid"
+DISTS = lucid oneiric
 
 all:
 	@echo $(ALL_DEBS)
@@ -42,24 +41,30 @@ help:
 $(FRESH_SRC_ARCHIVE):
 	cd .. && git archive --prefix=$(DEB_FRESH_LIB)/ new-deb-package | gzip -9 > debian/$@
 
-$(DEB_FRESH_LIB): $(FRESH_SRC_ARCHIVE)
-	tar -xf $<
+$(foreach dist,$(DISTS),build-$(dist)):
+	mkdir -p $@
 
-$(DEF_FRESH_ORIG_ARCHIVE): $(FRESH_SRC_ARCHIVE)
-	ln -s $< $@
+build-%/$(DEB_FRESH_LIB): $(FRESH_SRC_ARCHIVE) build-%
+	cd build-$* && tar -xf ../$(FRESH_SRC_ARCHIVE)
 
-$(DEB_FRESH_LIB)/debian: $(DEB_FRESH_LIB)
+build-%/$(DEF_FRESH_ORIG_ARCHIVE): $(FRESH_SRC_ARCHIVE) build-%
+	ln -s $(PWD)/$(FRESH_SRC_ARCHIVE) $@
+
+build-%/$(DEB_FRESH_LIB)/debian: build-%/$(DEB_FRESH_LIB)
 	mkdir $@
-	cp -R debian-common/* $@
-	if [ -d debian-$(DIST) ]; then \
-	    cp -R debian-$(DIST)/* $@; \
-	fi
+	#mkdir $@
+	#cp -R debian-common/* $@
+	#if [ -d debian-$(DIST) ]; then \
+	#    cp -R debian-$(DIST)/* $@; \
+	#fi
 
 #
 # Build source package
 #
-$(DEB_FRESH_LIB)*.dsc: $(DEB_FRESH_LIB)/debian $(DEF_FRESH_ORIG_ARCHIVE)
-	cd $(DEB_FRESH_LIB) && debuild -S -uc -us
+
+
+build-%/$(DEB_FRESH_LIB)*.dsc: $(DEB_FRESH_LIB)/debian $(DEF_FRESH_ORIG_ARCHIVE)
+	cd $*/$(DEB_FRESH_LIB) && debuild -S -uc -us
 
 src: $(DEB_FRESH_LIB)*.dsc;
 
@@ -68,44 +73,15 @@ signed-src: src
 
 dput: signed-src
 	dput ppa:pasnox/ppa $(DEB_FRESH_LIB)*source.changes
-mksv3
+
 #
 # pbuilder configuration
 #
-check-pbuilder-rc:
-	@if [ ! -f $${HOME}/.pbuilderrc ]; then \
-		echo; \
-		echo ~/.pbuilderrc does not exist. Copy it to your home:;\
-		echo '    ' cp `pwd`/pbuilderrc $${HOME}/.pbuilderrc; \
-		echo; \
-		exit 1; \
-	fi
-	@# If the file exists, lets hope it is valid
-
-
-check-cowbuilder-base-%-i386: check-pbuilder-rc
-	@if [ ! -d $(HOME)/pbuilder/$*-i386-base.cow ]; then \
-		echo; \
-		echo pbuilder chroot for distribution $* architecture i386 does not exists. Create it with command:;\
-		echo '    ' cowbuilder-dist $* i386 create; \
-		echo; \
-		exit 1; \
-	fi
-
-check-cowbuilder-base-%-amd64: check-pbuilder-rc
-	@if [ ! -d $(HOME)/pbuilder/$*-amd64-base.tgz ]; then \
-		echo; \
-		echo pbuilder chroot for distribution $* architecture amd64 does not exists. Create it with command:;\
-		echo '    ' cowbuilder-dist $* amd64 create; \
-		echo; \
-		exit 1; \
-	fi
 
 #
 # Build binary packages
 #
-$(foreach dist,$(DISTS),result/$(dist)):
-	mkdir -p $@
+
 
 # A bit of copy-pasting, but, easier than generic solution
 result/%/$(DEB_FRESH_LIB)-ppa_i386.deb: result/% check-cowbuilder-base-%-i386 $(DEB_FRESH_LIB)*.dsc
@@ -142,12 +118,13 @@ repos: result/repos deb
 # Clean
 #
 clean:
-	rm -fr $(DEB_FRESH_LIB)
-	rm -f $(FRESH_NAME)*$(FRESH_SUFFIX)
-	rm -f $(FRESH_NAME)*.build
-	rm -f $(FRESH_NAME)*.upload
-	rm -f $(FRESH_NAME)*.dsc
-	rm -f $(FRESH_NAME)*.changes
-	rm -f *.deb
-	rm -rf result
+	rm -rf build-*
+	#rm -fr $(DEB_FRESH_LIB)
+	#rm -f $(FRESH_NAME)*$(FRESH_SUFFIX)
+	#rm -f $(FRESH_NAME)*.build
+	#rm -f $(FRESH_NAME)*.upload
+	#rm -f $(FRESH_NAME)*.dsc
+	#rm -f $(FRESH_NAME)*.changes
+	#rm -f *.deb
+	#rm -rf result
 
