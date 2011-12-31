@@ -41,32 +41,24 @@ help:
 $(FRESH_SRC_ARCHIVE):
 	cd .. && git archive --prefix=$(DEB_FRESH_LIB)/ new-deb-package | gzip -9 > debian/$@
 
-$(foreach dist,$(DISTS),build-$(dist)):
+build-%: $(FRESH_SRC_ARCHIVE)
 	mkdir -p $@
-
-build-%/$(DEB_FRESH_LIB): $(FRESH_SRC_ARCHIVE) build-%
-	cd build-$* && tar -xf ../$(FRESH_SRC_ARCHIVE)
-
-build-%/$(DEF_FRESH_ORIG_ARCHIVE): $(FRESH_SRC_ARCHIVE) build-%
-	ln -s $(PWD)/$(FRESH_SRC_ARCHIVE) $@
-
-build-%/$(DEB_FRESH_LIB)/debian: build-%/$(DEB_FRESH_LIB)
-	mkdir $@
-	#mkdir $@
-	#cp -R debian-common/* $@
-	#if [ -d debian-$(DIST) ]; then \
-	#    cp -R debian-$(DIST)/* $@; \
-	#fi
+	cd $@ && tar -xf ../$(FRESH_SRC_ARCHIVE)
+	ln -s $(PWD)/$(FRESH_SRC_ARCHIVE) $@/$(DEF_FRESH_ORIG_ARCHIVE)
+	mkdir $@/$(DEB_FRESH_LIB)/debian
+	cp -R debian-common/* $@/$(DEB_FRESH_LIB)/debian
+	if [ -d debian-$(DIST) ]; then \
+	    cp -R debian-$(DIST)/* $@/$(DEB_FRESH_LIB)/debian; \
+	fi
 
 #
 # Build source package
 #
 
+build-%/$(DEB_FRESH_LIB)-4-ppa1.dsc: build-%
+	cd build-$*/$(DEB_FRESH_LIB) && debuild -S -uc -us
 
-build-%/$(DEB_FRESH_LIB)*.dsc: $(DEB_FRESH_LIB)/debian $(DEF_FRESH_ORIG_ARCHIVE)
-	cd $*/$(DEB_FRESH_LIB) && debuild -S -uc -us
-
-src: $(DEB_FRESH_LIB)*.dsc;
+all-src: $(foreach dist,$(DISTS),build-$(dist) build-$(dist)/$(DEB_FRESH_LIB)-4-ppa1.dsc)
 
 signed-src: src
 	DEBFULLNAME='$(DEBFULLNAME)' DEBEMAIL='$(DEBEMAIL)' debsign *.changes
@@ -74,57 +66,14 @@ signed-src: src
 dput: signed-src
 	dput ppa:pasnox/ppa $(DEB_FRESH_LIB)*source.changes
 
-#
-# pbuilder configuration
-#
 
-#
-# Build binary packages
-#
+#native-build: result $(DEB_FRESH_LIB) $(DEB_FRESH_LIB)/debian
+#	cd $(DEB_FRESH_LIB) && debuild -uc -us -b
 
-
-# A bit of copy-pasting, but, easier than generic solution
-result/%/$(DEB_FRESH_LIB)-ppa_i386.deb: result/% check-cowbuilder-base-%-i386 $(DEB_FRESH_LIB)*.dsc
-	APTCACHEHARDLINK=no cowbuilder-dist $* i386 build $(DEB_FRESH_LIB)*.dsc
-	@echo cp /var/cache/pbuilder/$*-i386/result/* result/$*
-
-result/%/$(DEB_FRESH_LIB)-ppa_amd64.deb: result/% check-cowbuilder-base-%-amd64 $(DEB_FRESH_LIB)*.dsc
-	cowbuilder-dist $* amd64 build $(DEB_FRESH_LIB)*.dsc
-	@echo cp /var/cache/pbuilder/$*-amd64/result/* result/$*
-
-ALL_DEBS = $(foreach dist,$(DISTS),\
-				$(foreach arch,$(ARCHS),\
-					result/$(dist)/$(DEB_FRESH_LIB)-ppa_$(arch).deb))
-
-list-debs:
-	@for dist in $(ALL_DEBS); do echo $$dist; done
-
-all-debs: $(ALL_DEBS)
-
-native-build: result $(DEB_FRESH_LIB) $(DEB_FRESH_LIB)/debian
-	cd $(DEB_FRESH_LIB) && debuild -uc -us -b
-
-#
-# Prepare repository
-#
-result/repos:
-	mkdir $@
-
-repos: result/repos deb
-	cd result && \
-		for deb in `ls result`; do \
-			cd result/repos && reprepo includedeb oneiric 
 #
 # Clean
 #
 clean:
-	rm -rf build-*
-	#rm -fr $(DEB_FRESH_LIB)
-	#rm -f $(FRESH_NAME)*$(FRESH_SUFFIX)
-	#rm -f $(FRESH_NAME)*.build
-	#rm -f $(FRESH_NAME)*.upload
-	#rm -f $(FRESH_NAME)*.dsc
-	#rm -f $(FRESH_NAME)*.changes
-	#rm -f *.deb
-	#rm -rf result
+	-rm -rf build-*
+	-rm $(FRESH_SRC_ARCHIVE)
 
