@@ -60,8 +60,8 @@ build-%: $(FRESH_SRC_ARCHIVE)
 	ln -s $(PWD)/$(FRESH_SRC_ARCHIVE) $@/$(DEF_FRESH_ORIG_ARCHIVE)
 	mkdir $@/$(DEB_FRESH_LIB)/debian
 	cp -R debian-common/* $@/$(DEB_FRESH_LIB)/debian
-	if [ -d debian-$(DIST) ]; then \
-	    cp -R debian-$(DIST)/* $@/$(DEB_FRESH_LIB)/debian; \
+	if [ -d debian-$* ]; then \
+	    cp -R debian-$*/* $@/$(DEB_FRESH_LIB)/debian; \
 	fi
 	sed -i 's/PUT_SERIES_HERE_WITH_SED/$*/g' $@/$(DEB_FRESH_LIB)/debian/changelog
 
