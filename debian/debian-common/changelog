@@ -1,3 +1,9 @@
+fresh (1.1.0-4-ppa2) oneiric; urgency=low
+
+  * Packaging fixes for self-built Debian package
+
+ -- Andrei Kopats <hlamer@tut.by>  Fri, 23 Dec 2011 02:23:00 +0300
+
 fresh (1.1.0-4-ppa1) oneiric; urgency=low
 
   * Fix cmake installed files
@@ -21,3 +27,4 @@ fresh (1.1.0-1) oneiric; urgency=low
   * Initial release
 
  -- Filipe Azevedo <pasnox@gmail.com>  Mon, 07 Nov 2011 00:09:33 +0100
+
