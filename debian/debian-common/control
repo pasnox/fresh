@@ -1,7 +1,7 @@
 Source: fresh
 Priority: extra
 Maintainer: Filipe Azevedo <pasnox@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), cmake, libqt4-dev, qt4-dev-tools, python-qt4, python-qt4-dev
+Build-Depends: debhelper (>= 8.0.0), cmake, libqt4-dev, python-qt4, python-qt4-dev
 Standards-Version: 3.9.2
 Section: libs
 Homepage: http://github.com/pasnox/fresh
@@ -38,3 +38,6 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Fresh module for PyQt4.
     Fresh is a C++ library extending the Qt library by adding new classes/widgets.
     This is the fresh python bindings for PyQt4.
+
+
+

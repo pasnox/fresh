@@ -30,10 +30,15 @@ Running an example
 Building library and examples WITH Python support
 =================================================
 Dependencies:
+* Make (Ubuntu package make)
+* Cmake (Ubuntu package cmake)
 * C++ compiler (Ubuntu package g++)
-* Qt4 library v4.7, headers and tools. (Ubuntu packages qt4-qmake, libqt4-dev)
+* Qt4 library v4.6, headers. (Ubuntu package libqt4-dev)
 * PyQt4 including development files (Ubuntu packages python-qt4, python-qt4-dev)
 * SIP (http://www.riverbankcomputing.co.uk/software/sip/download) (Ubuntu package python-sip-dev)
+
+On Ubuntu install all with command
+	sudo apt-get install make cmake g++ libqt4-dev python-qt4 python-qt4-dev python-sip-dev
 
 Building:
 	mkdir build
@@ -45,4 +50,5 @@ The last command requires root privileges
 Executing Python example:
 	cd examples/python
 	python freshexample.py
+
 
