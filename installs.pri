@@ -42,7 +42,7 @@
 	win32:!win32_crossbuild:fresh_core_headers.files	*= $$system( for /R src/core %i in (*.h) do @echo %i )
 	else:fresh_core_headers.files	*= $$system( find src/core -name '*.h' )
 	
-	fresh_core_headers.files = $$replace( fresh_core_headers.files, "\\\\", "/" )
+	fresh_core_headers.files = $$replace( fresh_core_headers.files, $$BACKSLASH, $SLASH )
 	
 	# gui headers
 	fresh_gui_headers.path	= $$FRESH_INSTALL_HEADERS/FreshGui
@@ -50,7 +50,7 @@
 	win32:!win32_crossbuild:fresh_gui_headers.files	*= $$system( for /R src/gui %i in (*.h) do @echo %i )
 	else:fresh_gui_headers.files	*= $$system( find src/gui -name '*.h' )
 	
-	fresh_gui_headers.files = $$replace( fresh_gui_headers.files, "\\\\", "/" )
+	fresh_gui_headers.files = $$replace( fresh_gui_headers.files, $$BACKSLASH, $SLASH )
 	
 	# generate fresh.prf
 	# remove old one if needed

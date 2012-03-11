@@ -4,6 +4,9 @@ win32:Q_OS_BUILD = windows
 
 win32:!isEqual( Q_OS, "windows" ):CONFIG	*= win32_crossbuild
 
+SLASH = "/"
+BACKSLASH = $$escape_expand( "\\" )
+
 # lupdate/lrelease too buggy ( not full qmake interpreter ), so avoid functions def in this case
 isEmpty( translations_pass ) {
 	# return the list of directories recursively from a given path ($$1)
@@ -21,7 +24,7 @@ isEmpty( translations_pass ) {
 			_q_folders	= $$system( $$command )
 			_q_folders *= $$1
 			
-			_q_folders = $$replace( _q_folders, "\\\\", "/" )
+			_q_folders = $$replace( _q_folders, $$BACKSLASH, $SLASH )
 
 			# loop paths
 			for( q_folder, _q_folders ) {
