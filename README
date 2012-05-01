@@ -17,7 +17,6 @@ Dependencies:
 * C++ compiler (ubuntu package g++)
 * Mac OS X: CoreFoundation
 * Qt4 library v4.6+, headers and tools. (ubuntu packages qt4-qmake, libqt4-dev)
-* libfresh (https://github.com/pasnox/fresh)
 
 Building:
 	qmake ./fresh.pro && make
