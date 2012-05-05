@@ -13,9 +13,6 @@
 ##  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ##
 ###########################################################################################
-XUP.OTHERS_PLATFORM_TARGET_RELEASE  = examples
-XUP.OTHERS_PLATFORM_TARGET_DEBUG    = examples_debug
-
 FRESH_PATH = ../..
 
 # include functions file
@@ -69,6 +66,7 @@ fresh {
     }
 
     QT  *= xml network
+    greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
     QMAKE_RPATHDIR *= $${FRESH_BUILD_PATH}
     macx:LIBS   *= -F$${FRESH_BUILD_PATH}
     LIBS    *= -L$${FRESH_BUILD_PATH}
