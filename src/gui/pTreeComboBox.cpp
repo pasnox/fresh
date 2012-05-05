@@ -36,12 +36,14 @@
 #include <QStylePainter>
 #include <QStack>
 #include <QHeaderView>
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #include <QInputContext>
+#endif
 #include <QScrollBar>
 
 QRect popupGeometry( int screen )
 {
-    return QApplication::desktop()->screenGeometry(screen);
+    return QApplication::desktop()->screenGeometry( screen );
 }
 
 pTreeComboBox::pTreeComboBox( QWidget* parent )
@@ -417,9 +419,11 @@ void pTreeComboBox::calculPopupGeometry()
         listRect.moveBottomLeft(above);
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #ifndef QT_NO_IM
     if ( QInputContext *qic = inputContext() )
         qic->reset();
+#endif
 #endif
     QScrollBar* sb = view()->horizontalScrollBar();
     Qt::ScrollBarPolicy policy = view()->horizontalScrollBarPolicy();

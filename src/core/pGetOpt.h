@@ -133,7 +133,7 @@ private:
     typedef QList<Option>::const_iterator OptionConstIterator;
     QMap<QString, int> setOptions;
 
-    void init( int argc, char *argv[], int offset = 1 );
+    void init( const QStringList& arguments, int offset = 1 );
     void addOption( Option o );
     void setSwitch( const Option &o );
 

@@ -118,7 +118,7 @@ pGetOpt::pGetOpt()
         qFatal( "pGetOpt: requires a QCoreApplication/QApplication instance to be constructed first" );
     }
 
-    init( qApp->argc(), qApp->argv(), 1 );
+    init( qApp->arguments(), 1 );
 }
 
 /**
@@ -130,7 +130,7 @@ pGetOpt::pGetOpt( int offset )
         qFatal( "pGetOpt: requires a QApplication instance to be constructed first" );
     }
 
-    init( qApp->argc(), qApp->argv(), offset );
+    init( qApp->arguments(), offset );
 }
 
 /**
@@ -151,7 +151,14 @@ pGetOpt::pGetOpt( int offset )
     */
 pGetOpt::pGetOpt( int argc, char *argv[] )
 {
-    init( argc, argv );
+    QStringList arguments;
+    
+    for ( int i = 0; i < argc; i++ )
+    {
+        arguments << QString::fromLocal8Bit( argv[ i ] );
+    }
+    
+    init( arguments );
 }
 
 /**
@@ -164,24 +171,24 @@ pGetOpt::pGetOpt( int argc, char *argv[] )
 pGetOpt::pGetOpt( const QStringList &a )
     : args( a )
 {
-    init( 0, 0 );
+    init( QStringList(), 0 );
 }
 
 /**
     \internal
 */
-void pGetOpt::init( int argc, char *argv[], int offset )
+void pGetOpt::init( const QStringList& arguments, int offset )
 {
     numReqArgs = numOptArgs = 0;
     currArg = 1; // appname is not part of the arguments
     
-    if ( argc ) {
+    if ( !arguments.isEmpty() ) {
         // application name
-        aname = QFileInfo( QString::fromLocal8Bit( argv[0] ) ).fileName();
+        aname = QFileInfo( arguments.first() ).fileName();
         
         // arguments
-        for ( int i = offset; i < argc; ++i ) {
-            args.append( QString::fromLocal8Bit( argv[i] ) );
+        for ( int i = offset; i < arguments.count(); ++i ) {
+            args.append( arguments[ i ] );
         }
     }
 }

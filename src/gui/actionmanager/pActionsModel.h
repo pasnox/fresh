@@ -40,8 +40,8 @@
 
 #include <QAbstractItemModel>
 #include <QIcon>
+#include <QMenu>
 
-class QMenu;
 class QAction;
 
 /*!

@@ -25,7 +25,6 @@
 ****************************************************************************/
 #include "pActionsModel.h"
 
-#include <QMenu>
 #include <QAction>
 #include <QDir>
 #include <QDebug>

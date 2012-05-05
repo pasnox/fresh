@@ -20,6 +20,7 @@ INCLUDEPATH *= $$FRESH_INSTALL_HEADERS/FreshCore \
     $$FRESH_INSTALL_HEADERS/FreshGui
 
 QT  *= xml network
+greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
 DEFINES *= FRESH_CORE_BUILD
 !macx:qtAddLibrary( fresh )
 macx:LIBS   *= -lfresh

@@ -238,7 +238,7 @@ pFileDialogResult pFileDialog::getOpenFileName( QWidget* parent, const QString& 
         result[ pFileDialog::FileName ] = fd.selectedFiles().value( 0 );
         result[ pFileDialog::TextCodec ] = fd.textCodec();
         result[ pFileDialog::OpenReadOnly ] = fd.openReadOnly();
-        result[ pFileDialog::SelectedFilter ] = fd.selectedFilter();
+        result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
     
     return result;
@@ -254,7 +254,7 @@ pFileDialogResult pFileDialog::getOpenFileNames( QWidget* parent, const QString&
         result[ pFileDialog::FileNames ] = fd.selectedFiles();
         result[ pFileDialog::TextCodec ] = fd.textCodec();
         result[ pFileDialog::OpenReadOnly ] = fd.openReadOnly();
-        result[ pFileDialog::SelectedFilter ] = fd.selectedFilter();
+        result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
     
     return result;
@@ -270,7 +270,7 @@ pFileDialogResult pFileDialog::getSaveFileName( QWidget* parent, const QString& 
         result[ pFileDialog::FileName ] = fd.selectedFiles().value( 0 );
         result[ pFileDialog::TextCodec ] = fd.textCodec();
         result[ pFileDialog::OpenReadOnly ] = fd.openReadOnly();
-        result[ pFileDialog::SelectedFilter ] = fd.selectedFilter();
+        result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
     
     return result;

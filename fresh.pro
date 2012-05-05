@@ -16,6 +16,7 @@ TEMPLATE = lib
 CONFIG -= release debug debug_and_release warn_on warn_off ppc x86 x86_64
 CONFIG *= warn_on thread x11 windows qt $$FRESH_BUILD_TYPE $$FRESH_BUILD_MODE
 QT *= network xml
+greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
 
 # Mac universal build from 10.3 & up
 macx:universal {
@@ -23,7 +24,10 @@ macx:universal {
     isEmpty( SDK_PATH ):SDK_PATH = /Developer/SDKs
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
     QMAKE_MAC_SDK = $${SDK_PATH}/MacOSX10.6.sdk
-    CONFIG *= x86 x86_64 ppc app_bundle
+    CONFIG *= app_bundle
+    #CONFIG *= x86_64
+    CONFIG *= x86
+    CONFIG *= ppc
     # this link is required for building the ppc port to avoid the undefined __Unwind_Resume symbol
     CONFIG( ppc ):LIBS *= -lgcc_eh
 }
@@ -45,11 +49,10 @@ unix {
 setTemporaryDirectories( $$FRESH_BUILD_PATH )
 isEqual( FRESH_BUILD_MODE, debug ):CONFIG *= console
 
-isEqual( FRESH_BUILD_TYPE, static ) {
-    DESTDIR = $$FRESH_DESTDIR
-} else {
+DESTDIR = $$FRESH_DESTDIR
+
+isEqual( FRESH_BUILD_TYPE, shared ) {
     win32:DLLDESTDIR = $$FRESH_DESTDIR
-    else:DESTDIR = $$FRESH_DESTDIR
 }
 
 # some library infos
@@ -71,7 +74,8 @@ RESOURCES *= resources/fresh.qrc
 XUP.TRANSLATIONS_BASENAME = fresh
 XUP.TRANSLATIONS_DIRECTORY = translations
 
-TRANSLATIONS *= translations/fresh_ru_RU.ts \
+TRANSLATIONS *= \
+    translations/fresh_ru_RU.ts \
     translations/fresh_sl_SI.ts \
     translations/fresh_pl_PL.ts \
     translations/fresh_zh_CN.ts \
