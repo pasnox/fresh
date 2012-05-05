@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pGenericTableModel.h
@@ -38,7 +38,7 @@
 #include <QPoint>
 
 /*!
-	\ingroup FreshCore
+    \ingroup FreshCore
     \class pGenericTableModel
     \brief A ready to use powerfull table model.
 
@@ -59,97 +59,97 @@ public:
     };
     
     /*!
-		Construct a pGenericTableModel having parent \a parent.
-	*/
+        Construct a pGenericTableModel having parent \a parent.
+    */
     pGenericTableModel( QObject* parent = 0 );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual bool setHeaderData( int section, Qt::Orientation orientation, const QVariant& value, int role = Qt::EditRole );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual void sort( int column, Qt::SortOrder order = Qt::AscendingOrder );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual bool insertColumns( int column, int count, const QModelIndex& parent = QModelIndex() );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual bool removeColumns( int column, int count, const QModelIndex& parent = QModelIndex() );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual bool removeRows( int row, int count, const QModelIndex& parent = QModelIndex() );
     /*!
-		Set the column count to \a count.
-	*/
+        Set the column count to \a count.
+    */
     void setColumnCount( int count );
     /*!
-		Set the row count to \a count.
-	*/
+        Set the row count to \a count.
+    */
     void setRowCount( int count );
     /*!
-		Swap the columns from \a fromColumn to \a toColumn.
-	*/
+        Swap the columns from \a fromColumn to \a toColumn.
+    */
     bool swapColumns( int fromColumn, int toColumn );
     /*!
-		Swap the rows from \a fromRow to \a toRow.
-	*/
+        Swap the rows from \a fromRow to \a toRow.
+    */
     bool swapRows( int fromRow, int toRow );
     /*!
-		Clear the model data. If \a onlyData is true then only the data
+        Clear the model data. If \a onlyData is true then only the data
         will be cleared, else the headers and layout will be cleared too.
-	*/
+    */
     void clear( bool onlyData );
     /*!
-		Return the list of all checked indexes from \a column.
+        Return the list of all checked indexes from \a column.
         If \a column is -1 all the columns will be checked.
-	*/
+    */
     QModelIndexList checkedIndexes( int column = -1 ) const;
     /*!
-		Return the list of all checked rows from \a column.
+        Return the list of all checked rows from \a column.
         If \a column is -1 all the columns will be checked.
-	*/
+    */
     QList<int> checkedRows( int column = -1 ) const;
     /*!
-		Return the list of display role of all checked rows from \a column.
+        Return the list of display role of all checked rows from \a column.
         If \a column is -1 all the columns will be checked.
-	*/
+    */
     QStringList checkedStringList( int column = -1 ) const;
     /*!
-		Clear all check state from indexes of \a column.
+        Clear all check state from indexes of \a column.
         If \a column is -1 all the columns will be checked.
-	*/
+    */
     void clearCheckStates( int column = -1 );
     
 protected:

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : Fresh.cpp
@@ -28,25 +28,25 @@
 #ifdef QT_GUI
 namespace Fresh
 {
-	struct InitResources
-	{
-		InitResources()
-		{
-			qWarning( "Fresh Initialized" );
-			Q_INIT_RESOURCE( fresh );
-		}
-	};
-	
-	InitResources resources;
+    struct InitResources
+    {
+        InitResources()
+        {
+            qWarning( "Fresh Initialized" );
+            Q_INIT_RESOURCE( fresh );
+        }
+    };
+    
+    InitResources resources;
 };
 #endif
 
 QString Fresh::versionString()
 {
-	return QLatin1String( FRESH_VERSION );
+    return QLatin1String( FRESH_VERSION );
 }
 
 const char* Fresh::version()
 {
-	return FRESH_VERSION;
+    return FRESH_VERSION;
 }

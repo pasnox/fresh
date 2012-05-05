@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pLocaleModel.h
@@ -38,7 +38,7 @@
 #include <QStringList>
 
 /*!
-	\ingroup FreshCore
+    \ingroup FreshCore
     \class pLocaleModel
     \brief A hierarchical model presenting all Qt QLocale.
 
@@ -51,68 +51,68 @@ class FRESH_EXPORT pLocaleModel : public QAbstractItemModel
     
 public:
     /*!
-		Construct a pLocaleModel having parent \a parent.
-	*/
+        Construct a pLocaleModel having parent \a parent.
+    */
     pLocaleModel( QObject* parent = 0 );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual QModelIndex index( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual QModelIndex parent( const QModelIndex& child ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
     /*!
-		Return the model index for \a locale.
-	*/
+        Return the model index for \a locale.
+    */
     QModelIndex localeToIndex( const QString& locale ) const;
     /*!
-		Return the locale string for \a index.
-	*/
+        Return the locale string for \a index.
+    */
     QString indexToLocale( const QModelIndex& index ) const;
     /*!
-		Return true if the model is checkable, else false.
-	*/
+        Return true if the model is checkable, else false.
+    */
     bool isCheckable() const;
     /*!
-		Set the model checkable according to \a checkable.
-	*/
+        Set the model checkable according to \a checkable.
+    */
     void setCheckable( bool checkable );
     /*!
-		Return the list of checked locale names.
-	*/
+        Return the list of checked locale names.
+    */
     QStringList checkedLocales() const;
     /*!
-		Change the checked state of \a locales to \a checked.
-	*/
+        Change the checked state of \a locales to \a checked.
+    */
     void setCheckedLocales( const QStringList& locales, bool checked = true );
     /*!
-		Return the display text for the locale \a name.
-	*/
+        Return the display text for the locale \a name.
+    */
     static QString localeDisplayText( const QString& name );
     
 protected:

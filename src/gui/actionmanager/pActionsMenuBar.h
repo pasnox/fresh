@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pActionsMenuBar.h
@@ -27,9 +27,9 @@
 #define PACTIONSMENUBAR_H
 
 /*!
-	\file pActionsMenuBar.h
-	\brief An extended QMenuBar having menu/actions exposed by a pActionsModel.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pActionsMenuBar.h
+    \brief An extended QMenuBar having menu/actions exposed by a pActionsModel.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -39,34 +39,34 @@
 class pActionsModel;
 
 /*!
-	\ingroup FreshGui
-	\class pActionsMenuBar
-	\brief An extended QMenuBar having menu/actions exposed by a pActionsModel.
+    \ingroup FreshGui
+    \class pActionsMenuBar
+    \brief An extended QMenuBar having menu/actions exposed by a pActionsModel.
 */
 class FRESH_EXPORT pActionsMenuBar : public QMenuBar
 {
-	Q_OBJECT
-	
+    Q_OBJECT
+    
 public:
-	/*!
-		Create a pActionsMenuBar having parent \a parent.
-	*/
-	pActionsMenuBar( QWidget* parent = 0 );
-	/*!
-		Set the model associated with this menu bar.
-	*/
-	void setModel( pActionsModel* model );
-	/*!
-		Return the model associated with this menu bar.
-	*/
-	pActionsModel* model() const;
-	
+    /*!
+        Create a pActionsMenuBar having parent \a parent.
+    */
+    pActionsMenuBar( QWidget* parent = 0 );
+    /*!
+        Set the model associated with this menu bar.
+    */
+    void setModel( pActionsModel* model );
+    /*!
+        Return the model associated with this menu bar.
+    */
+    pActionsModel* model() const;
+    
 protected:
-	pActionsModel* mModel;
+    pActionsModel* mModel;
 
 protected slots:
-	void model_actionInserted( QAction* action );
-	void model_actionsCleared();
+    void model_actionInserted( QAction* action );
+    void model_actionsCleared();
 };
 
 #endif // PACTIONSMENUBAR_H

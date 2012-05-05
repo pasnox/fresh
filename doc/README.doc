@@ -12,7 +12,7 @@ This documentation describes Fresh for Qt 4.
 Fresh also includes language bindings for <a href="http://www.python.org">Python</a>. 
 These require that <a href="http://www.riverbankcomputing.com/software/pyqt/">PyQt</a> v4 is also installed.
 
-This version of Fresh is based on Qt v4.7.1.
+This version of Fresh is based on Qt v4.7.x.
 
 <h2>Licensing</h2>
 
@@ -57,35 +57,6 @@ To build the example, run:
 </pre>
 
 On Windows (and depending on the compiler you are using) you may need to run <tt>nmake</tt> rather than <tt>make</tt>.
-
-
-<h2>Python Bindings</h2>
-
-Library has Python bindings, which allows you to use it in your Python aplicaton.
-The Python bindings are in the <tt>Python</tt> directory.
-There are next dependencies for Python bindings:
- - C++ compiler (Ubuntu package g++)
- - Qt4 library v4.7, headers and tools. (Ubuntu packages qt4-qmake, libqt4-dev)
- - PyQt4 including development files (Ubuntu packages python-qt4, python-qt4-dev)
- - SIP (http://www.riverbankcomputing.co.uk/software/sip/download) (Ubuntu package python-sip-dev)
-
-The configure, build and install library and bindings
-
-<pre>
-	mkdir build
-	cd build
-	cmake ..
-	make all
-	make install
-</pre>
-The last command requires root privileges
-
-Executing Python example:
-
-<pre>
-	cd examples/python
-	python freshexample.py
-</pre>
 
 <h2>Qt Designer Plugin (not yet available)</h2>
 

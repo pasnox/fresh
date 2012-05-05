@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pCheckComboBox.h
@@ -60,7 +60,7 @@ private:
 };
 
 /*!
-	\ingroup FreshGui
+    \ingroup FreshGui
     \class pCheckComboBox
     \brief A checkable combo box.
 
@@ -74,50 +74,50 @@ class FRESH_EXPORT pCheckComboBox : public QComboBox
     
 public:
     /*!
-		Construct a pLocaleModel having parent \a parent.
-	*/
+        Construct a pLocaleModel having parent \a parent.
+    */
     pCheckComboBox( QWidget* parent = 0 );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual void showPopup();
     /*!
-		Insert a separator at \a index.
-	*/
+        Insert a separator at \a index.
+    */
     void insertSeparator( int index );
     /*!
-		Add a separator at end.
-	*/
+        Add a separator at end.
+    */
     void addSeparator();
     /*!
-		Return true if the item at \a index is a separator.
-	*/
+        Return true if the item at \a index is a separator.
+    */
     bool isSeparator( int index );
     /*!
-		Set the item at \a index a separator according to \a set.
-	*/
+        Set the item at \a index a separator according to \a set.
+    */
     void setSeparator( int index, bool set = true );
     /*!
-		Return the list of checked indexes.
-	*/
+        Return the list of checked indexes.
+    */
     QList<int> checkedRows() const;
     /*!
-		Return the list of checked indexes text.
-	*/
+        Return the list of checked indexes text.
+    */
     QStringList checkedStringList() const;
     /*!
-		Return the list of checked model indexes.
-	*/
+        Return the list of checked model indexes.
+    */
     QModelIndexList checkedIndexes() const;
     /*!
-		Clear all check states.
-	*/
+        Clear all check states.
+    */
     void clearCheckStates();
 
 public slots:
     /*!
-		Retranslate the items.
-	*/
+        Retranslate the items.
+    */
     virtual void retranslateUi();
     
 protected:
@@ -126,16 +126,16 @@ protected:
     pCheckComboBoxDelegate* mDelegate;
     
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual bool event( QEvent* event );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual void changeEvent( QEvent* event );
     /*!
-		Reimplemented.
-	*/
+        Reimplemented.
+    */
     virtual void paintEvent( QPaintEvent* event );
     
     QModelIndex modelIndex( int index ) const;

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pActionsShortcutEditor.h
@@ -27,9 +27,9 @@
 #define PACTIONSSHORTCUTEDITOR_H
 
 /*!
-	\file pActionsShortcutEditor.h
-	\brief This class allow to edit the pActionsNode shortcuts of a pActionsModel.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pActionsShortcutEditor.h
+    \brief This class allow to edit the pActionsNode shortcuts of a pActionsModel.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -45,47 +45,47 @@ class QAction;
 class QAbstractButton;
 
 /*!
-	\ingroup FreshGui
-	\class pActionsShortcutEditor
-	\brief This class allow to edit the pActionsNode shortcuts of a pActionsModel.
+    \ingroup FreshGui
+    \class pActionsShortcutEditor
+    \brief This class allow to edit the pActionsNode shortcuts of a pActionsModel.
 */
 class FRESH_EXPORT pActionsShortcutEditor : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/*!
-		Create an editor for editing the model \a model and having parent \a parent.
-	*/
-	pActionsShortcutEditor( pActionsModel* model, QWidget* parent = 0 );
-	/*!
-		Destroys the editor.
-	*/
-	virtual ~pActionsShortcutEditor();
+    /*!
+        Create an editor for editing the model \a model and having parent \a parent.
+    */
+    pActionsShortcutEditor( pActionsModel* model, QWidget* parent = 0 );
+    /*!
+        Destroys the editor.
+    */
+    virtual ~pActionsShortcutEditor();
 
 protected:
-	Ui_pActionsShortcutEditor* ui;
-	pActionsModel* mModel;
-	pRecursiveSortFilterProxyModel* mProxy;
-	QHash<QAction*, QKeySequence> mOriginalShortcuts;
-	/*!
-		Return the selected node of type pActionsNode::Action.
-	*/
-	QAction* selectedAction() const;
-	/*!
-		Set the \a node \a shortcut.
-		
-		The \a error is shown if the shortcut can't be setted.
-	*/
-	void setShortcut( QAction* action, const QString& shortcut );
+    Ui_pActionsShortcutEditor* ui;
+    pActionsModel* mModel;
+    pRecursiveSortFilterProxyModel* mProxy;
+    QHash<QAction*, QKeySequence> mOriginalShortcuts;
+    /*!
+        Return the selected node of type pActionsNode::Action.
+    */
+    QAction* selectedAction() const;
+    /*!
+        Set the \a node \a shortcut.
+        
+        The \a error is shown if the shortcut can't be setted.
+    */
+    void setShortcut( QAction* action, const QString& shortcut );
 
 private slots:
-	void on_leFilter_textChanged( const QString& text );
-	void tvActions_selectionModel_selectionChanged();
-	void on_kseShortcut_textChanged( const QString& text );
-	void on_tbSet_clicked();
-	void on_tbClear_clicked();
-	void on_dbbButtons_clicked( QAbstractButton* button );
+    void on_leFilter_textChanged( const QString& text );
+    void tvActions_selectionModel_selectionChanged();
+    void on_kseShortcut_textChanged( const QString& text );
+    void on_tbSet_clicked();
+    void on_tbClear_clicked();
+    void on_dbbButtons_clicked( QAbstractButton* button );
 };
 
 #endif // PACTIONSSHORTCUTEDITOR_H

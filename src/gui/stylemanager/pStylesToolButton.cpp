@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pStylesToolButton.cpp
@@ -29,69 +29,69 @@
 #include <QMenu>
 
 pStylesToolButton::pStylesToolButton( QWidget* parent )
-	: QToolButton( parent )
+    : QToolButton( parent )
 {
-	init( QLatin1String( "%1" ) );
+    init( QLatin1String( "%1" ) );
 }
 
 pStylesToolButton::pStylesToolButton( const QString& textFormat, QWidget* parent )
-	: QToolButton( parent )
+    : QToolButton( parent )
 {
-	init( textFormat );
+    init( textFormat );
 }
 
 bool pStylesToolButton::isCheckableActions() const
 {
-	return mActions->isCheckable();
+    return mActions->isCheckable();
 }
 
 QString pStylesToolButton::currentStyle() const
 {
-	return mActions->currentStyle();
+    return mActions->currentStyle();
 }
 
 QAction* pStylesToolButton::systemAction() const
 {
-	return mActions->systemAction();
+    return mActions->systemAction();
 }
 
 QAction* pStylesToolButton::applicationAction() const
 {
-	return mActions->applicationAction();
+    return mActions->applicationAction();
 }
 
 QString pStylesToolButton::systemStyle() const
 {
-	return mActions->systemStyle();
+    return mActions->systemStyle();
 }
 
 QString pStylesToolButton::applicationStyle() const
 {
-	return mActions->applicationStyle();
+    return mActions->applicationStyle();
 }
 
 void pStylesToolButton::setCheckableActions( bool checkable )
 {
-	mActions->setCheckable( checkable );
+    mActions->setCheckable( checkable );
 }
 
 void pStylesToolButton::setCurrentStyle( const QString& style )
 {
-	mActions->setCurrentStyle( style );
+    mActions->setCurrentStyle( style );
 }
 
 void pStylesToolButton::init( const QString& textFormat )
 {
-	mActions = new pStylesActionGroup( textFormat, this );
-	mMenu = new QMenu( this );
-	
-	//mActions->updateActions();
-	mActions->installInMenu( mMenu );
-	
-	setMenu( mMenu );
-	setText( mActions->systemAction()->text() );
-	setPopupMode( QToolButton::MenuButtonPopup );
-	
-	connect( this, SIGNAL( clicked() ), mActions->systemAction(), SLOT( trigger() ) );
-	connect( mActions, SIGNAL( styleSelected(const QString& ) ), this, SIGNAL( styleSelected(const QString& ) ) );
+    mActions = new pStylesActionGroup( textFormat, this );
+    mMenu = new QMenu( this );
+    
+    //mActions->updateActions();
+    mActions->installInMenu( mMenu );
+    
+    setMenu( mMenu );
+    setText( mActions->systemAction()->text() );
+    setPopupMode( QToolButton::MenuButtonPopup );
+    
+    connect( this, SIGNAL( clicked() ), mActions->systemAction(), SLOT( trigger() ) );
+    connect( mActions, SIGNAL( styleSelected(const QString& ) ), this, SIGNAL( styleSelected(const QString& ) ) );
 }

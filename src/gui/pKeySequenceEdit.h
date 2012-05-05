@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pKeySequenceEdit.h
@@ -27,54 +27,54 @@
 #define PKEYSEQUENCEEDIT_H
 
 /*!
-	\file pKeySequenceEdit.h
-	\brief A special QLineEdit that allow to defin QShortcut.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pKeySequenceEdit.h
+    \brief A special QLineEdit that allow to defin QShortcut.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
 #include "pLineEdit.h"
 
 /*!
-	\ingroup FreshGui
-	\class pKeySequenceEdit
-	\brief A special QLineEdit that allow to define QShortcut.
+    \ingroup FreshGui
+    \class pKeySequenceEdit
+    \brief A special QLineEdit that allow to define QShortcut.
 
-	When the user press some combinaison keys, the result is wrotten in the pLineEdit.
+    When the user press some combinaison keys, the result is wrotten in the pLineEdit.
 */
 class FRESH_EXPORT pKeySequenceEdit : public pLineEdit
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/*!
-		Create a instance of pKeySequenceEdit having parent \a parent.
-	*/
-	pKeySequenceEdit( QWidget* parent = 0 );
-	/*!
-		Create a instance of pKeySequenceEdit having parent \a parent.
-		The widget text is set to \a content.
-	*/
-	pKeySequenceEdit( const QString& contents, QWidget* parent = 0 );
-	
-	/*!
-		Return the typed shortcut.
-	*/
-	QKeySequence shortcut() const;
+    /*!
+        Create a instance of pKeySequenceEdit having parent \a parent.
+    */
+    pKeySequenceEdit( QWidget* parent = 0 );
+    /*!
+        Create a instance of pKeySequenceEdit having parent \a parent.
+        The widget text is set to \a content.
+    */
+    pKeySequenceEdit( const QString& contents, QWidget* parent = 0 );
+    
+    /*!
+        Return the typed shortcut.
+    */
+    QKeySequence shortcut() const;
 
 protected:
-	mutable bool mFinished;
-	
-	/*!
-		Reimplemented.
-	*/
-	virtual void keyPressEvent( QKeyEvent* event );
-	/*!
-		Reimplemented.
-	*/
-	virtual void keyReleaseEvent( QKeyEvent* event );
-	
-	QString keySequence( QKeyEvent* event ) const;
+    mutable bool mFinished;
+    
+    /*!
+        Reimplemented.
+    */
+    virtual void keyPressEvent( QKeyEvent* event );
+    /*!
+        Reimplemented.
+    */
+    virtual void keyReleaseEvent( QKeyEvent* event );
+    
+    QString keySequence( QKeyEvent* event ) const;
 };
 
 #endif // PKEYSEQUENCEEDIT_H

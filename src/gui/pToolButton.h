@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pToolButton.h
@@ -27,9 +27,9 @@
 #define PTOOLBUTTON_H
 
 /*!
-	\file pToolButton.h
-	\brief An extended QToolButton that can be rotated.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pToolButton.h
+    \brief An extended QToolButton that can be rotated.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -41,84 +41,84 @@
 class QStyleOptionToolButton;
 
 /*!
-	\ingroup FreshGui
-	\class pToolButton
-	\brief An extended QToolButton that can be rotated.
+    \ingroup FreshGui
+    \class pToolButton
+    \brief An extended QToolButton that can be rotated.
 
-	This button can be rotated.
+    This button can be rotated.
 */
 class FRESH_EXPORT pToolButton : public QToolButton
 {
-	Q_OBJECT
-	friend class pDockWidgetTitleBar;
+    Q_OBJECT
+    friend class pDockWidgetTitleBar;
 
 public:
-	/*!
-		Create an instance of button having \a parent as parent and layouted in \a direction.
-	*/
-	pToolButton( QWidget* parent, QBoxLayout::Direction direction = QBoxLayout::LeftToRight );
-	/*!
-		Reimplemented.
-	*/
-	virtual QSize minimumSizeHint() const;
-	/*!
-		Reimplemented.
-	*/
-	virtual QSize sizeHint() const;
-	/*!
-		Return the direction this button is layouted.
-	*/
-	QBoxLayout::Direction direction() const;
-	/*!
-		Return the user data associated with this button.
-	*/
-	QVariant userData() const;
+    /*!
+        Create an instance of button having \a parent as parent and layouted in \a direction.
+    */
+    pToolButton( QWidget* parent, QBoxLayout::Direction direction = QBoxLayout::LeftToRight );
+    /*!
+        Reimplemented.
+    */
+    virtual QSize minimumSizeHint() const;
+    /*!
+        Reimplemented.
+    */
+    virtual QSize sizeHint() const;
+    /*!
+        Return the direction this button is layouted.
+    */
+    QBoxLayout::Direction direction() const;
+    /*!
+        Return the user data associated with this button.
+    */
+    QVariant userData() const;
 
 public slots:
-	/*!
-		Set the direction of the button to \a direction.
-	*/
-	void setDirection( QBoxLayout::Direction direction );
-	/*!
-		Set the user data to \a data.
-	*/
-	void setUserData( const QVariant& data );
+    /*!
+        Set the direction of the button to \a direction.
+    */
+    void setDirection( QBoxLayout::Direction direction );
+    /*!
+        Set the user data to \a data.
+    */
+    void setUserData( const QVariant& data );
 
 protected:
-	QBoxLayout::Direction mDirection;
-	bool mMenuDown;
-	QVariant mUserData;
-	
-	enum CursorArea {
-		caNone = 0,
-		caArrow,
-		caButton,
-		caArrowClicked,
-		caButtonClicked
-	};
-	/*!
-		Reimplemented.
-	*/
-	virtual void paintEvent( QPaintEvent* event );
-	/*!
-		Reimplemented.
-	*/
-	virtual void mousePressEvent( QMouseEvent* event );
-	/*!
-		Reimplemented.
-	*/
-	virtual void mouseMoveEvent( QMouseEvent* event );
-	/*!
-		Reimplemented.
-	*/
-	virtual void mouseReleaseEvent( QMouseEvent* event );
+    QBoxLayout::Direction mDirection;
+    bool mMenuDown;
+    QVariant mUserData;
+    
+    enum CursorArea {
+        caNone = 0,
+        caArrow,
+        caButton,
+        caArrowClicked,
+        caButtonClicked
+    };
+    /*!
+        Reimplemented.
+    */
+    virtual void paintEvent( QPaintEvent* event );
+    /*!
+        Reimplemented.
+    */
+    virtual void mousePressEvent( QMouseEvent* event );
+    /*!
+        Reimplemented.
+    */
+    virtual void mouseMoveEvent( QMouseEvent* event );
+    /*!
+        Reimplemented.
+    */
+    virtual void mouseReleaseEvent( QMouseEvent* event );
 
-	void paint( QStyleOptionToolButton* option );
-	QSize internalSize( Qt::Orientation orientation ) const;
-	pToolButton::CursorArea cursorArea( const QPoint& pos = QPoint() ) const;
+    void paint( QStyleOptionToolButton* option );
+    QSize internalSize( Qt::Orientation orientation ) const;
+    pToolButton::CursorArea cursorArea( const QPoint& pos = QPoint() ) const;
 
-	QMenu* hasMenu() const;
-	bool menuButtonDown() const;
+    QMenu* hasMenu() const;
+    bool menuButtonDown() const;
 };
 
 #endif // PTOOLBUTTON_H

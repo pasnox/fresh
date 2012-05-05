@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pDockWidget.cpp
@@ -32,75 +32,75 @@
 #include <QAction>
 
 pDockWidget::pDockWidget( const QString& title, QWidget* parent, Qt::WindowFlags flags )
-	: QDockWidget( title, parent, flags )
+    : QDockWidget( title, parent, flags )
 {
-	init();
+    init();
 }
 
 pDockWidget::pDockWidget( QWidget* parent, Qt::WindowFlags flags )
-	: QDockWidget( parent, flags )
+    : QDockWidget( parent, flags )
 {
-	init();
+    init();
 }
 
 void pDockWidget::init()
 {
-	mShowAction = NULL;
-	mTitleBar = new pDockWidgetTitleBar( this );
-	setTitleBarWidget( mTitleBar );
-	connect( toggleViewAction(), SIGNAL( triggered( bool ) ), this, SLOT( toggleViewAction_triggered( bool ) ) );
+    mShowAction = NULL;
+    mTitleBar = new pDockWidgetTitleBar( this );
+    setTitleBarWidget( mTitleBar );
+    connect( toggleViewAction(), SIGNAL( triggered( bool ) ), this, SLOT( toggleViewAction_triggered( bool ) ) );
 }
 
 void pDockWidget::paintEvent( QPaintEvent* event )
 {
-	QDockWidget::paintEvent(  event );
-	
-	if ( isFloating() && style()->objectName().compare( "Oxygen", Qt::CaseInsensitive ) != 0 ) {
-		QRect rect = this->rect().adjusted( 0, 0, -1, -1 );
-		
-		QPainter painter( this );
-		painter.setPen( QColor( 145, 142, 142 ) );
-		painter.setBrush( Qt::NoBrush );
-		painter.drawRect( rect );
-	}
+    QDockWidget::paintEvent(  event );
+    
+    if ( isFloating() && style()->objectName().compare( "Oxygen", Qt::CaseInsensitive ) != 0 ) {
+        QRect rect = this->rect().adjusted( 0, 0, -1, -1 );
+        
+        QPainter painter( this );
+        painter.setPen( QColor( 145, 142, 142 ) );
+        painter.setBrush( Qt::NoBrush );
+        painter.drawRect( rect );
+    }
 }
 
 pDockWidgetTitleBar* pDockWidget::titleBar() const
 {
-	return mTitleBar;
+    return mTitleBar;
 }
 
 QAction* pDockWidget::showAction()
 {
-	if ( !mShowAction )
-	{
-		mShowAction = new QAction(windowIcon(), windowTitle(), this);
-		connect(mShowAction, SIGNAL(activated()), this, SLOT(show()));
-		connect(mShowAction, SIGNAL(activated()), this, SLOT(handleFocusProxy()));
-	}
-	return mShowAction;
+    if ( !mShowAction )
+    {
+        mShowAction = new QAction(windowIcon(), windowTitle(), this);
+        connect(mShowAction, SIGNAL(activated()), this, SLOT(show()));
+        connect(mShowAction, SIGNAL(activated()), this, SLOT(handleFocusProxy()));
+    }
+    return mShowAction;
 }
 
 void pDockWidget::toggleViewAction_triggered( bool toggled )
 {
-	if ( toggled && focusProxy() ) {
-		if ( isFloating() ) {
-			QTimer::singleShot( 0, this, SLOT( handleWindowActivation() ) );
-		}
-		else {
-			QTimer::singleShot( 0, this, SLOT( handleFocusProxy() ) );
-		}
-	}
+    if ( toggled && focusProxy() ) {
+        if ( isFloating() ) {
+            QTimer::singleShot( 0, this, SLOT( handleWindowActivation() ) );
+        }
+        else {
+            QTimer::singleShot( 0, this, SLOT( handleFocusProxy() ) );
+        }
+    }
 }
 
 void pDockWidget::handleWindowActivation()
 {
-	activateWindow();
-	QTimer::singleShot( 0, this, SLOT( handleFocusProxy() ) );
+    activateWindow();
+    QTimer::singleShot( 0, this, SLOT( handleFocusProxy() ) );
 }
 
 void pDockWidget::handleFocusProxy()
 {
-	if ( focusProxy() )
-		focusProxy()->setFocus();
+    if ( focusProxy() )
+        focusProxy()->setFocus();
 }

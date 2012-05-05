@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pQueuedMessageToolBar.h
@@ -27,9 +27,9 @@
 #define PQUEUEDMESSAGETOOLBAR_H
 
 /*!
-	\file pQueuedMessageToolBar.h
-	\brief A toolbar that handle a pQueuedMessageWidget mimicing the chromium yellow toolbar.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pQueuedMessageToolBar.h
+    \brief A toolbar that handle a pQueuedMessageWidget mimicing the chromium yellow toolbar.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -38,53 +38,53 @@
 #include <QToolBar>
 
 /*!
-	\ingroup FreshGui
-	\class pQueuedMessageToolBar
-	\brief A toolbar that handle a pQueuedMessageWidget mimicing the chromium yellow toolbar.
+    \ingroup FreshGui
+    \class pQueuedMessageToolBar
+    \brief A toolbar that handle a pQueuedMessageWidget mimicing the chromium yellow toolbar.
 */
 class FRESH_EXPORT pQueuedMessageToolBar : public QToolBar
 {
-	Q_OBJECT
-	
+    Q_OBJECT
+    
 public:
-	/*!
-		Create an instance of message toolbar having parent \a parent.
-	*/
-	pQueuedMessageToolBar( QWidget* parent = 0 );
-	/*!
-		Return a pointer to the internal pQueuedMessageWidget widget.
-	*/
-	pQueuedMessageWidget* queuedMessageWidget() const;
+    /*!
+        Create an instance of message toolbar having parent \a parent.
+    */
+    pQueuedMessageToolBar( QWidget* parent = 0 );
+    /*!
+        Return a pointer to the internal pQueuedMessageWidget widget.
+    */
+    pQueuedMessageWidget* queuedMessageWidget() const;
 
 protected:
-	pQueuedMessageWidget* mQueuedWidget;
-	
-	/*!
-		Reimplemented.
-	*/
-	void changeEvent( QEvent* event );
-	/*!
-		Reimplemented.
-	*/
-	void paintEvent( QPaintEvent* event );
+    pQueuedMessageWidget* mQueuedWidget;
+    
+    /*!
+        Reimplemented.
+    */
+    void changeEvent( QEvent* event );
+    /*!
+        Reimplemented.
+    */
+    void paintEvent( QPaintEvent* event );
 
 public slots:
-	/*!
-		\sa pQueuedMessageWidget::append( const QString&, int )
-	*/
-	pQueuedMessage appendMessage( const QString& message, int milliSeconds = -1 );
-	/*!
-		\sa pQueuedMessageWidget::append( const pQueuedMessage& )
-	*/
-	void appendMessage( const pQueuedMessage& message );
-	/*!
-		\sa pQueuedMessageWidget::remove( const pQueuedMessage& )
-	*/
-	void removeMessage( const pQueuedMessage& message );
+    /*!
+        \sa pQueuedMessageWidget::append( const QString&, int )
+    */
+    pQueuedMessage appendMessage( const QString& message, int milliSeconds = -1 );
+    /*!
+        \sa pQueuedMessageWidget::append( const pQueuedMessage& )
+    */
+    void appendMessage( const pQueuedMessage& message );
+    /*!
+        \sa pQueuedMessageWidget::remove( const pQueuedMessage& )
+    */
+    void removeMessage( const pQueuedMessage& message );
 
 protected slots:
-	void messageShown( const pQueuedMessage& message );
-	void messageFinished();
+    void messageShown( const pQueuedMessage& message );
+    void messageFinished();
 };
 
 #endif // PQUEUEDMESSAGETOOLBAR_H

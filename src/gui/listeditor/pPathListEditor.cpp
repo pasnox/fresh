@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pPathListEditor.cpp
@@ -31,37 +31,37 @@
 #include <QModelIndex>
 
 pPathListEditor::pPathListEditor( QWidget* parent )
-	: pFileListEditor( parent )
+    : pFileListEditor( parent )
 {
-	init();
+    init();
 }
 
 pPathListEditor::pPathListEditor( const QString& title, const QString& path, QWidget* parent )
-	: pFileListEditor( title, path, QString::null, parent )
+    : pFileListEditor( title, path, QString::null, parent )
 {
-	init();
+    init();
 }
 
 void pPathListEditor::init()
 {
-	aEdit->setIcon( pIconManager::icon( "folder.png", ":/fresh/icons" ) );
+    aEdit->setIcon( pIconManager::icon( "folder.png", ":/fresh/icons" ) );
 }
 
 void pPathListEditor::onAddItem()
 {
-	const QString path = QFileDialog::getExistingDirectory( window(), tr( "Choose directory" ), mPath );
-	
-	if ( !path.isEmpty() ) {
-		append( path );
-	}
+    const QString path = QFileDialog::getExistingDirectory( window(), tr( "Choose directory" ), mPath );
+    
+    if ( !path.isEmpty() ) {
+        append( path );
+    }
 }
 
 void pPathListEditor::onEditItem()
 {
-	const QModelIndex index = selectedIndex();
-	const QString path = QFileDialog::getExistingDirectory( window(), tr( "Choose directory" ), mPath );
-	
-	if ( !path.isEmpty() ) {
-		setValue( path );
-	}
+    const QModelIndex index = selectedIndex();
+    const QString path = QFileDialog::getExistingDirectory( window(), tr( "Choose directory" ), mPath );
+    
+    if ( !path.isEmpty() ) {
+        setValue( path );
+    }
 }

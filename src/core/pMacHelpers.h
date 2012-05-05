@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pMacHelpers.h
@@ -27,9 +27,9 @@
 #define PMACHELPERS_H
 
 /*!
-	\file pMacHelpers.h
-	\brief A central place for mac os x helpers.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pMacHelpers.h
+    \brief A central place for mac os x helpers.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -47,53 +47,53 @@
 #import <CoreFoundation/CFBase.h>
 
 /*!
-	\ingroup FreshCore
-	\namespace pMacHelpers
-	\brief A central place for mac os x helpers.
-	\note This namespace is available on Mac OS X only.
+    \ingroup FreshCore
+    \namespace pMacHelpers
+    \brief A central place for mac os x helpers.
+    \note This namespace is available on Mac OS X only.
 */
 namespace pMacHelpers
 {
-	/*!
-		Return a QVariantMap from \a dict.
-	*/
-	FRESH_EXPORT QVariantMap toQVariantMap( CFDictionaryRef dict );
-	/*!
-		Return a QVariantList from \a array.
-	*/
-	FRESH_EXPORT QVariantList toQVariantList( CFArrayRef array );
-	/*!
-		Return a QVariant from \a string.
-	*/
-	FRESH_EXPORT QVariant toQVariant( CFStringRef string );
-	/*!
-		Return a QVariant from \a value.
-	*/
-	FRESH_EXPORT QVariant toQVariant( CFBooleanRef value );
-	/*!
-		Return a QVariant from \a number.
-	*/
-	FRESH_EXPORT QVariant toQVariant( CFNumberRef number );
-	/*!
-		Return a QVariant from \a data.
-	*/
-	FRESH_EXPORT QVariant toQVariant( CFDataRef data );
-	/*!
-		Return a QVariant from \a url.
-	*/
-	FRESH_EXPORT QVariant toQVariant( CFURLRef url );
-	/*!
-		Return a QVariant from \a uuid.
-	*/
-	FRESH_EXPORT QVariant toQVariant( CFUUIDRef uuid );
-	/*!
-		Return a QVariant from \a bundle.
-	*/
-	FRESH_EXPORT QVariant toQVariant( CFBundleRef bundle );
-	/*!
-		Return a QVariant from CFType \a ref.
-	*/
-	FRESH_EXPORT QVariant toQVariant( CFTypeRef ref );
+    /*!
+        Return a QVariantMap from \a dict.
+    */
+    FRESH_EXPORT QVariantMap toQVariantMap( CFDictionaryRef dict );
+    /*!
+        Return a QVariantList from \a array.
+    */
+    FRESH_EXPORT QVariantList toQVariantList( CFArrayRef array );
+    /*!
+        Return a QVariant from \a string.
+    */
+    FRESH_EXPORT QVariant toQVariant( CFStringRef string );
+    /*!
+        Return a QVariant from \a value.
+    */
+    FRESH_EXPORT QVariant toQVariant( CFBooleanRef value );
+    /*!
+        Return a QVariant from \a number.
+    */
+    FRESH_EXPORT QVariant toQVariant( CFNumberRef number );
+    /*!
+        Return a QVariant from \a data.
+    */
+    FRESH_EXPORT QVariant toQVariant( CFDataRef data );
+    /*!
+        Return a QVariant from \a url.
+    */
+    FRESH_EXPORT QVariant toQVariant( CFURLRef url );
+    /*!
+        Return a QVariant from \a uuid.
+    */
+    FRESH_EXPORT QVariant toQVariant( CFUUIDRef uuid );
+    /*!
+        Return a QVariant from \a bundle.
+    */
+    FRESH_EXPORT QVariant toQVariant( CFBundleRef bundle );
+    /*!
+        Return a QVariant from CFType \a ref.
+    */
+    FRESH_EXPORT QVariant toQVariant( CFTypeRef ref );
 };
 
 #endif // MACHELPERS_H

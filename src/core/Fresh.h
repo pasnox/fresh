@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : Fresh.h
@@ -27,9 +27,9 @@
 #define FRESH_H
 
 /*!
-	\file Fresh.h
-	\brief Access to library informations.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file Fresh.h
+    \brief Access to library informations.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -43,20 +43,20 @@
 #define FRESH_VERSION "1.1.0"
 
 /*!
-	\ingroup FreshCore
-	\namespace Fresh
-	\brief Access to library informations.
+    \ingroup FreshCore
+    \namespace Fresh
+    \brief Access to library informations.
 */
 namespace Fresh
 {
-	/*!
-		Return the QString version of the library.
-	*/
-	FRESH_EXPORT QString versionString();
-	/*!
-		Return the const char* version of the library.
-	*/
-	FRESH_EXPORT const char* version();
+    /*!
+        Return the QString version of the library.
+    */
+    FRESH_EXPORT QString versionString();
+    /*!
+        Return the const char* version of the library.
+    */
+    FRESH_EXPORT const char* version();
 };
 
 #endif // FRESH_H

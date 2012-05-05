@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pEnvironmentVariableEditor.h
@@ -27,9 +27,9 @@
 #define PENVIRONMENTVARIABLEEDITOR_H
 
 /*!
-	\file pEnvironmentVariableEditor.h
-	\brief Ths dialog allow you to create / edit a pEnvironmentVariablesModel::Variable.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pEnvironmentVariableEditor.h
+    \brief Ths dialog allow you to create / edit a pEnvironmentVariablesModel::Variable.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -40,32 +40,32 @@
 class Ui_pEnvironmentVariableEditor;
 
 /*!
-	\ingroup FreshGui
-	\class pEnvironmentVariableEditor
-	\brief Ths dialog allow you to create / edit a pEnvironmentVariablesModel::Variable.
+    \ingroup FreshGui
+    \class pEnvironmentVariableEditor
+    \brief Ths dialog allow you to create / edit a pEnvironmentVariablesModel::Variable.
 */
 class FRESH_EXPORT pEnvironmentVariableEditor : public QDialog 
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/*!
-		Create a new pEnvironmentVariableEditor having parent \a parent.
-		If \a variable is not null then the name and value are read from it.
-		If the variable name is not null then it will be read only.
-	*/
-	pEnvironmentVariableEditor( QWidget* parent = 0, const pEnvironmentVariablesModel::Variable& variable = pEnvironmentVariablesModel::Variable() );
-	/*!
-		Destroys the editor.
-	*/
-	virtual ~pEnvironmentVariableEditor();
-	/*!
-		Return the variable.
-	*/
-	pEnvironmentVariablesModel::Variable variable() const;
+    /*!
+        Create a new pEnvironmentVariableEditor having parent \a parent.
+        If \a variable is not null then the name and value are read from it.
+        If the variable name is not null then it will be read only.
+    */
+    pEnvironmentVariableEditor( QWidget* parent = 0, const pEnvironmentVariablesModel::Variable& variable = pEnvironmentVariablesModel::Variable() );
+    /*!
+        Destroys the editor.
+    */
+    virtual ~pEnvironmentVariableEditor();
+    /*!
+        Return the variable.
+    */
+    pEnvironmentVariablesModel::Variable variable() const;
 
 protected:
-	Ui_pEnvironmentVariableEditor* ui;
+    Ui_pEnvironmentVariableEditor* ui;
 };
 
 #endif // PENVIRONMENTVARIABLEEDITOR_H

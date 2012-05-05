@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pGuiUtils.cpp
@@ -35,151 +35,151 @@
 
 QPixmap pGuiUtils::filledPixmap( const QColor& color, const QSize& size )
 {
-	const QString key = QString( "pGuiUtils::filledPixmap-%1-%2-%3-%4" )
-		.arg( color.name() ).arg( color.alpha() )
-		.arg( size.width() ).arg( size.height() );
-	QPixmap pixmap;
+    const QString key = QString( "pGuiUtils::filledPixmap-%1-%2-%3-%4" )
+        .arg( color.name() ).arg( color.alpha() )
+        .arg( size.width() ).arg( size.height() );
+    QPixmap pixmap;
 
-	if ( !QPixmapCache::find( key, pixmap ) ) {
-		pixmap = QPixmap( size );
-		pixmap.fill( color );
+    if ( !QPixmapCache::find( key, pixmap ) ) {
+        pixmap = QPixmap( size );
+        pixmap.fill( color );
 
-		if ( !QPixmapCache::insert( key, pixmap ) ) {
-			qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << color << size;
-		}
-	}
+        if ( !QPixmapCache::insert( key, pixmap ) ) {
+            qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << color << size;
+        }
+    }
 
-	return pixmap;
+    return pixmap;
 }
 
 QString pGuiUtils::cacheKey( const QString& key, const QSize& size )
 {
-	return QString( "%1-%2-%3" ).arg( key ).arg( size.width() ).arg( size.height() );;
+    return QString( "%1-%2-%3" ).arg( key ).arg( size.width() ).arg( size.height() );;
 }
 
 QPixmap pGuiUtils::scaledPixmap( const QString& filePath, const QSize& size )
 {
-	const QString key = cacheKey( filePath, size );
-	QPixmap pixmap;
+    const QString key = cacheKey( filePath, size );
+    QPixmap pixmap;
 
-	if ( !QPixmapCache::find( key, pixmap ) ) {
-		if ( pixmap.load( filePath ) ) {
+    if ( !QPixmapCache::find( key, pixmap ) ) {
+        if ( pixmap.load( filePath ) ) {
 
-			if ( size != QSize() ) {
-				pixmap = pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-			}
+            if ( size != QSize() ) {
+                pixmap = pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+            }
 
-			if ( !QPixmapCache::insert( key, pixmap ) ) {
-				qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << filePath;
-			}
-		}
-		else {
-			qWarning() << Q_FUNC_INFO << "Pixmap not exists" << filePath;
-		}
-	}
+            if ( !QPixmapCache::insert( key, pixmap ) ) {
+                qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << filePath;
+            }
+        }
+        else {
+            qWarning() << Q_FUNC_INFO << "Pixmap not exists" << filePath;
+        }
+    }
 
-	return pixmap;
+    return pixmap;
 }
 
 QPixmap pGuiUtils::scaledPixmap( const QPixmap& _pixmap, const QString& _key, const QSize& size )
 {
-	const QString key = cacheKey( _key, size );
-	QPixmap pixmap;
+    const QString key = cacheKey( _key, size );
+    QPixmap pixmap;
 
-	if ( !QPixmapCache::find( key, pixmap ) ) {
-		if ( !_pixmap.isNull() ) {
+    if ( !QPixmapCache::find( key, pixmap ) ) {
+        if ( !_pixmap.isNull() ) {
 
-			if ( size != QSize() ) {
-				pixmap = _pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-			}
-			else {
-				pixmap = _pixmap;
-			}
+            if ( size != QSize() ) {
+                pixmap = _pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+            }
+            else {
+                pixmap = _pixmap;
+            }
 
-			if ( !QPixmapCache::insert( key, pixmap ) ) {
-				qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << key;
-			}
-		}
-		else {
-			qWarning() << Q_FUNC_INFO << "Pixmap invalid" << key;
-		}
-	}
+            if ( !QPixmapCache::insert( key, pixmap ) ) {
+                qWarning() << Q_FUNC_INFO << "Can't cache pixmap" << key;
+            }
+        }
+        else {
+            qWarning() << Q_FUNC_INFO << "Pixmap invalid" << key;
+        }
+    }
 
-	return pixmap;
+    return pixmap;
 }
 
 QMargins pGuiUtils::frameMargins( QWidget* window )
 {
-	Q_ASSERT( window );
-	const QRect fg = window->frameGeometry();
-	const QRect g = window->geometry();
-	QMargins margins;
-	
-	margins.setLeft( g.left() -fg.left() );
-	margins.setTop( g.top() -fg.top() );
-	
-	margins.setRight( fg.right() -g.right() );
-	margins.setBottom( fg.bottom() -g.bottom() );
-	
-	return margins;
+    Q_ASSERT( window );
+    const QRect fg = window->frameGeometry();
+    const QRect g = window->geometry();
+    QMargins margins;
+    
+    margins.setLeft( g.left() -fg.left() );
+    margins.setTop( g.top() -fg.top() );
+    
+    margins.setRight( fg.right() -g.right() );
+    margins.setBottom( fg.bottom() -g.bottom() );
+    
+    return margins;
 }
 
 QRect pGuiUtils::saveGeometry( QWidget* window )
 {
-	Q_ASSERT( window );
-	const QMargins margins = frameMargins( window );
-	QRect geometry = QRect( window->pos(),
-		window->frameGeometry()
-			.adjusted(
-				margins.left(), margins.top(), -margins.right(), -margins.bottom()
-			).size()
-	);
-	
-	if ( window->isMaximized()
+    Q_ASSERT( window );
+    const QMargins margins = frameMargins( window );
+    QRect geometry = QRect( window->pos(),
+        window->frameGeometry()
+            .adjusted(
+                margins.left(), margins.top(), -margins.right(), -margins.bottom()
+            ).size()
+    );
+    
+    if ( window->isMaximized()
 #if defined( Q_OS_MAC )
-		|| (
-			window == window->window()
-			&& window->frameGeometry().size() == QApplication::desktop()->availableGeometry( window ).size()
-			&& window->pos().x() == 0
-			&& window->pos().y() <= 0
-		)
+        || (
+            window == window->window()
+            && window->frameGeometry().size() == QApplication::desktop()->availableGeometry( window ).size()
+            && window->pos().x() == 0
+            && window->pos().y() <= 0
+        )
 #endif
-	) {
-		geometry = Q_MAXIMIZED_WINDOW_GEOMETRY;
-	}
-	
-	/*qWarning() << "Saving"
-		<< window->frameGeometry()
-		<< window->geometry()
-		<< window->pos()
-		<< window->size()
-		<< geometry
-		<< margins
-		;*/
-	
-	return geometry;
+    ) {
+        geometry = Q_MAXIMIZED_WINDOW_GEOMETRY;
+    }
+    
+    /*qWarning() << "Saving"
+        << window->frameGeometry()
+        << window->geometry()
+        << window->pos()
+        << window->size()
+        << geometry
+        << margins
+        ;*/
+    
+    return geometry;
 }
 
 void pGuiUtils::restoreGeometry( QWidget* window, const QRect& geometry )
 {
-	Q_ASSERT( window );
-	
-	if ( geometry == Q_MAXIMIZED_WINDOW_GEOMETRY ) {
-		window->showMaximized();
-	}
-	else if ( !geometry.isNull() ) {
+    Q_ASSERT( window );
+    
+    if ( geometry == Q_MAXIMIZED_WINDOW_GEOMETRY ) {
+        window->showMaximized();
+    }
+    else if ( !geometry.isNull() ) {
 #if defined( Q_OS_MAC )
-		window->showMaximized();
+        window->showMaximized();
 #endif
-		window->resize( geometry.size() );
-		window->move( geometry.topLeft() );
-	}
-	
-	/*qWarning() << "Restoring"
-		<< window->frameGeometry()
-		<< window->geometry()
-		<< window->pos()
-		<< window->size()
-		<< geometry
-		;*/
+        window->resize( geometry.size() );
+        window->move( geometry.topLeft() );
+    }
+    
+    /*qWarning() << "Restoring"
+        << window->frameGeometry()
+        << window->geometry()
+        << window->pos()
+        << window->size()
+        << geometry
+        ;*/
 }

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pActionsMenuBar.cpp
@@ -27,55 +27,55 @@
 #include "pActionsModel.h"
 
 pActionsMenuBar::pActionsMenuBar( QWidget* parent )
-	: QMenuBar( parent )
+    : QMenuBar( parent )
 {
-	mModel = 0;
+    mModel = 0;
 }
 
 void pActionsMenuBar::setModel( pActionsModel* model )
 {
-	if ( mModel ) {
-		disconnect( mModel, SIGNAL( actionInserted( QAction* ) ), this, SLOT( model_actionInserted( QAction* ) ) );
-		disconnect( mModel, SIGNAL( actionsCleared() ), this, SLOT( model_actionsCleared() ) );
-		clear();
-		mModel = 0;
-	}
-	
-	mModel = model;
-	
-	if ( mModel ) {
-		for ( int i = 0; i < mModel->rowCount(); i++ ) {
-			QAction* action = mModel->action( mModel->index( i, 0 ) );
-			model_actionInserted( action );
-		}
-	}
-	
-	if ( mModel ) {
-		connect( mModel, SIGNAL( actionInserted( QAction* ) ), this, SLOT( model_actionInserted( QAction* ) ) );
-		connect( mModel, SIGNAL( actionsCleared() ), this, SLOT( model_actionsCleared() ) );
-	}
+    if ( mModel ) {
+        disconnect( mModel, SIGNAL( actionInserted( QAction* ) ), this, SLOT( model_actionInserted( QAction* ) ) );
+        disconnect( mModel, SIGNAL( actionsCleared() ), this, SLOT( model_actionsCleared() ) );
+        clear();
+        mModel = 0;
+    }
+    
+    mModel = model;
+    
+    if ( mModel ) {
+        for ( int i = 0; i < mModel->rowCount(); i++ ) {
+            QAction* action = mModel->action( mModel->index( i, 0 ) );
+            model_actionInserted( action );
+        }
+    }
+    
+    if ( mModel ) {
+        connect( mModel, SIGNAL( actionInserted( QAction* ) ), this, SLOT( model_actionInserted( QAction* ) ) );
+        connect( mModel, SIGNAL( actionsCleared() ), this, SLOT( model_actionsCleared() ) );
+    }
 }
 
 pActionsModel* pActionsMenuBar::model() const
 {
-	if ( !mModel ) {
-		pActionsMenuBar* mb = const_cast<pActionsMenuBar*>( this );
-		mb->setModel( new pActionsModel( mb ) );
-	}
-	
-	return mModel;
+    if ( !mModel ) {
+        pActionsMenuBar* mb = const_cast<pActionsMenuBar*>( this );
+        mb->setModel( new pActionsModel( mb ) );
+    }
+    
+    return mModel;
 }
 
 void pActionsMenuBar::model_actionInserted( QAction* action )
 {
-	QAction* parent = mModel->parent( action );
-	
-	if ( !parent && action->menu() ) {
-		addMenu( action->menu() );
-	}
+    QAction* parent = mModel->parent( action );
+    
+    if ( !parent && action->menu() ) {
+        addMenu( action->menu() );
+    }
 }
 
 void pActionsMenuBar::model_actionsCleared()
 {
-	clear();
+    clear();
 }

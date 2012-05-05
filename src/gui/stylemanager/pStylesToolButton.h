@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pStylesToolButton.h
@@ -27,9 +27,9 @@
 #define PSTYLESTOOLBUTTON_H
 
 /*!
-	\file pStylesToolButton.h
-	\brief A special QToolButton that has a QMenu of available styles.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pStylesToolButton.h
+    \brief A special QToolButton that has a QMenu of available styles.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -40,70 +40,70 @@ class QMenu;
 class pStylesActionGroup;
 
 /*!
-	\ingroup FreshGui
-	\class pStylesToolButton
-	\brief A special QToolButton that has a QMenu of available styles.
+    \ingroup FreshGui
+    \class pStylesToolButton
+    \brief A special QToolButton that has a QMenu of available styles.
 */
 class FRESH_EXPORT pStylesToolButton : public QToolButton
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/*!
-		Create an instance of the tool button having parent \a parent.
-	*/
-	pStylesToolButton( QWidget* parent = 0 );
-	/*!
-		Create an instance of the tool button having parent \a parent and action text format \a textFormat.
-		\sa pStylesActionGroup::pStylesActionGroup( const QString&, QObject* )
-	*/
-	pStylesToolButton( const QString& textFormat, QWidget* parent = 0 );
-	/*!
-		\sa pStylesActionGroup::isCheckable()
-	*/
-	bool isCheckableActions() const;
-	/*!
-		\sa pStylesActionGroup::currentStyle()
-	*/
-	QString currentStyle() const;
-	/*!
-		\sa pStylesActionGroup::systemAction()
-	*/
-	QAction* systemAction() const;
-	/*!
-		\sa pStylesActionGroup::applicationAction()
-	*/
-	QAction* applicationAction() const;
-	/*!
-		\sa pStylesActionGroup::systemStyle()
-	*/
-	QString systemStyle() const;
-	/*!
-		\sa pStylesActionGroup::applicationStyle()
-	*/
-	QString applicationStyle() const;
+    /*!
+        Create an instance of the tool button having parent \a parent.
+    */
+    pStylesToolButton( QWidget* parent = 0 );
+    /*!
+        Create an instance of the tool button having parent \a parent and action text format \a textFormat.
+        \sa pStylesActionGroup::pStylesActionGroup( const QString&, QObject* )
+    */
+    pStylesToolButton( const QString& textFormat, QWidget* parent = 0 );
+    /*!
+        \sa pStylesActionGroup::isCheckable()
+    */
+    bool isCheckableActions() const;
+    /*!
+        \sa pStylesActionGroup::currentStyle()
+    */
+    QString currentStyle() const;
+    /*!
+        \sa pStylesActionGroup::systemAction()
+    */
+    QAction* systemAction() const;
+    /*!
+        \sa pStylesActionGroup::applicationAction()
+    */
+    QAction* applicationAction() const;
+    /*!
+        \sa pStylesActionGroup::systemStyle()
+    */
+    QString systemStyle() const;
+    /*!
+        \sa pStylesActionGroup::applicationStyle()
+    */
+    QString applicationStyle() const;
 
 public slots:
-	/*!
-		\sa pStylesActionGroup::setCheckable( bool )
-	*/
-	void setCheckableActions( bool checkable );
-	/*!
-		\sa pStylesActionGroup::setCurrentStyle( const QString& )
-	*/
-	void setCurrentStyle( const QString& style );
+    /*!
+        \sa pStylesActionGroup::setCheckable( bool )
+    */
+    void setCheckableActions( bool checkable );
+    /*!
+        \sa pStylesActionGroup::setCurrentStyle( const QString& )
+    */
+    void setCurrentStyle( const QString& style );
 
 protected:
-	QMenu* mMenu;
-	pStylesActionGroup* mActions;
-	
-	void init( const QString& textFormat );
+    QMenu* mMenu;
+    pStylesActionGroup* mActions;
+    
+    void init( const QString& textFormat );
 
 signals:
-	/*!
-		\sa pStylesActionGroup::styleSelected( const QString& );
-	*/
-	void styleSelected( const QString& style );
+    /*!
+        \sa pStylesActionGroup::styleSelected( const QString& );
+    */
+    void styleSelected( const QString& style );
 };
 
 #endif // PSTYLESTOOLBUTTON_H

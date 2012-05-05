@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pUpdateChecker.cpp
@@ -32,115 +32,115 @@
 #include <QEvent>
 
 pUpdateChecker::pUpdateChecker( QWidget* parent )
-	: QObject( parent )
+    : QObject( parent )
 {
-	Q_ASSERT( parent );
-	mParent = parent;
-	
-	mAction = new QAction( this );
-	mAction->setIcon( pIconManager::pixmap( "gc-update-checker.png", ":/fresh/icons" ) );
-	
-	localeChanged();
-	
-	mParent.data()->installEventFilter( this );
-	
-	connect( mAction, SIGNAL( triggered() ), this, SLOT( checkForUpdate_triggered() ) );
+    Q_ASSERT( parent );
+    mParent = parent;
+    
+    mAction = new QAction( this );
+    mAction->setIcon( pIconManager::pixmap( "gc-update-checker.png", ":/fresh/icons" ) );
+    
+    localeChanged();
+    
+    mParent.data()->installEventFilter( this );
+    
+    connect( mAction, SIGNAL( triggered() ), this, SLOT( checkForUpdate_triggered() ) );
 }
 
 bool pUpdateChecker::eventFilter( QObject* object, QEvent* event )
 {
-	switch ( event->type() ) {
-		case QEvent::LocaleChange:
-			localeChanged();
-			break;
-		default:
-			break;
-	}
-	
-	return QObject::eventFilter( object, event );
+    switch ( event->type() ) {
+        case QEvent::LocaleChange:
+            localeChanged();
+            break;
+        default:
+            break;
+    }
+    
+    return QObject::eventFilter( object, event );
 }
 
 QAction* pUpdateChecker::menuAction() const
 {
-	return mAction;
+    return mAction;
 }
 
 QDateTime pUpdateChecker::lastUpdated() const
 {
-	return mLastUpdated;
+    return mLastUpdated;
 }
 
 void pUpdateChecker::setLastUpdated( const QDateTime& dateTime )
 {
-	mLastUpdated = dateTime;
+    mLastUpdated = dateTime;
 }
 
 QDateTime pUpdateChecker::lastChecked() const
 {
-	return mLastChecked;
+    return mLastChecked;
 }
 
 void pUpdateChecker::setLastChecked( const QDateTime& dateTime )
 {
-	mLastChecked = dateTime;
+    mLastChecked = dateTime;
 }
 
 QUrl pUpdateChecker::downloadsFeedUrl() const
 {
-	return mDownloadsFeed;
+    return mDownloadsFeed;
 }
 
 void pUpdateChecker::setDownloadsFeedUrl( const QUrl& url )
 {
-	mDownloadsFeed = url;
+    mDownloadsFeed = url;
 }
 
 QString pUpdateChecker::version() const
 {
-	return mVersion;
+    return mVersion;
 }
 
 void pUpdateChecker::setVersion( const QString& version )
 {
-	mVersion = version;
+    mVersion = version;
 }
 
 QString pUpdateChecker::versionString() const
 {
-	return mVersionString;
+    return mVersionString;
 }
 
 void pUpdateChecker::setVersionString( const QString& versionString )
 {
-	mVersionString = versionString;
+    mVersionString = versionString;
 }
 
 QString pUpdateChecker::versionDiscoveryPattern() const
 {
-	return mVersionDiscoveryPattern;
+    return mVersionDiscoveryPattern;
 }
 
 void pUpdateChecker::setVersionDiscoveryPattern( const QString& pattern )
 {
-	mVersionDiscoveryPattern = pattern;
+    mVersionDiscoveryPattern = pattern;
 }
 
 void pUpdateChecker::silentCheck()
 {
-	checkForUpdate_triggered( false );
+    checkForUpdate_triggered( false );
 }
 
 void pUpdateChecker::localeChanged()
 {
-	mAction->setText( tr( "Update" ) );
-	mAction->setToolTip( tr( "Check for update" ) );
+    mAction->setText( tr( "Update" ) );
+    mAction->setToolTip( tr( "Check for update" ) );
 }
 
 void pUpdateChecker::checkForUpdate_triggered( bool show )
 {
-	pUpdateCheckerDialog* dlg = new pUpdateCheckerDialog( this, mParent.data() );
-	
-	if ( show ) {
-		dlg->open();
-	}
+    pUpdateCheckerDialog* dlg = new pUpdateCheckerDialog( this, mParent.data() );
+    
+    if ( show ) {
+        dlg->open();
+    }
 }

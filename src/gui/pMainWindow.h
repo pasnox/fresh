@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pMainWindow.h
@@ -27,9 +27,9 @@
 #define PMAINWINDOW_H
 
 /*!
-	\file pMainWindow.h
-	\brief An extended QMainWindow.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pMainWindow.h
+    \brief An extended QMainWindow.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -44,106 +44,106 @@ class pQueuedMessageToolBar;
 class pDockToolBar;
 
 /*!
-	\ingroup FreshGui
-	\class pMainWindow
-	\brief An extended QMainWindow.
+    \ingroup FreshGui
+    \class pMainWindow
+    \brief An extended QMainWindow.
 
-	This extended mainwindow contains some usefull features :
-	- a pMenuBar as menu bar.
-	- a pDockToolBarManager for tabbed management of docked widgets.
-	- a pQueuedMessageToolBar for present the user passive errors / messages.
-	- a pSettings object for storing/reading your settings.
+    This extended mainwindow contains some usefull features :
+    - a pMenuBar as menu bar.
+    - a pDockToolBarManager for tabbed management of docked widgets.
+    - a pQueuedMessageToolBar for present the user passive errors / messages.
+    - a pSettings object for storing/reading your settings.
 */
 class FRESH_EXPORT pMainWindow : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/*!
-		Create an instance of the main window having \a parent as parent and window flags \a windowFlags.
-	*/
-	pMainWindow( QWidget* parent = 0, Qt::WindowFlags windowFlags = 0 );
-	/*!
-		Reimplemented.
-	*/
-	virtual ~pMainWindow();
-	/*!
-		Reimplemented.
-	*/
-	virtual QMenu* createPopupMenu();
-	/*!
-		Return the settings object used by this main window.
-	*/
-	virtual pSettings* settings() const;
-	/*!
-		Return the menu bar object.
-	*/
-	virtual pActionsMenuBar* menuBar() const;
-	/*!
-		Add \a dockWidget in \a area having \a orientation.
-	*/
-	void addDockManagerWidget( Qt::ToolBarArea area, QDockWidget* dockWidget, Qt::Orientation orientation = Qt::Horizontal );
-	/*!
-		Seth the dock toolbar in \a area to be exclusive according to \a exclusive.
-	*/
-	void setDockManagerAreaExclusive( Qt::ToolBarArea area, bool exclusive );
-	/*!
-		Set the dock manager presentation mode to \a mode.
-	*/
-	void setDockManagerMode( pDockToolBarManager::Mode mode );
-	/*!
-		Append a queued \a message in the message toolbar with an auto close defined to \a milliSeconds.
-		
-		\sa pQueuedMessageToolBar::appendMessage( const QString&, int ).
-	*/
-	void appendMessage( const QString& message, int milliSeconds = -1 );
-	/*!
-		Append a queued \a message in the message toolbar.
-		
-		\sa pQueuedMessageToolBar::appendMessage( const pQueuedMessage& ).
-	*/
-	void appendMessage( const pQueuedMessage& message );
+    /*!
+        Create an instance of the main window having \a parent as parent and window flags \a windowFlags.
+    */
+    pMainWindow( QWidget* parent = 0, Qt::WindowFlags windowFlags = 0 );
+    /*!
+        Reimplemented.
+    */
+    virtual ~pMainWindow();
+    /*!
+        Reimplemented.
+    */
+    virtual QMenu* createPopupMenu();
+    /*!
+        Return the settings object used by this main window.
+    */
+    virtual pSettings* settings() const;
+    /*!
+        Return the menu bar object.
+    */
+    virtual pActionsMenuBar* menuBar() const;
+    /*!
+        Add \a dockWidget in \a area having \a orientation.
+    */
+    void addDockManagerWidget( Qt::ToolBarArea area, QDockWidget* dockWidget, Qt::Orientation orientation = Qt::Horizontal );
+    /*!
+        Seth the dock toolbar in \a area to be exclusive according to \a exclusive.
+    */
+    void setDockManagerAreaExclusive( Qt::ToolBarArea area, bool exclusive );
+    /*!
+        Set the dock manager presentation mode to \a mode.
+    */
+    void setDockManagerMode( pDockToolBarManager::Mode mode );
+    /*!
+        Append a queued \a message in the message toolbar with an auto close defined to \a milliSeconds.
+        
+        \sa pQueuedMessageToolBar::appendMessage( const QString&, int ).
+    */
+    void appendMessage( const QString& message, int milliSeconds = -1 );
+    /*!
+        Append a queued \a message in the message toolbar.
+        
+        \sa pQueuedMessageToolBar::appendMessage( const pQueuedMessage& ).
+    */
+    void appendMessage( const pQueuedMessage& message );
 
 protected:
-	bool mShown;
-	mutable pSettings* mSettings;
-	mutable pActionsMenuBar* mMenuBar;
-	mutable pQueuedMessageToolBar* mQueuedMessageToolBar;
-	mutable pDockToolBarManager* mDockToolBarManager;
-	/*!
-		Reimplemented.
-	*/
-	virtual void showEvent( QShowEvent* event );
-	/*!
-		Reimplemented.
-	*/
-	virtual void closeEvent( QCloseEvent* event );
-	/*!
-		Return the queued message toolbar object.
-	*/
-	virtual pQueuedMessageToolBar* queuedMessageToolBar() const;
-	/*!
-		Return the dock widget toolbar manager object.
-	*/
-	virtual pDockToolBarManager* dockToolBarManager() const;
-	/*!
-		Return the dock toolbar manager for \a area.
-	*/
-	pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
+    bool mShown;
+    mutable pSettings* mSettings;
+    mutable pActionsMenuBar* mMenuBar;
+    mutable pQueuedMessageToolBar* mQueuedMessageToolBar;
+    mutable pDockToolBarManager* mDockToolBarManager;
+    /*!
+        Reimplemented.
+    */
+    virtual void showEvent( QShowEvent* event );
+    /*!
+        Reimplemented.
+    */
+    virtual void closeEvent( QCloseEvent* event );
+    /*!
+        Return the queued message toolbar object.
+    */
+    virtual pQueuedMessageToolBar* queuedMessageToolBar() const;
+    /*!
+        Return the dock widget toolbar manager object.
+    */
+    virtual pDockToolBarManager* dockToolBarManager() const;
+    /*!
+        Return the dock toolbar manager for \a area.
+    */
+    pDockToolBar* dockToolBar( Qt::ToolBarArea area ) const;
 
 public slots:
-	/*!
-		Save the state of the main window.
-		
-		\sa QMainWindow::saveState().
-	*/
-	virtual void saveState();
-	/*!
-		Restore the state of the main window.
-		
-		\sa QMainWindow::restoreState().
-	*/
-	virtual void restoreState();
+    /*!
+        Save the state of the main window.
+        
+        \sa QMainWindow::saveState().
+    */
+    virtual void saveState();
+    /*!
+        Restore the state of the main window.
+        
+        \sa QMainWindow::restoreState().
+    */
+    virtual void restoreState();
 };
 
 #endif // PMAINWINDOW_H

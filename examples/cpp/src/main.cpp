@@ -8,24 +8,24 @@
 
 int main( int argc, char** argv )
 {
-	// create application
-	QApplication app( argc, argv );
-	app.setApplicationName( "fresh-examples" );
+    // create application
+    QApplication app( argc, argv );
+    app.setApplicationName( "fresh-examples" );
 
-	qsrand( QTime( 0, 0, 0 ).secsTo( QTime::currentTime() ) );
+    qsrand( QTime( 0, 0, 0 ).secsTo( QTime::currentTime() ) );
 
-	pSettings::setDefaultProperties( pSettings::Properties( app.applicationName(), "1.0.0", pSettings::Auto ) );
-	pNetworkAccessManager::instance()->setCacheDirectory( app.applicationDirPath().append( "/tmp" ) );
+    pSettings::setDefaultProperties( pSettings::Properties( app.applicationName(), "1.0.0", pSettings::Auto ) );
+    pNetworkAccessManager::instance()->setCacheDirectory( app.applicationDirPath().append( "/tmp" ) );
 
-	MainWindow w;
-	w.setWindowTitle( app.applicationName() );
-	w.show();
+    MainWindow w;
+    w.setWindowTitle( app.applicationName() );
+    w.show();
 
-	// connection
-	QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
+    // connection
+    QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 
-	// start application
-	const int result = app.exec();
+    // start application
+    const int result = app.exec();
 
-	return result;
+    return result;
 }

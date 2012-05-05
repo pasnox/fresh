@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pTranslationDialog.h
@@ -27,9 +27,9 @@
 #define PTRANSLATIONDIALOG_H
 
 /*!
-	\file pTranslationDialog.h
-	\brief A dialog for handling application locales.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
+    \file pTranslationDialog.h
+    \brief A dialog for handling application locales.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
 #include "FreshExport.h"
@@ -43,73 +43,73 @@ class pTranslationManager;
 class QTreeWidgetItem;
 
 /*!
-	\ingroup FreshGui
-	\class pTranslationDialog
-	\brief A dialog for handling application locales.
+    \ingroup FreshGui
+    \class pTranslationDialog
+    \brief A dialog for handling application locales.
 
-	This dialog use a pTranslationManager instance to provide to the user the list of available locales/translations.
+    This dialog use a pTranslationManager instance to provide to the user the list of available locales/translations.
 */
 class FRESH_EXPORT pTranslationDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/*!
-		Create an instance of the dialog having \a parent as parent.
-	*/
-	pTranslationDialog( QWidget* parent = 0 );
-	/*!
-		Create an instance of the dialog having \a parent as parent and \a translationManager as translation manager.
-	*/
-	pTranslationDialog( pTranslationManager* translationManager, QWidget* parent = 0 );
-	/*!
-		Reimplemented.
-	*/
-	virtual ~pTranslationDialog();
-	/*!
-		Reimplemented.
-	*/
-	virtual bool event( QEvent* event );
-	/*!
-		Return the translation manager this dialog use.
-	*/
-	pTranslationManager* translationManager() const;
-	/*!
-		Set the translation manager to use by this dialog.
-	*/
-	void setTranslationManager( pTranslationManager* translationManager );
-	/*!
-		Return the selected item locale, if no item is selected it return the translation manager current locale.
-	*/
-	QString selectedLocale() const;
-	/*!
-		Convenient static member that allow to quickly present the user a translation manager dialog.
-	*/
-	static QString getLocale( pTranslationManager* translationManager, QWidget* parent = 0 );
+    /*!
+        Create an instance of the dialog having \a parent as parent.
+    */
+    pTranslationDialog( QWidget* parent = 0 );
+    /*!
+        Create an instance of the dialog having \a parent as parent and \a translationManager as translation manager.
+    */
+    pTranslationDialog( pTranslationManager* translationManager, QWidget* parent = 0 );
+    /*!
+        Reimplemented.
+    */
+    virtual ~pTranslationDialog();
+    /*!
+        Reimplemented.
+    */
+    virtual bool event( QEvent* event );
+    /*!
+        Return the translation manager this dialog use.
+    */
+    pTranslationManager* translationManager() const;
+    /*!
+        Set the translation manager to use by this dialog.
+    */
+    void setTranslationManager( pTranslationManager* translationManager );
+    /*!
+        Return the selected item locale, if no item is selected it return the translation manager current locale.
+    */
+    QString selectedLocale() const;
+    /*!
+        Convenient static member that allow to quickly present the user a translation manager dialog.
+    */
+    static QString getLocale( pTranslationManager* translationManager, QWidget* parent = 0 );
 
 protected:
-	Ui_pTranslationDialog* ui;
-	QPointer<pTranslationManager> mTranslationManager;
-	QString mOriginalLocale;
-	QHash<QString, QTreeWidgetItem*> mRootItems;
-	
-	void init( pTranslationManager* translationManager );
-	QTreeWidgetItem* newItem( const QLocale& locale );
-	QTreeWidgetItem* rootItem( const QLocale& locale );
+    Ui_pTranslationDialog* ui;
+    QPointer<pTranslationManager> mTranslationManager;
+    QString mOriginalLocale;
+    QHash<QString, QTreeWidgetItem*> mRootItems;
+    
+    void init( pTranslationManager* translationManager );
+    QTreeWidgetItem* newItem( const QLocale& locale );
+    QTreeWidgetItem* rootItem( const QLocale& locale );
 
 protected slots:
-	void localeChanged();
-	void on_tbLocate_clicked();
-	void on_tbReload_clicked();
-	void on_twLocales_itemSelectionChanged();
-	/*!
-		Reimplemented.
-	*/
-	void reject();
-	/*!
-		reimplemented.
-	*/
-	void accept();
+    void localeChanged();
+    void on_tbLocate_clicked();
+    void on_tbReload_clicked();
+    void on_twLocales_itemSelectionChanged();
+    /*!
+        Reimplemented.
+    */
+    void reject();
+    /*!
+        reimplemented.
+    */
+    void accept();
 };
 
 #endif // PTRANSLATIONDIALOG_H

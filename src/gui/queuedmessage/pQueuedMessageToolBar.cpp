@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pQueuedMessageToolBar.cpp
@@ -32,80 +32,80 @@
 #include <QDebug>
 
 pQueuedMessageToolBar::pQueuedMessageToolBar( QWidget* parent )
-	: QToolBar( parent )
+    : QToolBar( parent )
 {
-	mQueuedWidget = new pQueuedMessageWidget( this );
-	
-	setObjectName( metaObject()->className() );
-	setMovable( false );
-	setFloatable( false );
-	setAllowedAreas( Qt::TopToolBarArea );
-	toggleViewAction()->setEnabled( false );
-	toggleViewAction()->setVisible( false );
-	
-	addWidget( mQueuedWidget );
-	layout()->setMargin( 3 );
-	
-	// connections
-	connect( mQueuedWidget, SIGNAL( shown( const pQueuedMessage& ) ), this, SLOT( messageShown( const pQueuedMessage& ) ) );
-	connect( mQueuedWidget, SIGNAL( finished() ), this, SLOT( messageFinished() ) );
+    mQueuedWidget = new pQueuedMessageWidget( this );
+    
+    setObjectName( metaObject()->className() );
+    setMovable( false );
+    setFloatable( false );
+    setAllowedAreas( Qt::TopToolBarArea );
+    toggleViewAction()->setEnabled( false );
+    toggleViewAction()->setVisible( false );
+    
+    addWidget( mQueuedWidget );
+    layout()->setMargin( 3 );
+    
+    // connections
+    connect( mQueuedWidget, SIGNAL( shown( const pQueuedMessage& ) ), this, SLOT( messageShown( const pQueuedMessage& ) ) );
+    connect( mQueuedWidget, SIGNAL( finished() ), this, SLOT( messageFinished() ) );
 }
 
 pQueuedMessageWidget* pQueuedMessageToolBar::queuedMessageWidget() const
 {
-	return mQueuedWidget;
+    return mQueuedWidget;
 }
 
 void pQueuedMessageToolBar::changeEvent( QEvent* event )
 {
-	if ( event->type() == QEvent::FontChange ) {
-		mQueuedWidget->setFont( font() );
-	}
-	
-	QToolBar::changeEvent( event );
+    if ( event->type() == QEvent::FontChange ) {
+        mQueuedWidget->setFont( font() );
+    }
+    
+    QToolBar::changeEvent( event );
 }
 
 void pQueuedMessageToolBar::paintEvent( QPaintEvent* event )
 {
-	if ( mQueuedWidget->pendingMessageCount() == 0 ) {
-		QToolBar::paintEvent( event );
-		return;
-	}
-	
-	const QBrush brush = mQueuedWidget->currentMessageBackground();
-	QPainter painter( this );
-	painter.setPen( brush.color().darker( 150 ) );
-	painter.setBrush( brush );
-	painter.drawRect( contentsRect().adjusted( 0, 0, -1, -1 ) );
+    if ( mQueuedWidget->pendingMessageCount() == 0 ) {
+        QToolBar::paintEvent( event );
+        return;
+    }
+    
+    const QBrush brush = mQueuedWidget->currentMessageBackground();
+    QPainter painter( this );
+    painter.setPen( brush.color().darker( 150 ) );
+    painter.setBrush( brush );
+    painter.drawRect( contentsRect().adjusted( 0, 0, -1, -1 ) );
 }
 
 pQueuedMessage pQueuedMessageToolBar::appendMessage( const QString& message, int milliSeconds )
 {
-	return mQueuedWidget->append( message, milliSeconds );
+    return mQueuedWidget->append( message, milliSeconds );
 }
 
 void pQueuedMessageToolBar::appendMessage( const pQueuedMessage& message )
 {
-	mQueuedWidget->append( message );
+    mQueuedWidget->append( message );
 }
 
 void pQueuedMessageToolBar::removeMessage( const pQueuedMessage& message )
 {
-	mQueuedWidget->remove( message );
+    mQueuedWidget->remove( message );
 }
 
 void pQueuedMessageToolBar::messageShown( const pQueuedMessage& message )
 {
-	Q_UNUSED( message );
-	
-	if ( !isVisible() ) {
-		setVisible( true );
-	}
+    Q_UNUSED( message );
+    
+    if ( !isVisible() ) {
+        setVisible( true );
+    }
 }
 
 void pQueuedMessageToolBar::messageFinished()
 {
-	if ( isVisible() ) {
-		setVisible( false );
-	}
+    if ( isVisible() ) {
+        setVisible( false );
+    }
 }

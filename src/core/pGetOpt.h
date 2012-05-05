@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com> & Copyrighted authors later defined
 ** Project   : Fresh Library
 ** FileName  : pGetOpt.cpp
@@ -75,77 +75,77 @@
 
 class FRESH_EXPORT pGetOpt {
 public:
-	pGetOpt();
-	pGetOpt( int offset );
-	pGetOpt( int argc, char *argv[] );
-	pGetOpt( const QStringList &a );
+    pGetOpt();
+    pGetOpt( int offset );
+    pGetOpt( int argc, char *argv[] );
+    pGetOpt( const QStringList &a );
 
-	QString appName() const { return aname; }
+    QString appName() const { return aname; }
 
-	// switch (no arguments)
-	void addSwitch( const QString &lname, bool *b );
+    // switch (no arguments)
+    void addSwitch( const QString &lname, bool *b );
 
-	// options (with arguments, sometimes optional)
-	void addOption( char s, const QString &l, QString *v );
-	void addVarLengthOption( const QString &l, QStringList *v );
-	void addRepeatableOption( char s, QStringList *v );
-	void addRepeatableOption( const QString &l, QStringList *v );
-	void addOptionalOption( const QString &l, QString *v, const QString &def );
-	void addOptionalOption( char s, const QString &l, QString *v, const QString &def );
+    // options (with arguments, sometimes optional)
+    void addOption( char s, const QString &l, QString *v );
+    void addVarLengthOption( const QString &l, QStringList *v );
+    void addRepeatableOption( char s, QStringList *v );
+    void addRepeatableOption( const QString &l, QStringList *v );
+    void addOptionalOption( const QString &l, QString *v, const QString &def );
+    void addOptionalOption( char s, const QString &l, QString *v, const QString &def );
 
-	// bare arguments
-	void addArgument( const QString &name, QString *v );
-	void addOptionalArgument( const QString &name, QString *v );
+    // bare arguments
+    void addArgument( const QString &name, QString *v );
+    void addOptionalArgument( const QString &name, QString *v );
 
-	bool parse( bool untilFirstSwitchOnly );
-	bool parse() { return parse( false ); }
+    bool parse( bool untilFirstSwitchOnly );
+    bool parse() { return parse( false ); }
 
-	bool isSet( const QString &name ) const;
+    bool isSet( const QString &name ) const;
 
-	int currentArgument() const { return currArg; }
+    int currentArgument() const { return currArg; }
 
 private:
-	enum OptionType { OUnknown, OEnd, OSwitch, OArg1, OOpt, ORepeat, OVarLen };
+    enum OptionType { OUnknown, OEnd, OSwitch, OArg1, OOpt, ORepeat, OVarLen };
 
-	struct Option;
-	friend struct Option;
+    struct Option;
+    friend struct Option;
 
-	struct Option {
-		Option( OptionType t = OUnknown, char s = 0, const QString &l = QString::null )
-			: type( t ),
-				sname( s ),
-				lname( l ),
-				boolValue( 0 )
-		{}
+    struct Option {
+        Option( OptionType t = OUnknown, char s = 0, const QString &l = QString::null )
+            : type( t ),
+                sname( s ),
+                lname( l ),
+                boolValue( 0 )
+        {}
 
-		OptionType type;
-		char sname; // short option name (0 if none)
-		QString lname; // long option name  (null if none)
-		union {
-			bool *boolValue;
-			QString *stringValue;
-			QStringList *listValue;
-		};
-		QString def;
-	};
+        OptionType type;
+        char sname; // short option name (0 if none)
+        QString lname; // long option name  (null if none)
+        union {
+            bool *boolValue;
+            QString *stringValue;
+            QStringList *listValue;
+        };
+        QString def;
+    };
 
-	QList<Option> options;
-	typedef QList<Option>::const_iterator OptionConstIterator;
-	QMap<QString, int> setOptions;
+    QList<Option> options;
+    typedef QList<Option>::const_iterator OptionConstIterator;
+    QMap<QString, int> setOptions;
 
-	void init( int argc, char *argv[], int offset = 1 );
-	void addOption( Option o );
-	void setSwitch( const Option &o );
+    void init( int argc, char *argv[], int offset = 1 );
+    void addOption( Option o );
+    void setSwitch( const Option &o );
 
-	QStringList args;
-	QString aname;
+    QStringList args;
+    QString aname;
 
-	int numReqArgs;
-	int numOptArgs;
-	Option reqArg;
-	Option optArg;
+    int numReqArgs;
+    int numOptArgs;
+    Option reqArg;
+    Option optArg;
 
-	int currArg;
+    int currArg;
 };
 
 #endif // PGETOPT_H

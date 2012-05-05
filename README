@@ -1,55 +1,28 @@
 Fresh is a library extending the Qt library by adding new classes/widgets.
-Library has Python bindings.
 It's developped by Filipe AZEVEDO (Nox P@sNox, pasnox@gmail.com)
-Python bindings created by Andrei KOPATS (hlamer, hlamer@tut.by)
+The library had python bindings created by Andrei KOPATS (hlamer, hlamer@tut.by), see python-bindings branch.
+The python bindings are discontinued it's why they have been moved to the python-bindings branch, feel free to take over.
 
 Licensed in LGPL v3
---------------------
+===================
 
 Home Page: https://github.com/pasnox/fresh
-----------
 Issues Tracker: https://github.com/pasnox/fresh/issues
----------------
 
-Building library and examples WITHOUT Python support
-====================================================
+Building library and examples:
+==============================
+
+HINT: Depending your plat-form, replace qmake by qmake-qt4
+
 Dependencies:
-* C++ compiler (ubuntu package g++)
-* Mac OS X: CoreFoundation
-* Qt4 library v4.6+, headers and tools. (ubuntu packages qt4-qmake, libqt4-dev)
+    * C++ compiler (ubuntu package g++)
+    * Qt4 library v4.6+, headers and tools. (ubuntu packages qt4-qmake, libqt4-dev)
 
 Building:
-	qmake ./fresh.pro && make
-Building an example (after having built the library):
-	cd examples/cpp
-	qmake
-	make
-Running an example
-	./examples
+    qmake ./fresh.pro && make
 
-
-Building library and examples WITH Python support
-=================================================
-Dependencies:
-* Make (Ubuntu package make)
-* Cmake (Ubuntu package cmake)
-* C++ compiler (Ubuntu package g++)
-* Qt4 library v4.6, headers. (Ubuntu package libqt4-dev)
-* PyQt4 including development files (Ubuntu packages python-qt4, python-qt4-dev)
-* SIP (http://www.riverbankcomputing.co.uk/software/sip/download) (Ubuntu package python-sip-dev)
-
-On Ubuntu install all with command
-	sudo apt-get install make cmake g++ libqt4-dev python-qt4 python-qt4-dev python-sip-dev
-
-Building:
-	mkdir build
-	cd build
-	cmake ..
-	make all
-	make install
-The last command requires root privileges
-Executing Python example:
-	cd examples/python
-	python freshexample.py
-
-
+Building and running an example (after having built the library):
+    cd examples/cpp
+    qmake
+    make
+    ./examples

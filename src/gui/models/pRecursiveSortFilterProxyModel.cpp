@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pRecursiveSortFilterProxyModel.cpp
@@ -26,23 +26,23 @@
 #include "pRecursiveSortFilterProxyModel.h"
 
 pRecursiveSortFilterProxyModel::pRecursiveSortFilterProxyModel( QObject* parent )
-	: QSortFilterProxyModel( parent )
+    : QSortFilterProxyModel( parent )
 {
 }
 
 bool pRecursiveSortFilterProxyModel::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const
 {
-	const QModelIndex index = sourceModel()->index( source_row, 0, source_parent );
-	const int rowCount = sourceModel()->rowCount( index );
-	const bool accepted = QSortFilterProxyModel::filterAcceptsRow( source_row, source_parent );
-	
-	if ( rowCount > 0 && !accepted ) {
-		for ( int row = 0; row < rowCount; row++ ) {
-			if ( filterAcceptsRow( row, index ) ) {
-				return true;
-			}
-		}
-	}
-	
-	return accepted;
+    const QModelIndex index = sourceModel()->index( source_row, 0, source_parent );
+    const int rowCount = sourceModel()->rowCount( index );
+    const bool accepted = QSortFilterProxyModel::filterAcceptsRow( source_row, source_parent );
+    
+    if ( rowCount > 0 && !accepted ) {
+        for ( int row = 0; row < rowCount; row++ ) {
+            if ( filterAcceptsRow( row, index ) ) {
+                return true;
+            }
+        }
+    }
+    
+    return accepted;
 }

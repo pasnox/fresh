@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** 		Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
+**      Created using Monkey Studio IDE v1.8.4.0 (1.8.4.0)
 ** Authors   : Filipe AZEVEDO aka Nox P@sNox <pasnox@gmail.com>
 ** Project   : Fresh Library
 ** FileName  : pWinHelpers.h
@@ -27,19 +27,19 @@
 #define PWINHELPERS_H
 
 /*!
-	\file pWinHelpers.h
-	\brief A central place for windows helpers.
-	\author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>.
-	\note Gordon Schumacher's macros for TCHAR -> QString conversions and vice versa.
+    \file pWinHelpers.h
+    \brief A central place for windows helpers.
+    \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>.
+    \note Gordon Schumacher's macros for TCHAR -> QString conversions and vice versa.
 */
 
 #include <QtGlobal>
 
 /*!
-	\ingroup FreshCore
-	\namespace pWinHelpers
-	\brief A central place for windows helpers.
-	\note This namespace/macros are available on Windows only.
+    \ingroup FreshCore
+    \namespace pWinHelpers
+    \brief A central place for windows helpers.
+    \note This namespace/macros are available on Windows only.
 */
 #ifdef UNICODE /*UNICODE*/
 #ifndef _UNICODE // needed for _tcslen
