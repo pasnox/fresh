@@ -55,15 +55,7 @@ isEqual( FRESH_BUILD_TYPE, shared ) {
     win32:DLLDESTDIR = $$FRESH_DESTDIR
 }
 
-# some library infos
-QMAKE_TARGET_COMPANY = "The Fresh Team"
-QMAKE_TARGET_PRODUCT = "Fresh Framework"
-QMAKE_TARGET_DESCRIPTION = "Qt Extension Framework"
-QMAKE_TARGET_COPYRIGHT = "\\251 2005 - 2012 Filipe AZEVEDO and $$QMAKE_TARGET_COMPANY"
-VERSION = 1.1.0
-
-# make library exportable
-DEFINES *= FRESH_CORE_BUILD
+include( defines.pri )
 
 FRESH_SOURCES_PATHS = $$getFolders( ./src ) $${UI_DIR} $${MOC_DIR} $${RCC_DIR}
 DEPENDPATH *= $${FRESH_SOURCES_PATHS}
