@@ -9,3 +9,4 @@ examples/cpp/examples
 /Makefile
 /*.fresh
 /object_script.*
+/fresh.prf
