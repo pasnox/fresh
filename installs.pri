@@ -10,7 +10,7 @@
     FRESH_INSTALL_TRANSLATIONS  = $$[QT_INSTALL_TRANSLATIONS]
     FRESH_INSTALL_FEATURES  = $$[QMAKE_MKSPECS]/features
 
-    win32_crossbuild {
+    cb_win32 {
         FRESH_INSTALL_HEADERS   = $(QT_WIN32_PATH)/include
         FRESH_INSTALL_LIBS  = $(QT_WIN32_PATH)/lib
         FRESH_INSTALL_TRANSLATIONS  = $(QT_WIN32_PATH)/translations
@@ -39,30 +39,30 @@
     # core headers
     fresh_core_headers.path = $$FRESH_INSTALL_HEADERS/FreshCore
     fresh_core_headers.files    = include/FreshCore/*
-    win32:!win32_crossbuild:fresh_core_headers.files    *= $$system( for /R src/core %i in (*.h) do @echo %i )
+    win32:!cb_win32:fresh_core_headers.files    *= $$system( for /R src/core %i in (*.h) do @echo %i )
     else:fresh_core_headers.files   *= $$system( find src/core -name '*.h' )
-    fresh_core_headers.files = $$replace( fresh_core_headers.files, $$BACKSLASH, $$SLASH )
+    fresh_core_headers.files = $$replace( fresh_core_headers.files, $$Q_BACK_SLASH, $$Q_SLASH )
 
     # gui headers
     fresh_gui_headers.path  = $$FRESH_INSTALL_HEADERS/FreshGui
     fresh_gui_headers.files = include/FreshGui/*
-    win32:!win32_crossbuild:fresh_gui_headers.files *= $$system( for /R src/gui %i in (*.h) do @echo %i )
+    win32:!cb_win32:fresh_gui_headers.files *= $$system( for /R src/gui %i in (*.h) do @echo %i )
     else:fresh_gui_headers.files    *= $$system( find src/gui -name '*.h' )
-    fresh_gui_headers.files = $$replace( fresh_gui_headers.files, $$BACKSLASH, $$SLASH )
+    fresh_gui_headers.files = $$replace( fresh_gui_headers.files, $$Q_BACK_SLASH, $$Q_SLASH )
 
     # generate fresh.prf
     # remove old one if needed
     exists( "fresh.prf" ) {
-        win32:!win32_crossbuild:system( "del fresh.prf" )
+        win32:!cb_win32:system( "del fresh.prf" )
         else:system( "rm fresh.prf" )
     }
 
     # create new one based on build type
     isEqual( FRESH_BUILD_TYPE, static ) {
-        win32:!win32_crossbuild:system( "copy fresh_static.prf fresh.prf" )
+        win32:!cb_win32:system( "copy fresh_static.prf fresh.prf" )
         else:system( "cp fresh_static.prf fresh.prf" )
     } else {
-        win32:!win32_crossbuild:system( "copy fresh_shared.prf fresh.prf" )
+        win32:!cb_win32:system( "copy fresh_shared.prf fresh.prf" )
         else:system( "cp fresh_shared.prf fresh.prf" )
     }
 
