@@ -136,6 +136,13 @@ public:
         Return the created QAction on success else 0.
     */
     QAction* addAction( const QString& path, const QString& text, const QIcon& icon = QIcon() );
+    
+    /*!
+        Add a new separator in the model at the given \a path having optional text \a text.
+        
+        Return the created QAction separator on success else 0.
+    */
+    QAction* addSeparator( const QString& path, const QString& text = QString::null );
     /*!
         Add a menu at the given \a path.
     */

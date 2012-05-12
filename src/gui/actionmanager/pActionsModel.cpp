@@ -247,6 +247,19 @@ QAction* pActionsModel::addAction( const QString& path, const QString& text, con
     return action;
 }
 
+QAction* pActionsModel::addSeparator( const QString& path, const QString& text )
+{
+    QAction* action = new QAction( text, this );
+    action->setSeparator( true );
+    
+    if ( !addAction( path, action ) ) {
+        delete action;
+        return 0;
+    }
+    
+    return action;
+}
+
 QAction* pActionsModel::addMenu( const QString& path, const QString& text, const QIcon& icon )
 {
     QAction* action = createCompletePathNode( path );
@@ -454,7 +467,7 @@ void pActionsModel::insertAction( const QString& path, QAction* action, QAction*
     if ( parent ) {
         parent->menu()->addAction( action );
     }
-    if ( action->text().isEmpty() ) {
+    if ( action->text().isEmpty() && !action->isSeparator() ) {
         action->setText( path.section( '/', -1, -1 ) );
     }
     mChildren[ parent ] << action;
