@@ -72,12 +72,17 @@ bool pSettings::Properties::isWritable( const QString& filePath ) const
 
 QString pSettings::Properties::filePath( pSettings::Type type ) const
 {
+    if ( name.isEmpty() || version.isEmpty() ) {
+        Q_ASSERT( 0 );
+        qFatal( "%s: name and version can not be empty", Q_FUNC_INFO );
+    }
+    
     QString fn;
     
     switch ( type ) {
         case pSettings::Invalid: {
             Q_ASSERT( 0 );
-            qFatal( "%s", qPrintable( QString( "%1: Invalid call" ).arg( Q_FUNC_INFO ) ) );
+            qFatal( "%s: Invalid call", Q_FUNC_INFO );
             break;
         }
         case pSettings::Auto: {
