@@ -43,7 +43,42 @@ class QLabel;
 class QComboBox;
 class QCheckBox;
 
-class pFileDialogResult;
+/*!
+    \ingroup FreshGui
+    \class pFileDialogResult
+    \brief Result object of pFileDialog.
+
+    This file dialog add support for some new features like Text Codec choosing, Open in read only mode.
+    The results are stocked in a dedicated class that can be read using \a pFileDialog::Property or helpers.
+*/
+class FRESH_EXPORT pFileDialogResult : public QMap<int, QVariant>
+{
+public:
+    /*!
+        Return the selected text codec.
+    */
+    QString textCodec() const;
+    /*!
+        Return true if read only has been checked else false.
+    */
+    bool openReadOnly() const;
+    /*!
+        Return the selected directory.
+    */
+    QString directory() const;
+    /*!
+        Return the selected file name.
+    */
+    QString fileName() const;
+    /*!
+        Return the selected file names.
+    */
+    QStringList fileNames() const;
+    /*!
+        Return the selected filter.
+    */
+    QString selectedFilter() const;
+};
 
 /*!
     \ingroup FreshGui
@@ -259,35 +294,6 @@ protected:
     QCheckBox* cbOpenReadOnly;
     
     static void setDialog( pFileDialog* dlg, const QString& caption, const QString& dir, const QString& filter, bool enabledTextCodec, bool enabledOpenReadOnly, const QString& selectedFilter, QFileDialog::FileMode mode, QFileDialog::Options options );
-};
-
-class pFileDialogResult : public QMap<int, QVariant>
-{
-public:
-    /*!
-        Return the selected text codec.
-    */
-    QString textCodec() const;
-    /*!
-        Return true if read only has been checked else false.
-    */
-    bool openReadOnly() const;
-    /*!
-        Return the selected directory.
-    */
-    QString directory() const;
-    /*!
-        Return the selected file name.
-    */
-    QString fileName() const;
-    /*!
-        Return the selected file names.
-    */
-    QStringList fileNames() const;
-    /*!
-        Return the selected filter.
-    */
-    QString selectedFilter() const;
 };
 
 #endif // PFILEDIALOG_H
