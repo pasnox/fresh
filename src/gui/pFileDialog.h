@@ -61,7 +61,7 @@ public:
     /*!
         Return true if read only has been checked else false.
     */
-    bool openReadOnly() const;
+    bool readOnly() const;
     /*!
         Return the selected directory.
     */
@@ -96,7 +96,7 @@ public:
     /*! Thie enumeration represent the possible properties to query. */
     enum Property {
         TextCodec = 0, /*!< The text codec choosed by user (QString). */
-        OpenReadOnly, /*!< The open in read only state (bool). */
+        ReadOnly, /*!< The open in read only state (bool). */
         Directory, /*!< The directory choosed by the user (QString). */
         FileName, /*!< The file name choosed by the user (QString) */
         FileNames, /*!< The file names choosed by the user (QStringList). */
@@ -179,7 +179,7 @@ public:
         QString fileName = pFileDialog::getOpenFileName( this, tr( "Open File" ),
                                                     "/home",
                                                     tr( "Images (*.png *.xpm *.jpg)" ),
-                                                    true, true,
+                                                    true, true, QString::null,
                                                     QString::null, 0 );
         \endcode
         
@@ -208,14 +208,14 @@ public:
         
         \sa getOpenFileNames(), getSaveFileName(), and getExistingDirectory().
     */
-    static pFileDialogResult getOpenFileName( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, bool enabledOpenReadOnly = true, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
+    static pFileDialogResult getOpenFileName( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, bool enabledOpenReadOnly = true, const QString& textCodec = QString::null, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
     /*!
         This is a convenience static function that will return one or more existing files selected by the user.
         
         \code
         QStringList files = pFileDialog::getOpenFileNames( this, tr( "Select one or more files to open" ),
                                                     "/home", tr( "Images (*.png *.xpm *.jpg)" ),
-                                                    true, true,
+                                                    true, true, QString::null,
                                                     QString::null, 0 );
         \endcode
         
@@ -244,7 +244,7 @@ public:
         
         \sa getOpenFileName(), getSaveFileName(), and getExistingDirectory().
     */
-    static pFileDialogResult getOpenFileNames( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, bool enabledOpenReadOnly = true, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
+    static pFileDialogResult getOpenFileNames( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, bool enabledOpenReadOnly = true, const QString& textCodec = QString::null, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
     /*!
         This is a convenience static function that will return a file name selected by the user.
         The file does not have to exist.
@@ -256,7 +256,7 @@ public:
         QString fileName = pFileDialog::getSaveFileName( this, tr( "Save File" ),
                                                 "/home/jana/untitled.png",
                                                 tr( "Images (*.png *.xpm *.jpg)" ),
-                                                true, QString::null, 0 );
+                                                true, QString::null, QString::null, 0 );
         \endcode
         
         The file dialog's working directory will be set to \a dir.
@@ -283,7 +283,7 @@ public:
         
         \sa getOpenFileName(), getOpenFileNames(), and getExistingDirectory().
     */
-    static pFileDialogResult getSaveFileName( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
+    static pFileDialogResult getSaveFileName( QWidget* parent = 0, const QString& caption = QString::null, const QString& dir = QString::null, const QString& filter = QString::null, bool enabledTextCodec = true, const QString& textCodec = QString::null, const QString& selectedFilter = QString::null, QFileDialog::Options options = 0 );
 
 protected:
     QGridLayout* glDialog;

@@ -41,9 +41,9 @@ QString pFileDialogResult::textCodec() const
     return value( pFileDialog::TextCodec ).toString();
 }
 
-bool pFileDialogResult::openReadOnly() const
+bool pFileDialogResult::readOnly() const
 {
-    return value( pFileDialog::OpenReadOnly ).toBool();
+    return value( pFileDialog::ReadOnly ).toBool();
 }
 
 QString pFileDialogResult::directory() const
@@ -256,54 +256,66 @@ pFileDialogResult pFileDialog::getExistingDirectory( QWidget* parent, const QStr
     if ( fd.exec() == QDialog::Accepted ) {
         result[ pFileDialog::Directory ] = fd.selectedFiles().value( 0 );
         result[ pFileDialog::TextCodec ] = fd.textCodec();
-        result[ pFileDialog::OpenReadOnly ] = fd.openReadOnly();
+        result[ pFileDialog::ReadOnly ] = fd.openReadOnly();
     }
     
     return result;
 }
 
-pFileDialogResult pFileDialog::getOpenFileName( QWidget* parent, const QString& caption, const QString& dir, const QString& filter, bool enabledTextCodec, bool enabledOpenReadOnly, const QString& selectedFilter, QFileDialog::Options options )
+pFileDialogResult pFileDialog::getOpenFileName( QWidget* parent, const QString& caption, const QString& dir, const QString& filter, bool enabledTextCodec, bool enabledOpenReadOnly, const QString& textCodec, const QString& selectedFilter, QFileDialog::Options options )
 {
     pFileDialogResult result;
     pFileDialog fd( parent );
     setDialog( &fd, caption, dir, filter, enabledTextCodec, enabledOpenReadOnly, selectedFilter, QFileDialog::ExistingFile, options );
     
+    if ( !textCodec.isEmpty() ) {
+        fd.setTextCodec( textCodec );
+    }
+    
     if ( fd.exec() == QDialog::Accepted ) {
         result[ pFileDialog::FileName ] = fd.selectedFiles().value( 0 );
         result[ pFileDialog::TextCodec ] = fd.textCodec();
-        result[ pFileDialog::OpenReadOnly ] = fd.openReadOnly();
+        result[ pFileDialog::ReadOnly ] = fd.openReadOnly();
         result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
     
     return result;
 }
 
-pFileDialogResult pFileDialog::getOpenFileNames( QWidget* parent, const QString& caption, const QString& dir, const QString& filter, bool enabledTextCodec, bool enabledOpenReadOnly, const QString& selectedFilter, QFileDialog::Options options )
+pFileDialogResult pFileDialog::getOpenFileNames( QWidget* parent, const QString& caption, const QString& dir, const QString& filter, bool enabledTextCodec, bool enabledOpenReadOnly, const QString& textCodec, const QString& selectedFilter, QFileDialog::Options options )
 {
     pFileDialogResult result;
     pFileDialog fd( parent );
     setDialog( &fd, caption, dir, filter, enabledTextCodec, enabledOpenReadOnly, selectedFilter, QFileDialog::ExistingFiles, options );
     
+    if ( !textCodec.isEmpty() ) {
+        fd.setTextCodec( textCodec );
+    }
+    
     if ( fd.exec() == QDialog::Accepted ) {
         result[ pFileDialog::FileNames ] = fd.selectedFiles();
         result[ pFileDialog::TextCodec ] = fd.textCodec();
-        result[ pFileDialog::OpenReadOnly ] = fd.openReadOnly();
+        result[ pFileDialog::ReadOnly ] = fd.openReadOnly();
         result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
     
     return result;
 }
 
-pFileDialogResult pFileDialog::getSaveFileName( QWidget* parent, const QString& caption, const QString& dir, const QString& filter, bool enabledTextCodec, const QString& selectedFilter, QFileDialog::Options options )
+pFileDialogResult pFileDialog::getSaveFileName( QWidget* parent, const QString& caption, const QString& dir, const QString& filter, bool enabledTextCodec, const QString& textCodec, const QString& selectedFilter, QFileDialog::Options options )
 {
     pFileDialogResult result;
     pFileDialog fd( parent );
     setDialog( &fd, caption, dir, filter, enabledTextCodec, false, selectedFilter, QFileDialog::AnyFile, options );
     
+    if ( !textCodec.isEmpty() ) {
+        fd.setTextCodec( textCodec );
+    }
+    
     if ( fd.exec() == QDialog::Accepted ) {
         result[ pFileDialog::FileName ] = fd.selectedFiles().value( 0 );
         result[ pFileDialog::TextCodec ] = fd.textCodec();
-        result[ pFileDialog::OpenReadOnly ] = fd.openReadOnly();
+        result[ pFileDialog::ReadOnly ] = fd.openReadOnly();
         result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
     
