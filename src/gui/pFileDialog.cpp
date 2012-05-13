@@ -237,7 +237,7 @@ void pFileDialog::setDialog( pFileDialog* dlg, const QString& caption, const QSt
     }
     
     // select file if needed )
-    if ( !dir.isEmpty() ) {
+    if ( !dir.isEmpty() && QFileInfo( dir ).isFile() ) {
         dlg->selectFile( dir );
     }
     
