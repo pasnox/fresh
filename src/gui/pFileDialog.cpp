@@ -34,6 +34,40 @@
 #include <QAbstractItemView>
 #include <QToolButton>
 
+// pFileDialogResult
+
+QString pFileDialogResult::textCodec() const
+{
+    return value( pFileDialog::TextCodec ).toString();
+}
+
+bool pFileDialogResult::openReadOnly() const
+{
+    return value( pFileDialog::OpenReadOnly ).toBool();
+}
+
+QString pFileDialogResult::directory() const
+{
+    return value( pFileDialog::Directory ).toString();
+}
+
+QString pFileDialogResult::fileName() const
+{
+    return value( pFileDialog::FileName ).toString();
+}
+
+QStringList pFileDialogResult::fileNames() const
+{
+    return value( pFileDialog::FileNames ).toStringList();
+}
+
+QString pFileDialogResult::selectedFilter() const
+{
+    return value( pFileDialog::SelectedFilter ).toString();
+}
+
+// pFiledialog
+
 pFileDialog::pFileDialog( QWidget* parent, const QString& caption, const QString& directory, const QString& filter, bool textCodecEnabled, bool openReadOnlyEnabled )
     : QFileDialog( parent, caption, directory, filter )
 {
