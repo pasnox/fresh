@@ -42,6 +42,7 @@ pColorButton::pColorButton( const QColor& color, QWidget* parent )
 
 void pColorButton::init( const QColor& color )
 {
+    mAlphaEnabled = color.alpha() != 255;
     connect( this, SIGNAL( clicked() ), this, SLOT( _q_clicked() ) );
     setIconSize( QSize( 16, 16 ) );
     setColor( color );
@@ -49,12 +50,19 @@ void pColorButton::init( const QColor& color )
 
 QColor pColorButton::color() const
 {
-    return mColor;
+    QColor color = mColor;
+    
+    if ( !mAlphaEnabled ) {
+        color.setAlpha( 255 );
+    }
+    
+    return color;
 }
 
 void pColorButton::setColor( const QColor& color )
 {
     mColor = color;
+    mColor = this->color(); // remove alpha if needed
     
     const QStringList texts = QStringList()
         << QString( "RGBA #%1%2%3%4" ).arg( mColor.red(), 2, 16, QChar( '0' ) ).arg( mColor.green(), 2, 16, QChar( '0' ) ).arg( mColor.blue(), 2, 16, QChar( '0' ) ).arg( mColor.alpha(), 2, 16, QChar( '0' ) )
@@ -69,9 +77,25 @@ void pColorButton::setColor( const QColor& color )
     emit colorChanged( mColor );
 }
 
+bool pColorButton::alphaEnabled() const
+{
+    return mAlphaEnabled;
+}
+
+void pColorButton::setAlphaEnabled( bool enabled )
+{
+    mAlphaEnabled = enabled;
+    
+    const QColor c = color();
+    
+    if ( mColor != c ) {
+        emit colorChanged( c );
+    }
+}
+
 void pColorButton::_q_clicked()
 {
-    const QColor color = QColorDialog::getColor( mColor, window(), tr( "Choose a color" ), QColorDialog::ShowAlphaChannel );
+    const QColor color = QColorDialog::getColor( mColor, window(), tr( "Choose a color" ), mAlphaEnabled ? QColorDialog::ShowAlphaChannel : QColorDialog::ColorDialogOptions( 0 ) );
     
     if ( color.isValid() ) {
         setColor( color );

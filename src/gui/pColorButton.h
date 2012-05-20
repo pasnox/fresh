@@ -53,6 +53,15 @@ class FRESH_EXPORT pColorButton : public QToolButton
     The default color is Qt::black.
     */
     Q_PROPERTY( QColor color READ color WRITE setColor NOTIFY colorChanged )
+    /*!
+    \property pColorButton::alphaEnabled
+    \brief the color alpha is enabled.
+
+    The alpha edition will be enabled depending this property.
+
+    The default value if false is alpha is 255 else true.
+    */
+    Q_PROPERTY( bool alphaEnabled READ alphaEnabled WRITE setAlphaEnabled )
     
 public:
     /*!
@@ -68,9 +77,14 @@ public:
         Return the color.
     */
     QColor color() const;
+    /*!
+        Return the color alpha enabled state.
+    */
+    bool alphaEnabled() const;
 
 protected:
     QColor mColor;
+    bool mAlphaEnabled;
     
     void init( const QColor& color );
 
@@ -79,6 +93,10 @@ public slots:
         Set the color to \a color.
     */
     void setColor( const QColor& color );
+    /*!
+        Set the color alpha enabled to \a enabled.
+    */
+    void setAlphaEnabled( bool enabled );
 
 protected slots:
     void _q_clicked();
