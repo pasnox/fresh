@@ -107,6 +107,7 @@ CORE_HEADERS =  \
 
 GUI_HEADERS *=  \
     src/gui/pColorButton.h \
+    src/gui/pFontButton.h \
     src/gui/pGuiUtils.h \
     src/gui/pIconManager.h \
     src/gui/pKeySequenceEdit.h \
@@ -159,6 +160,7 @@ CORE_SOURCES *=  \
 
 GUI_SOURCES *=  \
     src/gui/pColorButton.cpp \
+    src/gui/pFontButton.cpp \
     src/gui/pGuiUtils.cpp \
     src/gui/pIconManager.cpp \
     src/gui/pKeySequenceEdit.cpp \

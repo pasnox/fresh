@@ -43,9 +43,9 @@ pColorButton::pColorButton( const QColor& color, QWidget* parent )
 void pColorButton::init( const QColor& color )
 {
     mAlphaEnabled = color.alpha() != 255;
-    connect( this, SIGNAL( clicked() ), this, SLOT( _q_clicked() ) );
     setIconSize( QSize( 16, 16 ) );
     setColor( color );
+    connect( this, SIGNAL( clicked() ), this, SLOT( _q_clicked() ) );
 }
 
 QColor pColorButton::color() const
