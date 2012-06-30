@@ -221,9 +221,9 @@ pEnvironmentVariablesModel::Variables pEnvironmentVariablesModel::stringListToVa
 {
 	pEnvironmentVariablesModel::Variables items;
 
-	foreach ( const QString& variable, variables ) {
-		const QString name = variable.section( '=', 0, 0 );
-		const QString value = variable.section( '=', 1 );
+	foreach ( const QString& v, variables ) {
+		const QString name = v.section( '=', 0, 0 );
+		const QString value = v.section( '=', 1 );
 
 		pEnvironmentVariablesModel::Variable variable;
 		variable.name = name;
