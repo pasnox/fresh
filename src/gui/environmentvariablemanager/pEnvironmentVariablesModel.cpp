@@ -225,12 +225,12 @@ pEnvironmentVariablesModel::Variables pEnvironmentVariablesModel::stringListToVa
         const QString name = variable.section( '=', 0, 0 );
         const QString value = variable.section( '=', 1 );
 
-        pEnvironmentVariablesModel::Variable variable;
-        variable.name = name;
-        variable.value = value;
-        variable.enabled = true;
+        pEnvironmentVariablesModel::Variable var;
+        var.name = name;
+        var.value = value;
+        var.enabled = true;
 
-        items[ name ] = variable;
+        items[ name ] = var;
     }
     
     return items;
