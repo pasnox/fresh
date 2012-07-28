@@ -604,10 +604,11 @@ void MainWindow::openFileDialog()
     const QString filter;
     const bool enabledTextCodec = true;
     const bool enabledOpenReadOnly = true;
+    const QString textCodec = "UTF-8";
     const QString selectedFilter;
     const QFileDialog::Options options = 0;
     const pFileDialogResult result = pFileDialog::getOpenFileNames( this, caption, dir, filter, enabledTextCodec,
-        enabledOpenReadOnly, selectedFilter, options );
+        enabledOpenReadOnly, textCodec, selectedFilter, options );
     
     pteLog->appendPlainText( QString::null );
     
@@ -624,8 +625,8 @@ void MainWindow::openFileDialog()
                 case pFileDialog::TextCodec:
                     texts << tr( "TextCodec: %1" ).arg( result[ type ].toString() );
                     break;
-                case pFileDialog::OpenReadOnly:
-                    texts << tr( "OpenReadOnly: %1" ).arg( result[ type ].toString() );
+                case pFileDialog::ReadOnly:
+                    texts << tr( "ReadOnly: %1" ).arg( result[ type ].toString() );
                     break;
                 case pFileDialog::Directory:
                     texts << tr( "Directory: %1" ).arg( result[ type ].toString() );
@@ -673,8 +674,8 @@ void MainWindow::openDirectoryDialog()
                 case pFileDialog::TextCodec:
                     texts << tr( "TextCodec: %1" ).arg( result[ type ].toString() );
                     break;
-                case pFileDialog::OpenReadOnly:
-                    texts << tr( "OpenReadOnly: %1" ).arg( result[ type ].toString() );
+                case pFileDialog::ReadOnly:
+                    texts << tr( "ReadOnly: %1" ).arg( result[ type ].toString() );
                     break;
                 case pFileDialog::Directory:
                     texts << tr( "Directory: %1" ).arg( result[ type ].toString() );
