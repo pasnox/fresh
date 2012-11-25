@@ -1,7 +1,7 @@
 # fresh lib project file
 
 # include qmake-extensions file
-include( qmake-extensions.pri )
+include( qmake-extensions/qmake-extensions.pri )
 
 isEmpty( build_mode ):FRESH_BUILD_MODE = release
 else:FRESH_BUILD_MODE = $$build_mode
@@ -16,7 +16,7 @@ TEMPLATE = lib
 CONFIG -= release debug debug_and_release warn_on warn_off ppc x86 x86_64
 CONFIG *= warn_on thread x11 windows qt $$FRESH_BUILD_TYPE $$FRESH_BUILD_MODE
 QT *= network xml
-greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
+greaterThan( QT_MAJOR_VERSION, 4 ): QT *= widgets
 
 # Mac universal build from 10.3 & up
 macx:universal {
@@ -38,14 +38,6 @@ macx {
 
 setTarget( fresh )
 
-unix {
-    UNIX_RAM_DISK = /media/ramdisk
-    exists( $${UNIX_RAM_DISK} ) {
-        FRESH_BUILD_PATH = $${UNIX_RAM_DISK}/$${TARGET}
-        FRESH_DESTDIR = $${FRESH_BUILD_PATH}
-    }
-}
-
 setTemporaryDirectories( $$FRESH_BUILD_PATH )
 isEqual( FRESH_BUILD_MODE, debug ):CONFIG *= console
 
@@ -57,10 +49,13 @@ isEqual( FRESH_BUILD_TYPE, shared ) {
 
 include( defines.pri )
 
-FRESH_SOURCES_PATHS = $$getFolders( ./src ) $${UI_DIR} $${MOC_DIR} $${RCC_DIR}
+Q_PWD = $${PWD}
+Q_ENV_PWD = $$(PWD)
+FRESH_SOURCES_ROOT_PATH = src
+!isEqual( Q_PWD, $${Q_ENV_PWD} ):FRESH_SOURCES_ROOT_PATH = "$${PWD}/src"
+FRESH_SOURCES_PATHS = $$getFolders( "$${FRESH_SOURCES_ROOT_PATH}" ) "$${UI_DIR}" "$${MOC_DIR}" "$${RCC_DIR}"
 DEPENDPATH *= $${FRESH_SOURCES_PATHS}
 INCLUDEPATH *= $${FRESH_SOURCES_PATHS}
-
 RESOURCES *= resources/fresh.qrc
 
 XUP.TRANSLATIONS_BASENAME = fresh

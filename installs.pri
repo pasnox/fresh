@@ -52,23 +52,25 @@
 
     # generate fresh.prf
     # remove old one if needed
-    exists( "fresh.prf" ) {
-        win32:!cb_win32:system( "del fresh.prf" )
-        else:system( "rm fresh.prf" )
+    prf_file = $$(PWD)/fresh.prf
+    
+    exists( $${prf_file} ) {
+        win32:!cb_win32:system( "del $${prf_file}" )
+        else:system( "rm $${prf_file}" )
     }
 
     # create new one based on build type
     isEqual( FRESH_BUILD_TYPE, static ) {
-        win32:!cb_win32:system( "copy fresh_static.prf fresh.prf" )
-        else:system( "cp fresh_static.prf fresh.prf" )
+        win32:!cb_win32:system( "copy fresh_static.prf $${prf_file}" )
+        else:system( "cp fresh_static.prf $${prf_file}" )
     } else {
-        win32:!cb_win32:system( "copy fresh_shared.prf fresh.prf" )
-        else:system( "cp fresh_shared.prf fresh.prf" )
+        win32:!cb_win32:system( "copy fresh_shared.prf $${prf_file}" )
+        else:system( "cp fresh_shared.prf $${prf_file}" )
     }
 
     # features
     features.path = $$FRESH_INSTALL_FEATURES
-    features.files = fresh.prf
+    features.files = $${prf_file}
 
     # translations
     translations.path   = $$FRESH_INSTALL_TRANSLATIONS

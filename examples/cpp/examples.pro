@@ -16,7 +16,7 @@
 FRESH_PATH = ../..
 
 # include qmake-extensions file
-include( $${FRESH_PATH}/qmake-extensions.pri )
+include( $${FRESH_PATH}/qmake-extensions/qmake-extensions.pri )
 
 EXAMPLES_BUILD_MODE = release
 EXAMPLES_BUILD_PATH = build
