@@ -45,65 +45,60 @@
     </message>
 </context>
 <context>
-    <name>pActionsNodeModel</name>
+    <name>pActionsModel</name>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="152"/>
+        <location filename="../src/gui/actionmanager/pActionsModel.cpp" line="154"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="154"/>
+        <location filename="../src/gui/actionmanager/pActionsModel.cpp" line="156"/>
         <source>Shortcut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeModel.cpp" line="156"/>
+        <location filename="../src/gui/actionmanager/pActionsModel.cpp" line="158"/>
         <source>Default Shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/actionmanager/pActionsModel.cpp" line="359"/>
+        <source>Can&apos;t set shortcut, it&apos;s already used by action &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>pActionsNodeShortcutEditor</name>
+    <name>pActionsShortcutEditor</name>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.ui" line="14"/>
+        <location filename="../src/gui/actionmanager/pActionsShortcutEditor.ui" line="14"/>
         <source>Shortcut Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.ui" line="22"/>
+        <location filename="../src/gui/actionmanager/pActionsShortcutEditor.ui" line="22"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.ui" line="61"/>
+        <location filename="../src/gui/actionmanager/pActionsShortcutEditor.ui" line="61"/>
         <source>Validate the shortcut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.ui" line="72"/>
+        <location filename="../src/gui/actionmanager/pActionsShortcutEditor.ui" line="72"/>
         <source>Clear the shortcut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="51"/>
+        <location filename="../src/gui/actionmanager/pActionsShortcutEditor.cpp" line="51"/>
         <source>Text filter...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="131"/>
-        <source>Can&apos;t set shortcut, it&apos;s maybe already used by another action.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/actionmanager/pActionsNodeShortcutEditor.cpp" line="155"/>
-        <source>Can&apos;t restore default shortcut, it&apos;s maybe already used by another action.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>pColorButton</name>
     <message>
-        <location filename="../src/gui/pColorButton.cpp" line="74"/>
+        <location filename="../src/gui/pColorButton.cpp" line="98"/>
         <source>Choose a color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -372,12 +367,12 @@
 <context>
     <name>pFileDialog</name>
     <message>
-        <location filename="../src/gui/pFileDialog.cpp" line="101"/>
+        <location filename="../src/gui/pFileDialog.cpp" line="135"/>
         <source>Codec:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/pFileDialog.cpp" line="112"/>
+        <location filename="../src/gui/pFileDialog.cpp" line="146"/>
         <source>Open in read only.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -392,6 +387,14 @@
     <message>
         <location filename="../src/gui/listeditor/pFileListEditor.cpp" line="84"/>
         <source>Choose file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>pFontButton</name>
+    <message>
+        <location filename="../src/gui/pFontButton.cpp" line="86"/>
+        <source>Choose a font</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -413,6 +416,14 @@
     <message>
         <location filename="../src/gui/pLineEdit.cpp" line="158"/>
         <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>pLocaleModel</name>
+    <message>
+        <location filename="../src/core/pLocaleModel.cpp" line="141"/>
+        <source>Locales</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -479,7 +490,7 @@
 <context>
     <name>pStylesActionGroup</name>
     <message>
-        <location filename="../src/gui/stylemanager/pStylesActionGroup.cpp" line="138"/>
+        <location filename="../src/gui/stylemanager/pStylesActionGroup.cpp" line="139"/>
         <source>(System)</source>
         <translation type="unfinished"></translation>
     </message>
