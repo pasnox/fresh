@@ -1,3 +1,3 @@
-[submodule "qmake-extensions"]
-	path = qmake-extensions
-	url = git://github.com/pasnox/qmake-extensions.git
+[submodule "qmake-extensions.git"]
+	path = qmake-extensions.git
+	url = https://github.com/pasnox/qmake-extensions.git

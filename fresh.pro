@@ -1,7 +1,7 @@
 # fresh lib project file
 
 # include qmake-extensions file
-include( qmake-extensions/qmake-extensions.pri )
+include( qmake-extensions.git/qmake-extensions.pri )
 
 isEmpty( build_mode ):FRESH_BUILD_MODE = release
 else:FRESH_BUILD_MODE = $$build_mode

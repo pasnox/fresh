@@ -13,10 +13,8 @@
 ##  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ##
 ###########################################################################################
-FRESH_PATH = ../..
-
 # include qmake-extensions file
-include( $${FRESH_PATH}/qmake-extensions/qmake-extensions.pri )
+include( ../../qmake-extensions.git/qmake-extensions.pri )
 
 EXAMPLES_BUILD_MODE = release
 EXAMPLES_BUILD_PATH = build
@@ -25,53 +23,15 @@ TEMPLATE    = app
 LANGUAGE    = C++/Qt4
 CONFIG  -= debug_and_release release debug warn_off warn_on
 CONFIG  *= warn_on $${EXAMPLES_BUILD_MODE}
-DESTDIR = $$PWD
+DESTDIR = .
 
 setTarget( examples )
 setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )
 isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG    *= console
 
-unix {
-    UNIX_RAM_DISK   = /media/ramdisk
-    exists( $${UNIX_RAM_DISK} ) {
-        EXAMPLES_BUILD_PATH = $${UNIX_RAM_DISK}/$$targetForMode( fresh, $${EXAMPLES_BUILD_MODE} )/$${TARGET}
-        DESTDIR = $${EXAMPLES_BUILD_PATH}
-        setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )
-    }
-}
-
-fresh {
-    !build_pass:message( "Using system fresh library." )
-} else {
-    !build_pass:message( "Using bundled fresh library." )
-
-    FRESH_TARGET    = $$targetForMode( fresh, $${EXAMPLES_BUILD_MODE} )
-    FRESH_BUILD_PATH = $${FRESH_PATH}/build
-    FRESH_SOURCES_PATHS = $$getFolders( $${FRESH_PATH}/src )
-
-    DEPENDPATH *= $${FRESH_PATH}/include/FreshCore \
-        $${FRESH_PATH}/include/FreshGui
-
-    INCLUDEPATH *= $${FRESH_PATH}/include
-
-    DEPENDPATH  *= $${FRESH_SOURCES_PATHS}
-    INCLUDEPATH *= $${FRESH_SOURCES_PATHS}
-
-    PRE_TARGETDEPS  *= $${FRESH_PATH}
-
-    unix {
-        !exists( $${FRESH_BUILD_PATH} ) {
-            FRESH_BUILD_PATH = $${UNIX_RAM_DISK}/$${FRESH_TARGET}
-        }
-    }
-
-    QT  *= xml network
-    greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
-    QMAKE_RPATHDIR *= $${FRESH_BUILD_PATH}
-    macx:LIBS   *= -F$${FRESH_BUILD_PATH}
-    LIBS    *= -L$${FRESH_BUILD_PATH}
-    LIBS    *= $${FRESH_BUILD_PATH}/lib$${FRESH_TARGET}.a
-}
+FRESH_BUNDLE_PATH = .
+FRESH_BUNDLE_LIB_PATH = ../..
+include( ../../fresh-bundle.pri )
 
 exists( ../../../QtSolutions/modeltest-0.2/modeltest.pri ) {
     message( "Using QtSolution ModelTest." )
