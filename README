@@ -15,14 +15,21 @@ Building library and examples:
 HINT: Depending your plat-form, replace qmake by qmake-qt4
 
 Dependencies:
-    * C++ compiler (ubuntu package g++)
+    * C++ compiler (ubuntu packages build-essential / g++)
     * Qt4 library v4.6+, headers and tools. (ubuntu packages qt4-qmake, libqt4-dev)
+    * Mac OS X: CoreFoundation
 
-Building:
+On Ubuntu install all with command:
+   sudo apt-get install make build-essential g++ libqt4-dev qt4-qmake
+
+Building library:
     qmake ./fresh.pro && make
 
-Building and running an example (after having built the library):
-    cd examples/cpp
-    qmake
-    make
+Installing the built library (after having built the library):
+    make install
+
+Building library and an example:
+    qmake ./fresh-subdirs.pro && make
     ./examples
+
+NOTE: On some platforms replace qmake by qmake-qt4, replace make by nmake or mingw32-make. Installing the library may require root privileges.
