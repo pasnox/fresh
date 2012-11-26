@@ -259,6 +259,7 @@ void pTreeComboBox::mousePressEvent( QMouseEvent* event )
 void pTreeComboBox::hidePopup()
 {
     if ( mFrame->isVisible() ) {
+        emit popupAboutToHide();
         mFrame->hide();
     }
 }
@@ -266,6 +267,7 @@ void pTreeComboBox::hidePopup()
 void pTreeComboBox::showPopup()
 {
     if ( mView && !mFrame->isVisible() ) {
+        emit popupAboutToShow();
         mCurrentIndex = modelColumnIndex( currentIndex() );
         calculPopupGeometry();
         update();

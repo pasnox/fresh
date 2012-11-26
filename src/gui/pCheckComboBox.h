@@ -33,8 +33,8 @@
 */
 
 #include "FreshExport.h"
+#include "pComboBox.h"
 
-#include <QComboBox>
 #include <QStyledItemDelegate>
 
 class QEvent;
@@ -68,7 +68,7 @@ private:
     The inactive state show a comma separated list of each checked items.
     In addition, the combobox has usefull members for dealing with items separators.
 */
-class FRESH_EXPORT pCheckComboBox : public QComboBox
+class FRESH_EXPORT pCheckComboBox : public pComboBox
 {
     Q_OBJECT
     

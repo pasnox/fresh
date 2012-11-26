@@ -125,6 +125,7 @@ GUI_HEADERS *=  \
     src/gui/stylemanager/pStylesToolButton.h \
     src/gui/pFileDialog.h \
     src/gui/pTreeComboBox.h \
+    src/gui/pComboBox.h \
     src/gui/consolemanager/pConsole.h \
     src/gui/consolemanager/pConsoleCommand.h \
     src/gui/dockwidget/pDockWidget.h \
@@ -178,6 +179,7 @@ GUI_SOURCES *=  \
     src/gui/stylemanager/pStylesToolButton.cpp \
     src/gui/pFileDialog.cpp \
     src/gui/pTreeComboBox.cpp \
+    src/gui/pComboBox.cpp \
     src/gui/consolemanager/pConsole.cpp \
     src/gui/consolemanager/pConsoleCommand.cpp \
     src/gui/dockwidget/pDockWidget.cpp \

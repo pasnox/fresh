@@ -33,6 +33,7 @@
 */
 
 #include "FreshExport.h"
+#include "pComboBox.h"
 
 #include <QWidget>
 #include <QPersistentModelIndex>
@@ -198,6 +199,14 @@ signals:
         \sa QTreeView::highlighted( const QModelIndex& ).
     */
     void highlighted( const QModelIndex& index );
+    /*!
+        This signal is emited just before the popup is hidden.
+    */
+    void popupAboutToHide();
+    /*!
+        This signal is emited just before the popup is shown.
+    */
+    void popupAboutToShow();
 };
 
 #endif // PTREECOMBOBOX_H

@@ -97,7 +97,7 @@ QSize pCheckComboBoxDelegate::sizeHint( const QStyleOptionViewItem& option, cons
 // pCheckComboBox
 
 pCheckComboBox::pCheckComboBox( QWidget* parent )
-    : QComboBox( parent )
+    : pComboBox( parent )
 {
     mModel = new pGenericTableModel( this );
     mModel->setColumnCount( 1 );
@@ -159,7 +159,7 @@ void pCheckComboBox::showPopup()
         
     }
     
-    QComboBox::showPopup();
+    pComboBox::showPopup();
 }
 
 void pCheckComboBox::insertSeparator( int index )
@@ -236,13 +236,13 @@ bool pCheckComboBox::event( QEvent* event )
             QWhatsThis::showText( static_cast<QHelpEvent*>( event )->globalPos(), text(), this );
             return true;
         default:
-            return QComboBox::event( event );
+            return pComboBox::event( event );
     }
 }
 
 void pCheckComboBox::changeEvent( QEvent* event )
 {
-    QComboBox::changeEvent( event );
+    pComboBox::changeEvent( event );
     
     if ( event->type() == QEvent::LanguageChange ) {
         retranslateUi();
