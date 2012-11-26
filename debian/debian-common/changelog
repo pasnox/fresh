@@ -1,28 +1,28 @@
-fresh (1.1.0-4-ppa2) oneiric; urgency=low
+fresh (1.1.0-4-ppa2) PUT_SERIES_HERE_WITH_SED; urgency=low
 
   * Packaging fixes for self-built Debian package
 
  -- Andrei Kopats <hlamer@tut.by>  Fri, 23 Dec 2011 02:23:00 +0300
 
-fresh (1.1.0-4-ppa1) oneiric; urgency=low
+fresh (1.1.0-4-ppa1) PUT_SERIES_HERE_WITH_SED; urgency=low
 
   * Fix cmake installed files
 
  -- Filipe Azevedo <pasnox@gmail.com>  Fri, 11 Nov 2011 12:26:00 +0100
 
-fresh (1.1.0-3-ppa1) oneiric; urgency=low
+fresh (1.1.0-3-ppa1) PUT_SERIES_HERE_WITH_SED; urgency=low
 
   * Fix package dependencies
 
  -- Filipe Azevedo <pasnox@gmail.com>  Thu, 10 Nov 2011 12:00:00 +0100
 
-fresh (1.1.0-2-ppa1) oneiric; urgency=low
+fresh (1.1.0-2-ppa1) PUT_SERIES_HERE_WITH_SED; urgency=low
 
   * Second release
 
  -- Filipe Azevedo <pasnox@gmail.com>  Thu, 10 Nov 2011 08:55:00 +0100
 
-fresh (1.1.0-1) oneiric; urgency=low
+fresh (1.1.0-1) PUT_SERIES_HERE_WITH_SED; urgency=low
 
   * Initial release
 
