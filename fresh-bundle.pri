@@ -18,7 +18,7 @@ fresh {
     exists( $${FRESH_BUNDLE_PATH}/fresh.pro ) {
         !build_pass:message( "Using bundled fresh library." )
 
-        include( $${FRESH_BUNDLE_PATH}/qmake-extensions/qmake-extensions.pri )
+        include( $${FRESH_BUNDLE_PATH}/qmake-extensions.git/qmake-extensions.pri )
 
         Q_PWD = $${PWD}
         Q_ENV_PWD = $$(PWD)
