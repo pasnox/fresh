@@ -1,6 +1,6 @@
-XUP.OTHERS_PLATFORM_TARGET_DEFAULT = /ramdisk/fresh-subdirs/examples/cpp/examples
-XUP.OTHERS_PLATFORM_TARGET_RELEASE = /ramdisk/fresh-subdirs/examples/cpp/examples
-XUP.OTHERS_PLATFORM_TARGET_DEBUG = /ramdisk/fresh-subdirs/examples/cpp/examples_debug
+XUP.OTHERS_PLATFORM_TARGET_DEFAULT = /ramdisk/fresh-subdirs/bin/examples
+XUP.OTHERS_PLATFORM_TARGET_RELEASE = /ramdisk/fresh-subdirs/bin/examples
+XUP.OTHERS_PLATFORM_TARGET_DEBUG = /ramdisk/fresh-subdirs/bin/examples_debug
 
 TEMPLATE = subdirs
 CONFIG *= ordered

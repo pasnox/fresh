@@ -17,13 +17,13 @@
 include( ../../qmake-extensions.git/qmake-extensions.pri )
 
 EXAMPLES_BUILD_MODE = release
-EXAMPLES_BUILD_PATH = build
+EXAMPLES_BUILD_PATH = ../../build/examples
 
 TEMPLATE    = app
 LANGUAGE    = C++/Qt4
 CONFIG  -= debug_and_release release debug warn_off warn_on
 CONFIG  *= warn_on $${EXAMPLES_BUILD_MODE}
-DESTDIR = .
+DESTDIR = ../../bin
 
 setTarget( examples )
 setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )

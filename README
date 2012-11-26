@@ -23,13 +23,13 @@ On Ubuntu install all with command:
    sudo apt-get install make build-essential g++ libqt4-dev qt4-qmake
 
 Building library:
-    qmake ./fresh.pro && make
+    qmake -r ./fresh.pro && make
 
 Installing the built library (after having built the library):
     make install
 
 Building library and an example:
-    qmake ./fresh-subdirs.pro && make
-    ./examples
+    qmake -r ./fresh-subdirs.pro && make
+    ./bin/examples
 
 NOTE: On some platforms replace qmake by qmake-qt4, replace make by nmake or mingw32-make. Installing the library may require root privileges.
