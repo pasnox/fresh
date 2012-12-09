@@ -151,7 +151,10 @@ bool pGenericTableModel::insertRows( int row, int count, const QModelIndex& pare
     
     beginInsertRows( parent, row, row +count -1 );
     mRowCount += count;
-    foreach ( const QPoint& point, mData.keys() ) {
+    const QList<QPoint> keys = mData.keys();
+    for ( int i = mData.count() -1; i >= 0; i-- ) {
+        const QPoint& point = keys[ i ];
+        
         if ( point.y() >= row ) {
             mData[ QPoint( point.x(), point.y() +count ) ] = mData.take( point );
         }

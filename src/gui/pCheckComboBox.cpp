@@ -178,7 +178,7 @@ void pCheckComboBox::insertSeparator( int index )
 
 void pCheckComboBox::addSeparator()
 {
-    insertSeparator( maxCount() );
+    insertSeparator( count() );
 }
 
 bool pCheckComboBox::isSeparator( int index )
