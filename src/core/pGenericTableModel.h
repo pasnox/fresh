@@ -54,7 +54,7 @@ class FRESH_EXPORT pGenericTableModel : public QAbstractTableModel
 public:
     /*! This enum defines the extended roles the model. */
     enum ExtendedRole {
-        ItemFlagsRole = Qt::UserRole, /*!< The role defining the index Qt::ItemFlags. */
+        ItemFlagsRole = Qt::UserRole +1, /*!< The role defining the index Qt::ItemFlags. */
         ExtendedUserRole = pGenericTableModel::ItemFlagsRole +1 /*!< The first usable user role. */
     };
     
