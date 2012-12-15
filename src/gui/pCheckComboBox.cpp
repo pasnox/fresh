@@ -111,23 +111,6 @@ pCheckComboBox::pCheckComboBox( QWidget* parent )
     setView( mView );
     setModel( mModel );
     setItemDelegate( mDelegate );
-    
-    // some styles force alternating rows color bypassing the QPelette colors...
-    mView->setStyleSheet( QString(
-        "QListView {"
-            "background-color: %1;"
-            "alternate-background-color: %1;"
-        "}"
-        "QListView::item:hover {"
-            "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %2, stop: 1 %3);"
-            "color: %4;"
-        "}"
-        )
-        .arg( palette().color( QPalette::Window ).name() )
-        .arg( palette().color( QPalette::Active, QPalette::Highlight ).name() )
-        .arg( palette().color( QPalette::Active, QPalette::Highlight ).darker( 130 ).name() )
-        .arg( palette().color( QPalette::Active, QPalette::HighlightedText ).name() )
-    );
 }
 
 void pCheckComboBox::showPopup()
