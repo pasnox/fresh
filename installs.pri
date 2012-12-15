@@ -52,20 +52,30 @@
 
     # generate fresh.prf
     # remove old one if needed
-    prf_file = $$(PWD)/fresh.prf
+    prf_file = $${PWD}/fresh.prf
+	win32:!cb_win32:prf_file = $$replace( prf_file, $$Q_SLASH, $$Q_BACK_SLASH )
     
     exists( $${prf_file} ) {
-        win32:!cb_win32:system( "del $${prf_file}" )
-        else:system( "rm $${prf_file}" )
+        win32:!cb_win32 {
+			system( "del $${prf_file}" )
+		} else {
+			system( "rm $${prf_file}" )
+		}
     }
 
     # create new one based on build type
     isEqual( FRESH_BUILD_TYPE, static ) {
-        win32:!cb_win32:system( "copy fresh_static.prf $${prf_file}" )
-        else:system( "cp fresh_static.prf $${prf_file}" )
+        win32:!cb_win32 {
+			system( "copy fresh_static.prf $${prf_file}" )
+		} else {
+			system( "cp fresh_static.prf $${prf_file}" )
+		}
     } else {
-        win32:!cb_win32:system( "copy fresh_shared.prf $${prf_file}" )
-        else:system( "cp fresh_shared.prf $${prf_file}" )
+        win32:!cb_win32 {
+			system( "copy fresh_shared.prf $${prf_file}" )
+		} else {
+			system( "cp fresh_shared.prf $${prf_file}" )
+		}
     }
 
     # features
