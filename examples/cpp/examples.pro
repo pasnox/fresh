@@ -29,7 +29,7 @@ setTarget( examples )
 setTemporaryDirectories( $${EXAMPLES_BUILD_PATH} )
 isEqual( EXAMPLES_BUILD_MODE, debug ):CONFIG    *= console
 
-FRESH_BUNDLE_PATH = .
+FRESH_BUNDLE_PATH = ../..
 FRESH_BUNDLE_LIB_PATH = ../..
 include( ../../fresh-bundle.pri )
 
@@ -38,8 +38,6 @@ exists( ../../../QtSolutions/modeltest-0.2/modeltest.pri ) {
     DEFINES *= QT_MODELTEST
     include(../../../QtSolutions/modeltest-0.2/modeltest.pri )
 }
-
-RESOURCES   *= ../../resources/fresh.qrc
 
 HEADERS *= src/MainWindow.h
 

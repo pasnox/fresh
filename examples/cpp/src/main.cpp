@@ -11,6 +11,8 @@ int main( int argc, char** argv )
     // create application
     QApplication app( argc, argv );
     app.setApplicationName( "fresh-examples" );
+    
+    Q_INIT_RESOURCE( fresh );
 
     qsrand( QTime( 0, 0, 0 ).secsTo( QTime::currentTime() ) );
 
