@@ -4,17 +4,17 @@
 include( qmake-extensions.git/qmake-extensions.pri )
 
 isEmpty( build_mode ):FRESH_BUILD_MODE = release
-else:FRESH_BUILD_MODE = $$build_mode
+else:FRESH_BUILD_MODE = $${build_mode}
 
 isEmpty( build_type ):FRESH_BUILD_TYPE = static
-else:FRESH_BUILD_TYPE = $$build_type
+else:FRESH_BUILD_TYPE = $${build_type}
 
 FRESH_BUILD_PATH = build
 FRESH_DESTDIR = build
 
 TEMPLATE = lib
-CONFIG -= release debug debug_and_release warn_on warn_off ppc x86 x86_64
-CONFIG *= warn_on thread x11 windows qt $$FRESH_BUILD_TYPE $$FRESH_BUILD_MODE
+CONFIG -= release debug debug_and_release warn_on warn_off ppc ppc64 x86 x86_64
+CONFIG *= warn_on thread x11 windows qt $${FRESH_BUILD_TYPE} $${FRESH_BUILD_MODE}
 QT *= network xml
 greaterThan( QT_MAJOR_VERSION, 4 ): QT *= widgets
 
@@ -38,22 +38,24 @@ macx {
 
 setTarget( fresh )
 
-setTemporaryDirectories( $$FRESH_BUILD_PATH )
+setTemporaryDirectories( $${FRESH_BUILD_PATH} )
 isEqual( FRESH_BUILD_MODE, debug ):CONFIG *= console
 
-DESTDIR = $$FRESH_DESTDIR
+DESTDIR = $${FRESH_DESTDIR}
 
 isEqual( FRESH_BUILD_TYPE, shared ) {
-    win32:DLLDESTDIR = $$FRESH_DESTDIR
+    win32:DLLDESTDIR = $${FRESH_DESTDIR}
 }
 
 include( defines.pri )
 
-Q_PWD = $${PWD}
-Q_ENV_PWD = $$(PWD)
-FRESH_SOURCES_ROOT_PATH = src
-!isEqual( Q_PWD, $${Q_ENV_PWD} ):FRESH_SOURCES_ROOT_PATH = "$${PWD}/src"
-FRESH_SOURCES_PATHS = $$getFolders( "$${FRESH_SOURCES_ROOT_PATH}" ) "$${UI_DIR}" "$${MOC_DIR}" "$${RCC_DIR}"
+isShadowBuild() {
+    FRESH_SOURCES_ROOT_PATH = "$${PWD}/src"
+} else {
+    FRESH_SOURCES_ROOT_PATH = src
+}
+
+FRESH_SOURCES_PATHS = $$getFolders( "$${FRESH_SOURCES_ROOT_PATH}" )
 DEPENDPATH *= $${FRESH_SOURCES_PATHS}
 INCLUDEPATH *= $${FRESH_SOURCES_PATHS}
 RESOURCES *= resources/fresh.qrc
