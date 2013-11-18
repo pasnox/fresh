@@ -50,7 +50,7 @@ void pPathListEditor::init()
 void pPathListEditor::onAddItem()
 {
     const QString path = QFileDialog::getExistingDirectory( window(), tr( "Choose directory" ), mPath );
-    
+
     if ( !path.isEmpty() ) {
         append( path );
     }
@@ -58,9 +58,9 @@ void pPathListEditor::onAddItem()
 
 void pPathListEditor::onEditItem()
 {
-    const QModelIndex index = selectedIndex();
+    //const QModelIndex index = selectedIndex();
     const QString path = QFileDialog::getExistingDirectory( window(), tr( "Choose directory" ), mPath );
-    
+
     if ( !path.isEmpty() ) {
         setValue( path );
     }

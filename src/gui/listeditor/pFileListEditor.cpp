@@ -70,7 +70,7 @@ void pFileListEditor::setFilter( const QString& filter )
 void pFileListEditor::onAddItem()
 {
     const QStringList files = QFileDialog::getOpenFileNames( window(), tr( "Choose file(s)" ), mPath, mFilter );
-    
+
     if ( !files.isEmpty() ) {
         foreach ( const QString& file, files ) {
             append( file );
@@ -80,9 +80,9 @@ void pFileListEditor::onAddItem()
 
 void pFileListEditor::onEditItem()
 {
-    const QModelIndex index = selectedIndex();
+    //const QModelIndex index = selectedIndex();
     const QString file = QFileDialog::getOpenFileName( window(), tr( "Choose file" ), mPath, mFilter );
-    
+
     if ( !file.isEmpty() ) {
         setValue( file );
     }

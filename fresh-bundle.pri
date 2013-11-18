@@ -25,7 +25,7 @@ fresh {
         !build_pass:message( "Using bundled fresh library (2)." )
 
         include( $${_PRO_FILE_PWD_}/$${FRESH_BUNDLE_PATH}/qmake-extensions.git/qmake-extensions.pri )
-        
+
         isShadowBuild() {
             FRESH_SOURCES_PATHS = $$getFolders( $${_PRO_FILE_PWD_}/$${FRESH_BUNDLE_PATH}/src )
         } else {
@@ -34,7 +34,7 @@ fresh {
     } else {
         !build_pass:error( "Fresh library not found - Execute: git submodule init && git submodule update." )
     }
-    
+
     DEFINES *= FRESH_CORE_BUILD
 
     DEPENDPATH *= $${FRESH_SOURCES_PATHS}
@@ -49,6 +49,7 @@ fresh {
     LIBS *= -L$${FRESH_BUNDLE_LIB_PATH}/build
 
     QT *= xml network
-    !macx:qtAddLibrary( fresh )
-    macx:LIBS *= -lfresh
+    LIBS *= -l$$targetForMode( fresh )
+    #!macx:qtAddLibrary( fresh )
+    #macx:LIBS *= -lfresh
 }

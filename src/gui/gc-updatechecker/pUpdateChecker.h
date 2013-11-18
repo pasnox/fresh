@@ -35,7 +35,7 @@
 #include "FreshExport.h"
 
 #include <QObject>
-#include <QWeakPointer>
+#include <QPointer>
 #include <QDateTime>
 #include <QUrl>
 
@@ -45,9 +45,9 @@ class QAction;
     \ingroup FreshGui
     \class pUpdateChecker
     \brief A class for checking available update for your application.
-    
+
     A class for checking available update for your application based on a download feed.
-    
+
     Currently only google code projects is supported.
 */
 class FRESH_EXPORT pUpdateChecker : public QObject
@@ -115,7 +115,7 @@ public slots:
     void setVersionDiscoveryPattern( const QString& pattern );
     /*!
         Do a silent check in the background.
-        
+
         If new versions are available a pUpdateCheckerDialog will be shown to the user.
     */
     void silentCheck();
@@ -128,14 +128,14 @@ protected:
     QString mVersion;
     QString mVersionString;
     QString mVersionDiscoveryPattern;
-    QWeakPointer<QWidget> mParent;
-    
+    QPointer<QWidget> mParent;
+
     /*!
         Reimplemented.
     */
     virtual bool eventFilter( QObject* object, QEvent* event );
     virtual void localeChanged();
-    
+
 protected slots:
     void checkForUpdate_triggered( bool show = true );
 };

@@ -38,6 +38,7 @@
 #include <QBoxLayout>
 #include <QDockWidget>
 #include <QToolBar>
+#include <QPointer>
 
 class pMainWindow;
 class pDockToolBar;
@@ -47,7 +48,7 @@ class pSettings;
     \ingroup FreshGui
     \class pDockToolBarManager
     \brief This class manage a set of pDockToolBar of a pMainWindow according to its mode.
-    
+
     It provide usefull member ( bar() ) to directly create a unique pDockToolBar for the corresponding area.
     It allow to save/restore state of pDockToolBar using a pSettings object.
 */
@@ -62,7 +63,7 @@ public:
         Invalid = -1, /*!< An invalid mode. */
         Classic, /*!< The classical mode presenting toolbars at each part of a window (left, top, right, bottom). */
         Modern /*!< The modern mode presenting all the toolbars in a unique toolbar that minimize the used space. */
-        
+
     };
     /*!
         Create a manager working on \a window.
@@ -78,7 +79,7 @@ public:
     bool isRestoring() const;
     /*!
         Tells if the setttings restoration process is active or not according to \a restoring.
-        
+
         \note This member should never be used directly.
     */
     void setRestoring( bool restoring );
@@ -135,7 +136,7 @@ protected:
     pMainWindow* mMainWindow;
     QHash<Qt::ToolBarArea, pDockToolBar*> mDockToolBars;
     pDockToolBarManager::Mode mMode;
-    QWeakPointer<QToolBar> mModernWidget;
+    QPointer<QToolBar> mModernWidget;
     bool mIsRestoring;
     QTimer* mModernToolBarUpdate;
     /*!

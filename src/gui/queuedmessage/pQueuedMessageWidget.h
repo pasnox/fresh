@@ -37,7 +37,7 @@
 #include <QWidget>
 #include <QHash>
 #include <QDialogButtonBox>
-#include <QWeakPointer>
+#include <QPointer>
 #include <QVariant>
 
 class QLabel;
@@ -55,12 +55,12 @@ class QDialogButtonBox;
 struct FRESH_EXPORT pQueuedMessage
 {
     pQueuedMessage();
-    
+
     /*!
         Return true if message are same.
     */
     bool operator==( const pQueuedMessage& other ) const;
-    
+
     /*! The message to show. It can contains plain text or html. */
     QString message;
     /*! The millisecond time to wait before the message is auto closed. Use -1 for the default timeout or 0 for unlimited time. */
@@ -74,7 +74,7 @@ struct FRESH_EXPORT pQueuedMessage
     /*! A hash representing a StandardButton role, and it's optionnal text overridding the default StandardButton text. */
     QHash<QDialogButtonBox::StandardButton, QString> buttons; // StandardButton, Button Text ( null text for standard text )
     /*! The object that is used to invoke \a Slot. */
-    QWeakPointer<QObject> object;
+    QPointer<QObject> object;
     /*!
         If \a object is not null, it will invoke \a slot, the slot must take 2 parameters :
         \param QDialogButtonBox::StandardButton The StandardButton clicked.
@@ -96,7 +96,7 @@ class FRESH_EXPORT pQueuedMessageWidget : public QWidget
 {
     Q_OBJECT
     friend class pQueuedMessageToolBar;
-    
+
 public:
     /*!
         Create an instance of queued message widget having parent \a parent.
@@ -189,7 +189,7 @@ protected:
     QLabel* lMessage;
     QDialogButtonBox* dbbButtons;
     QList<pQueuedMessage> mMessages;
-    
+
     /*!
         Helper to get current message pixmap.
     */

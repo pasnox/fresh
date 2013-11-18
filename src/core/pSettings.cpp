@@ -31,7 +31,11 @@
 #include <QDebug>
 
 #if defined( QT_GUI_LIB )
+#if QT_VERSION < 0x050000
 #include <QDesktopServices>
+#else
+#include <QStandardPaths>
+#endif
 #include <QMainWindow>
 #endif
 
@@ -52,7 +56,11 @@ pSettings::Properties::Properties( const QString& _name, const QString& _version
 QString pSettings::Properties::storageLocation() const
 {
 #if defined( QT_GUI_LIB )
+#if QT_VERSION < 0x050000
     return QDesktopServices::storageLocation( QDesktopServices::DataLocation );
+#else
+    return QStandardPaths::writableLocation( QStandardPaths::DataLocation );
+#endif
 #else
     #warning May need a better way for major platforms
     return QDir::homePath().append( QString( ".%1" ).arg( name ) );
@@ -62,11 +70,11 @@ QString pSettings::Properties::storageLocation() const
 bool pSettings::Properties::isWritable( const QString& filePath ) const
 {
     QFileInfo fi( filePath );
-    
+
     while ( !fi.exists() ) {
         fi.setFile( fi.absolutePath() );
     }
-    
+
     return fi.isWritable();
 }
 
@@ -76,9 +84,9 @@ QString pSettings::Properties::filePath( pSettings::Type type ) const
         Q_ASSERT( 0 );
         qFatal( "%s: name and version can not be empty", Q_FUNC_INFO );
     }
-    
+
     QString fn;
-    
+
     switch ( type ) {
         case pSettings::Invalid: {
             Q_ASSERT( 0 );
@@ -91,11 +99,11 @@ QString pSettings::Properties::filePath( pSettings::Type type ) const
 #else
             const QString path = QCoreApplication::applicationDirPath();
 #endif
-            
+
             if ( isWritable( path ) ) {
                 return filePath( pSettings::Portable );
             }
-            
+
             // do nothing to throw pSettings::Normal case.
         }
         case pSettings::Normal: {
@@ -119,7 +127,7 @@ QString pSettings::Properties::filePath( pSettings::Type type ) const
 #endif
         }
     }
-    
+
     if ( !isWritable( fn ) ) {
         if ( type == pSettings::Portable ) {
             //qWarning( "%s: File '%s' is not writable, fallbacking to pSettings::Normal mode.", Q_FUNC_INFO, fn.toLocal8Bit().constData() );
@@ -130,7 +138,7 @@ QString pSettings::Properties::filePath( pSettings::Type type ) const
             return QString::null;
         }
     }
-    
+
     return QDir::cleanPath( fn );
 }
 
@@ -173,7 +181,7 @@ void pSettings::restoreState( QMainWindow* window )
         //window->restoreGeometry( value( "MainWindow/Geometry" ).toByteArray() );
         window->setGeometry( value( "MainWindow/Geometry", window->geometry() ).toRect() );
         window->restoreState( value( "MainWindow/State" ).toByteArray() );
-        
+
         //if ( value( "MainWindow/Geometry" ).toByteArray().isEmpty() ) {
         if ( value( "MainWindow/Geometry" ).toRect().isNull() ) {
             window->showMaximized();

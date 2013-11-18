@@ -33,13 +33,17 @@ pEnvironmentVariablesEditor::pEnvironmentVariablesEditor( QWidget* parent )
     : QWidget( parent )
 {
     ui = new Ui_pEnvironmentVariablesEditor;
-    
+
     ui->setupUi( this );
     ui->verticalLayout->setMenuBar( ui->tbActions );
 
     mModel = new pEnvironmentVariablesModel( this );
     ui->tvVariables->setModel( mModel );
+#if QT_VERSION < 0x050000
     ui->tvVariables->header()->setResizeMode( 0, QHeaderView::ResizeToContents );
+#else
+    ui->tvVariables->header()->setSectionResizeMode( 0, QHeaderView::ResizeToContents );
+#endif
 
     model_view_changed();
 
@@ -145,7 +149,7 @@ void pEnvironmentVariablesEditor::on_aAdd_triggered()
     }
 
     pEnvironmentVariablesModel::Variable variable = dlg.variable();
-    
+
     if ( variable.name.isEmpty() ) {
         return;
     }
@@ -158,7 +162,7 @@ void pEnvironmentVariablesEditor::on_aAdd_triggered()
         if ( result != QMessageBox::Yes ) {
             return;
         }
-        
+
         variable = mModel->variable( variable.name );
     }
 
@@ -226,7 +230,7 @@ void pEnvironmentVariablesEditor::on_aResetSystem_triggered()
 void pEnvironmentVariablesEditor::on_tvVariables_activated( const QModelIndex& index )
 {
     Q_UNUSED( index );
-    
+
     if ( index.column() == 1 ) {
         on_aEdit_triggered();
     }

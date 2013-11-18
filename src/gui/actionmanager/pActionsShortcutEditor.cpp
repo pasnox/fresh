@@ -41,23 +41,29 @@ pActionsShortcutEditor::pActionsShortcutEditor( pActionsModel* model, QWidget* p
     ui = new Ui_pActionsShortcutEditor;
     mModel = model;
     mProxy = new pRecursiveSortFilterProxyModel( this );
-    
+
     mProxy->setSourceModel( mModel );
     mProxy->setFilterCaseSensitivity( Qt::CaseInsensitive );
     mProxy->setSortCaseSensitivity( Qt::CaseInsensitive );
-    
+
     ui->setupUi( this );
     ui->leFilter->setSearchButtonVisible( false );
     ui->leFilter->setPromptText( tr( "Text filter..." ) );
     ui->tvActions->setModel( mProxy );
+#if QT_VERSION < 0x050000
     ui->tvActions->header()->setResizeMode( 0, QHeaderView::Stretch );
     ui->tvActions->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
     ui->tvActions->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
+#else
+    ui->tvActions->header()->setSectionResizeMode( 0, QHeaderView::Stretch );
+    ui->tvActions->header()->setSectionResizeMode( 1, QHeaderView::ResizeToContents );
+    ui->tvActions->header()->setSectionResizeMode( 2, QHeaderView::ResizeToContents );
+#endif
     ui->tvActions->expandAll();
 
     // connections
     connect( ui->tvActions->selectionModel(), SIGNAL( selectionChanged( const QItemSelection&, const QItemSelection& ) ), this, SLOT( tvActions_selectionModel_selectionChanged() ) );
-    
+
     tvActions_selectionModel_selectionChanged();
 }
 
@@ -79,9 +85,9 @@ void pActionsShortcutEditor::setShortcut( QAction* action, const QString& shortc
     if ( !mOriginalShortcuts.contains( action ) ) {
         mOriginalShortcuts[ action ] = action->shortcut();
     }
-    
+
     QString error;
-    
+
     if ( mModel->setShortcut( action, shortcut, &error ) ) {
         tvActions_selectionModel_selectionChanged();
     }
@@ -99,27 +105,27 @@ void pActionsShortcutEditor::on_leFilter_textChanged( const QString& text )
 void pActionsShortcutEditor::tvActions_selectionModel_selectionChanged()
 {
     QAction* action = selectedAction();
-    
+
     if ( action ) {
         ui->kseShortcut->setText( action->shortcut().toString() );
     }
     else {
         ui->kseShortcut->clear();
     }
-    
+
     ui->kseShortcut->setEnabled( action );
     ui->tbSet->setEnabled( false );
     ui->tbClear->setEnabled( action && !action->shortcut().isEmpty() );
     ui->dbbButtons->button( QDialogButtonBox::Reset )->setEnabled( false );
     ui->dbbButtons->button( QDialogButtonBox::RestoreDefaults )->setEnabled( action && action->shortcut() != mModel->defaultShortcut( action ) );
-    
+
     ui->kseShortcut->setFocus();
 }
 void pActionsShortcutEditor::on_kseShortcut_textChanged( const QString& text )
 {
     Q_UNUSED( text );
     QAction* action = selectedAction();
-    
+
     ui->tbSet->setEnabled( action && !ui->kseShortcut->text().isEmpty() );
     ui->dbbButtons->button( QDialogButtonBox::Reset )->setEnabled( true );
     ui->dbbButtons->button( QDialogButtonBox::RestoreDefaults )->setEnabled( action && action->shortcut() != mModel->defaultShortcut( action ) );
@@ -128,7 +134,7 @@ void pActionsShortcutEditor::on_kseShortcut_textChanged( const QString& text )
 void pActionsShortcutEditor::on_tbSet_clicked()
 {
     QAction* action = selectedAction();
-    
+
     if ( action && !ui->kseShortcut->text().isEmpty() ) {
         setShortcut( action, ui->kseShortcut->text() );
     }
@@ -137,7 +143,7 @@ void pActionsShortcutEditor::on_tbSet_clicked()
 void pActionsShortcutEditor::on_tbClear_clicked()
 {
     QAction* action = selectedAction();
-    
+
     if ( action ) {
         setShortcut( action, QString::null );
     }
@@ -152,11 +158,11 @@ void pActionsShortcutEditor::on_dbbButtons_clicked( QAbstractButton* button )
         }
         case QDialogButtonBox::RestoreDefaults: {
             QAction* action = selectedAction();
-            
+
             if ( action ) {
-                setShortcut( action, mModel->defaultShortcut( action ) );
+                setShortcut( action, mModel->defaultShortcut( action ).toString() );
             }
-            
+
             break;
         }
         case QDialogButtonBox::Ok: {
@@ -167,7 +173,7 @@ void pActionsShortcutEditor::on_dbbButtons_clicked( QAbstractButton* button )
             foreach ( QAction* action, mOriginalShortcuts.keys() ) {
                 action->setShortcut( mOriginalShortcuts.value( action ) );
             }
-            
+
             reject();
             break;
         }

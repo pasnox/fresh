@@ -57,7 +57,7 @@ QString pCoreUtils::findFile( QDir& dir, const QString& fileName, bool recursive
             dir.cd( fi.fileName() );
             const QString fn = findFile( dir, fileName, true );
             dir.cdUp();
-            
+
             if ( !fn.isNull() ) {
                 return fn;
             }
@@ -70,7 +70,7 @@ QString pCoreUtils::findFile( QDir& dir, const QString& fileName, bool recursive
 QStringList pCoreUtils::findFiles( QDir& dir, const QStringList& filters, bool recursive )
 {
     QStringList files;
-    
+
     foreach ( const QFileInfo& fi, dir.entryInfoList( filters ) ) {
         files << QDir::cleanPath( fi.absoluteFilePath() );
     }
@@ -82,7 +82,7 @@ QStringList pCoreUtils::findFiles( QDir& dir, const QStringList& filters, bool r
             dir.cdUp();
         }
     }
-    
+
     return files;
 }
 
@@ -102,12 +102,12 @@ QStringList pCoreUtils::findFiles( QDir& dir, const QString& filter, bool recurs
 QStringList pCoreUtils::textCodecs()
 {
     QMap<QString, QString> codecs;
-    
+
     foreach ( const QByteArray& codec, QTextCodec::availableCodecs() ) {
-        const QString entry = QString::fromAscii( codec );
+        const QString entry = QString::fromUtf8( codec );
         codecs[ entry.toLower() ] = entry;
     }
-    
+
     return codecs.values();
 }
 
@@ -115,10 +115,10 @@ QString pCoreUtils::toTitleCase( const QString& _string )
 {
     QString string = _string;
     bool lastWasLetter = false;
-    
+
     for ( int i = 0; i < string.length(); i++ ) {
         const QChar c = string.at( i );
-        
+
         if ( c.isLetter() || c == '?' ) {
             if ( lastWasLetter ) {
                 string[ i ] = c.toLower();
@@ -126,14 +126,14 @@ QString pCoreUtils::toTitleCase( const QString& _string )
             else {
                 string[ i ] = c.toTitleCase();
             }
-            
+
             lastWasLetter = true;
         }
         else if ( c != '\'' ) {
             lastWasLetter = false;
         }
     }
-    
+
     return string;
 }
 
@@ -146,7 +146,7 @@ QString pCoreUtils::fileSizeAdaptString( qreal nb )
 QString pCoreUtils::fileSizeToString( qint64 bytes )
 {
     qreal nb = bytes;
-    
+
     if ( nb < 0 ) {
         return QObject::tr( "N/C" );
     }
