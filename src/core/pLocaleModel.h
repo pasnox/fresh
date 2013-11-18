@@ -48,7 +48,7 @@
 class FRESH_EXPORT pLocaleModel : public QAbstractItemModel
 {
     Q_OBJECT
-    
+
 public:
     /*!
         Construct a pLocaleModel having parent \a parent.
@@ -114,14 +114,14 @@ public:
         Return the display text for the locale \a name.
     */
     static QString localeDisplayText( const QString& name );
-    
+
 protected:
     typedef QHash<int, QVariant> IntVariantMap;
     mutable QStringList mLocales; // top level locales
     mutable QHash<QString, QStringList> mChildrenLocales; // children locales of a top level locale
     QHash<QString, pLocaleModel::IntVariantMap> mData;
     bool mIsCheckable;
-    
+
     void populate();
 };
 

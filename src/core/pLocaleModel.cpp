@@ -42,7 +42,7 @@ pLocaleModel::pLocaleModel( QObject* parent )
     : QAbstractItemModel( parent )
 {
     mIsCheckable = false;
-    
+
     populate();
 }
 
@@ -51,18 +51,18 @@ QModelIndex pLocaleModel::index( int row, int column, const QModelIndex& parent 
     if ( parent.isValid() ) {
         const QString parentLocale = indexToLocale( parent );
         QStringList* list = mChildrenLocales.contains( parentLocale ) ? &mChildrenLocales[ parentLocale ] : 0;
-        
+
         if ( !list || row < 0 || row >= list->count() || column < 0 || column >= pLocaleModelColumnCount ) {
             return QModelIndex();
         }
-        
+
         return createIndex( row, column, &(*list)[ row ] );
     }
-    
+
     if ( row < 0 || row >= mLocales.count() || column < 0 || column >= pLocaleModelColumnCount ) {
         return QModelIndex();
     }
-    
+
     return createIndex( row, column, &mLocales[ row ] );
 }
 
@@ -70,7 +70,7 @@ QModelIndex pLocaleModel::parent( const QModelIndex& child ) const
 {
     const QLocale childLocale( indexToLocale( child ) );
     const QLocale parentLocale( childLocale.language() );
-    return parentLocale == childLocale ? QModelIndex() : localeToIndex( parentLocale.name() );
+    return parentLocale.name() == childLocale.name() ? QModelIndex() : localeToIndex( parentLocale.name() );
 }
 
 int pLocaleModel::rowCount( const QModelIndex& parent ) const
@@ -90,7 +90,7 @@ QVariant pLocaleModel::data( const QModelIndex& index, int role ) const
     if ( index.isValid() ) {
         const QString name = indexToLocale( index );
         const QString countryCode = name.section( '_', 1 );
-        
+
         switch ( role ) {
 #if defined( QT_GUI_LIB )
             case Qt::DecorationRole:
@@ -104,34 +104,34 @@ QVariant pLocaleModel::data( const QModelIndex& index, int role ) const
                 if ( !mIsCheckable ) {
                     return QVariant();
                 }
-                
+
                 Qt::CheckState state = Qt::CheckState( mData.value( name ).value( role, Qt::Unchecked ).toInt() );
-                
+
                 if ( state == Qt::Unchecked ) {
                     const QStringList locales = mChildrenLocales.value( name );
                     bool hasChildrenChecked = false;
-                
+
                     foreach ( const QString& locale, locales ) {
                         if ( mData.value( locale ).value( Qt::CheckStateRole ).toInt() == Qt::Checked ) {
                             hasChildrenChecked = true;
                             break; // foreach
                         }
                     }
-                    
+
                     if ( hasChildrenChecked ) {
                         state = Qt::PartiallyChecked;
                     }
                 }
-                
+
                 return state;
             }
             default:
                 break;
         }
-        
+
         return mData.value( name ).value( role );
     }
-    
+
     return QVariant();
 }
 
@@ -140,18 +140,18 @@ QVariant pLocaleModel::headerData( int section, Qt::Orientation orientation, int
     if ( section == 0 && orientation == Qt::Horizontal && role == Qt::DisplayRole ) {
         return tr( "Locales" );
     }
-    
+
     return QAbstractItemModel::headerData( section, orientation, role );
 }
 
 Qt::ItemFlags pLocaleModel::flags( const QModelIndex& index ) const
 {
     Qt::ItemFlags flags = QAbstractItemModel::flags( index );
-    
+
     if ( mIsCheckable ) {
         flags |= Qt::ItemIsUserCheckable;
     }
-    
+
     return flags;
 }
 
@@ -160,7 +160,7 @@ bool pLocaleModel::setData( const QModelIndex& index, const QVariant& value, int
     if ( !index.isValid() ) {
         return false;
     }
-    
+
     switch ( role ) {
         case Qt::DecorationRole:
         case Qt::DisplayRole:
@@ -169,47 +169,47 @@ bool pLocaleModel::setData( const QModelIndex& index, const QVariant& value, int
         default:
             break;
     }
-    
+
     const QString name = indexToLocale( index );
-    
+
     if ( !value.isNull() ) {
         mData[ name ][ role ] = value;
     }
     else if ( mData.value( name ).contains( role ) ) {
         mData[ name ].remove( role );
-        
+
         if ( mData[ name ].isEmpty() ) {
             mData.remove( name );
         }
     }
-    
+
     emit dataChanged( index, index );
-    
+
     // update parent partially check state
     if ( role == Qt::CheckStateRole ) {
         const QModelIndex parent = index.parent();
         emit dataChanged( parent, parent );
     }
-    
+
     return true;
 }
 
 QModelIndex pLocaleModel::localeToIndex( const QString& locale ) const
 {
     int row = mLocales.indexOf( locale );
-    
+
     if ( row != -1 ) {
         return createIndex( row, 0, &mLocales[ row ] );
     }
-    
+
     const QString parentLocale = QLocale( QLocale( locale ).name().section( '_', 0, 0 ) ).name();
     row = mChildrenLocales.value( parentLocale ).indexOf( locale );
     QStringList* list = row != -1 ? &mChildrenLocales[ parentLocale ] : 0;
-    
+
     if ( !list || row < 0 || row >= list->count() ) {
         return QModelIndex();
     }
-    
+
     return createIndex( row, 0, &(*list)[ row ] );
 }
 
@@ -232,13 +232,13 @@ void pLocaleModel::setCheckable( bool checkable )
 QStringList pLocaleModel::checkedLocales() const
 {
     QStringList names;
-    
+
     foreach ( const QString& name, mData.keys() ) {
         if ( mData[ name ].value( Qt::CheckStateRole ).toInt() == Qt::Checked ) {
             names << name;
         }
     }
-    
+
     return names;
 }
 
@@ -249,19 +249,19 @@ void pLocaleModel::setCheckedLocales( const QStringList& locales, bool checked )
         if ( name.count( "_" ) == 0 ) {
             name = QLocale( name ).name();
         }
-        
+
         if ( checked ) {
             mData[ name ][ Qt::CheckStateRole ] = Qt::Checked;
         }
         else if ( mData.value( name ).contains( Qt::CheckStateRole ) ) {
             mData[ name ].remove( Qt::CheckStateRole );
-            
+
             if ( mData[ name ].isEmpty() ) {
                 mData.remove( name );
             }
         }
     }
-    
+
     emit dataChanged( index( 0, 0 ), index( rowCount() -1, columnCount() -1 ) );
 }
 
@@ -277,31 +277,30 @@ void pLocaleModel::populate()
 {
     QSet<QString> names;
     QHash<QString, QSet<QString> > childNames;
-    
+
     for ( int i = QLocale::C +1; i < QLocale::LastLanguage; i++ ) {
         const QLocale::Language language = QLocale::Language( i );
-        
+
         if ( language == QLocale::C ) {
             continue;
         }
-        
-        foreach ( const QLocale::Country& country, QLocale::countriesForLanguage( language ) ) {
-            const QLocale locale( language, country );
+
+        foreach ( const QLocale& locale, QLocale::matchingLocales( language, QLocale::AnyScript, QLocale::AnyCountry ) ) {
             const QString languageCode = locale.name().section( '_', 0, 0 );
             const QLocale localeParent( languageCode );
             const QString localeParentName = localeParent.name();
-            
+
             names << localeParentName;
-            
-            if ( locale != localeParent ) {
+
+            if ( locale.name() != localeParent.name() ) {
                 childNames[ localeParentName ] << locale.name();
             }
         }
     }
-    
+
     mLocales = names.toList();
     qSort( mLocales.begin(), mLocales.end(), caseInsensitiveLessThanStringLocale );
-    
+
     foreach ( const QString& name, childNames.keys() ) {
         QStringList locales = childNames[ name ].toList();
         qSort( locales.begin(), locales.end(), caseInsensitiveLessThanStringLocale );
