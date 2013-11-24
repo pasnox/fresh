@@ -123,6 +123,9 @@ protected:
     bool mIsCheckable;
 
     void populate();
+
+signals:
+    void localeCheckStateChanged( const QString& locale );
 };
 
 #endif // PLOCALEMODEL_H

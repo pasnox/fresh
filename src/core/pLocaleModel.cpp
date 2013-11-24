@@ -189,6 +189,7 @@ bool pLocaleModel::setData( const QModelIndex& index, const QVariant& value, int
     if ( role == Qt::CheckStateRole ) {
         const QModelIndex parent = index.parent();
         emit dataChanged( parent, parent );
+        emit localeCheckStateChanged( indexToLocale( index ) );
     }
 
     return true;
@@ -245,7 +246,7 @@ QStringList pLocaleModel::checkedLocales() const
 void pLocaleModel::setCheckedLocales( const QStringList& locales, bool checked )
 {
     foreach ( QString name, locales ) {
-        // fix not complet locale ( only language and not country )
+        // fix not complete locale ( only language and not country )
         if ( name.count( "_" ) == 0 ) {
             name = QLocale( name ).name();
         }
