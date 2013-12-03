@@ -50,6 +50,10 @@ class FRESH_EXPORT pLocaleModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
+    enum CustomRole {
+        LocaleNameRole = Qt::UserRole
+    };
+
     /*!
         Construct a pLocaleModel having parent \a parent.
     */

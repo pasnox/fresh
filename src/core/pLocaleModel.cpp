@@ -139,6 +139,8 @@ QVariant pLocaleModel::data( const QModelIndex& index, int role ) const
 
                 return state;
             }
+            case pLocaleModel::LocaleNameRole:
+                return indexToLocale( index );
             default:
                 break;
         }
