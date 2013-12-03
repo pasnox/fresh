@@ -41,6 +41,7 @@ bool caseInsensitiveLessThanStringLocale( const QString& left, const QString& ri
 pLocaleModel::pLocaleModel( QObject* parent )
     : QAbstractItemModel( parent )
 {
+    mIsTree = true;
     mIsCheckable = false;
 
     populate();
@@ -48,15 +49,17 @@ pLocaleModel::pLocaleModel( QObject* parent )
 
 QModelIndex pLocaleModel::index( int row, int column, const QModelIndex& parent ) const
 {
-    if ( parent.isValid() ) {
-        const QString parentLocale = indexToLocale( parent );
-        QStringList* list = mChildrenLocales.contains( parentLocale ) ? &mChildrenLocales[ parentLocale ] : 0;
+    if ( mIsTree ) {
+        if ( parent.isValid() ) {
+            const QString parentLocale = indexToLocale( parent );
+            QStringList* list = mChildrenLocales.contains( parentLocale ) ? &mChildrenLocales[ parentLocale ] : 0;
 
-        if ( !list || row < 0 || row >= list->count() || column < 0 || column >= pLocaleModelColumnCount ) {
-            return QModelIndex();
+            if ( !list || row < 0 || row >= list->count() || column < 0 || column >= pLocaleModelColumnCount ) {
+                return QModelIndex();
+            }
+
+            return createIndex( row, column, &(*list)[ row ] );
         }
-
-        return createIndex( row, column, &(*list)[ row ] );
     }
 
     if ( row < 0 || row >= mLocales.count() || column < 0 || column >= pLocaleModelColumnCount ) {
@@ -68,15 +71,26 @@ QModelIndex pLocaleModel::index( int row, int column, const QModelIndex& parent 
 
 QModelIndex pLocaleModel::parent( const QModelIndex& child ) const
 {
-    const QLocale childLocale( indexToLocale( child ) );
-    const QLocale parentLocale( childLocale.language() );
-    return parentLocale.name() == childLocale.name() ? QModelIndex() : localeToIndex( parentLocale.name() );
+    if ( mIsTree ) {
+        const QLocale childLocale( indexToLocale( child ) );
+        const QLocale parentLocale( childLocale.language() );
+        return parentLocale.name() == childLocale.name() ? QModelIndex() : localeToIndex( parentLocale.name() );
+    }
+
+    return QModelIndex();
 }
 
 int pLocaleModel::rowCount( const QModelIndex& parent ) const
 {
-    const QString locale = indexToLocale( parent );
-    return parent == QModelIndex() ? mLocales.count() : mChildrenLocales.value( locale ).count();
+    if ( parent == QModelIndex() || !mIsTree ) {
+        return mLocales.count();
+    }
+    else if ( mIsTree && parent.isValid() ) {
+        const QString locale = indexToLocale( parent );
+        return mChildrenLocales.value( locale ).count();
+    }
+
+    return 0;
 }
 
 int pLocaleModel::columnCount( const QModelIndex& parent ) const
@@ -107,7 +121,7 @@ QVariant pLocaleModel::data( const QModelIndex& index, int role ) const
 
                 Qt::CheckState state = Qt::CheckState( mData.value( name ).value( role, Qt::Unchecked ).toInt() );
 
-                if ( state == Qt::Unchecked ) {
+                if ( state == Qt::Unchecked && mIsTree ) {
                     const QStringList locales = mChildrenLocales.value( name );
                     bool hasChildrenChecked = false;
 
@@ -203,20 +217,42 @@ QModelIndex pLocaleModel::localeToIndex( const QString& locale ) const
         return createIndex( row, 0, &mLocales[ row ] );
     }
 
-    const QString parentLocale = QLocale( QLocale( locale ).name().section( '_', 0, 0 ) ).name();
-    row = mChildrenLocales.value( parentLocale ).indexOf( locale );
-    QStringList* list = row != -1 ? &mChildrenLocales[ parentLocale ] : 0;
+    if ( mIsTree ) {
+        const QString parentLocale = QLocale( QLocale( locale ).name().section( '_', 0, 0 ) ).name();
+        row = mChildrenLocales.value( parentLocale ).indexOf( locale );
+        QStringList* list = row != -1 ? &mChildrenLocales[ parentLocale ] : 0;
 
-    if ( !list || row < 0 || row >= list->count() ) {
-        return QModelIndex();
+        if ( !list || row < 0 || row >= list->count() ) {
+            return QModelIndex();
+        }
+
+        return createIndex( row, 0, &(*list)[ row ] );
     }
 
-    return createIndex( row, 0, &(*list)[ row ] );
+    return QModelIndex();
 }
 
 QString pLocaleModel::indexToLocale( const QModelIndex& index ) const
 {
     return index.isValid() ? *static_cast<QString*>( index.internalPointer() ) : QString::null;
+}
+
+bool pLocaleModel::isTree() const
+{
+    return mIsTree;
+}
+
+void pLocaleModel::setTree( bool tree )
+{
+    if ( mIsTree == tree ) {
+        return;
+    }
+
+    mIsTree = tree;
+
+    emit layoutAboutToBeChanged();
+    populate();
+    emit layoutChanged();
 }
 
 bool pLocaleModel::isCheckable() const
@@ -294,7 +330,12 @@ void pLocaleModel::populate()
             names << localeParentName;
 
             if ( locale.name() != localeParent.name() ) {
-                childNames[ localeParentName ] << locale.name();
+                if ( mIsTree ) {
+                    childNames[ localeParentName ] << locale.name();
+                }
+                else {
+                    names << locale.name();
+                }
             }
         }
     }
@@ -302,9 +343,11 @@ void pLocaleModel::populate()
     mLocales = names.toList();
     qSort( mLocales.begin(), mLocales.end(), caseInsensitiveLessThanStringLocale );
 
-    foreach ( const QString& name, childNames.keys() ) {
-        QStringList locales = childNames[ name ].toList();
-        qSort( locales.begin(), locales.end(), caseInsensitiveLessThanStringLocale );
-        mChildrenLocales[ name ] = locales;
+    if ( mIsTree ) {
+        foreach ( const QString& name, childNames.keys() ) {
+            QStringList locales = childNames[ name ].toList();
+            qSort( locales.begin(), locales.end(), caseInsensitiveLessThanStringLocale );
+            mChildrenLocales[ name ] = locales;
+        }
     }
 }

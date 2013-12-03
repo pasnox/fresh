@@ -28,7 +28,7 @@
 
 /*!
     \file pLocaleModel.h
-    \brief A hierarchical model presenting all Qt QLocale.
+    \brief A model presenting all Qt QLocale.
     \author Filipe Azevedo aka Nox P\@sNox <pasnox@gmail.com>
 */
 
@@ -40,9 +40,9 @@
 /*!
     \ingroup FreshCore
     \class pLocaleModel
-    \brief A hierarchical model presenting all Qt QLocale.
+    \brief A model presenting all Qt QLocale.
 
-    This model provide a powerfull ready to use hierarchical model presenting
+    This model provide a powerfull ready to use hierarchical or plain list model presenting
     all Qt QLocale with icons being their country flags.
 */
 class FRESH_EXPORT pLocaleModel : public QAbstractItemModel
@@ -95,6 +95,14 @@ public:
     */
     QString indexToLocale( const QModelIndex& index ) const;
     /*!
+        Return true if the model is a tree, else false.
+    */
+    bool isTree() const;
+    /*!
+        Set the model tree according to \a tree.
+    */
+    void setTree( bool tree );
+    /*!
         Return true if the model is checkable, else false.
     */
     bool isCheckable() const;
@@ -120,6 +128,7 @@ protected:
     mutable QStringList mLocales; // top level locales
     mutable QHash<QString, QStringList> mChildrenLocales; // children locales of a top level locale
     QHash<QString, pLocaleModel::IntVariantMap> mData;
+    bool mIsTree;
     bool mIsCheckable;
 
     void populate();
