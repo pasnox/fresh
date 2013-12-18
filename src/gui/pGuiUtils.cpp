@@ -29,9 +29,29 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QImageReader>
 #include <QDebug>
 
 #define Q_MAXIMIZED_WINDOW_GEOMETRY QRect( QPoint( -1, -1 ), QSize( -1, -1 ) )
+
+QString pGuiUtils::supportedReadableImagesFormatsFilter()
+{
+    const QList<QByteArray> formats = QImageReader::supportedImageFormats();
+    QStringList items;
+
+    foreach ( const QByteArray& format, formats ) {
+      items << QString( "*.%1" ).arg( QString( format ).toLower() );
+    }
+
+    if ( items.isEmpty() ) {
+      return QString::null;
+    }
+
+    items.prepend( QApplication::translate( "pGuiUtils", qPrintable( QString( "Readable Images" ).append( " (" ) ) ) );
+    items.append( " )" );
+
+    return items.join( " " );
+}
 
 QPixmap pGuiUtils::filledPixmap( const QColor& color, const QSize& size )
 {
@@ -114,13 +134,13 @@ QMargins pGuiUtils::frameMargins( QWidget* window )
     const QRect fg = window->frameGeometry();
     const QRect g = window->geometry();
     QMargins margins;
-    
+
     margins.setLeft( g.left() -fg.left() );
     margins.setTop( g.top() -fg.top() );
-    
+
     margins.setRight( fg.right() -g.right() );
     margins.setBottom( fg.bottom() -g.bottom() );
-    
+
     return margins;
 }
 
@@ -134,7 +154,7 @@ QRect pGuiUtils::saveGeometry( QWidget* window )
                 margins.left(), margins.top(), -margins.right(), -margins.bottom()
             ).size()
     );
-    
+
     if ( window->isMaximized()
 #if defined( Q_OS_MAC )
         || (
@@ -147,7 +167,7 @@ QRect pGuiUtils::saveGeometry( QWidget* window )
     ) {
         geometry = Q_MAXIMIZED_WINDOW_GEOMETRY;
     }
-    
+
     /*qWarning() << "Saving"
         << window->frameGeometry()
         << window->geometry()
@@ -156,14 +176,14 @@ QRect pGuiUtils::saveGeometry( QWidget* window )
         << geometry
         << margins
         ;*/
-    
+
     return geometry;
 }
 
 void pGuiUtils::restoreGeometry( QWidget* window, const QRect& geometry )
 {
     Q_ASSERT( window );
-    
+
     if ( geometry == Q_MAXIMIZED_WINDOW_GEOMETRY ) {
         window->showMaximized();
     }
@@ -174,7 +194,7 @@ void pGuiUtils::restoreGeometry( QWidget* window, const QRect& geometry )
         window->resize( geometry.size() );
         window->move( geometry.topLeft() );
     }
-    
+
     /*qWarning() << "Restoring"
         << window->frameGeometry()
         << window->geometry()

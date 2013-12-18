@@ -50,6 +50,10 @@ class QWidget;
 namespace pGuiUtils
 {
     /*!
+        Return a QFileDialog filter for supported images formats
+    */
+    FRESH_EXPORT QString supportedReadableImagesFormatsFilter();
+    /*!
         Create a QPixmap of \a size filled with \a color.
     */
     FRESH_EXPORT QPixmap filledPixmap( const QColor& color, const QSize& size );
