@@ -41,6 +41,7 @@ class QRect;
 class QPixmap;
 class QMargins;
 class QWidget;
+class QStringList;
 
 /*!
     \ingroup FreshGui
@@ -49,6 +50,10 @@ class QWidget;
 */
 namespace pGuiUtils
 {
+    /*!
+        Return a wildcard QStringList for supported images formats
+    */
+    FRESH_EXPORT QStringList supportedReadableImagesFormatsWildcards();
     /*!
         Return a QFileDialog filter for supported images formats
     */

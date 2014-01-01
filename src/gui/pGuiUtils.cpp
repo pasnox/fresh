@@ -34,7 +34,7 @@
 
 #define Q_MAXIMIZED_WINDOW_GEOMETRY QRect( QPoint( -1, -1 ), QSize( -1, -1 ) )
 
-QString pGuiUtils::supportedReadableImagesFormatsFilter()
+QStringList pGuiUtils::supportedReadableImagesFormatsWildcards()
 {
     const QList<QByteArray> formats = QImageReader::supportedImageFormats();
     QStringList items;
@@ -42,6 +42,17 @@ QString pGuiUtils::supportedReadableImagesFormatsFilter()
     foreach ( const QByteArray& format, formats ) {
       items << QString( "*.%1" ).arg( QString( format ).toLower() );
     }
+
+    items = items.toSet().toList();
+
+    qSort( items );
+
+    return items;
+}
+
+QString pGuiUtils::supportedReadableImagesFormatsFilter()
+{
+    QStringList items = pGuiUtils::supportedReadableImagesFormatsWildcards();
 
     if ( items.isEmpty() ) {
       return QString::null;
