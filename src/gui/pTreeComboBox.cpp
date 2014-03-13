@@ -441,7 +441,7 @@ void pTreeComboBox::calculPopupGeometry()
 #endif
 
 #if defined( Q_WS_WIN ) && !defined( QT_NO_EFFECTS )
-#warning Fix me ASAP
+// FIXME Fix me ASAP
     /*bool scrollDown = ( listRect.topLeft() == below );
     if ( QApplication::isEffectEnabled( Qt::UI_AnimateCombo ) 
         && !style->styleHint( QStyle::SH_ComboBox_Popup, &opt, this ) && !window()->testAttribute( Qt::WA_DontShowOnScreen ) )

@@ -62,7 +62,7 @@ QString pSettings::Properties::storageLocation() const
     return QStandardPaths::writableLocation( QStandardPaths::DataLocation );
 #endif
 #else
-    #warning May need a better way for major platforms
+    // FIXME May need a better way for major platforms
     return QDir::homePath().append( QString( ".%1" ).arg( name ) );
 #endif
 }
