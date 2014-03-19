@@ -283,22 +283,23 @@ QStringList pLocaleModel::checkedLocales() const
 
 void pLocaleModel::setCheckedLocales( const QStringList& locales, bool checked )
 {
-    foreach ( QString name, locales ) {
-        // fix not complete locale ( only language and not country )
-        if ( name.count( "_" ) == 0 ) {
-            name = QLocale( name ).name();
-        }
+    foreach ( const QString& name, mData.keys() ) {
+        mData[ name ].remove( Qt::CheckStateRole );
 
-        if ( checked ) {
-            mData[ name ][ Qt::CheckStateRole ] = Qt::Checked;
+        if ( mData[ name ].isEmpty() ) {
+            mData.remove( name );
         }
-        else if ( mData.value( name ).contains( Qt::CheckStateRole ) ) {
-            mData[ name ].remove( Qt::CheckStateRole );
+    }
 
-            if ( mData[ name ].isEmpty() ) {
-                mData.remove( name );
-            }
-        }
+    if ( checked ) {
+      foreach ( QString name, locales ) {
+          // fix not complete locale ( only language and not country )
+          if ( name.count( "_" ) == 0 ) {
+              name = QLocale( name ).name();
+          }
+
+          mData[ name ][ Qt::CheckStateRole ] = Qt::Checked;
+      }
     }
 
     emit dataChanged( index( 0, 0 ), index( rowCount() -1, columnCount() -1 ) );
