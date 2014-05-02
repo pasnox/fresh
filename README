@@ -1,5 +1,5 @@
 Fresh is a library extending the Qt library by adding new classes/widgets.
-It's developped by Filipe AZEVEDO (Nox P@sNox, pasnox@gmail.com)
+It's developped by Filipe Azevedo (Nox P@sNox, pasnox@gmail.com)
 The library had python bindings created by Andrei KOPATS (hlamer, hlamer@tut.by), see python-bindings branch.
 The python bindings are discontinued it's why they have been moved to the python-bindings branch, feel free to take over.
 
