@@ -88,7 +88,10 @@ FORMS *=  \
     src/gui/pTranslationDialog.ui \
     src/gui/environmentvariablemanager/pEnvironmentVariableEditor.ui \
     src/gui/environmentvariablemanager/pEnvironmentVariablesEditor.ui \
-    src/gui/gc-updatechecker/pUpdateCheckerDialog.ui
+    src/gui/gc-updatechecker/pUpdateCheckerDialog.ui \
+    src/gui/pSpinBox.ui \
+    src/gui/pQtResourceDialog.ui \
+    src/gui/pResourcePicker.ui
 
 CORE_HEADERS =  \
     src/core/FreshExport.h \
@@ -100,6 +103,8 @@ CORE_HEADERS =  \
     src/core/pNetworkAccessManager.h \
     src/core/pGenericTableModel.h \
     src/core/pLocaleModel.h \
+    src/core/pLocaleSortFilterProxyModel.h \
+    src/core/pQtResourceModel.h \
     src/core/Fresh.h
 
 GUI_HEADERS *=  \
@@ -139,7 +144,12 @@ GUI_HEADERS *=  \
     src/gui/gc-updatechecker/pUpdateChecker.h \
     src/gui/gc-updatechecker/pUpdateCheckerDialog.h \
     src/gui/pPaypalButton.h \
-    src/gui/pCheckComboBox.h
+    src/gui/pCheckComboBox.h \
+    src/gui/pCollapsibleFrame.h \
+    src/gui/pSpinBox.h \
+    src/gui/pQtResourceDialog.h \
+    src/gui/pResourcePicker.h \
+    src/gui/pImageResourcePicker.h
 
 HEADERS *=  \
     $${CORE_HEADERS} \
@@ -154,6 +164,8 @@ CORE_SOURCES *=  \
     src/core/pNetworkAccessManager.cpp \
     src/core/pGenericTableModel.cpp \
     src/core/pLocaleModel.cpp \
+    src/core/pLocaleSortFilterProxyModel.cpp \
+    src/core/pQtResourceModel.cpp \
     src/core/Fresh.cpp
 
 GUI_SOURCES *=  \
@@ -193,7 +205,12 @@ GUI_SOURCES *=  \
     src/gui/gc-updatechecker/pUpdateChecker.cpp \
     src/gui/gc-updatechecker/pUpdateCheckerDialog.cpp \
     src/gui/pPaypalButton.cpp \
-    src/gui/pCheckComboBox.cpp
+    src/gui/pCheckComboBox.cpp \
+    src/gui/pCollapsibleFrame.cpp \
+    src/gui/pSpinBox.cpp \
+    src/gui/pQtResourceDialog.cpp \
+    src/gui/pResourcePicker.cpp \
+    src/gui/pImageResourcePicker.cpp
 
 SOURCES *=  \
     $${CORE_SOURCES} \

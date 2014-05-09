@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>pResourcePicker</class>
+ <widget class="QWidget" name="pResourcePicker">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>68</height>
+   </rect>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item alignment="Qt::AlignTop">
+    <widget class="QFrame" name="fPreview">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>68</width>
+       <height>68</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>68</width>
+       <height>68</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="margin">
+       <number>1</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="lPreview">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignTop">
+    <widget class="QLineEdit" name="leResource">
+     <property name="placeholderText">
+      <string notr="true">file:///some/path/to/file.ext</string>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignTop">
+    <widget class="QToolButton" name="tbResource">
+     <property name="text">
+      <string notr="true">...</string>
+     </property>
+     <property name="popupMode">
+      <enum>QToolButton::MenuButtonPopup</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+  <action name="aFilePath">
+   <property name="text">
+    <string>Choose a file from a file path</string>
+   </property>
+  </action>
+  <action name="aResource">
+   <property name="text">
+    <string>Choose a file from a resource</string>
+   </property>
+  </action>
+  <action name="aTheme">
+   <property name="text">
+    <string>Choose a file from a theme</string>
+   </property>
+  </action>
+  <zorder>tbResource</zorder>
+  <zorder>leResource</zorder>
+  <zorder>fPreview</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

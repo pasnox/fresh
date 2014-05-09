@@ -59,7 +59,7 @@ class FRESH_EXPORT pColorButton : public QToolButton
 
     The alpha edition will be enabled depending this property.
 
-    The default value if false is alpha is 255 else true.
+    The default value is false if alpha is 255 else true.
     */
     Q_PROPERTY( bool alphaEnabled READ alphaEnabled WRITE setAlphaEnabled )
     
