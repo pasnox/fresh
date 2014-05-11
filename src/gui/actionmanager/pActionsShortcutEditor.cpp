@@ -26,7 +26,7 @@
 #include "pActionsShortcutEditor.h"
 #include "ui_pActionsShortcutEditor.h"
 #include "pActionsModel.h"
-#include "models/pRecursiveSortFilterProxyModel.h"
+#include "pRecursiveSortFilterProxyModel.h"
 #include "pKeySequenceEdit.h"
 
 #include <QSortFilterProxyModel>

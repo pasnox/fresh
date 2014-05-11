@@ -105,6 +105,7 @@ CORE_HEADERS =  \
     src/core/pLocaleModel.h \
     src/core/pLocaleSortFilterProxyModel.h \
     src/core/pQtResourceModel.h \
+    src/core/pRecursiveSortFilterProxyModel.h \
     src/core/Fresh.h
 
 GUI_HEADERS *=  \
@@ -124,7 +125,6 @@ GUI_HEADERS *=  \
     src/gui/listeditor/pFileListEditor.h \
     src/gui/listeditor/pPathListEditor.h \
     src/gui/listeditor/pStringListEditor.h \
-    src/gui/models/pRecursiveSortFilterProxyModel.h \
     src/gui/pTranslationDialog.h \
     src/gui/queuedmessage/pQueuedMessageToolBar.h \
     src/gui/queuedmessage/pQueuedMessageWidget.h \
@@ -166,6 +166,7 @@ CORE_SOURCES *=  \
     src/core/pLocaleModel.cpp \
     src/core/pLocaleSortFilterProxyModel.cpp \
     src/core/pQtResourceModel.cpp \
+    src/core/pRecursiveSortFilterProxyModel.cpp \
     src/core/Fresh.cpp
 
 GUI_SOURCES *=  \
@@ -185,7 +186,6 @@ GUI_SOURCES *=  \
     src/gui/listeditor/pFileListEditor.cpp \
     src/gui/listeditor/pPathListEditor.cpp \
     src/gui/listeditor/pStringListEditor.cpp \
-    src/gui/models/pRecursiveSortFilterProxyModel.cpp \
     src/gui/pTranslationDialog.cpp \
     src/gui/queuedmessage/pQueuedMessageToolBar.cpp \
     src/gui/queuedmessage/pQueuedMessageWidget.cpp \
