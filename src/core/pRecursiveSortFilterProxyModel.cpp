@@ -28,6 +28,7 @@
 pRecursiveSortFilterProxyModel::pRecursiveSortFilterProxyModel( QObject* parent )
   : QSortFilterProxyModel( parent )
   , m_recursiveFilter( false )
+  , m_invertedFilter( false )
 {
 }
 
@@ -76,6 +77,18 @@ bool pRecursiveSortFilterProxyModel::isRecursiveFilter() const
   return m_recursiveFilter;
 }
 
+void pRecursiveSortFilterProxyModel::setInvertedFilter( bool inverted )
+{
+  beginResetModel();
+  m_invertedFilter = inverted;
+  endResetModel();
+}
+
+bool pRecursiveSortFilterProxyModel::isInvertedFilter() const
+{
+  return m_invertedFilter;
+}
+
 void pRecursiveSortFilterProxyModel::setSourceRootModelIndex( const QModelIndex& index )
 {
   beginResetModel();
@@ -109,12 +122,16 @@ bool pRecursiveSortFilterProxyModel::filterAcceptsRow( int source_row, const QMo
     }
   }
 
+  bool accepted = false;
+
   if ( m_recursiveFilter ) {
-    return recursiveFilterAcceptsRowImplementation( source_row, source_parent );
+    accepted = recursiveFilterAcceptsRowImplementation( source_row, source_parent );
   }
   else {
-    return filterAcceptsRowImplementation( source_row, source_parent );
+    accepted = filterAcceptsRowImplementation( source_row, source_parent );
   }
+
+  return isInvertedFilter() ? !accepted : accepted;
 }
 
 bool pRecursiveSortFilterProxyModel::recursiveFilterAcceptsRowImplementation( int source_row, const QModelIndex& source_parent ) const

@@ -67,6 +67,9 @@ public:
   void setRecursiveFilter( bool recursive );
   bool isRecursiveFilter() const;
 
+  void setInvertedFilter( bool inverted );
+  bool isInvertedFilter() const;
+
   void setSourceRootModelIndex( const QModelIndex& index );
   QModelIndex sourceRootModelIndex() const;
 
@@ -75,6 +78,7 @@ protected:
 
 private:
   bool m_recursiveFilter;
+  bool m_invertedFilter;
   QPersistentModelIndex m_sourceRootIndex;
 
   virtual bool filterAcceptsRow( int source_row, const QModelIndex & source_parent ) const;
