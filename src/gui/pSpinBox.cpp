@@ -163,17 +163,17 @@ void pSpinBox::setValue( int value )
     ui->sbSpinBox->setValue( value );
 }
 
-QLabel*pSpinBox::label() const
+QLabel* pSpinBox::label() const
 {
     return ui->lLabel;
 }
 
-QSpinBox*pSpinBox::spinBox() const
+QSpinBox* pSpinBox::spinBox() const
 {
     return ui->sbSpinBox;
 }
 
-QToolButton*pSpinBox::toolButton() const
+QToolButton* pSpinBox::toolButton() const
 {
     return ui->tbToolButton;
 }
