@@ -160,7 +160,14 @@ int pSpinBox::value() const
 
 void pSpinBox::setValue( int value )
 {
-    ui->sbSpinBox->setValue( value );
+  ui->sbSpinBox->setValue( value );
+}
+
+void pSpinBox::setDefaultValue( int value )
+{
+  const bool locked = blockSignals( true );
+  ui->sbSpinBox->setValue( value );
+  blockSignals( locked );
 }
 
 QLabel* pSpinBox::label() const

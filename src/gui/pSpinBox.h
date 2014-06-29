@@ -47,12 +47,13 @@ class QToolButton;
 class QSlider;
 
 // TODO: Finish documentation
+// TODO: Refactor the class so it inherits QSpinBox directly.
 
 /*!
     \ingroup FreshGui
     \class pSpinBox
     \brief A mixed QSpinBox/QSlider widget.
-    
+
     This widget is a special QSpinBox like widget.
     It has the possibility to be checkable, to have a label and change its value using a QSlider.
     When the pSpinBox is checkable, the QSpinBox/QSlider will be enabled according to the checked state.
@@ -88,6 +89,7 @@ public:
 
     int value() const;
     void setValue( int value );
+    void setDefaultValue( int value );
 
 protected:
     QCheckBox* checkBox() const;
