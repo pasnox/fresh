@@ -62,7 +62,7 @@ class FRESH_EXPORT pColorButton : public QToolButton
     The default value is false if alpha is 255 else true.
     */
     Q_PROPERTY( bool alphaEnabled READ alphaEnabled WRITE setAlphaEnabled )
-    
+
 public:
     /*!
         Create an instance of button having parent \a parent.
@@ -85,7 +85,7 @@ public:
 protected:
     QColor mColor;
     bool mAlphaEnabled;
-    
+
     void init( const QColor& color );
 
 public slots:
@@ -93,6 +93,10 @@ public slots:
         Set the color to \a color.
     */
     void setColor( const QColor& color );
+    /*!
+        Set the color to \a color without emiting the colorChanged signal.
+    */
+    void setDefaultColor( const QColor& color );
     /*!
         Set the color alpha enabled to \a enabled.
     */

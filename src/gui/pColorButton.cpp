@@ -51,30 +51,34 @@ void pColorButton::init( const QColor& color )
 QColor pColorButton::color() const
 {
     QColor color = mColor;
-    
+
     if ( !mAlphaEnabled ) {
         color.setAlpha( 255 );
     }
-    
+
     return color;
 }
 
 void pColorButton::setColor( const QColor& color )
 {
+    setDefaultColor( color );
+    emit colorChanged( mColor );
+}
+
+void pColorButton::setDefaultColor( const QColor& color )
+{
     mColor = color;
     mColor = this->color(); // remove alpha if needed
-    
+
     const QStringList texts = QStringList()
         << QString( "RGBA #%1%2%3%4" ).arg( mColor.red(), 2, 16, QChar( '0' ) ).arg( mColor.green(), 2, 16, QChar( '0' ) ).arg( mColor.blue(), 2, 16, QChar( '0' ) ).arg( mColor.alpha(), 2, 16, QChar( '0' ) )
         << QString( "RGBA %1, %2, %3, %4" ).arg( mColor.red() ).arg( mColor.green() ).arg( mColor.blue() ).arg( mColor.alpha() )
         ;
-    
+
     setText( texts.first() );
     setToolTip( texts.join( "\n" ) );
-    
+
     setIcon( QIcon( pGuiUtils::filledPixmap( mColor, iconSize() ) ) );
-    
-    emit colorChanged( mColor );
 }
 
 bool pColorButton::alphaEnabled() const
@@ -85,9 +89,9 @@ bool pColorButton::alphaEnabled() const
 void pColorButton::setAlphaEnabled( bool enabled )
 {
     mAlphaEnabled = enabled;
-    
+
     const QColor c = color();
-    
+
     if ( mColor != c ) {
         emit colorChanged( c );
     }
@@ -96,7 +100,7 @@ void pColorButton::setAlphaEnabled( bool enabled )
 void pColorButton::_q_clicked()
 {
     const QColor color = QColorDialog::getColor( mColor, window(), tr( "Choose a color" ), mAlphaEnabled ? QColorDialog::ShowAlphaChannel : QColorDialog::ColorDialogOptions( 0 ) );
-    
+
     if ( color.isValid() ) {
         setColor( color );
     }
