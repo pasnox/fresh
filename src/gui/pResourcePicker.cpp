@@ -144,6 +144,19 @@ void pResourcePicker::setText( const QString& text )
   ui->leResource->setText( preferUri_ ? pResourcePicker::toUri( text ) : pResourcePicker::fromUri( text ) );
 }
 
+QString pResourcePicker::referenceLocalFilePath() const
+{
+  return referenceLocalFilePath_;
+}
+
+void pResourcePicker::setReferenceLocalFilePath( const QString& filePath )
+{
+  if ( QFileInfo( filePath ).isDir() && !QDir::isRelativePath( filePath ) )
+  {
+    referenceLocalFilePath_ = filePath;
+  }
+}
+
 QString pResourcePicker::toUri( const QString& filePath )
 {
   const QUrl url( filePath );
@@ -292,7 +305,16 @@ void pResourcePicker::on_leResource_textEdited( const QString& text )
 void pResourcePicker::on_aFilePath_triggered()
 {
   const QString text = pResourcePicker::fromUri( ui->leResource->text() );
-  const QString filePath = QFileDialog::getOpenFileName( this, ui->aFilePath->text(), text, fileNameFilter() );
+  QString filePath = QFileDialog::getOpenFileName( this, ui->aFilePath->text(), text, fileNameFilter() );
+
+  if ( filePath.isEmpty() ) {
+    return;
+  }
+
+  if ( !referenceLocalFilePath_.isEmpty() || !QFileInfo( filePath ).isRelative() ) {
+    const QDir referenceDir( referenceLocalFilePath_ );
+    filePath = referenceDir.relativeFilePath( filePath );
+  }
 
   if ( filePath.isEmpty() ) {
     return;

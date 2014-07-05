@@ -81,6 +81,9 @@ public:
   QString text() const;
   void setText( const QString& text );
 
+  QString referenceLocalFilePath() const;
+  void setReferenceLocalFilePath( const QString& filePath );
+
   static QString toUri( const QString& filePath );
   static QString fromUri( const QString& uri );
   static QPixmap pixmapFromString( const QString& string, const QSize& size, Qt::AspectRatioMode aspect = Qt::KeepAspectRatio, Qt::TransformationMode transformation = Qt::SmoothTransformation );
@@ -89,6 +92,7 @@ private:
   Ui::pResourcePicker* ui;
   bool preferUri_;
   QStringList fileNameWildcards_;
+  QString referenceLocalFilePath_;
 
   static QFileIconProvider iconProvider_;
 
