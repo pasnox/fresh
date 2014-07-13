@@ -93,7 +93,6 @@ public:
 
 protected:
     QCheckBox* checkBox() const;
-    QLabel* label() const;
     QSpinBox* spinBox() const;
     QToolButton* toolButton() const;
 
@@ -101,11 +100,13 @@ protected:
 
 private slots:
     void on_tbToolButton_clicked();
-    void on_cbCheck_toggled( bool checked) ;
+    void on_cbCheck_toggled( bool checked );
 
 private:
     Ui::pSpinBox* ui;
     int sliderFactor_;
+    bool textVisible_;
+    QString text_;
 
 signals:
     void editingFinished();

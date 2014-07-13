@@ -60,9 +60,10 @@ public:
 };
 
 pSpinBox::pSpinBox( QWidget* parent )
-    : QWidget( parent ),
-    ui( new Ui::pSpinBox ),
-    sliderFactor_( 8 )
+    : QWidget( parent )
+    , ui( new Ui::pSpinBox )
+    , sliderFactor_( 8 )
+    , textVisible_( true )
 {
     ui->setupUi( this );
     setCheckable( false );
@@ -115,22 +116,24 @@ void pSpinBox::setChecked( bool checked )
 
 bool pSpinBox::isTextVisible() const
 {
-    return ui->lLabel->isVisible();
+    return textVisible_;
 }
 
 void pSpinBox::setTextVisible( bool visible )
 {
-    ui->lLabel->setVisible( visible );
+    textVisible_ = visible;
+    ui->cbCheck->setText( textVisible_ ? text_ : QString::null );
 }
 
 QString pSpinBox::text() const
 {
-    return ui->lLabel->text();
+    return text_;
 }
 
 void pSpinBox::setText( const QString& text )
 {
-    ui->lLabel->setText( text );
+    text_ = text;
+    ui->cbCheck->setText( textVisible_ ? text_ : QString::null );
 }
 
 int pSpinBox::minimum() const
@@ -170,9 +173,9 @@ void pSpinBox::setDefaultValue( int value )
   blockSignals( locked );
 }
 
-QLabel* pSpinBox::label() const
+QCheckBox* pSpinBox::checkBox() const
 {
-    return ui->lLabel;
+  return ui->cbCheck;
 }
 
 QSpinBox* pSpinBox::spinBox() const
