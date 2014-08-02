@@ -111,6 +111,8 @@ pComboBox::pComboBox( QWidget* parent )
     hl->addStretch();
     hl->addWidget( toolButton_ );
 
+    setResetButtonEnabled( false );
+
     connect( toolButton_, SIGNAL( clicked() ), this, SLOT( reset() ) );
 }
 
