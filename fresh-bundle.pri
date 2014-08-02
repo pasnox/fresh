@@ -49,6 +49,9 @@ fresh {
     LIBS *= -L$${FRESH_BUNDLE_LIB_PATH}/build
 
     QT *= xml network
+    exists( $${FRESH_BUNDLE_LIB_PATH}/build/lib$$targetForMode( fresh ).a ) {
+        PRE_TARGETDEPS *= $${FRESH_BUNDLE_LIB_PATH}/build/lib$$targetForMode( fresh ).a
+    }
     LIBS *= -l$$targetForMode( fresh )
     #!macx:qtAddLibrary( fresh )
     #macx:LIBS *= -lfresh
