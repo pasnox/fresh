@@ -33,7 +33,6 @@
 */
 
 #include "FreshExport.h"
-#include "pComboBox.h"
 
 #include <QWidget>
 #include <QPersistentModelIndex>
@@ -73,7 +72,7 @@ public:
     QSize iconSize() const;
     /*!
         Set the size of the icon to \a size.
-        
+
         \note The view has to be defined to take effect.
     */
     void setIconSize( const QSize& size );
@@ -91,7 +90,7 @@ public:
     QTreeView* view() const;
     /*!
         Set the view used by the combobox.
-        
+
         \note The old view is deleted.
     */
     virtual void setView( QTreeView* view );
@@ -101,7 +100,7 @@ public:
     QAbstractItemModel* model() const;
     /*!
         Set the view model to \a model.
-        
+
         \note The view has to be defined to take effect.
     */
     virtual void setModel( QAbstractItemModel* model );
@@ -119,7 +118,7 @@ public:
     QModelIndex rootIndex() const;
     /*!
         Set te view root index to \a index.
-        
+
         \note The view has to be defined to take effect.
     */
     void setRootIndex( const QModelIndex& index );
@@ -129,7 +128,7 @@ public:
     QModelIndex currentIndex() const;
     /*!
         Set the view current index to \a index.
-        
+
         \note The view has to be defined to take effect.
     */
     void setCurrentIndex( const QModelIndex& index );
@@ -179,13 +178,13 @@ protected:
 signals:
     /*!
         This signal is emit when \a index is activated.
-        
+
         \sa QTreeView::activated( const QModelIndex& ).
     */
     void activated( const QModelIndex& index );
     /*!
         This signal is emit when \a index is clicked.
-        
+
         \sa QTreeView::clicked( const QModelIndex& ).
     */
     void clicked( const QModelIndex& index );
@@ -195,7 +194,7 @@ signals:
     void currentIndexChanged( const QModelIndex& index );
     /*!
         This signal is emit when \a index is highlighted.
-        
+
         \sa QTreeView::highlighted( const QModelIndex& ).
     */
     void highlighted( const QModelIndex& index );

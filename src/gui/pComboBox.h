@@ -36,17 +36,21 @@
 
 #include <QComboBox>
 
+class QToolButton;
+class ResetToolButton;
+
 /*!
     \ingroup FreshGui
     \class pComboBox
     \brief A combo box with specialized signals.
 
     This combo box add the ability to informs by signals that the popup is about to show / hide.
+    It also add the possibility to show a reset button which reset the current index to -1.
 */
 class FRESH_EXPORT pComboBox : public QComboBox
 {
     Q_OBJECT
-    
+
 public:
     /*!
         Construct a pLocaleModel having parent \a parent.
@@ -60,6 +64,61 @@ public:
         Reimplemented.
     */
     virtual void showPopup();
+    /*!
+        Reimplemented.
+    */
+    virtual QSize sizeHint() const;
+    /*!
+        Reimplemented.
+    */
+    virtual QSize minimumSizeHint() const;
+    /*!
+        Return true if the reset button is visible, false else.
+    */
+    bool isResetButtonEnabled() const;
+    /*!
+        Set the reset button vivibility to \a enabled.
+    */
+    void setResetButtonEnabled( bool enabled );
+
+protected:
+    /*!
+        Reimplemented.
+    */
+    virtual void paintEvent( QPaintEvent* event );
+    /*!
+        Reimplemented.
+    */
+    virtual void mousePressEvent( QMouseEvent* event );
+    /*!
+        Reimplemented.
+    */
+    virtual void mouseReleaseEvent( QMouseEvent* event );
+    /*!
+        Reimplemented.
+    */
+    virtual void wheelEvent( QWheelEvent* event );
+    /*!
+        \internal
+        Return true if pos is in the combobox area, else false.
+    */
+    bool hitComboBox( const QPoint& pos ) const;
+    /*!
+        \internal
+        Paint the combobox given the \a options.
+    */
+    void paint( QStyleOptionComboBox& options );
+
+private:
+    int spacing_;
+    ResetToolButton* toolButton_;
+
+private slots:
+    /*!
+        \internal
+        Set the current index to -1.
+    */
+    void reset();
 
 signals:
     /*!
