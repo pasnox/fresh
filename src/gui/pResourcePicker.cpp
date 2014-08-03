@@ -39,6 +39,7 @@ pResourcePicker::pResourcePicker( QWidget* parent )
   : QWidget( parent ),
   ui( new Ui::pResourcePicker ),
   preferUri_( true ),
+  upscaleAllowed_( true ),
   fileNameWildcards_( QLatin1String( "*" ) )
 {
   ui->setupUi( this );
@@ -112,6 +113,16 @@ void pResourcePicker::setPreferUri( bool prefer )
   preferUri_ = prefer;
 
   ui->leResource->setText( ui->leResource->text() );
+}
+
+bool pResourcePicker::isUpscaleAllowed() const
+{
+  return upscaleAllowed_;
+}
+
+void pResourcePicker::setUpscaleAllowed( bool upscaleAllowed )
+{
+  upscaleAllowed_ = upscaleAllowed;
 }
 
 bool pResourcePicker::isPreviewEnabled() const
@@ -204,7 +215,7 @@ QString pResourcePicker::fromUri( const QString& uri )
   return url.toString( QUrl::RemoveScheme ).remove( 0, 2 );
 }
 
-QPixmap pResourcePicker::pixmapFromString( const QString& string, const QSize& size, Qt::AspectRatioMode aspect, Qt::TransformationMode transformation )
+QPixmap pResourcePicker::pixmapFromString( const QString& string, const QSize& size, bool upscaleAllowed, Qt::AspectRatioMode aspect, Qt::TransformationMode transformation )
 {
   if ( string.isEmpty() ) {
     return QPixmap();
@@ -239,7 +250,7 @@ QPixmap pResourcePicker::pixmapFromString( const QString& string, const QSize& s
 
     const QSize aspectSize = pixmap.size().scaled( size, aspect );
 
-    if ( pixmap.size() != aspectSize ) {
+    if ( pixmap.size() != aspectSize && ( upscaleAllowed || ( pixmap.width() > aspectSize.width() && pixmap.height() > aspectSize.height() ) ) ) {
       pixmap = pixmap.scaled( size, aspect, transformation );
     }
 
@@ -276,12 +287,12 @@ void pResourcePicker::updatePreview()
   emit customPreview( ui->leResource->text(), size, pixmap );
 
   if ( pixmap.isNull() ) {
-    pixmap = pResourcePicker::pixmapFromString( ui->leResource->text(), size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+    pixmap = pResourcePicker::pixmapFromString( ui->leResource->text(), size, upscaleAllowed_, Qt::KeepAspectRatio, Qt::SmoothTransformation );
   }
   else {
     size = pixmap.size().scaled( size, Qt::KeepAspectRatio );
 
-    if ( pixmap.size() != size ) {
+    if ( pixmap.size() != size && ( upscaleAllowed_ || ( pixmap.width() > size.width() && pixmap.height() > size.height() ) ) ) {
       pixmap = pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
     }
   }

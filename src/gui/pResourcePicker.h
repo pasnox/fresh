@@ -72,6 +72,9 @@ public:
   bool preferUri() const;
   void setPreferUri( bool prefer );
 
+  bool isUpscaleAllowed() const;
+  void setUpscaleAllowed( bool upscaleAllowed );
+
   bool isPreviewEnabled() const;
   void setPreviewEnabled( bool enabled );
 
@@ -86,11 +89,12 @@ public:
 
   static QString toUri( const QString& filePath );
   static QString fromUri( const QString& uri );
-  static QPixmap pixmapFromString( const QString& string, const QSize& size, Qt::AspectRatioMode aspect = Qt::KeepAspectRatio, Qt::TransformationMode transformation = Qt::SmoothTransformation );
+  static QPixmap pixmapFromString( const QString& string, const QSize& size, bool upscaleAllowed = true, Qt::AspectRatioMode aspect = Qt::KeepAspectRatio, Qt::TransformationMode transformation = Qt::SmoothTransformation );
 
 private:
   Ui::pResourcePicker* ui;
   bool preferUri_;
+  bool upscaleAllowed_;
   QStringList fileNameWildcards_;
   QString referenceLocalFilePath_;
 
