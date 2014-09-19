@@ -164,7 +164,10 @@ void pResourcePicker::setReferenceLocalFilePath( const QString& filePath )
 {
   if ( QFileInfo( filePath ).isDir() && !QDir::isRelativePath( filePath ) )
   {
-    referenceLocalFilePath_ = filePath;
+    referenceLocalFilePath_ = QDir::cleanPath( QDir::toNativeSeparators( filePath ) );
+  }
+  else {
+    referenceLocalFilePath_.clear();
   }
 }
 
@@ -316,15 +319,14 @@ void pResourcePicker::on_leResource_textEdited( const QString& text )
 void pResourcePicker::on_aFilePath_triggered()
 {
   const QString text = pResourcePicker::fromUri( ui->leResource->text() );
-  QString filePath = QFileDialog::getOpenFileName( this, ui->aFilePath->text(), text, fileNameFilter() );
+  QString filePath = QDir::cleanPath( QDir::toNativeSeparators( QFileDialog::getOpenFileName( this, ui->aFilePath->text(), text, fileNameFilter() ) ) );
 
   if ( filePath.isEmpty() ) {
     return;
   }
 
-  if ( !referenceLocalFilePath_.isEmpty() || !QFileInfo( filePath ).isRelative() ) {
-    const QDir referenceDir( referenceLocalFilePath_ );
-    filePath = referenceDir.relativeFilePath( filePath );
+  if ( !referenceLocalFilePath_.isEmpty() && !QFileInfo( filePath ).isRelative() && filePath.startsWith( referenceLocalFilePath_ ) ) {
+    filePath = QDir( referenceLocalFilePath_ ).relativeFilePath( filePath );
   }
 
   if ( filePath.isEmpty() ) {
