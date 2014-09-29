@@ -43,6 +43,7 @@ pResourcePicker::pResourcePicker( QWidget* parent )
   fileNameWildcards_( QLatin1String( "*" ) )
 {
   ui->setupUi( this );
+  setFocusProxy( ui->leResource );
 
   QMenu* imageMenu = new QMenu( this );
   imageMenu->addAction( ui->aFilePath );
