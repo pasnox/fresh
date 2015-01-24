@@ -46,6 +46,7 @@ class QIcon;
 class FRESH_EXPORT pCollapsibleFrame : public QFrame
 {
     Q_OBJECT
+    friend class pCollapsibleFramePrivate;
     class pCollapsibleFramePrivate* d;
 
 public:

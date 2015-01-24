@@ -32,6 +32,7 @@
 #include <QInputDialog>
 #include <QPixmapCache>
 #include <QImageReader>
+#include <QUrl>
 
 QFileIconProvider pResourcePicker::iconProvider_;
 
@@ -252,7 +253,8 @@ QPixmap pResourcePicker::pixmapFromString( const QString& string, const QSize& s
       pixmap = icon.pixmap( icon.actualSize( size ) );
     }
 
-    const QSize aspectSize = pixmap.size().scaled( size, aspect );
+    QSize aspectSize = pixmap.size();
+    aspectSize.scale( size, aspect );
 
     if ( pixmap.size() != aspectSize && ( upscaleAllowed || ( pixmap.width() > aspectSize.width() && pixmap.height() > aspectSize.height() ) ) ) {
       pixmap = pixmap.scaled( size, aspect, transformation );
@@ -294,7 +296,8 @@ void pResourcePicker::updatePreview()
     pixmap = pResourcePicker::pixmapFromString( ui->leResource->text(), size, upscaleAllowed_, Qt::KeepAspectRatio, Qt::SmoothTransformation );
   }
   else {
-    size = pixmap.size().scaled( size, Qt::KeepAspectRatio );
+    size = pixmap.size();
+    size.scale( size, Qt::KeepAspectRatio );
 
     if ( pixmap.size() != size && ( upscaleAllowed_ || ( pixmap.width() > size.width() && pixmap.height() > size.height() ) ) ) {
       pixmap = pixmap.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
