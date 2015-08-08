@@ -103,12 +103,12 @@ QVariant pLocaleModel::data( const QModelIndex& index, int role ) const
 {
     if ( index.isValid() ) {
         const QString name = indexToLocale( index );
-        const QString countryCode = name.section( '_', 1 );
+        const QString countryCode = name.section( QL1C( '_' ), 1 );
 
         switch ( role ) {
 #if defined( QT_GUI_LIB )
             case Qt::DecorationRole:
-                return pIconManager::icon( QString( "%1.png" ).arg( countryCode.toLower() ), ":/fresh/country-flags" );
+                return pIconManager::icon( QString( QSL( "%1.png" ) ).arg( countryCode.toLower() ), QSL( ":/fresh/country-flags" ) );
 #endif
             case Qt::DisplayRole:
                 return pLocaleModel::localeDisplayText( name );
@@ -220,7 +220,7 @@ QModelIndex pLocaleModel::localeToIndex( const QString& locale ) const
     }
 
     if ( mIsTree ) {
-        const QString parentLocale = QLocale( QLocale( locale ).name().section( '_', 0, 0 ) ).name();
+        const QString parentLocale = QLocale( QLocale( locale ).name().section( QL1C( '_' ), 0, 0 ) ).name();
         row = mChildrenLocales.value( parentLocale ).indexOf( locale );
         QStringList* list = row != -1 ? &mChildrenLocales[ parentLocale ] : 0;
 
@@ -294,7 +294,7 @@ void pLocaleModel::setCheckedLocales( const QStringList& locales, bool checked )
     if ( checked ) {
       foreach ( QString name, locales ) {
           // fix not complete locale ( only language and not country )
-          if ( name.count( "_" ) == 0 ) {
+          if ( name.count( QSL( "_" ) ) == 0 ) {
               name = QLocale( name ).name();
           }
 
@@ -310,7 +310,7 @@ QString pLocaleModel::localeDisplayText( const QString& name )
     const QLocale locale( name );
     const QString language = QLocale::languageToString( locale.language() );
     const QString country = QLocale::countryToString( locale.country() );
-    return QString( "%1 (%2)" ).arg( language ).arg( country );
+    return QString( QSL( "%1 (%2)" ) ).arg( language ).arg( country );
 }
 
 void pLocaleModel::populate()
@@ -326,7 +326,7 @@ void pLocaleModel::populate()
         }
 
         foreach ( const QLocale& locale, QLocale::matchingLocales( language, QLocale::AnyScript, QLocale::AnyCountry ) ) {
-            const QString languageCode = locale.name().section( '_', 0, 0 );
+            const QString languageCode = locale.name().section( QL1C( '_' ), 0, 0 );
             const QLocale localeParent( languageCode );
             const QString localeParentName = localeParent.name();
 

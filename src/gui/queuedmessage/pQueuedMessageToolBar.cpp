@@ -35,17 +35,17 @@ pQueuedMessageToolBar::pQueuedMessageToolBar( QWidget* parent )
     : QToolBar( parent )
 {
     mQueuedWidget = new pQueuedMessageWidget( this );
-    
-    setObjectName( metaObject()->className() );
+
+    setObjectName( QL1S( metaObject()->className() ) );
     setMovable( false );
     setFloatable( false );
     setAllowedAreas( Qt::TopToolBarArea );
     toggleViewAction()->setEnabled( false );
     toggleViewAction()->setVisible( false );
-    
+
     addWidget( mQueuedWidget );
     layout()->setMargin( 3 );
-    
+
     // connections
     connect( mQueuedWidget, SIGNAL( shown( const pQueuedMessage& ) ), this, SLOT( messageShown( const pQueuedMessage& ) ) );
     connect( mQueuedWidget, SIGNAL( finished() ), this, SLOT( messageFinished() ) );
@@ -61,7 +61,7 @@ void pQueuedMessageToolBar::changeEvent( QEvent* event )
     if ( event->type() == QEvent::FontChange ) {
         mQueuedWidget->setFont( font() );
     }
-    
+
     QToolBar::changeEvent( event );
 }
 
@@ -71,7 +71,7 @@ void pQueuedMessageToolBar::paintEvent( QPaintEvent* event )
         QToolBar::paintEvent( event );
         return;
     }
-    
+
     const QBrush brush = mQueuedWidget->currentMessageBackground();
     QPainter painter( this );
     painter.setPen( brush.color().darker( 150 ) );
@@ -97,7 +97,7 @@ void pQueuedMessageToolBar::removeMessage( const pQueuedMessage& message )
 void pQueuedMessageToolBar::messageShown( const pQueuedMessage& message )
 {
     Q_UNUSED( message );
-    
+
     if ( !isVisible() ) {
         setVisible( true );
     }

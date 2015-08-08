@@ -48,17 +48,17 @@ bool pCheckComboBoxDelegate::isSeparator( const QModelIndex& index )
 void pCheckComboBoxDelegate::setSeparator( QAbstractItemModel* model, const QModelIndex& index, bool set )
 {
     model->setData( index, set ? QLatin1String( "separator" ) : QVariant(), Qt::AccessibleDescriptionRole );
-    
+
     if ( model->inherits( "pGenericTableModel" ) ) {
         Qt::ItemFlags flags = model->data( index, pGenericTableModel::ItemFlagsRole ).value<Qt::ItemFlags>();
-        
+
         if ( set ) {
             flags = flags & ~( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
         }
         else {
             flags = flags | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
         }
-        
+
         model->setData( index, QVariant::fromValue( flags ), pGenericTableModel::ItemFlagsRole );
     }
 }
@@ -67,14 +67,14 @@ void pCheckComboBoxDelegate::paint( QPainter* painter, const QStyleOptionViewIte
 {
     QStyleOptionViewItemV4 opt = *qstyleoption_cast<const QStyleOptionViewItemV4*>( &option );
     opt.state = opt.state & ~QStyle::State_HasFocus;
-    
+
     if ( isSeparator( index ) ) {
         QRect rect = option.rect;
-        
+
         if ( const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>( opt.widget ) ) {
             rect.setWidth( view->viewport()->width() );
         }
-        
+
         QStyleOption o;
         o.rect = rect;
         mCombo->style()->drawPrimitive( QStyle::PE_IndicatorToolBarSeparator, &o, painter, mCombo );
@@ -90,7 +90,7 @@ QSize pCheckComboBoxDelegate::sizeHint( const QStyleOptionViewItem& option, cons
         int pm = mCombo->style()->pixelMetric( QStyle::PM_DefaultFrameWidth, 0, mCombo );
         return QSize( pm, pm );
     }
-    
+
     return QStyledItemDelegate::sizeHint( option, index );
 }
 
@@ -101,13 +101,13 @@ pCheckComboBox::pCheckComboBox( QWidget* parent )
 {
     mModel = new pGenericTableModel( this );
     mModel->setColumnCount( 1 );
-    
+
     mView = new QListView( this );
     mView->setUniformItemSizes( true );
     mView->setAlternatingRowColors( false );
-    
+
     mDelegate = new pCheckComboBoxDelegate( this, this );
-    
+
     setView( mView );
     setModel( mModel );
     setItemDelegate( mDelegate );
@@ -118,43 +118,43 @@ void pCheckComboBox::showPopup()
     if ( !model() ) {
         return;
     }
-    
+
     Q_ASSERT( model()->inherits( "pGenericTableModel" ) );
-    
+
     const Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;
-    
+
     for ( int i = 0; i < model()->rowCount( rootModelIndex() ); i++ ) {
         const QModelIndex index = modelIndex( i );
-        
+
         if ( isSeparator( index.row() ) ) {
             continue;
         }
-        
+
         model()->setData( index, QSize( 0, 21 ), Qt::SizeHintRole );
-        
+
         if ( model()->inherits( "pGenericTableModel" ) ) {
             model()->setData( index, QVariant::fromValue( flags ),  pGenericTableModel::ItemFlagsRole );
         }
-        
+
         if ( index.data( Qt::CheckStateRole ).isNull() ) {
             model()->setData( index, Qt::Unchecked, Qt::CheckStateRole );
         }
-        
+
     }
-    
+
     pComboBox::showPopup();
 }
 
 void pCheckComboBox::insertSeparator( int index )
 {
     const int itemCount = count();
-    
+
     index = qBound( 0, index, itemCount );
-    
+
     if ( index >= maxCount() ) {
         return;
     }
-    
+
     insertItem( index, QIcon(), QString::null );
     pCheckComboBoxDelegate::setSeparator( model(), modelIndex( index ), true );
 }
@@ -206,7 +206,7 @@ QModelIndex pCheckComboBox::modelIndex( int index ) const
 
 QString pCheckComboBox::text() const
 {
-    return checkedStringList().join( ", " );
+    return checkedStringList().join( QSL( ", " ) );
 }
 
 bool pCheckComboBox::event( QEvent* event )
@@ -226,7 +226,7 @@ bool pCheckComboBox::event( QEvent* event )
 void pCheckComboBox::changeEvent( QEvent* event )
 {
     pComboBox::changeEvent( event );
-    
+
     if ( event->type() == QEvent::LanguageChange ) {
         retranslateUi();
     }
@@ -235,14 +235,14 @@ void pCheckComboBox::changeEvent( QEvent* event )
 void pCheckComboBox::paintEvent( QPaintEvent* event )
 {
     Q_UNUSED( event );
-    
+
     QStylePainter painter( this );
     QStyleOptionComboBox option;
-    
+
     initStyleOption( &option );
     option.currentIcon = QIcon();
     option.currentText = text();
-    
+
     painter.setPen( palette().color( QPalette::Text ) );
     painter.drawComplexControl( QStyle::CC_ComboBox, option );
     painter.drawControl( QStyle::CE_ComboBoxLabel, option );

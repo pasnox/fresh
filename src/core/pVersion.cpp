@@ -30,8 +30,8 @@
 pVersion::pVersion( const QString& version )
 {
     mVersion = version.trimmed();
-    const QStringList parts = mVersion.split( "." );
-    const int index = parts.value( 3 ).indexOf( QRegExp( "[A-Z|a-z]" ) );
+    const QStringList parts = mVersion.split( QSL( ". ") );
+    const int index = parts.value( 3 ).indexOf( QRegExp( QSL( "[A-Z|a-z]" ) ) );
 
     major = parts.value( 0 ).toInt();
     minor = parts.value( 1 ).toInt();
@@ -88,7 +88,7 @@ bool pVersion::operator<( const pVersion& other ) const
     else if ( !extra.isEmpty() && other.extra.isEmpty() ) {
         return true;
     }
-    
+
     return extra < other.extra; // not the best but afaik ;)
 }
 

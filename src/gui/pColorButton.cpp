@@ -71,12 +71,12 @@ void pColorButton::setDefaultColor( const QColor& color )
     mColor = this->color(); // remove alpha if needed
 
     const QStringList texts = QStringList()
-        << QString( "RGBA #%1%2%3%4" ).arg( mColor.red(), 2, 16, QChar( '0' ) ).arg( mColor.green(), 2, 16, QChar( '0' ) ).arg( mColor.blue(), 2, 16, QChar( '0' ) ).arg( mColor.alpha(), 2, 16, QChar( '0' ) )
-        << QString( "RGBA %1, %2, %3, %4" ).arg( mColor.red() ).arg( mColor.green() ).arg( mColor.blue() ).arg( mColor.alpha() )
+        << QSL( "RGBA #%1%2%3%4" ).arg( mColor.red(), 2, 16, QL1C( '0' ) ).arg( mColor.green(), 2, 16, QL1C( '0' ) ).arg( mColor.blue(), 2, 16, QL1C( '0' ) ).arg( mColor.alpha(), 2, 16, QL1C( '0' ) )
+        << QSL( "RGBA %1, %2, %3, %4" ).arg( mColor.red() ).arg( mColor.green() ).arg( mColor.blue() ).arg( mColor.alpha() )
         ;
 
     setText( texts.first() );
-    setToolTip( texts.join( "\n" ) );
+    setToolTip( texts.join( QL1S( "\n" ) ) );
 
     setIcon( QIcon( pGuiUtils::filledPixmap( mColor, iconSize() ) ) );
 }

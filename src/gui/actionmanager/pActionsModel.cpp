@@ -223,7 +223,7 @@ bool pActionsModel::addAction( const QString& _path, QAction* action )
     }
 
     const QString path = cleanPath( _path );
-    const QString subPath = path.section( '/', 0, -2 );
+    const QString subPath = path.section( QL1C( '/' ), 0, -2 );
     QAction* parentAction = createCompletePathNode( subPath );
 
     if ( !parentAction ) {
@@ -310,7 +310,7 @@ bool pActionsModel::removeMenu( QAction* action, bool removeEmptyPath )
 
 QAction* pActionsModel::parent( QAction* action ) const
 {
-    return mActions.value( path( action ).section( '/', 0, -2 ) );
+    return mActions.value( path( action ).section( QL1C( '/' ), 0, -2 ) );
 }
 
 bool pActionsModel::hasChildren( QAction* action ) const
@@ -377,16 +377,16 @@ bool pActionsModel::setShortcut( const QString& path, const QKeySequence& shortc
 QString pActionsModel::cleanPath( const QString& path )
 {
     QString data = QDir::cleanPath( path )
-        .replace( '\\', '/' )
-        //.remove( ' ' )
+        .replace( QL1C( '\\' ), QL1C( '/' ) )
+        //.remove( QL1C( ' ' ) )
         .trimmed()
         ;
 
-    while ( data.startsWith( '/' ) ) {
+    while ( data.startsWith( QL1C( '/' ) ) ) {
         data.remove( 0, 1 );
     }
 
-    while ( data.endsWith( '/' ) ) {
+    while ( data.endsWith( QL1C( '/' ) ) ) {
         data.chop( 1 );
     }
 
@@ -437,11 +437,11 @@ bool pActionsModel::isValid( const QModelIndex& index ) const
 
 QString pActionsModel::cleanText( const QString& text ) const
 {
-    const QString sep = "\001";
+    const QString sep = QSL( "\001" );
     return QString( text )
-        .replace( "&&", sep )
-        .remove( "&" )
-        .replace( sep, "&&" );
+        .replace( QSL( "&&" ), sep )
+        .remove( QSL( "&" ) )
+        .replace( sep, QSL( "&&" ) );
 }
 
 void pActionsModel::insertAction( const QString& path, QAction* action, QAction* parent, int row )
@@ -462,13 +462,13 @@ void pActionsModel::insertAction( const QString& path, QAction* action, QAction*
 #endif
 
     beginInsertRows( index( parent ), row, row );
-    action->setObjectName( QString( path ).replace( "/", "_" ) );
+    action->setObjectName( QString( path ).replace( QSL( "/" ), QSL( "_" ) ) );
     action->setParent( p );
     if ( parent ) {
         parent->menu()->addAction( action );
     }
     if ( action->text().isEmpty() && !action->isSeparator() ) {
-        action->setText( path.section( '/', -1, -1 ) );
+        action->setText( path.section( QL1C( '/' ), -1, -1 ) );
     }
     mChildren[ parent ] << action;
     mActions[ path ] = action;
@@ -515,12 +515,12 @@ QAction* pActionsModel::createCompletePathNode( const QString& path )
         return action->menu() ? action : 0;
     }
 
-    const int separatorCount = path.count( "/" ) +1;
+    const int separatorCount = path.count( QSL( "/" ) ) +1;
     QAction* parentAction = 0;
     QString subPath;
 
     for ( int i = 0; i < separatorCount; i++ ) {
-        subPath = path.section( '/', 0, i );
+        subPath = path.section( QL1C( '/' ), 0, i );
         action = mActions.value( subPath );
 
         if ( action ) {
@@ -531,10 +531,10 @@ QAction* pActionsModel::createCompletePathNode( const QString& path )
             return action->menu() ? action : 0;
         }
 
-        parentAction = mActions.value( i == 0 ? QString::null : path.section( '/', 0, i -1 ) );
+        parentAction = mActions.value( i == 0 ? QString::null : path.section( QL1C( '/' ), 0, i -1 ) );
         const int row = children( parentAction ).count();
         action = (new QMenu)->menuAction();
-        action->setText( path.section( '/', i, i ) );
+        action->setText( path.section( QL1C( '/' ), i, i ) );
         insertAction( subPath, action, parentAction, row );
     }
 

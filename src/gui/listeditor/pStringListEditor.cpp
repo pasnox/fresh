@@ -42,7 +42,7 @@ public:
         : QStringListModel( parent )
     {
     }
-    
+
     pStringListModel( const QStringList& strings, QObject* parent = 0 )
         : QStringListModel( strings, parent )
     {
@@ -54,7 +54,7 @@ public:
             case Qt::ToolTipRole:
                 return QStringListModel::data( index, Qt::DisplayRole ).toString();
         }
-        
+
         return QStringListModel::data( index, role );
     }
 };
@@ -78,15 +78,15 @@ void pStringListEditor::init()
     tbActions->layout()->setMargin( 0 );
     tbActions->layout()->setSpacing( 0 );
     tbActions->setIconSize( QSize( 16, 16 ) );
-    
+
     // create actions
-    aAdd = new QAction( pIconManager::icon( "add.png", ":/fresh/icons" ), tr( "Add Item" ), tbActions );
-    aEdit = new QAction( pIconManager::icon( "edit.png", ":/fresh/icons" ), tr( "Edit Item" ), tbActions );
-    aRemove = new QAction( pIconManager::icon( "remove.png", ":/fresh/icons" ), tr( "Remove Item" ), tbActions );
-    aClear = new QAction( pIconManager::icon( "clear.png", ":/fresh/icons" ), tr( "Clear Items" ), tbActions );
-    aUp = new QAction( pIconManager::icon( "up.png", ":/fresh/icons" ), tr( "Move Item Up" ), tbActions );
-    aDown = new QAction( pIconManager::icon( "down.png", ":/fresh/icons" ), tr( "Move Item Down" ), tbActions );
-    
+    aAdd = new QAction( pIconManager::icon( QSL( "add.png" ), QSL( ":/fresh/icons" ) ), tr( "Add Item" ), tbActions );
+    aEdit = new QAction( pIconManager::icon( QSL( "edit.png" ), QSL( ":/fresh/icons" ) ), tr( "Edit Item" ), tbActions );
+    aRemove = new QAction( pIconManager::icon( QSL( "remove.png" ), QSL( ":/fresh/icons" ) ), tr( "Remove Item" ), tbActions );
+    aClear = new QAction( pIconManager::icon( QSL( "clear.png" ), QSL( ":/fresh/icons" ) ), tr( "Clear Items" ), tbActions );
+    aUp = new QAction( pIconManager::icon( QSL( "up.png" ), QSL( ":/fresh/icons" ) ), tr( "Move Item Up" ), tbActions );
+    aDown = new QAction( pIconManager::icon( QSL( "down.png" ), QSL( ":/fresh/icons" ) ), tr( "Move Item Down" ), tbActions );
+
     // add actions to toolbar
     tbActions->addAction( aAdd );
     tbActions->addAction( aEdit );
@@ -100,20 +100,20 @@ void pStringListEditor::init()
     lvValues->setMinimumHeight( 40 );
     lvValues->setUniformItemSizes( true );
     lvValues->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    
+
     // create model
     slmValues = new pStringListModel( lvValues );
     lvValues->setModel( slmValues );
-    
+
     // create layout
     vLayout = new QVBoxLayout( this );
     vLayout->setMargin( 5 );
     vLayout->setSpacing( 3 );
     vLayout->addWidget( tbActions );
     vLayout->addWidget( lvValues );
-    
+
     onSelectionChanged();
-    
+
     // connections
     connect( aAdd, SIGNAL( triggered() ), this, SLOT( onAddItem() ) );
     connect( aEdit, SIGNAL( triggered() ), this, SLOT( onEditItem() ) );
@@ -164,18 +164,18 @@ QStringList pStringListEditor::values() const
 void pStringListEditor::insert( int index, const QString& value )
 {
     const int row = slmValues->rowCount();
-    
+
     if ( index < 0 ) {
         index = 0;
     }
-    
+
     if ( index > row ) {
         index = row;
     }
-    
+
     if ( slmValues->insertRow( row ) ) {
         const QModelIndex index = slmValues->index( row, 0 );
-        
+
         slmValues->setData( index, value, Qt::DisplayRole );
         lvValues->setCurrentIndex( index );
         lvValues->scrollTo( index );
@@ -228,7 +228,7 @@ void pStringListEditor::onSelectionChanged()
 {
     const QModelIndex index = selectedIndex();
     const int count = slmValues->rowCount();
-    
+
     aEdit->setEnabled( index.isValid() );
     aRemove->setEnabled( index.isValid() );
     aClear->setEnabled( count > 0 );
@@ -263,10 +263,10 @@ void pStringListEditor::onMoveUpItem()
     const QModelIndex index = selectedIndex();
     const QModelIndex upIndex = index.sibling( index.row() -1, 0 );
     const QPair<QString, QString> values = qMakePair( index.data().toString(), upIndex.data().toString() );
-    
+
     slmValues->setData( index, values.second, Qt::DisplayRole );
     slmValues->setData( upIndex, values.first, Qt::DisplayRole );
-    
+
     lvValues->setCurrentIndex( upIndex );
 }
 
@@ -275,9 +275,9 @@ void pStringListEditor::onMoveDownItem()
     const QModelIndex index = selectedIndex();
     const QModelIndex downIndex = index.sibling( index.row() +1, 0 );
     const QPair<QString, QString> values = qMakePair( index.data().toString(), downIndex.data().toString() );
-    
+
     slmValues->setData( index, values.second, Qt::DisplayRole );
     slmValues->setData( downIndex, values.first, Qt::DisplayRole );
-    
+
     lvValues->setCurrentIndex( downIndex );
 }

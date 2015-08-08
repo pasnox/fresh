@@ -40,7 +40,7 @@ QStringList pGuiUtils::supportedReadableImagesFormatsWildcards()
     QStringList items;
 
     foreach ( const QByteArray& format, formats ) {
-      items << QString( "*.%1" ).arg( QString( format ).toLower() );
+      items << QSL( "*.%1" ).arg( QString( QL1S( format.constData() ) ).toLower() );
     }
 
     items = items.toSet().toList();
@@ -58,15 +58,15 @@ QString pGuiUtils::supportedReadableImagesFormatsFilter()
       return QString::null;
     }
 
-    items.prepend( QApplication::translate( "pGuiUtils", qPrintable( QString( "Readable Images" ).append( " (" ) ) ) );
-    items.append( " )" );
+    items.prepend( QApplication::translate( "pGuiUtils", qPrintable( QSL( "Readable Images" ).append( QSL( " (" ) ) ) ) );
+    items.append( QSL( " )" ) );
 
-    return items.join( " " );
+    return items.join( QSL( " " ) );
 }
 
 QPixmap pGuiUtils::filledPixmap( const QColor& color, const QSize& size )
 {
-    const QString key = QString( "pGuiUtils::filledPixmap-%1-%2-%3-%4" )
+    const QString key = QSL( "pGuiUtils::filledPixmap-%1-%2-%3-%4" )
         .arg( color.name() ).arg( color.alpha() )
         .arg( size.width() ).arg( size.height() );
     QPixmap pixmap;
@@ -85,7 +85,7 @@ QPixmap pGuiUtils::filledPixmap( const QColor& color, const QSize& size )
 
 QString pGuiUtils::cacheKey( const QString& key, const QSize& size )
 {
-    return QString( "%1-%2-%3" ).arg( key ).arg( size.width() ).arg( size.height() );;
+    return QSL( "%1-%2-%3" ).arg( key ).arg( size.width() ).arg( size.height() );;
 }
 
 QPixmap pGuiUtils::scaledPixmap( const QString& filePath, const QSize& size )

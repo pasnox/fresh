@@ -36,14 +36,14 @@ pUpdateChecker::pUpdateChecker( QWidget* parent )
 {
     Q_ASSERT( parent );
     mParent = parent;
-    
+
     mAction = new QAction( this );
-    mAction->setIcon( pIconManager::pixmap( "gc-update-checker.png", ":/fresh/icons" ) );
-    
+    mAction->setIcon( pIconManager::pixmap( QSL( "gc-update-checker.png" ), QSL( ":/fresh/icons" ) ) );
+
     localeChanged();
-    
+
     mParent.data()->installEventFilter( this );
-    
+
     connect( mAction, SIGNAL( triggered() ), this, SLOT( checkForUpdate_triggered() ) );
 }
 
@@ -56,7 +56,7 @@ bool pUpdateChecker::eventFilter( QObject* object, QEvent* event )
         default:
             break;
     }
-    
+
     return QObject::eventFilter( object, event );
 }
 
@@ -139,7 +139,7 @@ void pUpdateChecker::localeChanged()
 void pUpdateChecker::checkForUpdate_triggered( bool show )
 {
     pUpdateCheckerDialog* dlg = new pUpdateCheckerDialog( this, mParent.data() );
-    
+
     if ( show ) {
         dlg->open();
     }

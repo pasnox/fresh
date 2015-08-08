@@ -39,29 +39,29 @@
 pUpdateItem::pUpdateItem( pUpdateChecker* updateChecker, const QDomElement& element )
 {
     mUpdateChecker = updateChecker;
-    
+
     QDomNodeList nodes = element.childNodes();
-    
+
     for ( int i = 0; i < nodes.count(); i++ ) {
         const QDomElement el = nodes.at( i ).toElement();
         const QString name = el.tagName();
-        
-        if ( name == "updated" ) {
+
+        if ( name == QSL( "updated" ) ) {
             mDatas[ pUpdateItem::Updated ] = el.firstChild().toText().data();
         }
-        else if ( name == "id" ) {
+        else if ( name == QSL( "id" ) ) {
             mDatas[ pUpdateItem::Id ] = el.firstChild().toText().data();
         }
-        else if ( name == "link" ) {
-            mDatas[ pUpdateItem::Link ] = el.attribute( "href" );
+        else if ( name == QSL( "link" ) ) {
+            mDatas[ pUpdateItem::Link ] = el.attribute( QSL( "href" ) );
         }
-        else if ( name == "title" ) {
+        else if ( name == QSL( "title" ) ) {
             mDatas[ pUpdateItem::Title ] = el.firstChild().toText().data().trimmed();
         }
-        else if ( name == "author" ) {
+        else if ( name == QSL( "author" ) ) {
             mDatas[ pUpdateItem::Author ] = el.firstChild().firstChild().toText().data();
         }
-        else if ( name == "content" ) {
+        else if ( name == QSL( "content" ) ) {
             mDatas[ pUpdateItem::Content ] = el.firstChild().toText().data().trimmed();
         }
     }
@@ -120,7 +120,7 @@ QString pUpdateItem::content() const
 QString pUpdateItem::toolTip() const
 {
     return content().replace(
-        QRegExp( "<a.*</a>" ), pUpdateCheckerDialog::tr( QT_TRANSLATE_NOOP( "pUpdateCheckerDialog", "Updated on %1 by %2" ) )
+        QRegExp( QSL( "<a.*</a>" ) ), pUpdateCheckerDialog::tr( QT_TRANSLATE_NOOP( "pUpdateCheckerDialog", "Updated on %1 by %2" ) )
             .arg( updated().toString( Qt::DefaultLocaleLongDate ) )
             .arg( author() )
     );
@@ -128,12 +128,12 @@ QString pUpdateItem::toolTip() const
 
 bool pUpdateItem::isFeatured() const
 {
-    return content().contains( "Featured", Qt::CaseInsensitive );
+    return content().contains( QSL( "Featured" ), Qt::CaseInsensitive );
 }
 
 QString pUpdateItem::displayText() const
 {
-    return content().split( "\n" ).value( 1 ).trimmed().append( " ( " ).append( title() ).append( " ) " );
+    return content().split( QSL( "\n" ) ).value( 1 ).trimmed().append( QSL( " ( " ) ).append( title() ).append( QSL( " ) " ) );
 }
 
 QString pUpdateItem::versionString() const
@@ -141,14 +141,14 @@ QString pUpdateItem::versionString() const
     if ( !mUpdateChecker ) {
         return QString::null;
     }
-    
+
     const QString text = title();
     QRegExp rx( mUpdateChecker->versionDiscoveryPattern() );
-    
+
     if ( rx.exactMatch( text ) ) {
         return rx.cap( 1 );
     }
-    
+
     return QString::null;
 }
 
@@ -168,25 +168,25 @@ pUpdateCheckerDialog::pUpdateCheckerDialog( pUpdateChecker* updateChecker, QWidg
     : QDialog( parent )
 {
     Q_ASSERT( updateChecker );
-    
+
     ui = new Ui_pUpdateCheckerDialog;
     mUpdateChecker = updateChecker;
-    
+
     ui->setupUi( this );
     setAttribute( Qt::WA_DeleteOnClose );
     setAttribute( Qt::WA_MacSmallSize );
     ui->dbbButtons->button( QDialogButtonBox::Yes )->setEnabled( false );
-    
+
     foreach ( QWidget* widget, findChildren<QWidget*>() ) {
         widget->setAttribute( Qt::WA_MacSmallSize );
     }
-    
+
     mAccessManager = new QNetworkAccessManager( this );
-    
+
     localeChanged();
-    
+
     connect( mAccessManager, SIGNAL( finished( QNetworkReply* ) ), this, SLOT( accessManager_finished( QNetworkReply* ) ) );
-    
+
     mAccessManager->get( QNetworkRequest( mUpdateChecker->downloadsFeedUrl() ) );
 }
 
@@ -199,7 +199,7 @@ bool pUpdateCheckerDialog::event( QEvent* event )
         default:
             break;
     }
-    
+
     return QDialog::event( event );
 }
 
@@ -213,49 +213,49 @@ void pUpdateCheckerDialog::localeChanged()
 void pUpdateCheckerDialog::accessManager_finished( QNetworkReply* reply )
 {
     localeChanged();
-    
+
     const pVersion currentVersion( mUpdateChecker->version() );
     const QDateTime lastUpdated = mUpdateChecker->lastUpdated();
     //const QDateTime lastCheck = mUpdateChecker->lastChecked();
-    
+
     if ( reply->error() != QNetworkReply::NoError ) {
         ui->lwVersions->addItem( new QListWidgetItem( tr( "An error occur: %1" ).arg( reply->errorString() ) ) );
     }
     else {
         QDomDocument document;
-        
+
         if ( document.setContent( reply->readAll() ) ) {
-            const QString updatedText = document.elementsByTagName( "updated" ).at( 0 ).firstChild().toText().data();
+            const QString updatedText = document.elementsByTagName( QSL( "updated" ) ).at( 0 ).firstChild().toText().data();
             const QDateTime updated = QDateTime::fromString( updatedText, Qt::ISODate );
-            const QDomNodeList entries = document.elementsByTagName( "entry" );
-            
+            const QDomNodeList entries = document.elementsByTagName( QSL( "entry" ) );
+
             for ( int i = 0; i < entries.count(); i++ ) {
                 const QDomElement element = entries.at( i ).toElement();
-                
+
                 const pUpdateItem updateItem( mUpdateChecker, element );
-                
+
                 if ( updateItem.isFeatured() && updateItem > currentVersion ) {
                     QListWidgetItem* item = new QListWidgetItem( updateItem.displayText() );
-                    
+
                     item->setToolTip( updateItem.toolTip() );
                     item->setData( Qt::UserRole, QVariant::fromValue( updateItem ) );
                     ui->lwVersions->addItem( item );
                 }
             }
-            
+
             mUpdateChecker->setLastUpdated( updated );
-            
-            if ( ui->lwVersions->count() > 0 ) {                
+
+            if ( ui->lwVersions->count() > 0 ) {
                 if ( !isVisible() && lastUpdated < updated ) {
                     open();
                 }
             }
             else {
                 QListWidgetItem* item = new QListWidgetItem( tr( "You are running the last available version." ) );
-                
+
                 item->setFlags( Qt::NoItemFlags );
                 ui->lwVersions->addItem( item );
-                
+
                 if ( !isVisible() ) {
                     close();
                 }
@@ -265,7 +265,7 @@ void pUpdateCheckerDialog::accessManager_finished( QNetworkReply* reply )
             ui->lwVersions->addItem( new QListWidgetItem( tr( "An error occur while parsing xml, retry later." ) ) );
         }
     }
-    
+
     mUpdateChecker->setLastChecked( QDateTime::currentDateTime() );
 }
 
@@ -273,7 +273,7 @@ void pUpdateCheckerDialog::on_lwVersions_itemSelectionChanged()
 {
     QListWidgetItem* item = ui->lwVersions->selectedItems().value( 0 );
     const pUpdateItem updateItem = item ? item->data( Qt::UserRole ).value<pUpdateItem>() : pUpdateItem();
-    
+
     ui->dbbButtons->button( QDialogButtonBox::Yes )->setEnabled( updateItem.isValid() );
 }
 
@@ -287,7 +287,7 @@ void pUpdateCheckerDialog::accept()
 {
     QListWidgetItem* item = ui->lwVersions->selectedItems().value( 0 );
     const pUpdateItem updateItem = item->data( Qt::UserRole ).value<pUpdateItem>();
-    
+
     QDesktopServices::openUrl( updateItem.link() );
     QDialog::accept();
 }

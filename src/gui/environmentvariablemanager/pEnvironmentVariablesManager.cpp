@@ -28,7 +28,7 @@
 
 #include <QProcessEnvironment>
 
-const QString pEnvironmentVariablesManager::mSettingsKey( "EnvironmentVariables" );
+const QString pEnvironmentVariablesManager::mSettingsKey( QSL( "EnvironmentVariables" ) );
 
 pEnvironmentVariablesManager::pEnvironmentVariablesManager()
 {
@@ -51,14 +51,14 @@ bool pEnvironmentVariablesManager::save()
 pEnvironmentVariablesModel::Variables pEnvironmentVariablesManager::variables() const
 {
     pEnvironmentVariablesModel::Variables variables = mVariables;
-    
+
     if ( variables.isEmpty() ) {
         variables = pEnvironmentVariablesModel::stringListToVariables( QProcessEnvironment::systemEnvironment().toStringList() );
     }
     else {
         mergeNewVariables( variables );
     }
-    
+
     return variables;
 }
 
@@ -71,16 +71,16 @@ bool pEnvironmentVariablesManager::mergeNewVariables( pEnvironmentVariablesModel
 {
     const pEnvironmentVariablesModel::Variables newVariables = pEnvironmentVariablesModel::stringListToVariables( QProcessEnvironment::systemEnvironment().toStringList() );
     bool modified = false;
-    
+
     foreach ( const QString& name, newVariables.keys() ) {
         if ( variables.contains( name ) ) {
             continue;
         }
-        
+
         modified = true;
         variables[ name ] = newVariables[ name ];
     }
-    
+
     return modified;
 }
 
@@ -95,18 +95,18 @@ bool pEnvironmentVariablesManager::removeUnmodifiedVariables( pEnvironmentVariab
 {
     const pEnvironmentVariablesModel::Variables sysVariables = pEnvironmentVariablesModel::stringListToVariables( QProcessEnvironment::systemEnvironment().toStringList() );
     bool modified = false;
-    
+
     foreach ( const pEnvironmentVariablesModel::Variable& variable, variables ) {
         if ( !variable.enabled ) {
             continue;
         }
-        
+
         if ( sysVariables.contains( variable.name ) && variable.value == sysVariables[ variable.name ].value ) {
             variables.remove( variable.name );
             modified = true;
         }
     }
-    
+
     return modified;
 }
 
@@ -124,41 +124,41 @@ QStringList pEnvironmentVariablesManager::variables( bool keepDisabled ) const
 
 bool pEnvironmentVariablesManager::writeVariables( const pEnvironmentVariablesModel::Variables& variables ) const
 {
-    pSettings settings( 0, mSettingsKey, "1.0.0" );
-    
+    pSettings settings( 0, mSettingsKey, QSL( "1.0.0" ) );
+
     settings.remove( mSettingsKey );
-    
+
     settings.beginWriteArray( mSettingsKey );
-    
+
     for ( int i = 0; i < variables.count(); i++ ) {
         settings.setArrayIndex( i );
         const pEnvironmentVariablesModel::Variable& variable = (variables.begin() +i).value();
-        
-        settings.setValue( "Name", variable.name );
-        settings.setValue( "Value", variable.value );
-        settings.setValue( "Enabled", variable.enabled );
+
+        settings.setValue( QSL( "Name" ), variable.name );
+        settings.setValue( QSL( "Value" ), variable.value );
+        settings.setValue( QSL( "Enabled" ), variable.enabled );
     }
-    
+
     settings.endArray();
-    
+
     return true;
 }
 
 bool pEnvironmentVariablesManager::readVariables( pEnvironmentVariablesModel::Variables& variables ) const
 {
-    pSettings settings( 0, mSettingsKey, "1.0.0" );
-    
+    pSettings settings( 0, mSettingsKey, QSL( "1.0.0" ) );
+
     const int count = settings.beginReadArray( mSettingsKey );
-    
+
     for ( int i = 0; i < count; i++ ) {
         settings.setArrayIndex( i );
-        
-        variables[ settings.value( "Name" ).toString() ] =
-            pEnvironmentVariablesModel::Variable( settings.value( "Name" ).toString(),
-            settings.value( "Value" ).toString(), settings.value( "Enabled" ).toBool() );
+
+        variables[ settings.value( QSL( "Name" ) ).toString() ] =
+            pEnvironmentVariablesModel::Variable( settings.value( QSL( "Name" ) ).toString(),
+            settings.value( QSL( "Value" ) ).toString(), settings.value( QSL( "Enabled" ) ).toBool() );
     }
-    
+
     settings.endArray();
-    
+
     return true;
 }

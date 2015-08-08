@@ -76,7 +76,7 @@ QString pStylesActionGroup::applicationStyle() const
 void pStylesActionGroup::installInMenuBar( pActionsMenuBar* menuBar, const QString& path )
 {
     foreach ( QAction* action, mActions ) {
-        menuBar->model()->addAction( QString( "%1/%2" ).arg( path ).arg( action->objectName() ), action );
+        menuBar->model()->addAction( QSL( "%1/%2" ).arg( path ).arg( action->objectName() ), action );
     }
 }
 
@@ -88,7 +88,7 @@ void pStylesActionGroup::installInMenu( QMenu* menu )
 void pStylesActionGroup::setCheckable( bool checkable )
 {
     mCheckable = checkable;
-    
+
     foreach ( QAction* action, mActions ) {
         action->setCheckable( mCheckable );
     }
@@ -97,7 +97,7 @@ void pStylesActionGroup::setCheckable( bool checkable )
 void pStylesActionGroup::setCurrentStyle( const QString& style )
 {
     QAction* action = mActions.value( style.toLower() );
-    
+
     if ( action ) {
         action->setChecked( true );
     }
@@ -108,47 +108,47 @@ void pStylesActionGroup::init( const QString& textFormat )
     mSystemStyle = QApplication::style()->objectName();
     mCheckable = true;
     mTextFormat = textFormat;
-    
+
     updateActions();
-    
+
     connect( this, SIGNAL( triggered( QAction* ) ), this, SLOT( actionTriggered( QAction* ) ) );
 }
 
 void pStylesActionGroup::updateActions()
 {
     const QString curStyle = currentStyle().toLower();
-    
+
     qDeleteAll( mActions.values() );
     mActions.clear();
-    
+
     // Add style actions
     const QStringList styles = QStyleFactory::keys();
     const QStringList::const_iterator cend = styles.constEnd();
-    
+
     // Make sure ObjectName  is unique in case toolbar solution is used.
     QString objNamePrefix = QLatin1String( "__qt_designer_style_" );
-    
+
     // Create styles. Set style name string as action data.
     for ( QStringList::const_iterator it = styles.constBegin(); it !=  cend ;++it ) {
         QAction* action = new QAction( this );
         QString objName = objNamePrefix;
-        objName += ( *it ).toLower().replace( ' ', '_' );
+        objName += ( *it ).toLower().replace( QL1C( ' ' ), QL1C( '_' ) );
         QString text = mTextFormat.arg( *it );
-        
+
         if ( QString::compare( ( *it ), mSystemStyle, Qt::CaseInsensitive ) == 0 ) {
-            text.append( tr( "(System)" ).prepend( " " ) );
+            text.append( tr( "(System)" ).prepend( QL1C( ' ' ) ) );
         }
-        
+
         action->setObjectName( objName );
         action->setData( ( *it ).toLower() );
         action->setText( text );
         action->setCheckable( true );
         action->setChecked( ( *it ).toLower() == curStyle );
-        
+
         mActions[ ( *it ).toLower() ] = action;
-        
+
         addAction( action );
-        
+
         connect( action, SIGNAL( toggled( bool ) ), this, SLOT( actionToggled( bool ) ) );
     }
 }

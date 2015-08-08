@@ -54,10 +54,10 @@ void pDockWidget::init()
 void pDockWidget::paintEvent( QPaintEvent* event )
 {
     QDockWidget::paintEvent(  event );
-    
-    if ( isFloating() && style()->objectName().compare( "Oxygen", Qt::CaseInsensitive ) != 0 ) {
+
+    if ( isFloating() && style()->objectName().compare( QSL( "Oxygen" ), Qt::CaseInsensitive ) != 0 ) {
         QRect rect = this->rect().adjusted( 0, 0, -1, -1 );
-        
+
         QPainter painter( this );
         painter.setPen( QColor( 145, 142, 142 ) );
         painter.setBrush( Qt::NoBrush );

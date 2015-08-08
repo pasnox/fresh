@@ -70,21 +70,21 @@ QString pLineEdit::promptText() const
 void pLineEdit::setSearchButtonVisible( bool visible )
 {
     tbSearch->setVisible( visible );
-    
+
     int left;
     int top;
     int right;
     int bottom;
-    
+
     getTextMargins( &left, &top, &right, &bottom );
-    
+
     if ( visible ) {
         left = mMargin +mSpacing;
     }
     else {
         left = 0;
     }
-    
+
     setTextMargins( left, top, right, bottom );
 }
 
@@ -107,24 +107,24 @@ void pLineEdit::clickClearButton()
 void pLineEdit::paintEvent( QPaintEvent* event )
 {
     QLineEdit::paintEvent( event );
-    
+
     if ( !mPromptText.isEmpty() && text().isEmpty() && isEnabled() ) {
         QStyleOptionFrameV3 option;
         initStyleOption( &option );
-        
+
         int left;
         int top;
         int right;
         int bottom;
-        
+
         getTextMargins( &left, &top, &right, &bottom );
-        
+
         const Qt::Alignment va = style()->visualAlignment( layoutDirection(), alignment() );
         const QRect rect = style()->subElementRect( QStyle::SE_LineEditContents, &option, this ).adjusted( 2, 0, 0, 0 ).adjusted( left, top, -right, -bottom );
         const QFontMetrics fm( font() );
         const QString text = fm.elidedText( mPromptText, Qt::ElideRight, rect.width() );
         QPainter painter( this );
-        
+
         painter.setPen( palette().color( QPalette::Disabled, QPalette::Text ) );
         painter.drawText( rect, va, text );
     }
@@ -133,7 +133,7 @@ void pLineEdit::paintEvent( QPaintEvent* event )
 void pLineEdit::resizeEvent( QResizeEvent* event )
 {
     QLineEdit::resizeEvent( event );
-    
+
     tbSearch->resize( QSize( mMargin, height() -2 ) );
     tbSearch->move( 3, 1 );
     tbClear->resize( QSize( mMargin, height() -2 ) );
@@ -144,30 +144,30 @@ void pLineEdit::init()
 {
     mMargin = sizeHint().height() -2;
     mSpacing = 0;
-    
+
     tbSearch = new QToolButton( this );
-    tbSearch->setIcon( pIconManager::icon( "search.png", ":/fresh" ) );
+    tbSearch->setIcon( pIconManager::icon( QSL( "search.png" ), QSL( ":/fresh" ) ) );
     tbSearch->setToolTip( tr( "Search Options" ) );
-    tbSearch->setStyleSheet( "QToolButton { border: none; padding: 0px; } QToolButton::menu-indicator { right: -2px; bottom: -2px; }" );
+    tbSearch->setStyleSheet( QSL( "QToolButton { border: none; padding: 0px; } QToolButton::menu-indicator { right: -2px; bottom: -2px; }" ) );
     tbSearch->setCursor( Qt::ArrowCursor );
     tbSearch->setFocusPolicy( Qt::NoFocus );
     tbSearch->setPopupMode( QToolButton::InstantPopup );
-    
+
     tbClear = new QToolButton( this );
-    tbClear->setIcon( pIconManager::icon( "edit-clear-rtl.png", ":/fresh" ) );
+    tbClear->setIcon( pIconManager::icon( QSL( "edit-clear-rtl.png" ), QSL( ":/fresh" ) ) );
     tbClear->setToolTip( tr( "Clear" ) );
-    tbClear->setStyleSheet( "QToolButton { border: none; padding: 0px; }" );
+    tbClear->setStyleSheet( QSL( "QToolButton { border: none; padding: 0px; }" ) );
     tbClear->setCursor( Qt::ArrowCursor );
     tbClear->setFocusPolicy( Qt::NoFocus );
-    
+
     setSearchButtonVisible( true );
     setClearButtonVisible( false );
-    setPromptText( "Search..." );
-    
+    setPromptText( tr( "Search..." ) );
+
     mTimer = new QTimer( this );
     mTimer->setInterval( mTimeOut );
     mTimer->setSingleShot( true );
-    
+
     connect( this, SIGNAL( textChanged( const QString& ) ), this, SLOT( _q_textChanged( const QString& ) ) );
     connect( tbSearch, SIGNAL( clicked() ), this, SIGNAL( searchButtonClicked() ) );
     connect( tbSearch, SIGNAL( triggered( QAction* ) ), this, SIGNAL( searchButtonActionTriggered( QAction* ) ) );
@@ -179,21 +179,21 @@ void pLineEdit::init()
 void pLineEdit::setClearButtonVisible( bool visible )
 {
     tbClear->setVisible( visible );
-    
+
     int left;
     int top;
     int right;
     int bottom;
-    
+
     getTextMargins( &left, &top, &right, &bottom );
-    
+
     if ( visible ) {
         right = mMargin +mSpacing;
     }
     else {
         right = 0;
     }
-    
+
     setTextMargins( left, top, right, bottom );
 }
 

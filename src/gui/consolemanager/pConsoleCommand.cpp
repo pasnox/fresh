@@ -67,13 +67,13 @@ QStringList pConsoleCommand::commands() const
 QStringList pConsoleCommand::autoCompleteList( const QString& command ) const
 {
     QStringList result;
-    
+
     foreach ( const QString& cmd, mCommands ) {
         if ( cmd.startsWith( command ) ) {
             result << cmd;
         }
     }
-    
+
     return result;
 }
 
@@ -86,7 +86,7 @@ QString pConsoleCommand::description( const QString& command ) const
 void pConsoleCommand::setDescription( const QString& command, const QString& description )
 {
     const QString cmd = parseCommand( command ).value( 0 );
-    
+
     if ( !cmd.isEmpty() ) {
         mDescriptions[ cmd ] = description;
     }
@@ -105,34 +105,34 @@ QString pConsoleCommand::usage( const QString& command ) const
 QString pConsoleCommand::interpret( const QString& command, int* exitCode ) const
 {
     const QStringList parts = parseCommand( command );
-    
-    if ( parts.value( 1 ).compare( "-h", Qt::CaseInsensitive ) == 0 || parts.value( 1 ).compare( "--help", Qt::CaseInsensitive ) == 0 ) {
+
+    if ( parts.value( 1 ).compare( QSL( "-h" ), Qt::CaseInsensitive ) == 0 || parts.value( 1 ).compare( QSL( "--help" ), Qt::CaseInsensitive ) == 0 ) {
         if ( exitCode ) {
             *exitCode = pConsoleCommand::Success;
         }
-        
+
         return usage( command );
     }
-    
+
     if ( exitCode ) {
         *exitCode = pConsoleCommand::NotFound;
     }
-    
+
     return QString::null;
 }
 
 QStringList pConsoleCommand::quotedStringList( const QStringList& list )
 {
     QStringList entries;
-    
+
     foreach ( QString string, list ) {
-        if ( string.contains( " " ) && !string.startsWith( '"' ) && !string.endsWith( '"' ) ) {
-            string.replace( "\"", "\\\"" ).prepend( '"' ).append( '"' );
+        if ( string.contains( QL1C( ' ' ) ) && !string.startsWith( QL1C( '"' ) ) && !string.endsWith( QL1C( '"' ) ) ) {
+            string.replace( QSL( "\"" ), QSL( "\\\"" ) ).prepend( QL1C( '"' ) ).append( QL1C( '"' ) );
         }
-        
+
         entries << string;
     }
-    
+
     return entries;
 }
 
@@ -142,18 +142,18 @@ QStringList pConsoleCommand::parseCommand( const QString& command )
     QStringList result;
     bool isExtended = false;
     int pos = 0;
-    
-    while ( ( pos = cmd.indexOf( QRegExp( "\"|\\s" ), pos ) ) != -1 ) {
+
+    while ( ( pos = cmd.indexOf( QRegExp( QSL( "\"|\\s" ) ), pos ) ) != -1 ) {
         QChar pc = pos > 0 ? cmd[ pos -1 ] : QChar();
         QChar c = cmd[ pos ];
-        
-        if ( c == '"' ) {
+
+        if ( c == QL1C( '"' ) ) {
             pos++;
-            
-            if ( pc != '\\' ) {
+
+            if ( pc != QL1C( '\\' ) ) {
                 if ( isExtended ) {
                     isExtended = false;
-                    result << cmd.left( pos -1 ).replace( "\\\"", "\"" );
+                    result << cmd.left( pos -1 ).replace( QSL( "\\\"" ), QSL( "\"" ) );
                     cmd.remove( 0, pos );
                     pos = 0;
                 }
@@ -166,20 +166,20 @@ QStringList pConsoleCommand::parseCommand( const QString& command )
         }
         else {
             pos++;
-            
+
             if ( !isExtended ) {
                 result << cmd.left( pos -1 );
                 cmd.remove( 0, pos );
                 pos = 0;
             }
         }
-        
+
         cmd = cmd.trimmed();
     }
-    
+
     if ( !cmd.isEmpty() ) {
         result << cmd;
     }
-    
+
     return result;
 }

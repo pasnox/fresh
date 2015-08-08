@@ -73,21 +73,21 @@ pFileDialog::pFileDialog( QWidget* parent, const QString& caption, const QString
 {
     setFileMode( QFileDialog::AnyFile );
     setOption( QFileDialog::DontUseNativeDialog );
-    
+
     // get grid layout
     glDialog = qobject_cast<QGridLayout*>( layout() );
-    
+
     // assert on gridlayout
     Q_ASSERT( glDialog );
-    
+
     // relook the dialog to be more friendly
-    QLabel* lLookIn = findChild<QLabel*>( "lookInLabel" );
-    QComboBox* cbLookIn = findChild<QComboBox*>( "lookInCombo" );
-    QToolButton* tbNewFolder = findChild<QToolButton*>( "newFolderButton" );
-    QAbstractItemView* sidebar = findChild<QAbstractItemView*>( "sidebar" );
-    QFrame* fFrame = findChild<QFrame*>( "frame" );
+    QLabel* lLookIn = findChild<QLabel*>( QSL( "lookInLabel" ) );
+    QComboBox* cbLookIn = findChild<QComboBox*>( QSL( "lookInCombo" ) );
+    QToolButton* tbNewFolder = findChild<QToolButton*>( QSL( "newFolderButton" ) );
+    QAbstractItemView* sidebar = findChild<QAbstractItemView*>( QSL( "sidebar" ) );
+    QFrame* fFrame = findChild<QFrame*>( QSL( "frame" ) );
     QBoxLayout* hLayout = 0;
-    
+
     // search layout containing tbNewFolder
     foreach ( QLayout* layout, findChildren<QLayout*>() ) {
         if ( layout->indexOf( tbNewFolder ) != -1 ) {
@@ -95,23 +95,23 @@ pFileDialog::pFileDialog( QWidget* parent, const QString& caption, const QString
             break;
         }
     }
-    
+
     if ( lLookIn ) {
         lLookIn->setVisible( false );
     }
-    
+
     if ( hLayout ) {
         hLayout->setSpacing( 3 );
         hLayout->insertStretch( hLayout->indexOf( tbNewFolder ) );
     }
-    
+
     if ( cbLookIn && fFrame ) {
         QBoxLayout* vLayout = qobject_cast<QBoxLayout*>( fFrame->layout() );
-        
+
         if ( vLayout ) {
             vLayout->setSpacing( 3 );
             vLayout->insertWidget( 0, cbLookIn );
-            
+
             if ( hLayout ) {
                 glDialog->removeItem( hLayout );
                 hLayout->setParent( 0 );
@@ -119,7 +119,7 @@ pFileDialog::pFileDialog( QWidget* parent, const QString& caption, const QString
             }
         }
     }
-    
+
     if ( sidebar ) {
         QWidget* viewport = sidebar->viewport();
         QPalette pal = viewport->palette();
@@ -128,25 +128,25 @@ pFileDialog::pFileDialog( QWidget* parent, const QString& caption, const QString
         sidebar->setFrameStyle( QFrame::NoFrame | QFrame::Plain );
         sidebar->setIconSize( QSize( 16, 16 ) );
     }
-    
+
     // text codec
     mTextCodecEnabled = true;
-    
+
     lCodec = new QLabel( tr( "Codec:" ), this );
     cbCodec = new QComboBox( this );
     cbCodec->addItems( pCoreUtils::textCodecs() );
-    setTextCodec( QTextCodec::codecForLocale()->name() );
-    
+    setTextCodec( QL1S( QTextCodec::codecForLocale()->name().constData() ) );
+
     glDialog->addWidget( lCodec, 4, 0 );
     glDialog->addWidget( cbCodec, 4, 1 );
-    
+
     // read only
     mOpenReadOnlyEnabled = true;
-    
+
     cbOpenReadOnly = new QCheckBox( tr( "Open in read only." ), this );
-    
+
     glDialog->addWidget( cbOpenReadOnly, 5, 1 );
-    
+
     // configuration
     setTextCodecEnabled( textCodecEnabled );
     setOpenReadOnlyEnabled( openReadOnlyEnabled );
@@ -204,13 +204,13 @@ void pFileDialog::setDialog( pFileDialog* dlg, const QString& caption, const QSt
     if ( !options.testFlag( QFileDialog::DontUseSheet ) ) {
         // that's impossible to have a sheet in a sheet
         QWidget* parent = dlg->parentWidget();
-        
+
         if ( parent && !parent->windowFlags().testFlag( Qt::Sheet ) ) {
             dlg->setWindowFlags( dlg->windowFlags() | Qt::Sheet );
         }
     }
 #endif
-    
+
     // dialog settings
     dlg->setWindowTitle( caption );
     dlg->setFileMode( mode );
@@ -218,7 +218,7 @@ void pFileDialog::setDialog( pFileDialog* dlg, const QString& caption, const QSt
     dlg->setTextCodecEnabled( enabledTextCodec );
     dlg->setOpenReadOnlyEnabled( enabledOpenReadOnly );
     dlg->setOptions( options );
-    
+
     switch ( mode ) {
         case QFileDialog::Directory:
         case QFileDialog::DirectoryOnly:
@@ -230,17 +230,17 @@ void pFileDialog::setDialog( pFileDialog* dlg, const QString& caption, const QSt
             dlg->setAcceptMode( AcceptSave );
             break;
     }
-    
+
     // set filters if needed
     if ( !filter.isEmpty() ) {
         dlg->setNameFilter( filter );
     }
-    
+
     // select file if needed )
     if ( !dir.isEmpty() && QFileInfo( dir ).isFile() ) {
         dlg->selectFile( dir );
     }
-    
+
     // select correct filter if needed
     if ( !selectedFilter.isEmpty() ) {
         dlg->selectNameFilter( selectedFilter );
@@ -252,13 +252,13 @@ pFileDialogResult pFileDialog::getExistingDirectory( QWidget* parent, const QStr
     pFileDialogResult result;
     pFileDialog fd( parent );
     setDialog( &fd, caption, dir, QString::null, enabledTextCodec, enabledOpenReadOnly, QString::null, QFileDialog::Directory, options );
-    
+
     if ( fd.exec() == QDialog::Accepted ) {
         result[ pFileDialog::Directory ] = fd.selectedFiles().value( 0 );
         result[ pFileDialog::TextCodec ] = fd.textCodec();
         result[ pFileDialog::ReadOnly ] = fd.openReadOnly();
     }
-    
+
     return result;
 }
 
@@ -267,18 +267,18 @@ pFileDialogResult pFileDialog::getOpenFileName( QWidget* parent, const QString& 
     pFileDialogResult result;
     pFileDialog fd( parent );
     setDialog( &fd, caption, dir, filter, enabledTextCodec, enabledOpenReadOnly, selectedFilter, QFileDialog::ExistingFile, options );
-    
+
     if ( !textCodec.isEmpty() ) {
         fd.setTextCodec( textCodec );
     }
-    
+
     if ( fd.exec() == QDialog::Accepted ) {
         result[ pFileDialog::FileName ] = fd.selectedFiles().value( 0 );
         result[ pFileDialog::TextCodec ] = fd.textCodec();
         result[ pFileDialog::ReadOnly ] = fd.openReadOnly();
         result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
-    
+
     return result;
 }
 
@@ -287,18 +287,18 @@ pFileDialogResult pFileDialog::getOpenFileNames( QWidget* parent, const QString&
     pFileDialogResult result;
     pFileDialog fd( parent );
     setDialog( &fd, caption, dir, filter, enabledTextCodec, enabledOpenReadOnly, selectedFilter, QFileDialog::ExistingFiles, options );
-    
+
     if ( !textCodec.isEmpty() ) {
         fd.setTextCodec( textCodec );
     }
-    
+
     if ( fd.exec() == QDialog::Accepted ) {
         result[ pFileDialog::FileNames ] = fd.selectedFiles();
         result[ pFileDialog::TextCodec ] = fd.textCodec();
         result[ pFileDialog::ReadOnly ] = fd.openReadOnly();
         result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
-    
+
     return result;
 }
 
@@ -307,17 +307,17 @@ pFileDialogResult pFileDialog::getSaveFileName( QWidget* parent, const QString& 
     pFileDialogResult result;
     pFileDialog fd( parent );
     setDialog( &fd, caption, dir, filter, enabledTextCodec, false, selectedFilter, QFileDialog::AnyFile, options );
-    
+
     if ( !textCodec.isEmpty() ) {
         fd.setTextCodec( textCodec );
     }
-    
+
     if ( fd.exec() == QDialog::Accepted ) {
         result[ pFileDialog::FileName ] = fd.selectedFiles().value( 0 );
         result[ pFileDialog::TextCodec ] = fd.textCodec();
         result[ pFileDialog::ReadOnly ] = fd.openReadOnly();
         result[ pFileDialog::SelectedFilter ] = fd.selectedNameFilter();
     }
-    
+
     return result;
 }

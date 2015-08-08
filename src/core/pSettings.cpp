@@ -107,7 +107,7 @@ QString pSettings::Properties::filePath( pSettings::Type type ) const
             // do nothing to throw pSettings::Normal case.
         }
         case pSettings::Normal: {
-            fn = QString( "%1/%2-%3.ini" )
+            fn = QSL( "%1/%2-%3.ini" )
                 .arg( storageLocation() )
                 .arg( name )
                 .arg( version );
@@ -115,12 +115,12 @@ QString pSettings::Properties::filePath( pSettings::Type type ) const
         }
         case pSettings::Portable: {
 #ifdef Q_OS_MAC
-            fn = QString( "%1/../Resources/%2-%3.ini" )
+            fn = QSL( "%1/../Resources/%2-%3.ini" )
                 .arg( QCoreApplication::applicationDirPath() )
                 .arg( name )
                 .arg( version );
 #else
-            fn = QString( "%1/%2-%3.ini" )
+            fn = QSL( "%1/%2-%3.ini" )
                 .arg( QCoreApplication::applicationDirPath() )
                 .arg( name )
                 .arg( version );
@@ -149,7 +149,7 @@ QString pSettings::Properties::settingsFilePath() const
 
 QString pSettings::Properties::settingsFilePath( const QString& name, const QString& version ) const
 {
-    return QDir::cleanPath( QString( "%1/%2-%3.ini" )
+    return QDir::cleanPath( QSL( "%1/%2-%3.ini" )
         .arg( QFileInfo( settingsFilePath() ).absolutePath() )
         .arg( name )
         .arg( version ) );
@@ -178,12 +178,12 @@ pSettings::Properties pSettings::properties() const
 void pSettings::restoreState( QMainWindow* window )
 {
     if ( window ) {
-        //window->restoreGeometry( value( "MainWindow/Geometry" ).toByteArray() );
-        window->setGeometry( value( "MainWindow/Geometry", window->geometry() ).toRect() );
-        window->restoreState( value( "MainWindow/State" ).toByteArray() );
+        //window->restoreGeometry( value( QSL( "MainWindow/Geometry" ) ).toByteArray() );
+        window->setGeometry( value( QSL( "MainWindow/Geometry" ), window->geometry() ).toRect() );
+        window->restoreState( value( QSL( "MainWindow/State" ) ).toByteArray() );
 
-        //if ( value( "MainWindow/Geometry" ).toByteArray().isEmpty() ) {
-        if ( value( "MainWindow/Geometry" ).toRect().isNull() ) {
+        //if ( value( QSL( "MainWindow/Geometry" ) ).toByteArray().isEmpty() ) {
+        if ( value( QSL( "MainWindow/Geometry" ) ).toRect().isNull() ) {
             window->showMaximized();
         }
     }
@@ -192,9 +192,9 @@ void pSettings::restoreState( QMainWindow* window )
 void pSettings::saveState( QMainWindow* window )
 {
     if ( window ) {
-        //setValue( "MainWindow/Geometry", window->saveGeometry() );
-        setValue( "MainWindow/Geometry", window->geometry() );
-        setValue( "MainWindow/State", window->saveState() );
+        //setValue( QSL( "MainWindow/Geometry" ), window->saveGeometry() );
+        setValue( QSL( "MainWindow/Geometry" ), window->geometry() );
+        setValue( QSL( "MainWindow/State" ), window->saveState() );
     }
 }
 #endif

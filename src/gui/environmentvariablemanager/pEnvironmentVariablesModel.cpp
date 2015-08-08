@@ -68,7 +68,7 @@ QVariant pEnvironmentVariablesModel::data( const QModelIndex& index, int role ) 
                 << tr( "Name: %1" ).arg( variable->name )
                 << tr( "Value: %1" ).arg( variable->value )
                 << tr( "Enabled: %1" ).arg( variable->enabled ? tr( "true" ) : tr( "false" ) );
-            return entries.join( "\n" );
+            return entries.join( QSL( "\n" ) );
         }
         case Qt::FontRole: {
             QFont font;
@@ -222,8 +222,8 @@ pEnvironmentVariablesModel::Variables pEnvironmentVariablesModel::stringListToVa
     pEnvironmentVariablesModel::Variables items;
 
     foreach ( const QString& variable, variables ) {
-        const QString name = variable.section( '=', 0, 0 );
-        const QString value = variable.section( '=', 1 );
+        const QString name = variable.section( QL1C( '=' ), 0, 0 );
+        const QString value = variable.section( QL1C( '=' ), 1 );
 
         pEnvironmentVariablesModel::Variable var;
         var.name = name;
@@ -232,22 +232,22 @@ pEnvironmentVariablesModel::Variables pEnvironmentVariablesModel::stringListToVa
 
         items[ name ] = var;
     }
-    
+
     return items;
 }
 
 QStringList pEnvironmentVariablesModel::variablesToStringList( const pEnvironmentVariablesModel::Variables& variables, bool keepDisabled )
 {
     QStringList items;
-    
+
     foreach ( const pEnvironmentVariablesModel::Variable& variable, variables.values() ) {
         if ( !variable.enabled && !keepDisabled ) {
             continue;
         }
-        
-        items << QString( "%1=%2" ).arg( variable.name ).arg( variable.value );
+
+        items << QString( QSL( "%1=%2" ) ).arg( variable.name ).arg( variable.value );
     }
-    
+
     return items;
 }
 
@@ -331,7 +331,7 @@ void pEnvironmentVariablesModel::setVariable( const QString& name, const pEnviro
     }
 
     mVariables[ name ] = variable;
-    
+
     if ( hasVariable ) {
         const QModelIndex index = this->index( variable.name, 0 );
         emit dataChanged( index, index.sibling( index.row(), 1 ) );

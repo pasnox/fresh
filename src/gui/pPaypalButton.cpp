@@ -43,9 +43,9 @@ pPaypalButton::pPaypalButton( QWidget* parent )
     setCursor( Qt::PointingHandCursor );
     setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum ) );
 
-    mQueryItems[ "path" ] = QString( "%1/cgi-bin/webscr" ).arg( PAYPAL_DOMAIN );
-    mQueryItems[ "cmd" ] = "_donations";
-    mQueryItems[ "bn" ] = QUrl::fromPercentEncoding( "PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" );
+    mQueryItems[ QSL( "path" ) ] = QSL( "%1/cgi-bin/webscr" ).arg( QSL( PAYPAL_DOMAIN ) );
+    mQueryItems[ QSL( "cmd" ) ] = QSL( "_donations" );
+    mQueryItems[ QSL( "bn" ) ] = QUrl::fromPercentEncoding( "PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" );
     mAutoOpenUrl = true;
 
     localeChanged();
@@ -101,7 +101,7 @@ void pPaypalButton::paintEvent( QPaintEvent* event )
 
 QUrl pPaypalButton::pixmapUrl( const QString& locale )
 {
-    return QUrl( QString( PAYPAL_MASK ).arg( locale ) );
+    return QUrl( QSL( PAYPAL_MASK ).arg( locale ) );
 }
 
 void pPaypalButton::updatePixmap()
@@ -117,52 +117,52 @@ void pPaypalButton::updatePixmap()
 
 QString pPaypalButton::actionPost() const
 {
-    return mQueryItems.value( "path" );
+    return mQueryItems.value( QSL( "path" ) );
 }
 
 void pPaypalButton::setActionPost( const QString& value )
 {
-    mQueryItems[ "path" ] = value;
+    mQueryItems[ QSL( "path" ) ] = value;
 }
 
 QString pPaypalButton::businessId() const
 {
-    return mQueryItems.value( "business" );
+    return mQueryItems.value( QSL( "business" ) );
 }
 
 void pPaypalButton::setBusinessId( const QString& value )
 {
-    mQueryItems[ "business" ] = value;
+    mQueryItems[ QSL( "business" ) ] = value;
 }
 
 QString pPaypalButton::itemName() const
 {
-    return mQueryItems.value( "item_name" );
+    return mQueryItems.value( QSL( "item_name" ) );
 }
 
 void pPaypalButton::setItemName( const QString& value )
 {
-    mQueryItems[ "item_name" ] = value;
+    mQueryItems[ QSL( "item_name" ) ] = value;
 }
 
 QString pPaypalButton::itemId() const
 {
-    return mQueryItems.value( "item_number" );
+    return mQueryItems.value( QSL( "item_number" ) );
 }
 
 void pPaypalButton::setItemId( const QString& value )
 {
-    mQueryItems[ "item_number" ] = value;
+    mQueryItems[ QSL( "item_number" ) ] = value;
 }
 
 QString pPaypalButton::currencyCode() const
 {
-    return mQueryItems.value( "currency_code" );
+    return mQueryItems.value( QSL( "currency_code" ) );
 }
 
 void pPaypalButton::setCurrencyCode( const QString& value )
 {
-    mQueryItems[ "currency_code" ] = value;
+    mQueryItems[ QSL( "currency_code" ) ] = value;
 }
 
 bool pPaypalButton::autoOpenUrl() const
@@ -180,7 +180,7 @@ QPixmap pPaypalButton::pixmap( const QUrl& url ) const
     QPixmap pixmap = pNetworkAccessManager::instance()->cachedPixmap( url );
 
     if ( pixmap.isNull() ) {
-        pixmap = pIconManager::pixmap( "paypal.png", ":/fresh/icons" );
+        pixmap = pIconManager::pixmap( QSL( "paypal.png" ), QSL( ":/fresh/icons" ) );
     }
 
     return pixmap;
@@ -188,11 +188,11 @@ QPixmap pPaypalButton::pixmap( const QUrl& url ) const
 
 QUrl pPaypalButton::url() const
 {
-    QUrl url( mQueryItems.value( "path" ) );
+    QUrl url( mQueryItems.value( QSL( "path" ) ) );
     QList<QPair<QString, QString> > queryItems;
 
     foreach ( const QString& key, mQueryItems.keys() ) {
-        if ( key == "path" ) {
+        if ( key == QSL( "path" ) ) {
             continue;
         }
 
@@ -212,7 +212,7 @@ QUrl pPaypalButton::url() const
 
 void pPaypalButton::localeChanged()
 {
-    mQueryItems[ "lc" ] = locale().name().section( "_", 1 );
+    mQueryItems[ QSL( "lc" ) ] = locale().name().section( QSL( "_" ), 1 );
 
     setText( tr( "Donation" ) );
     setToolTip( tr( "Make a donation via Paypal" ) );
@@ -230,7 +230,7 @@ void pPaypalButton::_q_clicked()
 
 void pPaypalButton::networkAccessManager_cached( const QUrl& url )
 {
-    if ( url.toString().startsWith( PAYPAL_DOMAIN, Qt::CaseInsensitive ) ) {
+    if ( url.toString().startsWith( QSL( PAYPAL_DOMAIN ), Qt::CaseInsensitive ) ) {
         mPixmap = this->pixmap( url );
         updateGeometry();
     }
@@ -238,7 +238,7 @@ void pPaypalButton::networkAccessManager_cached( const QUrl& url )
 
 void pPaypalButton::networkAccessManager_error( const QUrl& url, const QString& message )
 {
-    if ( url.toString().startsWith( PAYPAL_DOMAIN, Qt::CaseInsensitive ) ) {
+    if ( url.toString().startsWith( QSL( PAYPAL_DOMAIN ), Qt::CaseInsensitive ) ) {
         qWarning() << message << url;
     }
 }

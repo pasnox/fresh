@@ -152,12 +152,12 @@ pGetOpt::pGetOpt( int offset )
 pGetOpt::pGetOpt( int argc, char *argv[] )
 {
     QStringList arguments;
-    
+
     for ( int i = 0; i < argc; i++ )
     {
         arguments << QString::fromLocal8Bit( argv[ i ] );
     }
-    
+
     init( arguments );
 }
 
@@ -181,11 +181,11 @@ void pGetOpt::init( const QStringList& arguments, int offset )
 {
     numReqArgs = numOptArgs = 0;
     currArg = 1; // appname is not part of the arguments
-    
+
     if ( !arguments.isEmpty() ) {
         // application name
         aname = QFileInfo( arguments.first() ).fileName();
-        
+
         // arguments
         for ( int i = offset; i < arguments.count(); ++i ) {
             args.append( arguments[ i ] );
@@ -216,14 +216,14 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
     // more pushes might following when parsing condensed arguments
     // like --key=value.
     QStack<QString> stack;
-    
+
     {
-        QStringList::const_iterator it = args.isEmpty() ? args.end() : --args.end();
-        
+        QStringList::const_iterator it = args.isEmpty() ? args.constEnd() : --args.constEnd();
+
         while ( it != args.constEnd() ) {
             stack.push( *it );
-            
-            if ( it == args.begin() ) {
+
+            if ( it == args.constBegin() ) {
                 it = args.constEnd();
             }
             else {
@@ -231,7 +231,7 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
             }
         }
     }
-    
+
     //qWarning() << stack;
 
     enum {
@@ -239,43 +239,43 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
         ExpectingState,
         OptionalState
     } state = StartState;
-    
+
     enum TokenType {
         LongOpt,
         ShortOpt,
         Arg,
         End
     } t, currType = End;
-    
-    const OptionConstIterator obegin = options.begin();
-    const OptionConstIterator oend = options.end();
+
+    const OptionConstIterator obegin = options.constBegin();
+    const OptionConstIterator oend = options.constEnd();
     Option currOpt;
     bool extraLoop = true; // we'll do an extra round. fake an End argument
-    
+
     while ( !stack.isEmpty() || extraLoop ) {
         QString a;
         QString origA;
-        
+
         // identify argument type
         if ( !stack.isEmpty() ) {
             a = stack.pop();
             currArg++;
             origA = a;
-            
+
             // qDebug( "popped %s", a.toLocal8Bit().constData() );
             if ( a.startsWith( QLatin1String( "--" ) ) ) {
                 // recognized long option
                 a = a.mid( 2 );
-                
+
                 if ( a.isEmpty() ) {
                     qWarning( "'--' feature not supported, yet" );
                     //exit( 2 );
                     return false;
                 }
-                
+
                 t = LongOpt;
-                int equal = a.indexOf( '=' ); // split key=value style arguments
-                
+                int equal = a.indexOf( QL1C( '=' ) ); // split key=value style arguments
+
                 if ( equal >= 0 ) {
                     stack.push( a.mid( equal +1 ) );
                     currArg--;
@@ -285,7 +285,7 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
             else if ( a.length() == 1 ) {
                 t = Arg;
             }
-            else if ( a[ 0 ] == '-' ) {
+            else if ( a[ 0 ] == QL1C( '-' ) ) {
 #if 0 // compat mode for -long style options
                 if ( a.length() == 2 ) {
                     t = ShortOpt;
@@ -295,7 +295,7 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
                     a = a.mid( 1 );
                     t = LongOpt;
                     int equal = a.find( '=' ); // split key=value style arguments
-                    
+
                     if ( equal >= 0 ) {
                         stack.push( a.mid( equal +1 ) );
                         currArg--;
@@ -305,13 +305,13 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
 #else
                 // short option
                 t = ShortOpt;
-                
+
                 // followed by an argument ? push it for later processing.
                 if ( a.length() > 2 ) {
                     stack.push( a.mid( 2 ) );
                     currArg--;
                 }
-                
+
                 a = a[ 1 ];
 #endif
             }
@@ -323,24 +323,24 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
             // faked closing argument
             t = End;
         }
-        
+
         // look up among known list of options
         Option opt;
-        
+
         if ( t != End ) {
             OptionConstIterator oit = obegin;
-            
+
             while ( oit != oend ) {
                 const Option &o = *oit;
-                
+
                 if ( ( t == LongOpt && a == o.lname ) || ( t == ShortOpt && a[ 0 ].unicode() == o.sname ) ) {
                     opt = o;
                     break;
                 }
-                
+
                 ++oit;
             }
-            
+
             if ( t == LongOpt && opt.type == OUnknown ) {
                 if ( currOpt.type != OVarLen ) {
                     qWarning( "Unknown option --%s", a.toLocal8Bit().constData() );
@@ -373,21 +373,21 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
                 if ( opt.type == OSwitch ) {
                     setSwitch( opt );
                     setOptions.insert( opt.lname, 1 );
-                    setOptions.insert( QString( QChar( opt.sname ) ), 1 );
+                    setOptions.insert( QString( QL1C( opt.sname ) ), 1 );
                 }
                 else if ( opt.type == OArg1 || opt.type == ORepeat ) {
                     state = ExpectingState;
                     currOpt = opt;
                     currType = t;
                     setOptions.insert( opt.lname, 1 );
-                    setOptions.insert( QString( QChar( opt.sname ) ), 1 );
+                    setOptions.insert( QString( QL1C( opt.sname ) ), 1 );
                 }
                 else if ( opt.type == OOpt || opt.type == OVarLen ) {
                     state = OptionalState;
                     currOpt = opt;
                     currType = t;
                     setOptions.insert( opt.lname, 1 );
-                    setOptions.insert( QString( QChar( opt.sname ) ), 1 );
+                    setOptions.insert( QString( QL1C( opt.sname ) ), 1 );
                 }
                 else if ( opt.type == OEnd ) {
                     // we're done
@@ -431,7 +431,7 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
                     }
                 }
                 else {
-                    QString n = currType == LongOpt ? currOpt.lname : QString( QChar( currOpt.sname ) );
+                    QString n = currType == LongOpt ? currOpt.lname : QString( QL1C( currOpt.sname ) );
                     qWarning( "Expected an argument after '%s' option", n.toLocal8Bit().constData() );
                     return false;
                 }
@@ -455,13 +455,13 @@ bool pGetOpt::parse( bool untilFirstSwitchOnly )
                     if ( currOpt.type == OOpt ) {
                         *currOpt.stringValue = currOpt.def;
                     }
-                    
+
                     if ( t != End ) {
                         // re-evaluate current argument
                         stack.push( origA );
                         currArg--;
                     }
-                    
+
                     state = StartState;
                 }
                 break;

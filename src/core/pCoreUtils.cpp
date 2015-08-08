@@ -104,7 +104,7 @@ QStringList pCoreUtils::textCodecs()
     QMap<QString, QString> codecs;
 
     foreach ( const QByteArray& codec, QTextCodec::availableCodecs() ) {
-        const QString entry = QString::fromUtf8( codec );
+        const QString entry = QL1S( codec.constData() );
         codecs[ entry.toLower() ] = entry;
     }
 
@@ -119,7 +119,7 @@ QString pCoreUtils::toTitleCase( const QString& _string )
     for ( int i = 0; i < string.length(); i++ ) {
         const QChar c = string.at( i );
 
-        if ( c.isLetter() || c == '?' ) {
+        if ( c.isLetter() || c == QL1C( '?' ) ) {
             if ( lastWasLetter ) {
                 string[ i ] = c.toLower();
             }
@@ -129,7 +129,7 @@ QString pCoreUtils::toTitleCase( const QString& _string )
 
             lastWasLetter = true;
         }
-        else if ( c != '\'' ) {
+        else if ( c != QL1C( '\'' ) ) {
             lastWasLetter = false;
         }
     }
@@ -151,22 +151,22 @@ QString pCoreUtils::fileSizeToString( qint64 bytes )
         return QObject::tr( "N/C" );
     }
     else if ( nb < 1024 ) {
-        return QString::number( nb ) +" " +QObject::tr( "B"  );
+        return QString::number( nb ) +QL1S( " " ) +QObject::tr( "B"  );
     }
     else if ( ( nb = nb / 1024 ) < 1024 ) {
-        return fileSizeAdaptString( nb ) +" " +QObject::tr( "KB" );
+        return fileSizeAdaptString( nb ) +QL1S( " " ) +QObject::tr( "KB" );
     }
     else if ( ( nb = nb / 1024 ) < 1024 ) {
-        return fileSizeAdaptString( nb ) +" " +QObject::tr( "MB" );
+        return fileSizeAdaptString( nb ) +QL1S( " " ) +QObject::tr( "MB" );
     }
     else if ( ( nb = nb / 1024 ) < 1024 ) {
-        return fileSizeAdaptString( nb ) +" " +QObject::tr( "GB" );
+        return fileSizeAdaptString( nb ) +QL1S( " " ) +QObject::tr( "GB" );
     }
     else if ( ( nb = nb / 1024 ) < 1024 ) {
-        return fileSizeAdaptString( nb ) +" " +QObject::tr( "TB" );
+        return fileSizeAdaptString( nb ) +QL1S( " " ) +QObject::tr( "TB" );
     }
     else if ( ( nb = nb / 1024 ) < 1024 ) {
-        return fileSizeAdaptString( nb ) +" " +QObject::tr( "PB" );
+        return fileSizeAdaptString( nb ) +QL1S( " " ) +QObject::tr( "PB" );
     }
     else {
         return QObject::tr( "Too big" );
