@@ -221,13 +221,18 @@ QLocale pTranslationManager::currentLocale() const
 
 QLocale pTranslationManager::systemLocale() const
 {
-    return QLocale::system();
+    return QLocale(QLocale::system().name());
 }
 
 void pTranslationManager::setCurrentLocale( const QLocale& locale )
 {
     mCurrentLocale = locale;
-    QLocale::setDefault( locale );
+
+    if ( mCurrentLocale.name() == QLocale::system().name() ) {
+        mCurrentLocale = QLocale::system();
+    }
+
+    QLocale::setDefault( mCurrentLocale );
 }
 
 QStringList pTranslationManager::translationsPaths() const
