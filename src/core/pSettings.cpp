@@ -95,7 +95,7 @@ QString pSettings::Properties::filePath( pSettings::Type type ) const
         }
         case pSettings::Auto: {
 #ifdef Q_OS_MAC
-            const QString path = QString( "%1/../Resources" ).arg( QCoreApplication::applicationDirPath() );
+            const QString path = QSL( "%1/../Resources" ).arg( QCoreApplication::applicationDirPath() );
 #else
             const QString path = QCoreApplication::applicationDirPath();
 #endif

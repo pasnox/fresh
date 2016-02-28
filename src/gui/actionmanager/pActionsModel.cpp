@@ -397,8 +397,8 @@ QString pActionsModel::cleanPath( const QString& path )
 void pActionsModel::debugInternals()
 {
     foreach ( QAction* parent, mChildren.keys() ) {
-        qWarning() << ( parent ? parent->text() : "ROOT" ).toLocal8Bit().constData() << parent;
-        qWarning() << QString( 1, '\t' ).toLocal8Bit().constData() << mChildren.value( parent );
+        qWarning() << ( parent ? parent->text() : QSL("ROOT") ).toLocal8Bit().constData() << parent;
+        qWarning() << QL1C( '\t' ) << mChildren.value( parent );
     }
 
     qWarning() << mActions.keys();
