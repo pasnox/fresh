@@ -26,6 +26,7 @@
 #include "pSpinBox.h"
 #include "ui_pSpinBox.h"
 
+#include <QFrame>
 #include <QSlider>
 
 class Slider : public QSlider
